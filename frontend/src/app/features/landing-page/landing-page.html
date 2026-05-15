@@ -1,35 +1,48 @@
-<section class="container-padding w-full min-h-screen flex flex-col justify-center items-center hero-bg">
-    <div class="flex flex-col gap-10 justify-center flex-1">
-        <div class="flex flex-col gap-3 justify-center items-center">
-            <img src="assets/svgs/logo.svg" alt="" class="w-15">
-            <h1 class="w-fit">
-                Cinema. Unleashed.
-            </h1>
-            <h2 class="max-w-[500px] w-[50vw] text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae rerum est
-                tempora at, sit eius recusandae natus unde odit pariatur.
-            </h2>
-        </div>
-        <div class="flex gap-2 justify-center">
-            <button class="border px-3 py-1.5 rounded border-white">Explore</button>
-        </div>
-    </div>
-    <div class="grid grid-cols-3 w-full relative bottom-10">
-        <div class="flex flex-col justify-start gap-2">
-            <div class="flex gap-1">
-                <svg lucideStar></svg>
-                <span class="font-bold">FilmName</span>
+<main class="flex flex-col h-full w-full gap-40 pb-[500px] items-center">
+    <section class="hero-section container-padding w-full min-h-screen flex flex-col justify-center items-center hero-bg">
+        <div class="flex flex-col gap-10 justify-center flex-1">
+            <div class="flex flex-col gap-3 justify-center items-center">
+                <img src="assets/svgs/logo.svg" alt="" class="w-15">
+                <h1 class="w-fit">
+                    Cinema. Unleashed.
+                </h1>
+                <h2 class="max-w-[500px] w-[50vw] text-center text-(--color-gray) ">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae rerum est
+                    tempora at, sit eius recusandae natus unde odit pariatur.
+                </h2>
             </div>
-            <span class="text-center w-fit text-xs">
-                4.9 on G2.com
-            </span>
+            <div class="flex gap-2 justify-center">
+                <button
+                    class="font-bold px-3 py-1.5 rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) hover:text-white transition-all duration-200">Explore</button>
+            </div>
         </div>
-        <!-- <div class="flex justify-center">center</div>
-        <div class="flex justify-end">end</div> -->
-    </div>
-</section>
-<div class="flex justify-between w-full">
-    <div>left</div>
-    <div>center</div>
-    <div>end</div>
-</div>
+        <div class="grid grid-cols-3 w-full relative bottom-10">
+            <div class="flex flex-col justify-start gap-2">
+                <div class="flex gap-1">
+                    <svg lucideStar></svg>
+                    <span class="font-bold">FilmName</span>
+                </div>
+                <span class="text-center w-fit text-xs">
+                    4.9 on G2.com
+                </span>
+            </div>
+            <!-- <div class="flex justify-center">center</div>
+            <div class="flex justify-end">end</div> -->
+        </div>
+    </section>
+
+    <section
+        class="features-section container-padding flex-col items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[60vw] md:w-[80vw] lg:w-[80vw]">
+        @for (item of [1,2,3]; track $index) {
+        <app-card-features></app-card-features>
+        }
+    </section>
+
+    <section class="w-[60vw] flex flex-col justify-center items-center gap-5">
+        <h1 class="w-fit">Swipe.</h1>
+        <div
+            class="bg-(--color-background-light) rounded-xl w-full h-full aspect-2/1.5 flex justify-center items-center">
+            <img src="/assets/svgs/logo.svg" alt="" class="w-10">
+        </div>
+    </section>
+</main>

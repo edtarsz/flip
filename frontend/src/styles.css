@@ -23,13 +23,21 @@
 
 * {
     font-family: 'Lato', sans-serif;
+}
+
+body {
     color: var(--color-text);
 }
 
 :root {
-    --color-background: #181818;
+    --color-background: #0e0e0e;
+    --color-background-light: #181818;
     --color-text: #ffffff;
     --color-gray: #989595;
+    --color-gray-dark: #222222;
+
+    --color-wine-red: #893168;
+    --color-wine-dark: #581f42;
 }
 
 h1 {
