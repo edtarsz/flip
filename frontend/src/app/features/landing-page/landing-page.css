@@ -1,0 +1,7 @@
+.hero-bg {
+    background-image:
+        linear-gradient(to top, var(--color-background) 0%, transparent 100%),
+        url('/assets/images/michael.webp');
+    background-size: cover;
+    background-position: center;
+}

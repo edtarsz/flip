@@ -1,0 +1,51 @@
+@import 'tailwindcss';
+
+@font-face {
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@layer components {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+        /* Safari y Chrome */
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        /* IE y Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+}
+
+* {
+    font-family: 'Lato', sans-serif;
+    color: var(--color-text);
+}
+
+:root {
+    --color-background: #181818;
+    --color-text: #ffffff;
+    --color-gray: #989595;
+}
+
+h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+}
+
+h2 {
+    font-size: clamp(1.2rem, 2vw, 1.2rem);
+    font-weight: 400;
+}
+
+button {
+    cursor: pointer;
+}
+
+.container-padding {
+    @apply px-[5vw];
+}
