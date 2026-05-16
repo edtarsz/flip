@@ -1,0 +1,41 @@
+<div class="relative w-full max-w-[500px] h-[700px]">
+    <div
+        class="absolute inset-0 bg-(--color-wine-red) rounded-lg flex justify-between items-center px-10 w-full h-full">
+    </div>
+
+    <div #swipeCard class="relative select-none w-full h-full">
+        <div #innerCard
+            class="relative w-full h-full swipe-card cursor-grab flex flex-col justify-center items-center bg-(--color-background-light) rounded-lg overflow-hidden">
+            <div class="hero-bg w-full flex-1"></div>
+            <div class="flex flex-col">
+                <div class="flex p-3 justify-between">
+                    <div class="flex-gap-2">
+                        <div class="flex gap-2">
+                            <h4 class="text-lg font-bold">
+                                Michael
+                            </h4>
+                            <span class="flex items-center gap-1 text-sm">
+                                <svg lucideStar size="15"></svg>
+                                4.9
+                            </span>
+                        </div>
+                        <div class="flex text-sm gap-2">
+                            <span class="bg-(--color-wine-red) rounded-md px-2 py-1">Comedy</span>
+                            <span class="bg-(--color-wine-red) rounded-md px-2 py-1">2024</span>
+                            <span class="bg-(--color-wine-red) rounded-md px-2 py-1">1 hr 39 min</span>
+                        </div>
+                    </div>
+                    <div
+                        class="cursor-pointer w-fit flex justify-center items-center aspect-square rounded-full bg-(--color-wine-red)">
+                        <svg lucideEye></svg>
+                    </div>
+                </div>
+                <app-separator></app-separator>
+                <p class="p-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat laudantium
+                    quam hic quis sed fugit voluptates
+                    dolorum similique reiciendis, ratione, eum sint maxime ex ullam error minima porro, voluptatem
+                    reprehenderit?</p>
+            </div>
+        </div>
+    </div>
+</div>

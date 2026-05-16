@@ -3,11 +3,11 @@ import { LucideStar } from '@lucide/angular';
 import { CardFeatures } from "../../shared/card-features/card-features";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Swipe } from "../swipe/swipe";
+import { SwipeCard } from "../../shared/ui/swipe-card/swipe-card";
 
 @Component({
   selector: 'app-landing-page',
-  imports: [LucideStar, CardFeatures, Swipe],
+  imports: [LucideStar, CardFeatures, SwipeCard],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
 })
