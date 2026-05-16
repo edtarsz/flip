@@ -1,9 +1,10 @@
 <main class="flex flex-col h-full w-full gap-40 pb-[500px] items-center">
-    <section class="hero-section container-padding w-full min-h-screen flex flex-col justify-center items-center hero-bg">
+    <section
+        class="hero-section container-padding w-full min-h-screen flex flex-col justify-center items-center hero-bg">
         <div class="flex flex-col gap-10 justify-center flex-1">
             <div class="flex flex-col gap-3 justify-center items-center">
                 <img src="assets/svgs/logo.svg" alt="" class="w-15">
-                <h1 class="w-fit">
+                <h1 class="w-fit text-center">
                     Cinema. Unleashed.
                 </h1>
                 <h2 class="max-w-[500px] w-[50vw] text-center text-(--color-gray) ">
@@ -38,11 +39,8 @@
         }
     </section>
 
-    <section class="w-[60vw] flex flex-col justify-center items-center gap-5">
+    <section class="w-[60vw] h-fit flex flex-col justify-center items-center gap-5">
         <h1 class="w-fit">Swipe.</h1>
-        <div
-            class="bg-(--color-background-light) rounded-xl w-full h-full aspect-2/1.5 flex justify-center items-center">
-            <img src="/assets/svgs/logo.svg" alt="" class="w-10">
-        </div>
+        <app-swipe></app-swipe>
     </section>
 </main>
