@@ -1,10 +1,8 @@
 @import 'tailwindcss';
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
+    font-family: 'Lato-Regular';
+    src: url('/assets/fonts/Lato/Lato-Regular.woff2') format('woff2');
 }
 
 @layer components {
@@ -21,11 +19,8 @@
     }
 }
 
-* {
-    font-family: 'Lato', sans-serif;
-}
-
 body {
+    font-family: 'Lato-Regular';
     color: var(--color-text);
 }
 
@@ -42,7 +37,7 @@ body {
 
 h1 {
     font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 900;
+    font-weight: bold;
 }
 
 h2 {
