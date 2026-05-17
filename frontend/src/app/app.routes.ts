@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { MainLayout } from './shared/main-layout/main-layout';
+import { MainLayout } from './layouts/main-layout/main-layout';
 
 export const ROUTES: Routes = [
   {
@@ -8,7 +8,7 @@ export const ROUTES: Routes = [
     children: [
       {
         path: 'index',
-        loadComponent: () => import('./features/landing-page/landing-page').then(m => m.LandingPage)
+        loadComponent: () => import('./layouts/landing-layout/landing-layout').then(m => m.LandingPage)
       },
       {
         path: 'swipe',
@@ -18,6 +18,6 @@ export const ROUTES: Routes = [
   },
   {
     path: 'auth',
-    loadComponent: () => import('./features/auth/auth').then(m => m.Auth)
+    loadComponent: () => import('./layouts/auth-layout/auth-layout').then(m => m.Auth)
   }
 ];

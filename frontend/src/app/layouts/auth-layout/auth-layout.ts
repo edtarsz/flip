@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-auth',
   imports: [],
-  templateUrl: './auth.html',
-  styleUrl: './auth.css',
+  templateUrl: './auth-layout.html',
+  styleUrl: './auth-layout.css',
 })
-export class Auth {}
+export class Auth { }
