@@ -1,1 +1,18 @@
-<p>auth works!</p>
+<app-header></app-header>
+<main
+    class="w-full min-h-screen bg-(--color-background) flex flex-col no-scrollbar overflow-x-hidden items-center justify-center">
+    <form [formRoot]="registerForm" class="flex flex-col gap-4 w-[400px]">
+        <div class="flex flex-col">
+            <label for="email">Email</label>
+            <input type="email" [formField]="registerForm.email"
+                class="bg-transparent border border-(--color-gray-light)">
+        </div>
+        <div class="flex flex-col">
+            <label for="password">Password</label>
+            <input type="password" [formField]="registerForm.password"
+                class="bg-transparent border border-(--color-gray-light)">
+        </div>
+        <button type="submit"
+            class="font-bold px-3 py-1.5 rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) transition-all duration-200">Continue</button>
+    </form>
+</main>

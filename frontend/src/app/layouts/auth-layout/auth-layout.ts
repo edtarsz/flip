@@ -1,9 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { form, FormField, FormRoot, required } from '@angular/forms/signals';
+import { AuthService } from '@core/services/auth.service';
+import { CreateUserDTO } from '@core/types/user.type';
+import { Header } from "@shared/ui/header/header";
 
 @Component({
   selector: 'app-auth',
-  imports: [],
+  imports: [FormField, Header, FormRoot],
   templateUrl: './auth-layout.html',
   styleUrl: './auth-layout.css',
 })
-export class Auth { }
+export class Auth {
+  private authService = inject(AuthService)
+
+  registerModel = signal<CreateUserDTO>({
+    name: '',
+    email: '',
+    password: ''
+  })
+
+  registerForm = form(this.registerModel, (schemaPath) => {
+    required(schemaPath.email)
+    required(schemaPath.password)
+  }, {
+    submission: {
+      action: async (fields) => {
+        await this.authService.signUp(
+          fields().value().email,
+          fields().value().password);
+      }
+    }
+  })
+}

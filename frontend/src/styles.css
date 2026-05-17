@@ -55,5 +55,5 @@ button {
 }
 
 .container-padding {
-    @apply px-[5vw];
+    padding: 0 5vw;
 }
