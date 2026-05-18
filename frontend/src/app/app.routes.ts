@@ -13,6 +13,10 @@ export const ROUTES: Routes = [
       {
         path: 'swipe',
         loadComponent: () => import('./features/swipe/swipe').then(m => m.Swipe)
+      },
+      {
+        path: 'films',
+        loadComponent: () => import('./features/films/films').then(m => m.Films)
       }
     ]
   },

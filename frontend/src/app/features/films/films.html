@@ -1,0 +1,51 @@
+<app-separator class="relative top-25"></app-separator>
+<div class="grid grid-cols-[20vw_1fr] relative top-25 min-h-[calc(100vh-6.5rem)]">
+    <aside class="flex flex-col gap-5 border-r border-(--color-gray)/20 p-5">
+        <p class="font-bold text-lg">Filters</p>
+
+        <div class="flex flex-col gap-4">
+            <div class="p-5 bg-(--color-background-light) rounded-lg flex flex-col gap-2">
+                <p class="font-semibold">Genres</p>
+                <ul class="flex flex-col gap-1 relative left-3">
+                    <li class="flex items-center gap-2">
+                        <input type="checkbox" name="" id="">
+                        <label>Action</label>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <input type="checkbox" name="" id="">
+                        <label>Adventure</label>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <input type="checkbox" name="" id="">
+                        <label>Comedy</label>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <input type="checkbox" name="" id="">
+                        <label>Crime</label>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <input type="checkbox" name="" id="">
+                        <label>Drama</label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="p-5 bg-(--color-background-light) rounded-lg flex flex-col gap-2">
+                <p class="font-semibold">Year</p>
+                <select name="top-rated" id="" class="bg-transparent outline-none">
+                    <option value="">2026</option>
+                </select>
+            </div>
+        </div>
+
+        <button
+            class="font-bold px-3 py-1.5 rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) transition-all duration-200">
+            Apply Filters
+        </button>
+    </aside>
+
+    <section class="flex flex-col gap-5 p-5">
+        <p class="font-bold text-lg">Explore</p>
+        <div class="p-4 bg-(--color-background-light) rounded-lg flex flex-col gap-2 flex-1"></div>
+    </section>
+</div>
