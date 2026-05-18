@@ -47,4 +47,4 @@ Thumbs.db
 .env
 
 # Angular environment
-src/environments/environment.example.ts
+src/environments/environment.ts
