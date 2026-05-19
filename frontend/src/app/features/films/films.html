@@ -44,8 +44,17 @@
         </button>
     </aside>
 
-    <section class="flex flex-col gap-5 p-5">
-        <p class="font-bold text-lg">Explore</p>
-        <div class="p-4 bg-(--color-background-light) rounded-lg flex flex-col gap-2 flex-1"></div>
+    <section class="flex flex-col gap-5 p-5 overflow-auto">
+        <div class="perspective-distant flex gap-5 overflow-x-scroll no-scrollbar" (wheel)="onWheel($event)">
+            @for (film of films(); track $index) {
+            <app-film [film]="film" class="film-card"></app-film>
+            }
+        </div>
+
+        <div class="perspective-distant flex gap-5 overflow-x-scroll no-scrollbar" (wheel)="onWheel($event)">
+            @for (film of films(); track $index) {
+            <app-film [film]="film" class="film-card"></app-film>
+            }
+        </div>
     </section>
 </div>
