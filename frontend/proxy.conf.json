@@ -1,0 +1,13 @@
+{
+  "/tmdb": {
+    "target": "https://api.themoviedb.org/3",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/tmdb": ""
+    },
+    "headers": {
+      "Accept-Encoding": "identity"
+    },
+    "secure": true
+  }
+}

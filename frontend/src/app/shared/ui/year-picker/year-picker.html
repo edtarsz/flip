@@ -1,0 +1,36 @@
+<div class="year-picker">
+    <button class="trigger" (click)="toggle()" type="button">
+        <span>{{ selectedYear() ?? 'Any year' }}</span>
+        <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </svg>
+    </button>
+
+    @if (isOpen()) {
+    <div class="panel">
+        <div class="panel-header">
+            <button type="button" (click)="prevPage()" class="nav-btn">
+                <svg lucideChevronLeft size="20"></svg>
+            </button>
+            <span class="range-label">{{ rangeLabel() }}</span>
+            <button type="button" (click)="nextPage()" class="nav-btn">
+                <svg lucideChevronRight size="20"></svg>
+            </button>
+        </div>
+
+        <div class="year-grid">
+            @for (year of years(); track year) {
+            <button type="button" class="year-cell" [class.selected]="year === selectedYear()"
+                [class.current]="year === currentYear" (click)="select(year)">
+                {{ year }}
+            </button>
+            }
+        </div>
+
+        @if (selectedYear() !== null) {
+        <button type="button" class="clear-btn" (click)="clear()">Clear</button>
+        }
+    </div>
+    }
+</div>

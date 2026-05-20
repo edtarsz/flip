@@ -2,32 +2,35 @@ import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { FilmService } from '@core/services/film.service';
 import { Separator } from "@shared/ui/separator/separator";
 import { Film } from "@shared/ui/film/film";
+import { YearPicker } from "@shared/ui/year-picker/year-picker";
 import { gsap } from 'gsap';
 import { LucideSearch, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-films',
-  imports: [Separator, Film, LucideSearch, LucideX],
+  imports: [Separator, Film, LucideSearch, LucideX, YearPicker],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
 export class Films implements OnInit {
   private filmService = inject(FilmService);
   readonly films = this.filmService.films;
+  readonly genres = this.filmService.genres;
+
   searchQuery = signal('');
+  selectedYear = signal<number | null>(null);
 
   private targetScrolls = new Map<HTMLElement, number>();
 
   constructor() {
     effect(() => {
-      for (const film of this.films()) {
-        console.log(film.title);
-      }
+      console.log(this.genres());
     });
   }
 
   ngOnInit(): void {
     this.filmService.getFilms();
+    this.filmService.getGenres();
   }
 
   onWheel(event: WheelEvent) {

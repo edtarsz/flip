@@ -7,6 +7,11 @@ export const ROUTES: Routes = [
     component: MainLayout,
     children: [
       {
+        path: '',
+        redirectTo: 'index',
+        pathMatch: 'full'
+      },
+      {
         path: 'index',
         loadComponent: () => import('./layouts/landing-layout/landing-layout').then(m => m.LandingPage)
       },
@@ -23,5 +28,9 @@ export const ROUTES: Routes = [
   {
     path: 'auth',
     loadComponent: () => import('./layouts/auth-layout/auth-layout').then(m => m.Auth)
+  },
+  {
+    path: '**',
+    redirectTo: 'index'
   }
 ];

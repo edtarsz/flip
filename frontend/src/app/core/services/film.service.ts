@@ -14,11 +14,20 @@ export class FilmService {
   private filmsSignal = signal<FilmTMDB[]>([]);
   readonly films = this.filmsSignal.asReadonly();
 
+  private genresSignal = signal<any[]>([]);
+  readonly genres = this.genresSignal.asReadonly();
+
   constructor(private http: HttpClient) { }
 
   getFilms() {
-    this.http.get<any>(`${this.url}/movie?page=1`, { headers: this.headers }).subscribe(data => {
+    this.http.get<any>(`${this.url}/discover/movie?page=1`, { headers: this.headers }).subscribe(data => {
       this.filmsSignal.set(data.results);
+    });
+  }
+
+  getGenres() {
+    this.http.get<any>(`${this.url}/genre/movie/list`, { headers: this.headers }).subscribe(data => {
+      this.genresSignal.set(data.genres);
     });
   }
 }

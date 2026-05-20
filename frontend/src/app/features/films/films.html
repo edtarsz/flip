@@ -4,49 +4,30 @@
         <p class="font-bold text-lg p-3">Filters</p>
         <app-separator></app-separator>
 
-        <div class="flex flex-col gap-4 p-3">
-            <div class="p-2 rounded-lg flex flex-col gap-2">
+        <div class="flex flex-col gap-5 p-3">
+            <div class="flex flex-col gap-2">
                 <p class="font-semibold">Genres</p>
-                <ul class="flex flex-col gap-1 relative left-3">
-                    <li class="cursor-pointer">
-                        <label class="flex items-center gap-2 w-full cursor-pointer">
-                            <input type="checkbox">
-                            <span>Action</span>
-                        </label>
+                <ul class="flex flex-wrap relative gap-x-2 gap-y-3">
+                    @for (genre of genres(); track $index) {
+                    <li
+                        class="cursor-pointer text-(--color-gray)/80 transition-color duration-150 group hover:text-(--color-text)/80">
+                        <span
+                            class="px-3 py-1 rounded-full border border-(--color-gray)/20 group-hover:border-(--color-gray)/50 transition-color duration-150">{{
+                            genre.name }}</span>
                     </li>
-                    <li class="cursor-pointer">
-                        <label class="flex items-center gap-2 w-full cursor-pointer">
-                            <input type="checkbox">
-                            <span>Adventure</span>
-                        </label>
-                    </li>
-                    <li class="cursor-pointer">
-                        <label class="flex items-center gap-2 w-full cursor-pointer">
-                            <input type="checkbox">
-                            <span>Comedy</span>
-                        </label>
-                    </li>
-                    <li class="cursor-pointer">
-                        <label class="flex items-center gap-2 w-full cursor-pointer">
-                            <input type="checkbox">
-                            <span>Crime</span>
-                        </label>
-                    </li>
-                    <li class="cursor-pointer">
+                    }
+                    <!-- <li class="cursor-pointer">
                         <label class="flex items-center gap-2 w-full cursor-pointer">
                             <input type="checkbox">
                             <span>Drama</span>
                         </label>
-                    </li>
+                    </li> -->
                 </ul>
+            </div>
 
-                <div class="rounded-lg flex flex-col gap-2">
-                    <p class="font-semibold">Year</p>
-                    <select name="top-rated" id=""
-                        class="bg-transparent outline-none border border-(--color-gray)/20 p-2 rounded-md">
-                        <option value="">2026</option>
-                    </select>
-                </div>
+            <div class="rounded-lg flex flex-col gap-2">
+                <p class="font-semibold">Release Date</p>
+                <app-year-picker [(selectedYear)]="selectedYear" />
             </div>
 
             <button
@@ -54,21 +35,25 @@
                 Apply Filters
             </button>
         </div>
-
     </aside>
 
     <section class="flex flex-col gap-5 p-5 overflow-auto">
-        <div class="flex gap-4 items-center">
-            <h4 class="w-fit font-bold text-xl">Recently Popular</h4>
-            <div class="flex rounded-md gap-2 min-w-[400px] border border-(--color-gray)/20 items-center px-3 py-2">
-                <svg lucideSearch size="16" color="var(--color-gray)"></svg>
-                <input type="search" name="" id="" class="text-sm outline-none flex-1" placeholder="Search by name"
-                    [value]="searchQuery()" (input)="onSearch($event)">
-                @if (searchQuery().length > 0) {
-                <button type="reset" class="cursor-pointer" (click)="onReset()">
-                    <svg lucideX size="16" color="var(--color-gray)"></svg>
-                </button>
-                }
+        <div class="flex justify-between items-center">
+            <div class="flex gap-4 items-center">
+                <h4 class="w-fit font-bold text-xl">Recently Popular</h4>
+                <div class="flex rounded-md gap-2 min-w-[400px] border border-(--color-gray)/20 items-center px-3 py-2">
+                    <svg lucideSearch size="16" color="var(--color-gray)"></svg>
+                    <input type="search" name="" id="" class="text-sm outline-none flex-1" placeholder="Search by name"
+                        [value]="searchQuery()" (input)="onSearch($event)">
+                    @if (searchQuery().length > 0) {
+                    <button type="reset" class="cursor-pointer" (click)="onReset()">
+                        <svg lucideX size="16" color="var(--color-gray)"></svg>
+                    </button>
+                    }
+                </div>
+            </div>
+            <div class="relative">
+                <button class="text-(--color-gray)/80">See All</button>
             </div>
         </div>
         <div class="perspective-distant flex gap-5 overflow-x-scroll no-scrollbar" (wheel)="onWheel($event)">

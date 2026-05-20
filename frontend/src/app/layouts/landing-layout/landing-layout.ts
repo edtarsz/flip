@@ -1,9 +1,9 @@
 import { Component, afterNextRender } from '@angular/core';
 import { LucideStar } from '@lucide/angular';
-import { CardFeatures } from "../../shared/ui/card-features/card-features";
+import { CardFeatures } from "@shared/ui/card-features/card-features";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SwipeCard } from "../../shared/ui/swipe-card/swipe-card";
+import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 
 @Component({
   selector: 'app-landing-page',
