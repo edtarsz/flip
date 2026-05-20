@@ -1,18 +1,20 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { FilmService } from '@core/services/film.service';
 import { Separator } from "@shared/ui/separator/separator";
 import { Film } from "@shared/ui/film/film";
 import { gsap } from 'gsap';
+import { LucideSearch, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-films',
-  imports: [Separator, Film],
+  imports: [Separator, Film, LucideSearch, LucideX],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
 export class Films implements OnInit {
   private filmService = inject(FilmService);
   readonly films = this.filmService.films;
+  searchQuery = signal('');
 
   private targetScrolls = new Map<HTMLElement, number>();
 
@@ -62,6 +64,15 @@ export class Films implements OnInit {
         overwrite: 'auto'
       });
     }
+  }
+
+  onSearch(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.searchQuery.set(target.value);
+  }
+
+  onReset() {
+    this.searchQuery.set('');
   }
 }
 

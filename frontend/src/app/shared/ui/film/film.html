@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-2 w-[200px] aspect-5/6 cursor-pointer">
+<div class="flex flex-col gap-2 w-[180px] aspect-4/6 cursor-pointer">
     <div class="w-fit h-fit relative">
         <!-- <div class="absolute top-1 right-1 bg-(--color-wine-red) flex gap-1 items-center rounded-sm px-1 py-0.5">
             <svg lucideStar size="16" fill="#ffc300" color="#ffc300"></svg>
             <span class="font-semibold text-sm">{{ film.vote_average | number:'1.0-1' }}</span>
         </div> -->
-        <img src="https://image.tmdb.org/t/p/w500/{{ film.poster_path }}" alt="">
+        <img src="https://image.tmdb.org/t/p/w500/{{ film.poster_path }}" alt="" class="w-full h-full object-cover">
     </div>
     <p class="font-bold truncate">{{ film.title }}</p>
     <div class="flex items-center justify-between">

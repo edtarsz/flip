@@ -9,7 +9,7 @@ import { FilmTMDB } from '@core/types/tmdb/film.type';
 export class FilmService {
   private url = environment.tmdbUrl;
   private headers = new HttpHeaders()
-    .set('Authorization', `Bearer ${environment.tmdbKey}`);
+    .set('Authorization', `Bearer ${environment.tmdbKey}`)
 
   private filmsSignal = signal<FilmTMDB[]>([]);
   readonly films = this.filmsSignal.asReadonly();

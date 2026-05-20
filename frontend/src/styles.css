@@ -52,3 +52,37 @@ button {
 .container-padding {
     padding: 0 5vw;
 }
+
+input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgba(152, 149, 149, 0.3);
+    border-radius: 4px;
+    background-color: var(--color-background-light);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--color-wine-red);
+    border-color: transparent;
+}
+
+input[type="checkbox"]:checked::after {
+    content: "✓";
+    color: white;
+    font-size: 15px;
+}
+
+label {
+    cursor: pointer;
+    user-select: none;
+}
