@@ -1,9 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, afterNextRender, inject, NgZone, signal } from '@angular/core';
 import { FilmService } from '@core/services/film.service';
 import { Separator } from "@shared/ui/separator/separator";
 import { Film } from "@shared/ui/film/film";
 import { YearPicker } from "@shared/ui/year-picker/year-picker";
 import { gsap } from 'gsap';
+import { Draggable } from 'gsap/Draggable';
 import { LucideSearch, LucideX } from '@lucide/angular';
 import { Button } from "@shared/ui/button/button";
 
@@ -15,6 +16,8 @@ import { Button } from "@shared/ui/button/button";
 })
 export class Films {
   private filmService = inject(FilmService);
+  private ngZone = inject(NgZone);
+
   readonly films = this.filmService.films;
   readonly genres = this.filmService.genres;
 
@@ -22,6 +25,42 @@ export class Films {
   selectedYear = signal<number | null>(null);
 
   private targetScrolls = new Map<HTMLElement, number>();
+
+  constructor() {
+    afterNextRender(() => {
+      gsap.registerPlugin(Draggable);
+
+      this.ngZone.runOutsideAngular(() => {
+        document.querySelectorAll<HTMLElement>('.drag-scroll').forEach(el => {
+          this.initDragScroll(el);
+        });
+      });
+    });
+  }
+
+  private initDragScroll(el: HTMLElement) {
+    const proxy = document.createElement('div');
+    document.body.appendChild(proxy);
+    gsap.set(proxy, { position: 'absolute', top: 0, left: 0, width: 1, height: 1, visibility: 'hidden' });
+
+    const self = this;
+
+    Draggable.create(proxy, {
+      type: 'x',
+      trigger: el,
+      onPress: () => {
+        el.style.cursor = 'grabbing';
+      },
+      onDrag: function () {
+        el.scrollLeft -= this['deltaX'];
+      },
+      onRelease: function () {
+        el.style.cursor = '';
+        self.targetScrolls.set(el, el.scrollLeft);
+        gsap.set(proxy, { x: 0, y: 0 });
+      }
+    });
+  }
 
   onWheel(event: WheelEvent) {
     const target = event.currentTarget as HTMLElement;
