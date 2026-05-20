@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { environment } from '@environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,14 +21,14 @@ export class FilmService {
   constructor(private http: HttpClient) { }
 
   getFilms() {
-    this.http.get<any>(`${this.url}/discover/movie?page=1`, { headers: this.headers }).subscribe(data => {
-      this.filmsSignal.set(data.results);
-    });
+    return this.http.get<any>(`${this.url}/discover/movie?page=1`, { headers: this.headers }).pipe(
+      tap(data => this.filmsSignal.set(data.results))
+    );
   }
 
   getGenres() {
-    this.http.get<any>(`${this.url}/genre/movie/list`, { headers: this.headers }).subscribe(data => {
-      this.genresSignal.set(data.genres);
-    });
+    return this.http.get<any>(`${this.url}/genre/movie/list`, { headers: this.headers }).pipe(
+      tap(data => this.genresSignal.set(data.genres))
+    );
   }
 }

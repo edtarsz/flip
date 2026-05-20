@@ -1,7 +1,7 @@
 <main class="flex flex-col h-full w-full gap-40 pb-[500px] items-center">
     <section
         class="hero-section container-padding w-full min-h-screen flex flex-col justify-center items-center hero-bg">
-        <div class="flex flex-col gap-10 justify-center flex-1">
+        <div class="flex flex-col gap-10 justify-center items-center flex-1">
             <div class="flex flex-col gap-3 justify-center items-center">
                 <img src="assets/svgs/logo.svg" alt="" class="w-15">
                 <h1 class="w-fit text-center">
@@ -12,12 +12,9 @@
                     tempora at, sit eius recusandae natus unde odit pariatur.
                 </h2>
             </div>
-            <div class="flex gap-2 justify-center">
-                <button
-                    class="font-bold px-3 py-1.5 rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) hover:text-(--color-text)/80 transition-all duration-200">Explore</button>
-            </div>
+            <app-button label="Explore"></app-button>
         </div>
-        <div class="grid grid-cols-3 w-full relative bottom-10">
+        <div class=" grid grid-cols-3 w-full relative bottom-10">
             <div class="flex flex-col justify-start gap-2">
                 <div class="flex gap-1">
                     <svg lucideStar></svg>

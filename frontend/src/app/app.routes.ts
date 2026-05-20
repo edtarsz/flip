@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layouts/main-layout/main-layout';
+import { filmsResolver } from './features/films/films.resolver';
 
 export const ROUTES: Routes = [
   {
@@ -21,7 +22,8 @@ export const ROUTES: Routes = [
       },
       {
         path: 'films',
-        loadComponent: () => import('./features/films/films').then(m => m.Films)
+        loadComponent: () => import('./features/films/films').then(m => m.Films),
+        resolve: { data: filmsResolver }
       }
     ]
   },

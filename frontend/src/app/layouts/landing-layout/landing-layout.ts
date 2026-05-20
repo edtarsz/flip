@@ -4,10 +4,11 @@ import { CardFeatures } from "@shared/ui/card-features/card-features";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
+import { Button } from "@shared/ui/button/button";
 
 @Component({
   selector: 'app-landing-page',
-  imports: [LucideStar, CardFeatures, SwipeCard],
+  imports: [LucideStar, CardFeatures, SwipeCard, Button],
   templateUrl: './landing-layout.html',
   styleUrl: './landing-layout.css',
 })
