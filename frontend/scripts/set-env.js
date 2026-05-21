@@ -8,8 +8,8 @@ export const environment = {
 `;
 
 writeFileSync(
-    './src/environments/environment.prod.ts',
-    content
+  './src/environments/environment.ts',
+  content
 );
 
 console.log('environment.prod.ts generado');
