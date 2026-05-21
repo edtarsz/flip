@@ -11,13 +11,13 @@ if (!existsSync(dirPath)) {
 const content = `
 export const environment = {
   production: true,
-  apiUrl: '${process.env.apiUrl || process.env.API_URL || ''}',
-  supabaseUrl: '${process.env.supabaseUrl || process.env.SUPABASE_URL || ''}',
-  supabaseKey: '${process.env.supabaseKey || process.env.SUPABASE_KEY || ''}',
-  tmdbUrl: '${process.env.tmdbUrl || process.env.TMDB_URL || 'https://api.themoviedb.org/3/discover'}',
-  tmdbKey: '${process.env.tmdbKey || process.env.TMDB_KEY || ''}'
+  apiUrl: '${process.env.apiUrl}',
+  supabaseUrl: '${process.env.supabaseUrl}',
+  supabaseKey: '${process.env.supabaseKey}',
+  tmdbUrl: '${process.env.tmdbUrl}',
+  tmdbKey: '${process.env.tmdbKey}'
 };
 `;
 
 writeFileSync(targetPath, content);
-console.log('environment.ts generado con variables de entorno robustas');
+console.log('environment.ts generated');
