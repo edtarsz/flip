@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { Button } from "@shared/ui/button/button";
+import { MOCK_GENRES, MOCK_SWIPE } from 'src/app/seeds/swipe-card';
 
 @Component({
   selector: 'app-landing-page',
@@ -13,6 +14,10 @@ import { Button } from "@shared/ui/button/button";
   styleUrl: './landing-layout.css',
 })
 export class LandingPage {
+
+  readonly swipeCards = MOCK_SWIPE;
+  readonly genres = MOCK_GENRES;
+
   constructor() {
     afterNextRender(() => {
       gsap.registerPlugin(ScrollTrigger);

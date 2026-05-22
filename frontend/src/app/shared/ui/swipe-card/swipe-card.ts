@@ -1,12 +1,15 @@
-import { Component, ElementRef, ViewChild, afterNextRender } from '@angular/core';
+import { Component, ElementRef, ViewChild, afterNextRender, Input, Output, EventEmitter } from '@angular/core';
 import { LucideEye, LucideStar } from '@lucide/angular';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { Separator } from '../separator/separator';
+import { FilmTMDB } from '@core/types/tmdb/film.type';
+import { DatePipe, DecimalPipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-swipe-card',
-  imports: [Separator, LucideStar, LucideEye],
+  imports: [Separator, LucideStar, LucideEye, DecimalPipe, DatePipe],
   templateUrl: './swipe-card.html',
   styleUrl: './swipe-card.css'
 })
@@ -14,13 +17,33 @@ export class SwipeCard {
   @ViewChild('swipeCard') swipeCard!: ElementRef<HTMLDivElement>;
   @ViewChild('innerCard') innerCard!: ElementRef<HTMLDivElement>;
 
+  @Input() film!: FilmTMDB;
+  @Input() genres: any[] = [];
+  @Input() showBg = true;
+
+  @Input() set isTop(value: boolean) {
+    this._isTop = value;
+    this.updateDraggableState();
+  }
+
+  get isTop() {
+    return this._isTop;
+  }
+
+  private _isTop = true;
+
+  @Output() swiped = new EventEmitter<'left' | 'right'>();
+
+  private draggableInstance?: Draggable;
+
   constructor() {
     afterNextRender(() => {
       gsap.registerPlugin(Draggable);
 
       const inner = this.innerCard.nativeElement;
+      const self = this;
 
-      Draggable.create(this.swipeCard.nativeElement, {
+      const draggables = Draggable.create(this.swipeCard.nativeElement, {
         type: 'x,y',
         zIndexBoost: false,
         onDrag: function () {
@@ -33,12 +56,16 @@ export class SwipeCard {
           const draggable = this as Draggable;
           if (Math.abs(draggable.x) > 150) {
             const direction = draggable.x > 0 ? 1 : -1;
+            const swipeDirection = draggable.x > 0 ? 'right' : 'left';
             gsap.to(draggable.target, {
               x: direction * window.innerWidth,
               y: draggable.y + (draggable.y * 0.5),
               opacity: 0,
-              duration: 0.5,
-              ease: 'power2.out'
+              duration: 0.3,
+              ease: 'power2.out',
+              onComplete: () => {
+                self.swiped.emit(swipeDirection);
+              }
             });
             gsap.to(inner, {
               rotation: direction * 45,
@@ -60,6 +87,25 @@ export class SwipeCard {
           }
         }
       });
+
+      this.draggableInstance = draggables[0];
+      this.updateDraggableState();
     });
   }
+
+  private updateDraggableState() {
+    if (this.draggableInstance) {
+      if (this._isTop) {
+        this.draggableInstance.enable();
+      } else {
+        this.draggableInstance.disable();
+      }
+    }
+  }
+
+  getCardImage(): string {
+    const imageUrl = `https://image.tmdb.org/t/p/w1280${this.film.poster_path}`
+    return `linear-gradient(to top, var(--color-background-light) 0px, var(--color-background-light) 6px, transparent 100%), url('${imageUrl}')`;
+  }
 }
+

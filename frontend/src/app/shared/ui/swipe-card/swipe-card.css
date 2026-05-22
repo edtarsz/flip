@@ -4,6 +4,7 @@
         url('/assets/images/michael.webp');
     background-size: cover;
     background-position: center;
+    margin-bottom: -2px;
 }
 
 .swipe-card {

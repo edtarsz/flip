@@ -5,7 +5,7 @@
         <app-separator></app-separator>
 
         <div class="flex flex-col gap-5 p-3">
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-4">
                 <p class="font-semibold">Genres</p>
                 <ul class="flex flex-wrap relative gap-x-2 gap-y-3">
                     @for (genre of genres(); track $index) {
@@ -25,7 +25,7 @@
                 </ul>
             </div>
 
-            <div class="rounded-lg flex flex-col gap-2">
+            <div class="rounded-lg flex flex-col gap-4">
                 <p class="font-semibold">Release Date</p>
                 <app-year-picker [(selectedYear)]="selectedYear" />
             </div>

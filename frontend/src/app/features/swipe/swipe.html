@@ -1,1 +1,12 @@
-<p>Swipe works!</p>
+<div class="flex items-center justify-center h-screen relative">
+    <div class="relative w-full max-w-[500px] h-[700px]">
+        @for (film of visibleFilms(); track film.id; let idx = $index; let last = $last) {
+        <app-swipe-card [film]="film" [genres]="genres()" [isTop]="last"
+            [showBg]="last && currentIndex() === allFilms().length - 1" (swiped)="onSwiped($event, film.id)"
+            class="absolute top-0 left-0 w-full h-full transition-all duration-300 ease-out" [style.z-index]="idx + 1"
+            [style.transform]="getCardTransform(idx, visibleFilms().length)"
+            [style.filter]="getCardFilter(idx, visibleFilms().length)">
+        </app-swipe-card>
+        }
+    </div>
+</div>
