@@ -7,10 +7,11 @@ import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { LucideSearch, LucideX } from '@lucide/angular';
 import { Button } from "@shared/ui/button/button";
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-films',
-  imports: [Separator, Film, LucideSearch, LucideX, YearPicker, Button],
+  imports: [Separator, Film, LucideSearch, LucideX, YearPicker, Button, NgClass],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
@@ -23,6 +24,9 @@ export class Films {
 
   searchQuery = signal('');
   selectedYear = signal<number | null>(null);
+  selectedGenres = signal<string[]>([]);
+
+  showAll = signal(false);
 
   private targetScrolls = new Map<HTMLElement, number>();
 
@@ -105,5 +109,24 @@ export class Films {
 
   onReset() {
     this.searchQuery.set('');
+  }
+
+  onSeeAll() {
+    this.showAll.set(!this.showAll());
+  }
+
+  applyFilters() {
+    this.filmService.getFilms(this.selectedGenres(), this.selectedYear() ?? undefined).subscribe();
+  }
+
+  addGenre(genre: string) {
+    this.selectedGenres.update(value => [...value, genre]);
+  }
+
+  get rosalia() {
+    if (this.showAll()) {
+      return 'Go Back';
+    }
+    return 'See All'
   }
 }

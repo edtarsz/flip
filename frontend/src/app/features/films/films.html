@@ -7,12 +7,13 @@
         <div class="flex flex-col gap-5 p-3">
             <div class="flex flex-col gap-4">
                 <p class="font-semibold">Genres</p>
-                <ul class="flex flex-wrap relative gap-x-2 gap-y-3">
+                <ul class="flex flex-wrap relative gap-2">
                     @for (genre of genres(); track $index) {
                     <li
-                        class="cursor-pointer text-(--color-gray)/80 transition-color duration-150 group hover:text-(--color-text)/80">
-                        <span
-                            class="px-3 py-1 rounded-full border border-(--color-gray)/20 group-hover:border-(--color-gray)/50 transition-color duration-150">{{
+                        class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-150 group hover:text-(--color-text)/80">
+                        <span (click)="addGenre(genre.name)"
+                            class="px-3 py-1 rounded-full border transition-color duration-150"
+                            [ngClass]="selectedGenres().includes(genre.name) ? 'bg-(--color-wine-red) text-(--color-text) border-(--color-wine-red)' : 'group-hover:border-(--color-gray)/50 border-(--color-gray)/20'">{{
                             genre.name }}</span>
                     </li>
                     }
@@ -25,20 +26,20 @@
                 </ul>
             </div>
 
-            <div class="rounded-lg flex flex-col gap-4">
+            <div class="rounded-sm flex flex-col gap-4">
                 <p class="font-semibold">Release Date</p>
                 <app-year-picker [(selectedYear)]="selectedYear" />
             </div>
 
-            <app-button label="Apply Filters" size="w-full"></app-button>
+            <app-button label="Apply Filters" size="w-full" (click)="applyFilters()"></app-button>
         </div>
     </aside>
 
     <section class="flex flex-col gap-5 p-5 overflow-auto">
         <div class="flex justify-between items-center">
             <div class="flex gap-4 items-center">
-                <h4 class="w-fit font-bold text-xl">Recently Popular</h4>
-                <div class="flex rounded-md gap-2 min-w-[400px] border border-(--color-gray)/20 items-center px-3 py-2">
+                <h4 class="w-fit font-bold text-xl" [ngClass]="{ 'hidden': showAll() }">Recently Popular</h4>
+                <div class="flex rounded-sm gap-2 min-w-[400px] border border-(--color-gray)/20 items-center px-3 py-2">
                     <svg lucideSearch size="16" color="var(--color-gray)"></svg>
                     <input type="search" name="" id="" class="text-sm outline-none flex-1" placeholder="Search by name"
                         [value]="searchQuery()" (input)="onSearch($event)">
@@ -50,22 +51,33 @@
                 </div>
             </div>
             <div class="relative">
-                <button class="text-(--color-gray)/80">See All</button>
+                <button class="text-(--color-gray)/80" (click)="onSeeAll()">{{ rosalia }}</button>
             </div>
         </div>
+
+        @if (showAll()) {
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-x-5 gap-y-6 overflow-y-auto h-[calc(100vh-180px)] no-scrollbar"
+            data-lenis-prevent>
+            @for (film of films(); track $index) {
+            <app-film [film]="film" class="film-card w-full"></app-film>
+            }
+        </div>
+        } @else {
         <div class="perspective-distant flex gap-5 overflow-x-scroll no-scrollbar drag-scroll"
             (wheel)="onWheel($event)">
             @for (film of films(); track $index) {
-            <app-film [film]="film" class="film-card"></app-film>
+            <app-film [film]="film" class="film-card w-[180px]"></app-film>
             }
         </div>
 
         <h4 class="w-fit font-bold text-xl">Top Rated</h4>
+
         <div class="perspective-distant flex gap-5 overflow-x-scroll no-scrollbar drag-scroll"
             (wheel)="onWheel($event)">
             @for (film of films(); track $index) {
-            <app-film [film]="film" class="film-card"></app-film>
+            <app-film [film]="film" class="film-card w-[180px]"></app-film>
             }
         </div>
+        }
     </section>
 </div>

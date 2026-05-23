@@ -1,8 +1,82 @@
 @import 'tailwindcss';
 
 @font-face {
-    font-family: 'Lato-Regular';
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato/Lato-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato/Lato-ThinItalic.woff2') format('woff2');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato/Lato-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato/Lato-LightItalic.woff2') format('woff2');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Lato';
     src: url('/assets/fonts/Lato/Lato-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato/Lato-Italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato/Lato-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato/Lato-BoldItalic.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato/Lato-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('/assets/fonts/Lato/Lato-BlackItalic.woff2') format('woff2');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@theme {
+    --font-sans: 'Lato', sans-serif;
+}
+
+.film-card {
+    display: block;
+    flex-shrink: 0;
 }
 
 @layer components {
@@ -19,11 +93,6 @@
     }
 }
 
-body {
-    font-family: 'Lato-Regular';
-    color: var(--color-text);
-}
-
 :root {
     --color-background: #0e0e0e;
     --color-background-light: #181818;
@@ -33,6 +102,11 @@ body {
 
     --color-wine-red: #893168;
     --color-wine-dark: #581f42;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text);
 }
 
 h1 {

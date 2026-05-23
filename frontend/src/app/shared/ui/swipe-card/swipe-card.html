@@ -8,25 +8,25 @@
     } 
     -->
 
-    <div #swipeCard class="relative select-none w-full h-full">
+    <div #swipeCard class="relative w-full h-full">
         <div #innerCard
             class="relative w-full h-full swipe-card cursor-grab flex flex-col items-stretch bg-(--color-background-light) rounded-lg overflow-hidden">
             <div class="hero-bg w-full flex-1" [style.background-image]="getCardImage()"></div>
             <div class="flex flex-col bg-(--color-background-light)">
                 <div class="flex p-3 justify-between">
-                    <div class="flex-gap-2">
+                    <div class="flex flex-col gap-1">
                         <div class="flex gap-2">
-                            <h4 class="text-lg font-bold">
+                            <h4 class="text-lg font-bold select-none">
                                 {{ film.title }}
                             </h4>
-                            <span class="flex items-center gap-1 text-sm">
-                                <svg lucideStar size="15"></svg>
+                            <span class="flex items-center gap-1 text-md select-none">
+                                <svg lucideStar size="20" fill="#ffc300" color="#ffc300"></svg>
                                 <span>
                                     {{ film.vote_average | number:'1.0-1' }}
                                 </span>
                             </span>
                         </div>
-                        <div class="flex text-sm gap-2">
+                        <div class="flex text-sm gap-2 select-none">
                             <span class="bg-(--color-wine-red) rounded-md px-2 py-1">{{ genres.find((genre) =>
                                 genre.id === film.genre_ids[0])?.name }}</span>
                             <span class="bg-(--color-wine-red) rounded-md px-2 py-1">{{ film.release_date | date:'yyyy'
@@ -41,7 +41,9 @@
                     </div>
                 </div>
                 <app-separator></app-separator>
-                <p class="p-3">{{ film.overview }}</p>
+                <div class="overflow-hidden p-3">
+                    <p class="line-clamp-3 select-none text-lg text-(--color-gray)">{{ film.overview }}</p>
+                </div>
             </div>
         </div>
     </div>
