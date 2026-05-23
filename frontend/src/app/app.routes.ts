@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layouts/main-layout/main-layout';
 import { filmsResolver } from './features/films/films.resolver';
+import { authGuard } from '@core/guards/auth.guard';
 
 export const ROUTES: Routes = [
   {
@@ -18,7 +19,8 @@ export const ROUTES: Routes = [
       },
       {
         path: 'swipe',
-        loadComponent: () => import('./features/swipe/swipe').then(m => m.Swipe)
+        loadComponent: () => import('./features/swipe/swipe').then(m => m.Swipe),
+        canActivate: [authGuard]
       },
       {
         path: 'films',

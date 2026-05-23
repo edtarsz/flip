@@ -14,7 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      movies: {
+      films: {
         Row: {
           created_at: string
           genres: string[]
@@ -44,27 +44,48 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          username: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          username: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          username?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           created_at: string
+          film_id: string | null
           id: number
-          movie_id: string | null
           rating: number | null
           review: string | null
           user_id: string | null
         }
         Insert: {
           created_at?: string
+          film_id?: string | null
           id?: number
-          movie_id?: string | null
           rating?: number | null
           review?: string | null
           user_id?: string | null
         }
         Update: {
           created_at?: string
+          film_id?: string | null
           id?: number
-          movie_id?: string | null
           rating?: number | null
           review?: string | null
           user_id?: string | null
@@ -72,16 +93,16 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "reviews_movie_id_fkey"
-            columns: ["movie_id"]
+            columns: ["film_id"]
             isOneToOne: false
-            referencedRelation: "movies"
+            referencedRelation: "films"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "reviews_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -89,95 +110,64 @@ export type Database = {
       swipes: {
         Row: {
           created_at: string
+          film_id: string | null
           id: number
-          movie_id: string | null
           user_id: string | null
         }
         Insert: {
           created_at?: string
+          film_id?: string | null
           id?: number
-          movie_id?: string | null
           user_id?: string | null
         }
         Update: {
           created_at?: string
+          film_id?: string | null
           id?: number
-          movie_id?: string | null
           user_id?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "swipes_movie_id_fkey"
-            columns: ["movie_id"]
+            columns: ["film_id"]
             isOneToOne: false
-            referencedRelation: "movies"
+            referencedRelation: "films"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "swipes_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
       }
-      users: {
-        Row: {
-          avatarUrl: string
-          created_at: string
-          email: string
-          id: string
-          username: string
-        }
-        Insert: {
-          avatarUrl: string
-          created_at?: string
-          email: string
-          id?: string
-          username: string
-        }
-        Update: {
-          avatarUrl?: string
-          created_at?: string
-          email?: string
-          id?: string
-          username?: string
-        }
-        Relationships: []
-      }
       watchlists: {
         Row: {
           created_at: string
-          id: number
-          movie_id: string | null
-          user_id: string | null
+          external_film_id: number
+          id: string
+          user_id: string
         }
         Insert: {
           created_at?: string
-          id?: number
-          movie_id?: string | null
-          user_id?: string | null
+          external_film_id: number
+          id?: string
+          user_id: string
         }
         Update: {
           created_at?: string
-          id?: number
-          movie_id?: string | null
-          user_id?: string | null
+          external_film_id?: number
+          id?: string
+          user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "watchlists_movie_id_fkey"
-            columns: ["movie_id"]
-            isOneToOne: false
-            referencedRelation: "movies"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "watchlists_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]

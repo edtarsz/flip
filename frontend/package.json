@@ -7,7 +7,7 @@
     "build": "node scripts/set-env.js && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "supabase:types": "npx supabase gen types typescript --project-id gjznuieaxrekydyyoyst --schema public > src/app/core/types/supabase.types.ts"
+    "supabase:types": "npx supabase gen types typescript --project-id gjznuieaxrekydyyoyst --schema public > src/app/core/supabase/supabase.types.ts"
   },
   "private": true,
   "packageManager": "pnpm@11.1.1",

@@ -8,6 +8,11 @@
                 class="bg-transparent border border-(--color-gray-light)">
         </div>
         <div class="flex flex-col">
+            <label for="username">Username</label>
+            <input type="username" [formField]="registerForm.username"
+                class="bg-transparent border border-(--color-gray-light)">
+        </div>
+        <div class="flex flex-col">
             <label for="password">Password</label>
             <input type="password" [formField]="registerForm.password"
                 class="bg-transparent border border-(--color-gray-light)">

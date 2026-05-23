@@ -14,20 +14,23 @@ export class Auth {
   private authService = inject(AuthService)
 
   registerModel = signal<CreateUserDTO>({
-    name: '',
     email: '',
+    username: '',
     password: ''
   })
 
   registerForm = form(this.registerModel, (schemaPath) => {
     required(schemaPath.email)
+    required(schemaPath.username)
     required(schemaPath.password)
   }, {
     submission: {
       action: async (fields) => {
         await this.authService.signUp(
           fields().value().email,
-          fields().value().password);
+          fields().value().password,
+          fields().value().username
+        );
       }
     }
   })

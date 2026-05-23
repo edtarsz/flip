@@ -1,0 +1,5 @@
+# Supabase temporary files
+.temp/
+
+# Environment variables
+.env

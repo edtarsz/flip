@@ -15,12 +15,21 @@
 
     <nav>
         <ul class="flex gap-[2vw] justify-end font-bold">
+            @if (!isAuthenticated()) {
             <li class="">
                 <a href="/auth">Login</a>
             </li>
             <li>
                 <a href="/auth">Register</a>
             </li>
+            } @else {
+            <li>
+                {{ user?.email }}
+            </li>
+            <li>
+                <a (click)="signOut()" class="cursor-pointer">Logout</a>
+            </li>
+            }
         </ul>
     </nav>
 </header>

@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
 import { LucideEye } from '@lucide/angular';
+import { WatchlistService } from '@core/services/watchlist.service';
 
 @Component({
   selector: 'app-swipe',
@@ -11,6 +12,7 @@ import { LucideEye } from '@lucide/angular';
 })
 export class Swipe implements OnInit {
   private filmService = inject(FilmService);
+  private watchlistService = inject(WatchlistService);
 
   readonly allFilms = this.filmService.films;
   readonly genres = this.filmService.genres;
@@ -32,9 +34,11 @@ export class Swipe implements OnInit {
     }
   }
 
-  onSwiped(direction: 'left' | 'right', filmId: number) {
-    // Log para la functionality
-    console.log(`Swiped ${direction} on film ID: ${filmId}`);
+  async onSwiped(direction: 'left' | 'right', filmId: number) {
+    console.log(direction);
+    if (direction === 'right') {
+      await this.watchlistService.addToWatchlist(filmId);
+    }
     this.currentIndex.update(idx => idx + 1);
   }
 
