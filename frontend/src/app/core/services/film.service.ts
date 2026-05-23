@@ -21,10 +21,10 @@ export class FilmService {
 
   constructor(private http: HttpClient) { }
 
-  getFilms(genres?: string[], year?: number) {
-    let url = `${this.url}/discover/movie?page=1&sort_by=popularity.desc`;
+  getFilms(genres?: number[], year?: number, query?: string) {
+    let url = query && query.trim().length > 0 ? `${this.url}/search/movie?query=${query}` : `${this.url}/discover/movie?sort_by=popularity.desc&include_adult=false`;
 
-    if (genres) url += `&with_genres=${genres}`;
+    if (genres && genres.length > 0) url += `&with_genres=${genres}`;
     if (year) url += `&primary_release_year=${year}`;
 
     return this.http.get<any>(url, { headers: this.headers }).pipe(

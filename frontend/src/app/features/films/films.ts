@@ -8,10 +8,11 @@ import { Draggable } from 'gsap/Draggable';
 import { LucideSearch, LucideX } from '@lucide/angular';
 import { Button } from "@shared/ui/button/button";
 import { NgClass } from '@angular/common';
+import { form, FormField, FormRoot, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-films',
-  imports: [Separator, Film, LucideSearch, LucideX, YearPicker, Button, NgClass],
+  imports: [Separator, Film, LucideSearch, LucideX, YearPicker, Button, NgClass, FormRoot, FormField],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
@@ -22,13 +23,29 @@ export class Films {
   readonly films = this.filmService.films;
   readonly genres = this.filmService.genres;
 
-  searchQuery = signal('');
   selectedYear = signal<number | null>(null);
-  selectedGenres = signal<string[]>([]);
+  selectedGenres = signal<number[]>([]);
 
   showAll = signal(false);
 
   private targetScrolls = new Map<HTMLElement, number>();
+
+  searchModel = signal<string>('');
+
+  searchForm = form(this.searchModel, (schemaPath) => { }, {
+    submission: {
+      action: async (fields) => {
+        const query = fields().value();
+        this.filmService.getFilms(
+          this.selectedGenres(),
+          this.selectedYear() ?? undefined,
+          query || undefined
+        ).subscribe();
+
+        this.showAll.set(true);
+      }
+    }
+  });
 
   constructor() {
     afterNextRender(() => {
@@ -102,25 +119,38 @@ export class Films {
     }
   }
 
-  onSearch(event: Event) {
-    const target = event.target as HTMLInputElement;
-    this.searchQuery.set(target.value);
-  }
-
   onReset() {
-    this.searchQuery.set('');
+    this.searchModel.set('');
+    this.applyFilters();
   }
 
   onSeeAll() {
     this.showAll.set(!this.showAll());
   }
 
-  applyFilters() {
-    this.filmService.getFilms(this.selectedGenres(), this.selectedYear() ?? undefined).subscribe();
+  onClear() {
+    this.selectedGenres.set([]);
+    this.selectedYear.set(null);
+    this.applyFilters();
   }
 
-  addGenre(genre: string) {
-    this.selectedGenres.update(value => [...value, genre]);
+  applyFilters() {
+    this.filmService.getFilms(
+      this.selectedGenres(),
+      this.selectedYear() ?? undefined,
+      this.searchModel() || undefined
+    ).subscribe();
+
+    this.showAll.set(true);
+  }
+
+  toggleGenre(genreId: number) {
+    this.selectedGenres.update(value => {
+      if (value.includes(genreId)) {
+        return value.filter(id => id !== genreId);
+      }
+      return [...value, genreId];
+    });
   }
 
   get rosalia() {

@@ -1,10 +1,21 @@
-<button class="
+<button [type]="type" class="flex items-center gap-1 justify-center
     font-bold 
-    bg-(--color-wine-red) 
-    hover:bg-(--color-wine-dark) 
-    hover:text-(--color-text)/80 
+    {{ variant === 'primary' ? 'bg-(--color-wine-red)' : 'bg-(--color-oliva)' }} 
+    {{ variant === 'primary' ? 'hover:bg-(--color-wine-dark)' : 'hover:bg-(--color-oliva-dark)' }} 
+    {{ variant === 'primary' ? 'hover:text-(--color-text)/80' : 'hover:text-(--color-text)/80' }} 
     transition-all duration-200
-    px-3 py-1.5 rounded 
+    px-3 h-full min-h-[38px] rounded
     {{ size }}">
     {{ label }}
+    @switch (icon) {
+    @case ('corner-down-left') {
+    <svg lucideCornerDownLeft size="16"></svg>
+    }
+    @case ('search') {
+    <svg lucideSearch size="16"></svg>
+    }
+    @case ('eye') {
+    <svg lucideEye size="16"></svg>
+    }
+    }
 </button>

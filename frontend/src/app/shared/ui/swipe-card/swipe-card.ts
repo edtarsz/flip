@@ -1,15 +1,16 @@
 import { Component, ElementRef, ViewChild, afterNextRender, Input, Output, EventEmitter } from '@angular/core';
-import { LucideEye, LucideStar } from '@lucide/angular';
+import { LucideCircle, LucideEye, LucideStar } from '@lucide/angular';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { Separator } from '../separator/separator';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { GenreTMDB } from '@core/types/tmdb/genre.type';
 
 
 @Component({
   selector: 'app-swipe-card',
-  imports: [Separator, LucideStar, LucideEye, DecimalPipe, DatePipe],
+  imports: [Separator, LucideStar, LucideEye, DecimalPipe, DatePipe, LucideCircle],
   templateUrl: './swipe-card.html',
   styleUrl: './swipe-card.css'
 })
@@ -18,7 +19,7 @@ export class SwipeCard {
   @ViewChild('innerCard') innerCard!: ElementRef<HTMLDivElement>;
 
   @Input() film!: FilmTMDB;
-  @Input() genres: any[] = [];
+  @Input() genres!: GenreTMDB[];
   @Input() showBg = true;
 
   @Input() set isTop(value: boolean) {

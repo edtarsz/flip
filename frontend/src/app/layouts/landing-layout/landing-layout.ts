@@ -9,7 +9,7 @@ import { MOCK_GENRES, MOCK_SWIPE } from 'src/app/seeds/swipe-card';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [LucideStar, CardFeatures, SwipeCard, Button],
+  imports: [LucideStar, CardFeatures, Button],
   templateUrl: './landing-layout.html',
   styleUrl: './landing-layout.css',
 })
