@@ -35,11 +35,12 @@ export class Swipe implements OnInit {
   }
 
   async onSwiped(direction: 'left' | 'right', filmId: number) {
+    this.currentIndex.update(idx => idx + 1);
     console.log(direction);
+
     if (direction === 'right') {
       await this.watchlistService.addToWatchlist(filmId);
     }
-    this.currentIndex.update(idx => idx + 1);
   }
 
   getCardTransform(index: number, total: number): string {
