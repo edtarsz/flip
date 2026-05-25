@@ -17,30 +17,30 @@ export type Database = {
       films: {
         Row: {
           created_at: string
-          genres: string[]
+          external_film_id: number
           id: string
-          poster: string
+          poster_path: string | null
           rating: number | null
           release_date: string | null
-          tmdb_id: string
+          title: string | null
         }
         Insert: {
           created_at?: string
-          genres: string[]
+          external_film_id: number
           id?: string
-          poster: string
+          poster_path?: string | null
           rating?: number | null
           release_date?: string | null
-          tmdb_id?: string
+          title?: string | null
         }
         Update: {
           created_at?: string
-          genres?: string[]
+          external_film_id?: number
           id?: string
-          poster?: string
+          poster_path?: string | null
           rating?: number | null
           release_date?: string | null
-          tmdb_id?: string
+          title?: string | null
         }
         Relationships: []
       }
@@ -92,13 +92,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "reviews_movie_id_fkey"
-            columns: ["film_id"]
-            isOneToOne: false
-            referencedRelation: "films"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "reviews_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -128,7 +121,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "swipes_movie_id_fkey"
+            foreignKeyName: "swipes_film_id_fkey"
             columns: ["film_id"]
             isOneToOne: false
             referencedRelation: "films"
@@ -146,23 +139,30 @@ export type Database = {
       watchlists: {
         Row: {
           created_at: string
-          external_film_id: number
+          film_id: string
           id: string
           user_id: string
         }
         Insert: {
           created_at?: string
-          external_film_id: number
+          film_id: string
           id?: string
           user_id: string
         }
         Update: {
           created_at?: string
-          external_film_id?: number
+          film_id?: string
           id?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "watchlists_film_id_fkey"
+            columns: ["film_id"]
+            isOneToOne: false
+            referencedRelation: "films"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "watchlists_user_id_fkey"
             columns: ["user_id"]
@@ -177,7 +177,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_to_watchlist_with_film: {
+        Args: {
+          p_external_film_id: number
+          p_poster_path: string
+          p_rating: number
+          p_release_date: string
+          p_title: string
+          p_user_id?: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

@@ -70,8 +70,7 @@
             }
         </div>
         } @else {
-        <div class="perspective-distant flex gap-5 overflow-x-scroll no-scrollbar drag-scroll"
-            (wheel)="onWheel($event)">
+        <div class="perspective-distant flex gap-5 overflow-x-scroll no-scrollbar drag-scroll">
             @for (film of films(); track $index) {
             <app-film [film]="film" class="film-card w-[180px]"></app-film>
             }
@@ -79,8 +78,7 @@
 
         <h4 class="w-fit font-bold text-xl">Top Rated</h4>
 
-        <div class="perspective-distant flex gap-5 overflow-x-scroll no-scrollbar drag-scroll"
-            (wheel)="onWheel($event)">
+        <div class="perspective-distant flex gap-5 overflow-x-scroll no-scrollbar drag-scroll">
             @for (film of films(); track $index) {
             <app-film [film]="film" class="film-card w-[180px]"></app-film>
             }

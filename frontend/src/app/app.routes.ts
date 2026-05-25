@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layouts/main-layout/main-layout';
-import { filmsResolver } from './features/films/films.resolver';
+import { filmsResolver, watchlistResolver } from './features/films/films.resolver';
 import { authGuard } from '@core/guards/auth.guard';
 
 export const ROUTES: Routes = [
@@ -24,8 +24,14 @@ export const ROUTES: Routes = [
       },
       {
         path: 'films',
-        loadComponent: () => import('./features/films/films').then(m => m.Films),
-        resolve: { data: filmsResolver }
+        loadComponent: () => import('./features/films/films').then(m => m.Films)
+        // resolve: { data: filmsResolver }
+      },
+      {
+        path: 'watchlist',
+        loadComponent: () => import('./features/watchlist/watchlist').then(m => m.Watchlist),
+        canActivate: [authGuard]
+        // resolve: { data: watchlistResolver }
       }
     ]
   },

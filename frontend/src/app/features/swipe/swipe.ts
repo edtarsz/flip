@@ -3,6 +3,8 @@ import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
 import { LucideEye } from '@lucide/angular';
 import { WatchlistService } from '@core/services/watchlist.service';
+import { FilmTMDB } from '@core/types/tmdb/film.type';
+
 
 @Component({
   selector: 'app-swipe',
@@ -34,12 +36,12 @@ export class Swipe implements OnInit {
     }
   }
 
-  async onSwiped(direction: 'left' | 'right', filmId: number) {
+  async onSwiped(direction: 'left' | 'right', film: FilmTMDB) {
     this.currentIndex.update(idx => idx + 1);
     console.log(direction);
 
     if (direction === 'right') {
-      await this.watchlistService.addToWatchlist(filmId);
+      await this.watchlistService.addToWatchlist(film);
     }
   }
 
