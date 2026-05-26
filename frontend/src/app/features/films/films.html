@@ -1,10 +1,10 @@
 <app-separator class="relative top-25"></app-separator>
-<div class="grid grid-cols-[20vw_1fr] relative top-25 min-h-[calc(100vh-6.5rem)] overflow-hidden">
+<div class="grid grid-cols-[20vw_1fr] relative top-25 h-[calc(100vh-6.5rem)] overflow-hidden">
     <app-film-filters [genres]="genres()" [selectedGenres]="selectedGenres()" [selectedYear]="selectedYear()"
         (apply)="applyFilters($event)">
     </app-film-filters>
 
-    <section class="flex flex-col gap-4 p-5 overflow-auto">
+    <section class="flex flex-col gap-6 p-5 h-full overflow-hidden">
         <div class="flex justify-between items-center">
             <div class="flex gap-4 items-center h-full">
                 <app-film-search-bar [searchModel]="searchModel()" (searchModelChange)="searchModel.set($event)"
@@ -18,16 +18,18 @@
 
         @if (showAll()) {
         <app-film-grid [films]="films()" [loading]="loadingNextPage()" [hasMore]="hasMorePages()"
-            (nearEnd)="loadNextPage()">
+            (nearEnd)="loadNextPage()" class="flex-1 min-h-0">
         </app-film-grid>
         } @else {
-        <app-film-carousel title="Recently Popular" [films]="films()" [loading]="loadingNextPage()"
-            [hasMore]="hasMorePages()" (nearEnd)="loadNextPage()">
-        </app-film-carousel>
+        <div class="flex-1 min-h-0 flex flex-col gap-6">
+            <app-film-carousel title="Recently Popular" [films]="films()" [loading]="loadingNextPage()"
+                [hasMore]="hasMorePages()" (nearEnd)="loadNextPage()" class="flex-1 min-h-0 flex flex-col">
+            </app-film-carousel>
 
-        <app-film-carousel title="Top Rated" [films]="films()" [loading]="loadingNextPage()" [hasMore]="hasMorePages()"
-            (nearEnd)="loadNextPage()">
-        </app-film-carousel>
+            <app-film-carousel title="Top Rated" [films]="films()" [loading]="loadingNextPage()"
+                [hasMore]="hasMorePages()" (nearEnd)="loadNextPage()" class="flex-1 min-h-0 flex flex-col">
+            </app-film-carousel>
+        </div>
         }
     </section>
 </div>

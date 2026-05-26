@@ -1,21 +1,22 @@
 @if (loading) {
-<div class="flex flex-col gap-2 w-full aspect-4/6 animate-pulse select-none pointer-events-none">
+<div class="animate-pulse select-none pointer-events-none flex flex-col gap-1.5 w-full aspect-4/6">
     <div class="w-full h-full bg-white/10 rounded-sm"></div>
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1 w-full">
         <div class="w-full h-5 bg-white/10 rounded"></div>
         <div class="flex items-center justify-between w-full">
-            <div class="w-[30%] h-3 bg-white/10 rounded"></div>
-            <div class="w-[15%] h-3 bg-white/10 rounded"></div>
+            <div class="w-[30%] h-5 bg-white/10 rounded"></div>
+            <div class="w-[15%] h-5 bg-white/10 rounded"></div>
         </div>
     </div>
 </div>
 } @else if (film) {
-<div class="flex flex-col gap-2 w-full aspect-4/6 cursor-pointer">
+<div class="cursor-pointer flex flex-col gap-1.5">
     <div class="w-full h-full">
         <img src="https://image.tmdb.org/t/p/w342/{{ film.poster_path }}" alt="{{ film.title }}"
             class="w-full h-full object-cover rounded-sm" draggable="false" loading="lazy">
     </div>
-    <div class="flex flex-col gap-1">
+
+    <div class="flex flex-col gap-1 text-wrapper">
         <p class="font-bold truncate">{{ film.title }}</p>
         <div class="flex items-center justify-between">
             <p class="text-xs text-(--color-gray)">{{ film.release_date | date:'yyyy' }}</p>

@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AuthService } from '@core/services/auth.service';
 })
 export class Header {
   private authService = inject(AuthService);
+  private router: any = inject(Router);
   readonly isAuthenticated = this.authService.isAuthenticated;
 
   get user() {
@@ -17,5 +19,6 @@ export class Header {
 
   async signOut() {
     await this.authService.signOut();
+    this.router.navigate(['/']);
   }
 }

@@ -61,7 +61,9 @@ export class FilmCarousel {
     el.dataset['dragInitialized'] = 'true';
 
     const proxy = document.createElement('div');
-    el.appendChild(proxy);
+    const container = el.parentElement || el;
+
+    container.appendChild(proxy);
     gsap.set(proxy, { position: 'absolute', top: 0, left: 0, width: 1, height: 1, visibility: 'hidden' });
 
     const self = this;

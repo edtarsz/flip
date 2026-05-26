@@ -1,11 +1,12 @@
-<h4 class="w-fit font-bold text-xl pb-4">{{ title }}</h4>
+<h4 class="w-fit font-bold text-xl pb-3">{{ title }}</h4>
 
-<div #carouselContainer class="perspective-distant flex gap-4 overflow-x-scroll no-scrollbar drag-scroll">
+<div #carouselContainer
+    class="flex-1 min-h-0 perspective-distant flex gap-4 overflow-x-scroll no-scrollbar drag-scroll py-1">
     @for (film of films; track film.id) {
-    <app-film [film]="film" class="film-card w-[175px]"></app-film>
+    <app-film [film]="film" class="film-card h-full"></app-film>
     }
 
     @if (hasMore && loading) {
-    <app-film [loading]="true" class="film-card w-[175px]"></app-film>
+    <app-film [loading]="true" class="film-card h-full"></app-film>
     }
 </div>

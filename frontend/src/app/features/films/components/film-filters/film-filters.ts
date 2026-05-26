@@ -38,7 +38,14 @@ export class FilmFilters implements OnChanges {
   }
 
   onYearChange(year: number | null) {
-    this.localYear = year;
+    if (year) {
+      this.localYear = year;
+    } else {
+      this.apply.emit({
+        genres: this.localGenres,
+        year: null,
+      });
+    }
   }
 
   onApply() {
