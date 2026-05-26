@@ -1,7 +1,7 @@
 <app-auth-layout title="Log In">
     <form [formRoot]="loginForm" class="flex flex-col gap-4 w-full">
 
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-2">
             <label for="email" class="text-sm">Enter your email</label>
             <input type="email" [formField]="loginForm.email"
                 class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200">
@@ -10,7 +10,7 @@
             }
         </div>
 
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-2">
             <label for="password" class="text-sm">Password</label>
             <input type="password" [formField]="loginForm.password"
                 class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200">

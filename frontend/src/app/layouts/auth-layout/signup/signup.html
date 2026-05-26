@@ -2,7 +2,7 @@
     <form [formRoot]="registerForm" class="flex flex-col gap-4 w-full">
         @if (step() === 1) {
         <div class="flex flex-col gap-4 w-full">
-            <div class="flex flex-col gap-1">
+            <div class="flex flex-col gap-2">
                 <label for="email" class="text-sm">Enter your email</label>
                 <input type="email" [formField]="registerForm.email"
                     (keydown.enter)="$event.preventDefault(); goToStep2()"
@@ -11,7 +11,7 @@
                 <span class="text-xs text-(--color-error)">{{ registerForm.email().errors()[0]?.message }}</span>
                 }
             </div>
-            <div class="flex flex-col gap-1">
+            <div class="flex flex-col gap-2">
                 <label for="username" class="text-sm">Choose a username</label>
                 <input type="username" [formField]="registerForm.username"
                     (keydown.enter)="$event.preventDefault(); goToStep2()"
@@ -29,7 +29,7 @@
                 class="text-left text-xs text-(--color-gray) hover:text-white flex items-center gap-1 w-fit">
                 <svg lucideArrowBigLeft size="22"></svg> Back
             </button>
-            <div class="flex flex-col gap-1">
+            <div class="flex flex-col gap-2">
                 <label for="password" class="text-sm">Password</label>
                 <input type="password" [formField]="registerForm.password"
                     class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200">
@@ -37,7 +37,7 @@
                 <span class="text-xs text-(--color-error)">{{ registerForm.password().errors()[0]?.message }}</span>
                 }
             </div>
-            <div class="flex flex-col gap-1">
+            <div class="flex flex-col gap-2">
                 <label for="confirmPassword" class="text-sm">Confirm password</label>
                 <input type="password" [formField]="registerForm.confirmPassword"
                     class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200">
