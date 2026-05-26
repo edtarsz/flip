@@ -1,4 +1,18 @@
-<div class="flex items-center justify-center h-screen relative">
+<div class="flex items-center justify-center h-screen relative overflow-hidden bg-(--color-background)">
+    <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out pointer-events-none blur-md scale-105"
+        [style.backgroundImage]="'url(' + bgImageA() + ')'" [class.opacity-20]="isLayerAActive()"
+        [class.opacity-0]="!isLayerAActive()">
+    </div>
+
+    <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out pointer-events-none blur-md scale-105"
+        [style.backgroundImage]="'url(' + bgImageB() + ')'" [class.opacity-20]="!isLayerAActive()"
+        [class.opacity-0]="isLayerAActive()">
+    </div>
+
+    <div
+        class="absolute inset-0 bg-linear-to-t from-(--color-background) via-(--color-background)/70 to-transparent pointer-events-none">
+    </div>
+
     <div class="relative w-full max-w-[500px] h-[700px]">
         @for (film of visibleFilms(); track film.id; let idx = $index; let last = $last) {
         <app-swipe-card [film]="film" [genres]="genres()" [isTop]="last"

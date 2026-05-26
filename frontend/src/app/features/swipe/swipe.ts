@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, OnInit, inject, signal, computed, effect, untracked } from '@angular/core';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
 import { LucideEye } from '@lucide/angular';
@@ -21,11 +21,45 @@ export class Swipe implements OnInit {
 
   currentIndex = signal(0);
 
+  activeFilm = computed(() => {
+    const films = this.allFilms();
+    const start = this.currentIndex();
+    return films[start] || null;
+  });
+
   visibleFilms = computed(() => {
     const films = this.allFilms();
     const start = this.currentIndex();
     return films.slice(start, start + 3).reverse();
   });
+
+  bgImageA = signal<string>('');
+  bgImageB = signal<string>('');
+  isLayerAActive = signal<boolean>(true);
+
+  constructor() {
+    effect(() => {
+      const film = this.activeFilm();
+      if (film) {
+        const imageUrl = film.poster_path
+          ? `https://image.tmdb.org/t/p/w1280${film.poster_path}`
+          : '';
+        untracked(() => {
+          this.updateBackground(imageUrl);
+        });
+      }
+    });
+  }
+
+  private updateBackground(newUrl: string) {
+    if (this.isLayerAActive()) {
+      this.bgImageB.set(newUrl);
+      this.isLayerAActive.set(false);
+    } else {
+      this.bgImageA.set(newUrl);
+      this.isLayerAActive.set(true);
+    }
+  }
 
   ngOnInit() {
     if (this.allFilms().length === 0) {
