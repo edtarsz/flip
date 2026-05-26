@@ -37,7 +37,21 @@ export const ROUTES: Routes = [
   },
   {
     path: 'auth',
-    loadComponent: () => import('./layouts/auth-layout/auth-layout').then(m => m.Auth)
+    children: [
+      {
+        path: 'login',
+        loadComponent: () => import('./layouts/auth-layout/login/login').then(m => m.Login)
+      },
+      {
+        path: 'signup',
+        loadComponent: () => import('./layouts/auth-layout/signup/signup').then(m => m.SignUp)
+      },
+      {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: '**',

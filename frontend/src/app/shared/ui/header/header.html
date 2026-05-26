@@ -23,14 +23,14 @@
         <ul class="flex gap-[2vw] justify-end font-bold">
             @if (!isAuthenticated()) {
             <li class="">
-                <a href="/auth">Login</a>
+                <a href="/auth/login">Login</a>
             </li>
             <li>
-                <a href="/auth">Register</a>
+                <a href="/auth/signup">Register</a>
             </li>
             } @else {
             <li>
-                {{ user?.email }}
+                {{ username }}
             </li>
             <li>
                 <a (click)="signOut()" class="cursor-pointer">Logout</a>

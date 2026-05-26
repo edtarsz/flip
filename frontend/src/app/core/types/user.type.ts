@@ -1,13 +1,20 @@
 import { z } from 'zod'
-import { Database } from '../supabase/supabase.types'
 
-export const createUserDTOSchema = z.object({
-  email: z.string().email(),
-  username: z.string(),
-  password: z.string().min(8)
-})
+export const registerSchema = z.object({
+  email: z.email('Please enter a valid email address'),
+  username: z.string().min(1, 'Username is required'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords must match",
+  path: ["confirmPassword"],
+});
 
-export type CreateUserDTO = z.infer<typeof createUserDTOSchema>
+export type RegisterSchema = z.infer<typeof registerSchema>;
 
-export type ProfileInsert = Database['public']['Tables']['profiles']['Insert']
-export type ProfileRow = Database['public']['Tables']['profiles']['Row']
+export const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(1, 'Password is required')
+});
+
+export type LoginSchema = z.infer<typeof loginSchema>;

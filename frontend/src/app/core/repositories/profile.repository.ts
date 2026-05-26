@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core'
 import { supabase } from '@core/supabase/supabase.client'
-import { ProfileInsert, ProfileRow } from '@core/types/user.type'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileRepository {
 
-  async getAll(): Promise<ProfileRow[]> {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
+  async checkUsernameExists(username: string): Promise<boolean> {
+    const { data, error } = await supabase.rpc('check_username_exists', {
+      p_username: username
+    })
 
     if (error) throw error
-    return data
+    return !!data
   }
 }

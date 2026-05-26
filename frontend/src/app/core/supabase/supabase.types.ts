@@ -188,6 +188,8 @@ export type Database = {
         }
         Returns: Json
       }
+      check_email_exists: { Args: { p_email: string }; Returns: boolean }
+      check_username_exists: { Args: { p_username: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

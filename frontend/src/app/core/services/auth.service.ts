@@ -1,11 +1,15 @@
-import { computed, Injectable, signal } from '@angular/core'
+import { computed, inject, Injectable, signal } from '@angular/core'
 import { supabase } from '../supabase/supabase.client'
 import { User } from '@supabase/supabase-js';
+import { AuthRepository } from '../repositories/auth.repository';
+import { ProfileRepository } from '../repositories/profile.repository';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private authRepository = inject(AuthRepository);
+
   user = signal<User | null>(null);
   isAuthenticated = computed(() => this.user() !== null);
 
@@ -63,5 +67,9 @@ export class AuthService {
 
   async getUser() {
     return await supabase.auth.getUser()
+  }
+
+  async checkEmailExists(email: string): Promise<boolean> {
+    return await this.authRepository.checkEmailExists(email);
   }
 }

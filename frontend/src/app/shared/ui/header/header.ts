@@ -17,6 +17,10 @@ export class Header {
     return this.authService.user();
   }
 
+  get username() {
+    return this.authService.user()?.user_metadata?.['username'];
+  }
+
   async signOut() {
     await this.authService.signOut();
     this.router.navigate(['/']);

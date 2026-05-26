@@ -104,6 +104,8 @@
     --color-wine-dark: #581f42;
     --color-oliva: #435e45;
     --color-oliva-dark: #212e21;
+
+    --color-error: #d94759;
 }
 
 body {
