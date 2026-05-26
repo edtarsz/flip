@@ -11,4 +11,5 @@ import { LucideStar } from '@lucide/angular';
 })
 export class Film {
   @Input() film!: FilmTMDB;
+  @Input() loading: boolean = false;
 }

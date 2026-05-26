@@ -1,30 +1,44 @@
-import { Component, afterNextRender, inject, NgZone, signal, OnInit, effect } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FilmService } from '@core/services/film.service';
 import { Separator } from "@shared/ui/separator/separator";
-import { Film } from "@shared/ui/film/film";
-import { YearPicker } from "@shared/ui/year-picker/year-picker";
-import { gsap } from 'gsap';
-import { Draggable } from 'gsap/Draggable';
-import { LucideSearch, LucideX } from '@lucide/angular';
-import { Button } from "@shared/ui/button/button";
-import { NgClass } from '@angular/common';
-import { form, FormField, FormRoot, required } from '@angular/forms/signals';
+import { FilmFilters } from './components/film-filters/film-filters';
+import { FilmSearchBar } from './components/film-search-bar/film-search-bar';
+import { FilmGrid } from './components/film-grid/film-grid';
+import { FilmCarousel } from './components/film-carousel/film-carousel';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-films',
-  imports: [Separator, Film, LucideSearch, LucideX, YearPicker, Button, NgClass, FormRoot, FormField],
+  imports: [
+    Separator,
+    FilmFilters,
+    FilmSearchBar,
+    FilmGrid,
+    FilmCarousel
+  ],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
 export class Films implements OnInit {
   private filmService = inject(FilmService);
-  private ngZone = inject(NgZone);
 
   readonly films = this.filmService.films;
   readonly genres = this.filmService.genres;
 
+  selectedYear = signal<number | null>(null);
+  selectedGenres = signal<number[]>([]);
+
+  showAll = signal(false);
+  searchModel = signal<string>('');
+
+  currentPage = signal(1);
+  loadingNextPage = signal(false);
+  hasMorePages = signal(true);
+
   ngOnInit(): void {
     if (this.films().length === 0) {
+      this.currentPage.set(1);
+      this.hasMorePages.set(true);
       this.filmService.getFilms().subscribe();
     }
     if (this.genres().length === 0) {
@@ -32,117 +46,69 @@ export class Films implements OnInit {
     }
   }
 
-  selectedYear = signal<number | null>(null);
-  selectedGenres = signal<number[]>([]);
+  loadNextPage() {
+    if (this.loadingNextPage() || !this.hasMorePages()) return;
 
-  showAll = signal(false);
+    this.loadingNextPage.set(true);
+    const nextPage = this.currentPage() + 1;
 
-  private targetScrolls = new Map<HTMLElement, number>();
-
-  searchModel = signal<string>('');
-
-  searchForm = form(this.searchModel, (schemaPath) => { }, {
-    submission: {
-      action: async (fields) => {
-        const query = fields().value();
-        this.filmService.getFilms(
-          this.selectedGenres(),
-          this.selectedYear() ?? undefined,
-          query || undefined
-        ).subscribe();
-
-        this.showAll.set(true);
-      }
-    }
-  });
-
-  constructor() {
-    afterNextRender(() => {
-      gsap.registerPlugin(Draggable);
-    });
-
-    effect(() => {
-      const filmsList = this.films();
-      const showAllActive = this.showAll();
-
-      if (filmsList.length > 0 && !showAllActive) {
-        this.ngZone.runOutsideAngular(() => {
-          requestAnimationFrame(() => {
-            document.querySelectorAll<HTMLElement>('.drag-scroll').forEach(el => {
-              this.initDragScroll(el);
-              this.initWheelScroll(el);
-            });
-          });
-        });
-      }
-    });
-  }
-
-  private initDragScroll(el: HTMLElement) {
-    if (el.dataset['dragInitialized'] === 'true') return;
-    el.dataset['dragInitialized'] = 'true';
-
-    const proxy = document.createElement('div');
-    document.body.appendChild(proxy);
-    gsap.set(proxy, { position: 'absolute', top: 0, left: 0, width: 1, height: 1, visibility: 'hidden' });
-
-    const self = this;
-
-    Draggable.create(proxy, {
-      type: 'x',
-      trigger: el,
-      onPress: () => {
-        el.style.cursor = 'grabbing';
-      },
-      onDrag: function () {
-        el.scrollLeft -= this['deltaX'];
-      },
-      onRelease: function () {
-        el.style.cursor = '';
-        self.targetScrolls.set(el, el.scrollLeft);
-        gsap.set(proxy, { x: 0, y: 0 });
-      }
-    });
-  }
-
-  private initWheelScroll(el: HTMLElement) {
-    if (el.dataset['wheelInitialized'] === 'true') return;
-    el.dataset['wheelInitialized'] = 'true';
-
-    el.addEventListener('wheel', (event: WheelEvent) => {
-      event.preventDefault();
-
-      if (!this.targetScrolls.has(el)) {
-        this.targetScrolls.set(el, el.scrollLeft);
-      }
-
-      let currentTarget = this.targetScrolls.get(el)! + event.deltaY * 1.5;
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      currentTarget = Math.max(0, Math.min(currentTarget, maxScroll));
-      this.targetScrolls.set(el, currentTarget);
-
-      gsap.to(el, {
-        scrollLeft: currentTarget,
-        duration: 0.8,
-        ease: 'power2.out',
-        overwrite: 'auto'
+    this.filmService.getFilms({
+      genres: this.selectedGenres(),
+      year: this.selectedYear(),
+      query: this.searchModel(),
+      page: nextPage
+    })
+      // .pipe(delay(1000000))
+      .subscribe({
+        next: (data) => {
+          this.currentPage.set(nextPage);
+          if (!data.results || data.results.length === 0 || nextPage >= data.total_pages) {
+            this.hasMorePages.set(false);
+          }
+        },
+        error: () => {
+          this.loadingNextPage.set(false);
+        },
+        complete: () => {
+          this.loadingNextPage.set(false);
+        }
       });
+  }
 
-      const maxRotation = 10;
-      const rotationAngle = Math.max(-maxRotation, Math.min(maxRotation, event.deltaY * 0.08));
-      const cards = el.querySelectorAll('.film-card');
+  applyFilters(event?: { genres: number[]; year: number | null }) {
+    this.searchModel.set('');
 
-      if (cards.length > 0) {
-        gsap.to(cards, {
-          keyframes: [
-            { rotationY: -rotationAngle, duration: 0.2, ease: 'power1.out' },
-            { rotationY: 0, duration: 0.4, ease: 'power2.out' }
-          ],
-          transformOrigin: "center center",
-          overwrite: 'auto'
-        });
-      }
-    }, { passive: false });
+    const genres = event ? event.genres : [];
+    const year = event ? event.year : null;
+
+    this.selectedGenres.set(genres);
+    this.selectedYear.set(year);
+
+    this.currentPage.set(1);
+    this.hasMorePages.set(true);
+
+    this.filmService.getFilms({
+      genres,
+      year
+    }).subscribe();
+
+    this.showAll.set(true);
+  }
+
+  onSearchSubmitted(query: string) {
+    this.selectedGenres.set([]);
+    this.selectedYear.set(null);
+
+    this.currentPage.set(1);
+    this.hasMorePages.set(true);
+
+    this.filmService.getFilms({ query }).subscribe();
+
+    this.showAll.set(true);
+  }
+
+  onSeeAll() {
+    this.showAll.set(!this.showAll());
   }
 
   onReset() {
@@ -150,39 +116,7 @@ export class Films implements OnInit {
     this.applyFilters();
   }
 
-  onSeeAll() {
-    this.showAll.set(!this.showAll());
-  }
-
-  onClear() {
-    this.selectedGenres.set([]);
-    this.selectedYear.set(null);
-    this.applyFilters();
-  }
-
-  applyFilters() {
-    this.filmService.getFilms(
-      this.selectedGenres(),
-      this.selectedYear() ?? undefined,
-      this.searchModel() || undefined
-    ).subscribe();
-
-    this.showAll.set(true);
-  }
-
-  toggleGenre(genreId: number) {
-    this.selectedGenres.update(value => {
-      if (value.includes(genreId)) {
-        return value.filter(id => id !== genreId);
-      }
-      return [...value, genreId];
-    });
-  }
-
   get rosalia() {
-    if (this.showAll()) {
-      return 'Go Back';
-    }
-    return 'See All'
+    return this.showAll() ? 'Go Back' : 'See All';
   }
 }

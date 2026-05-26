@@ -1,0 +1,33 @@
+<aside class="flex flex-col border-r border-(--color-gray)/20 relative h-full">
+    <p class="font-bold text-lg px-5 py-3">Filters</p>
+    <app-separator></app-separator>
+
+    <div class="flex flex-col gap-5 p-5">
+        <div class="flex flex-col gap-4">
+            <p class="font-semibold">Genres</p>
+            <ul class="flex flex-wrap relative gap-2">
+                @for (genre of genres; track $index) {
+                <li
+                    class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-150 group hover:text-(--color-text)/80">
+                    <span (click)="toggleGenre(genre.id)"
+                        class="px-3 py-1 rounded-full border transition-color duration-150"
+                        [ngClass]="localGenres.includes(genre.id) ? 'bg-(--color-wine-red) text-(--color-text) border-(--color-wine-red)' : 'group-hover:border-(--color-gray)/50 border-(--color-gray)/20'">
+                        {{ genre.name }}
+                    </span>
+                </li>
+                }
+            </ul>
+        </div>
+
+        <div class="rounded-sm flex flex-col gap-4">
+            <p class="font-semibold">Release Date</p>
+            <app-year-picker [selectedYear]="localYear" (selectedYearChange)="onYearChange($event)"
+                (yearReset)="onClear()"></app-year-picker>
+        </div>
+
+        <div class="flex w-full gap-2">
+            <app-button label="Apply Filters" size="w-full" class="w-full" (click)="onApply()"></app-button>
+            <app-button label="Clear" (click)="onClear()" [variant]="'secondary'"></app-button>
+        </div>
+    </div>
+</aside>

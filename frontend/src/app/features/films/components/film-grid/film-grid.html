@@ -1,0 +1,14 @@
+<div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-x-5 gap-y-6 overflow-y-auto h-[calc(100vh-180px)] no-scrollbar overscroll-contain pb-5"
+    data-lenis-prevent>
+    @for (film of films; track film.id) {
+    <app-film [film]="film" class="film-card w-full"></app-film>
+    }
+
+    @if (hasMore) {
+    <div #sentinel id="vertical-infinite-sentinel">
+        @if (loading) {
+        <app-film [loading]="true" class="film-card"></app-film>
+        }
+    </div>
+    }
+</div>

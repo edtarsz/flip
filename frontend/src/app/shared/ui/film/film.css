@@ -1,0 +1,6 @@
+/* Sirve para optimizar el renderizado de las peliculas, no se renderiza hasta que no esta en el viewport */
+:host {
+  display: block;
+  content-visibility: auto;
+  contain-intrinsic-size: 180px 270px;
+}

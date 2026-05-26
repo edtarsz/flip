@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { form, FormField, FormRoot, required } from '@angular/forms/signals';
+import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { CreateUserDTO } from '@core/types/user.type';
 import { Header } from "@shared/ui/header/header";
@@ -12,6 +13,7 @@ import { Header } from "@shared/ui/header/header";
 })
 export class Auth {
   private authService = inject(AuthService)
+  private router = inject(Router)
 
   registerModel = signal<CreateUserDTO>({
     email: '',
@@ -31,6 +33,8 @@ export class Auth {
           fields().value().password,
           fields().value().username
         );
+
+        this.router.navigate(['/swipe']);
       }
     }
   })
