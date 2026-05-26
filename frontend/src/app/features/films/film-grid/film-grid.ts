@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, inject, NgZone, OnDestroy } from '@angular/core';
 import { Film } from '@shared/ui/film/film';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-film-grid',
@@ -9,6 +10,7 @@ import { FilmTMDB } from '@core/types/tmdb/film.type';
 })
 export class FilmGrid implements OnDestroy {
   private ngZone = inject(NgZone);
+  private router = inject(Router);
 
   @Input() films: FilmTMDB[] = [];
   @Input() loading: boolean = false;
@@ -52,5 +54,9 @@ export class FilmGrid implements OnDestroy {
 
   ngOnDestroy() {
     this.disconnectObserver();
+  }
+
+  onFilmClick(id: number) {
+    this.router.navigate(['/films', id]);
   }
 }

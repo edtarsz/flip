@@ -4,6 +4,8 @@ import { FilmService } from '@core/services/film.service';
 import { LucideEye } from '@lucide/angular';
 import { WatchlistService } from '@core/services/watchlist.service';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
+import { getTmdbImageUrl } from '../../shared/pipes/tmdb-image.pipe';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,6 +17,8 @@ import { FilmTMDB } from '@core/types/tmdb/film.type';
 export class Swipe implements OnInit {
   private filmService = inject(FilmService);
   private watchlistService = inject(WatchlistService);
+
+  private router = inject(Router);
 
   readonly allFilms = this.filmService.films;
   readonly genres = this.filmService.genres;
@@ -41,9 +45,7 @@ export class Swipe implements OnInit {
     effect(() => {
       const film = this.activeFilm();
       if (film) {
-        const imageUrl = film.poster_path
-          ? `https://image.tmdb.org/t/p/w1280${film.poster_path}`
-          : '';
+        const imageUrl = getTmdbImageUrl(film.poster_path, 'w1280');
         untracked(() => {
           this.updateBackground(imageUrl);
         });
@@ -93,6 +95,10 @@ export class Swipe implements OnInit {
     if (distanceFromTop <= 0) return 'brightness(1)';
     const brightness = 1 - distanceFromTop * 0.45;
     return `brightness(${brightness})`;
+  }
+
+  onFilmClick(id: number) {
+    this.router.navigate(['/films', id]);
   }
 }
 

@@ -20,27 +20,27 @@ export type Database = {
           external_film_id: number
           id: string
           poster_path: string | null
-          rating: number | null
           release_date: string | null
           title: string | null
+          vote_average: number | null
         }
         Insert: {
           created_at?: string
           external_film_id: number
           id?: string
           poster_path?: string | null
-          rating?: number | null
           release_date?: string | null
           title?: string | null
+          vote_average?: number | null
         }
         Update: {
           created_at?: string
           external_film_id?: number
           id?: string
           poster_path?: string | null
-          rating?: number | null
           release_date?: string | null
           title?: string | null
+          vote_average?: number | null
         }
         Relationships: []
       }
@@ -181,10 +181,10 @@ export type Database = {
         Args: {
           p_external_film_id: number
           p_poster_path: string
-          p_rating: number
           p_release_date: string
           p_title: string
           p_user_id?: string
+          p_vote_average: number
         }
         Returns: Json
       }

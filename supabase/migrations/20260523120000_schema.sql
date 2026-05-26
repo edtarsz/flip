@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public.films (
     external_film_id BIGINT UNIQUE NOT NULL,
     title TEXT,
     poster_path TEXT,
-    rating REAL,
+    vote_average REAL,
     release_date TEXT,
     genres TEXT[]
 );

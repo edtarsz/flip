@@ -12,7 +12,7 @@
 } @else if (film) {
 <div class="cursor-pointer flex flex-col gap-1.5">
     <div class="w-full h-full">
-        <img src="https://image.tmdb.org/t/p/w342/{{ film.poster_path }}" alt="{{ film.title }}"
+        <img [src]="film.poster_path | tmdbImage:'w342'" [alt]="film.title"
             class="w-full h-full object-cover rounded-sm" draggable="false" loading="lazy">
     </div>
 

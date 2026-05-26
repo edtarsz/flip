@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layouts/main-layout/main-layout';
-import { filmsResolver, watchlistResolver } from './features/films/films.resolver';
-import { authGuard } from '@core/guards/auth.guard';
+import { filmResolver, filmsResolver, watchlistResolver } from './features/films/films.resolver';
+import { alreadyAuthGuard, authGuard } from '@core/guards/auth.guard';
 
 export const ROUTES: Routes = [
   {
@@ -24,8 +24,18 @@ export const ROUTES: Routes = [
       },
       {
         path: 'films',
-        loadComponent: () => import('./features/films/films').then(m => m.Films)
         // resolve: { data: filmsResolver }
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./features/films/films').then(m => m.Films)
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('./features/films/film-details/film-details').then(m => m.FilmDetails),
+            resolve: { film: filmResolver }
+          }
+        ]
       },
       {
         path: 'watchlist',
@@ -37,14 +47,15 @@ export const ROUTES: Routes = [
   },
   {
     path: 'auth',
+    canActivate: [alreadyAuthGuard],
     children: [
       {
         path: 'login',
-        loadComponent: () => import('./layouts/auth-layout/login/login').then(m => m.Login)
+        loadComponent: () => import('./layouts/auth-layout/login/login').then(m => m.Login),
       },
       {
         path: 'signup',
-        loadComponent: () => import('./layouts/auth-layout/signup/signup').then(m => m.SignUp)
+        loadComponent: () => import('./layouts/auth-layout/signup/signup').then(m => m.SignUp),
       },
       {
         path: '',

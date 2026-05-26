@@ -27,6 +27,9 @@ export class FilmService {
   private genresSignal = signal<GenreTMDB[]>([]);
   readonly genres = this.genresSignal.asReadonly();
 
+  private filmDetailsSignal = signal<FilmTMDB | null>(null);
+  readonly filmDetails = this.filmDetailsSignal.asReadonly();
+
   getFilms(options: GetFilmsOptions = {}) {
     const genres = options.genres;
     const year = options.year;
@@ -56,6 +59,12 @@ export class FilmService {
   getGenres() {
     return this.http.get<any>(`${this.url}/genre/movie/list`, { headers: this.headers }).pipe(
       tap(data => this.genresSignal.set(data.genres))
+    );
+  }
+
+  getFilmById(id: number) {
+    return this.http.get<any>(`${this.url}/movie/${id}`, { headers: this.headers }).pipe(
+      tap(data => this.filmDetailsSignal.set(data))
     );
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { supabase } from '@core/supabase/supabase.client'
+import { WatchlistItem } from '@core/types/tmdb/film.type';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,14 @@ export class WatchlistRepository {
     externalFilmId: number;
     title: string;
     posterPath: string;
-    rating: number;
+    voteAverage: number;
     releaseDate: string;
   }) {
     const { data, error } = await supabase.rpc('add_to_watchlist_with_film', {
       p_external_film_id: payload.externalFilmId,
       p_title: payload.title,
       p_poster_path: payload.posterPath,
-      p_rating: payload.rating,
+      p_vote_average: payload.voteAverage,
       p_release_date: payload.releaseDate
     })
     if (error) throw error
@@ -54,12 +55,13 @@ export class WatchlistRepository {
           id,
           title,
           poster_path,
-          vote_average:rating,
-          release_date
+          vote_average,
+          release_date,
+          external_film_id
         )
       `);
 
     if (error) throw error
-    return data
+    return data as unknown as WatchlistItem[]
   }
 }

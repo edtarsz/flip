@@ -1,10 +1,10 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FilmService } from '@core/services/film.service';
 import { Separator } from "@shared/ui/separator/separator";
-import { FilmFilters } from './components/film-filters/film-filters';
-import { FilmSearchBar } from './components/film-search-bar/film-search-bar';
-import { FilmGrid } from './components/film-grid/film-grid';
-import { FilmCarousel } from './components/film-carousel/film-carousel';
+import { FilmFilters } from './film-filters/film-filters';
+import { FilmSearchBar } from './film-search-bar/film-search-bar';
+import { FilmGrid } from './film-grid/film-grid';
+import { FilmCarousel } from './film-carousel/film-carousel';
 import { delay } from 'rxjs';
 
 @Component({

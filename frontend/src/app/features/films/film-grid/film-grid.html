@@ -1,7 +1,7 @@
 <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-x-5 gap-y-6 overflow-y-auto h-full no-scrollbar overscroll-contain pb-5"
     data-lenis-prevent>
     @for (film of films; track film.id) {
-    <app-film [film]="film" class="film-card w-full"></app-film>
+    <app-film [film]="film" class="film-card w-full" (click)="onFilmClick(film.id)"></app-film>
     }
 
     @if (hasMore) {

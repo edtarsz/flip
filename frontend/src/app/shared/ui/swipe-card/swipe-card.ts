@@ -6,6 +6,7 @@ import { Separator } from '../separator/separator';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
+import { getTmdbImageUrl } from '../../pipes/tmdb-image.pipe';
 
 
 @Component({
@@ -124,7 +125,7 @@ export class SwipeCard {
   }
 
   getCardImage(): string {
-    const imageUrl = `https://image.tmdb.org/t/p/w1280${this.film.poster_path}`
+    const imageUrl = getTmdbImageUrl(this.film.poster_path, 'w1280');
     return `linear-gradient(to top, var(--color-background-light) 0px, var(--color-background-light) 6px, transparent 100%), url('${imageUrl}')`;
   }
 }

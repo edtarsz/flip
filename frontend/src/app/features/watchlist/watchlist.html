@@ -3,9 +3,9 @@
     <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-x-5 gap-y-6 overflow-y-auto h-[calc(100vh-100px)] no-scrollbar overscroll-contain pb-5 p-5"
         data-lenis-prevent>
         @for (item of watchlist(); track $index) {
-        <app-film [film]="item.film" class="film-card w-full"></app-film>
-        }
-        @empty {
+        <app-film [film]="item.film" class="film-card w-full"
+            (click)="onFilmClick(item.film.external_film_id)"></app-film>
+        } @empty {
         <p>to do, there are not movies</p>
         }
     </div>

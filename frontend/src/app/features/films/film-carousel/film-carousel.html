@@ -3,7 +3,7 @@
 <div #carouselContainer
     class="flex-1 min-h-0 perspective-distant flex gap-4 overflow-x-scroll no-scrollbar drag-scroll py-1">
     @for (film of films; track film.id) {
-    <app-film [film]="film" class="film-card h-full"></app-film>
+    <app-film [film]="film" class="film-card h-full" (click)="onFilmClick(film.id)"></app-film>
     }
 
     @if (hasMore && loading) {

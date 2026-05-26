@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideAppInitializer, inject } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { ROUTES } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
@@ -7,7 +7,7 @@ import { AuthService } from '@core/services/auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(ROUTES),
+    provideRouter(ROUTES, withComponentInputBinding()),
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
     provideAppInitializer(() => inject(AuthService).init())

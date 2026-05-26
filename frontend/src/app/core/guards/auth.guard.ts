@@ -14,3 +14,15 @@ export const authGuard: CanActivateFn = async () => {
 
   return true;
 }
+
+export const alreadyAuthGuard: CanActivateFn = async () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.isAuthenticated()) {
+    router.navigate(['/swipe']);
+    return false;
+  }
+
+  return true;
+}

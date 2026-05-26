@@ -3,6 +3,7 @@ import { Film } from '@shared/ui/film/film';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-film-carousel',
@@ -11,6 +12,7 @@ import { Draggable } from 'gsap/Draggable';
 })
 export class FilmCarousel {
   private ngZone = inject(NgZone);
+  private router = inject(Router);
 
   @Input() title: string = '';
   @Input() loading: boolean = false;
@@ -152,5 +154,9 @@ export class FilmCarousel {
         }
       }
     }, { passive: false });
+  }
+
+  onFilmClick(id: number) {
+    this.router.navigate(['/films', id]);
   }
 }
