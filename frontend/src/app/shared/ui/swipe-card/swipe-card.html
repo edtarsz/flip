@@ -1,18 +1,21 @@
 <div class="relative w-full max-w-[500px] h-[700px]">
 
-    <!-- 
-    @if (true) {
-    <div
-        class="absolute inset-0 bg-(--color-wine-red) rounded-lg flex justify-between items-center px-10 w-full h-full">
-    </div>
-    } 
-    -->
-
     <div #swipeCard class="relative w-full h-full">
         <div #innerCard
-            class="relative w-full h-full swipe-card cursor-grab flex flex-col items-stretch bg-(--color-background-light) rounded-lg overflow-hidden">
-            <div class="hero-bg flex-1" [style.background-image]="getCardImage()"></div>
-            <div class="flex flex-col bg-(--color-background-light)">
+            class="relative w-full h-full swipe-card cursor-grab flex flex-col items-stretch bg-(--color-background-light) rounded-lg">
+
+            <div
+                class="nope-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] left-[-30px] bg-(--color-wine-red)">
+                <svg lucideThumbsDown size="22"></svg>
+            </div>
+
+            <div
+                class="like-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] right-[-30px] bg-(--color-wine-red)">
+                <svg lucideThumbsUp size="22"></svg>
+            </div>
+
+            <div class="hero-bg flex-1 rounded-lg" [style.background-image]="getCardImage()"></div>
+            <div class="flex flex-col bg-(--color-background-light) rounded-lg">
                 <div class="flex p-5 justify-between items-center">
                     <div class="flex flex-col gap-3">
                         <div class="flex flex-col">

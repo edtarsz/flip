@@ -91,7 +91,7 @@ export class Swipe implements OnInit {
   getCardFilter(index: number, total: number): string {
     const distanceFromTop = (total - 1) - index;
     if (distanceFromTop <= 0) return 'brightness(1)';
-    const brightness = 1 - distanceFromTop * 0.15;
+    const brightness = 1 - distanceFromTop * 0.45;
     return `brightness(${brightness})`;
   }
 }
