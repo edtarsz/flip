@@ -1,13 +1,14 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 import { Separator } from '@shared/ui/separator/separator';
 import { YearPicker } from '@shared/ui/year-picker/year-picker';
 import { Button } from '@shared/ui/button/button';
+import { LucideChevronsDownUp, LucideChevronsUpDown } from '@lucide/angular';
 
 @Component({
   selector: 'app-film-filters',
-  imports: [NgClass, Separator, YearPicker, Button],
+  imports: [NgClass, Separator, YearPicker, Button, LucideChevronsDownUp, LucideChevronsUpDown],
   templateUrl: './film-filters.html',
 })
 export class FilmFilters implements OnChanges {
@@ -16,9 +17,11 @@ export class FilmFilters implements OnChanges {
   @Input() selectedYear: number | null = null;
 
   @Output() apply = new EventEmitter<{ genres: number[]; year: number | null }>();
+  @Output() toggle = new EventEmitter<boolean>();
 
   localGenres: number[] = [];
   localYear: number | null = null;
+  showSidebar = signal(true);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedGenres']) {
@@ -62,5 +65,14 @@ export class FilmFilters implements OnChanges {
       genres: [],
       year: null,
     });
+  }
+
+  onToggleSidebar() {
+    this.showSidebar.set(!this.showSidebar());
+    this.toggle.emit(this.showSidebar());
+  }
+
+  get isVisibleSidebar() {
+    return this.showSidebar();
   }
 }

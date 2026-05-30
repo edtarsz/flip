@@ -1,7 +1,7 @@
 <app-separator class="relative top-25"></app-separator>
-<div class="grid grid-cols-[20vw_1fr] relative top-25 h-[calc(100vh-6.5rem)] overflow-hidden">
+<div class="grid grid-cols-[auto_1fr] relative top-25 h-[calc(100vh-6.5rem)] overflow-hidden">
     <app-film-filters [genres]="genres()" [selectedGenres]="selectedGenres()" [selectedYear]="selectedYear()"
-        (apply)="applyFilters($event)">
+        (apply)="applyFilters($event)" (toggle)="toggled()">
     </app-film-filters>
 
     <section class="flex flex-col gap-6 p-5 h-full overflow-hidden">

@@ -1,4 +1,5 @@
-<div class="flex items-center justify-center h-screen relative overflow-hidden bg-(--color-background)">
+<app-separator class="relative top-25"></app-separator>
+<div class="flex items-center h-[calc(100vh-6.5rem)] relative overflow-hidden pt-25 justify-center">
     <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out pointer-events-none blur-md scale-105"
         [style.backgroundImage]="'url(' + bgImageA() + ')'" [class.opacity-20]="isLayerAActive()"
         [class.opacity-0]="!isLayerAActive()">

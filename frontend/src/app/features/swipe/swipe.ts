@@ -6,11 +6,12 @@ import { WatchlistService } from '@core/services/watchlist.service';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { getTmdbImageUrl } from '../../shared/pipes/tmdb-image.pipe';
 import { Router } from '@angular/router';
+import { Separator } from "@shared/ui/separator/separator";
 
 
 @Component({
   selector: 'app-swipe',
-  imports: [SwipeCard],
+  imports: [SwipeCard, Separator],
   templateUrl: './swipe.html',
   styleUrl: './swipe.css'
 })

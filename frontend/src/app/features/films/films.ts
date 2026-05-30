@@ -5,7 +5,7 @@ import { FilmFilters } from './film-filters/film-filters';
 import { FilmSearchBar } from './film-search-bar/film-search-bar';
 import { FilmGrid } from './film-grid/film-grid';
 import { FilmCarousel } from './film-carousel/film-carousel';
-import { delay } from 'rxjs';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-films',
@@ -14,8 +14,7 @@ import { delay } from 'rxjs';
     FilmFilters,
     FilmSearchBar,
     FilmGrid,
-    FilmCarousel
-  ],
+    FilmCarousel],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
@@ -34,6 +33,8 @@ export class Films implements OnInit {
   currentPage = signal(1);
   loadingNextPage = signal(false);
   hasMorePages = signal(true);
+
+  toggledSidebar = signal(false);
 
   ngOnInit(): void {
     if (this.films().length === 0) {
@@ -116,7 +117,15 @@ export class Films implements OnInit {
     this.applyFilters();
   }
 
+  toggled() {
+    this.toggledSidebar.set(!this.toggledSidebar());
+  }
+
   get rosalia() {
     return this.showAll() ? 'Go Back' : 'See All';
+  }
+
+  get isVisibleSidebar() {
+    return this.toggledSidebar();
   }
 }
