@@ -57,7 +57,7 @@ export class SwipeCard {
           gsap.to(inner, { rotation: rotation, duration: 0.1, overwrite: 'auto' });
 
           const dragX = draggable.x;
-          const threshold = 90;
+          const threshold = 45;
           const scale = Math.min(1, Math.abs(dragX) / threshold);
 
           if (dragX > 0) {
@@ -70,7 +70,7 @@ export class SwipeCard {
         },
         onRelease: function () {
           const draggable = this as Draggable;
-          if (Math.abs(draggable.x) > 150) {
+          if (Math.abs(draggable.x) > 45) {
             const direction = draggable.x > 0 ? 1 : -1;
             const swipeDirection = draggable.x > 0 ? 'right' : 'left';
             gsap.to(draggable.target, {

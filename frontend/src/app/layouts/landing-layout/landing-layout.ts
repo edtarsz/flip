@@ -1,9 +1,8 @@
-import { Component, afterNextRender } from '@angular/core';
+import { Component, afterNextRender, OnDestroy } from '@angular/core';
 import { LucideStar } from '@lucide/angular';
 import { CardFeatures } from "@shared/ui/card-features/card-features";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { Button } from "@shared/ui/button/button";
 import { MOCK_GENRES, MOCK_SWIPE } from 'src/app/seeds/swipe-card';
 
@@ -13,16 +12,18 @@ import { MOCK_GENRES, MOCK_SWIPE } from 'src/app/seeds/swipe-card';
   templateUrl: './landing-layout.html',
   styleUrl: './landing-layout.css',
 })
-export class LandingPage {
+export class LandingPage implements OnDestroy {
 
   readonly swipeCards = MOCK_SWIPE;
   readonly genres = MOCK_GENRES;
+
+  private headerTween?: gsap.core.Tween;
 
   constructor() {
     afterNextRender(() => {
       gsap.registerPlugin(ScrollTrigger);
 
-      gsap.to('app-header header', {
+      this.headerTween = gsap.to('app-header header', {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
         backdropFilter: 'blur(12px)',
         borderColor: 'rgba(255, 255, 255, 0.2)',
@@ -36,5 +37,18 @@ export class LandingPage {
         }
       });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.headerTween) {
+      this.headerTween.scrollTrigger?.kill();
+      this.headerTween.kill();
+    }
+    const headerEl = document.querySelector('app-header header') as HTMLElement;
+    if (headerEl) {
+      gsap.set(headerEl, {
+        clearProps: 'backgroundColor,backdropFilter,borderColor,boxShadow'
+      });
+    }
   }
 }

@@ -1,25 +1,25 @@
-<div class="relative w-full h-full">
+<div class="relative w-full h-full z-2">
     <div #swipeCard class="relative w-full h-full">
         <div #innerCard
             class="relative w-full h-full swipe-card cursor-grab flex flex-col items-stretch bg-(--color-background-light) rounded-lg">
 
             <div
-                class="nope-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] left-[-0px] bg-(--color-wine-red)">
+                class="nope-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] right-[-30px] bg-(--color-wine-red)">
                 <svg lucideThumbsDown size="22"></svg>
             </div>
 
             <div
-                class="like-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] right-[-30px] bg-(--color-wine-red)">
+                class="like-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] left-[-30px] bg-(--color-wine-red)">
                 <svg lucideThumbsUp size="22"></svg>
             </div>
 
             <div class="hero-bg flex-1 rounded-lg" [style.background-image]="getCardImage()"></div>
             <div class="flex flex-col bg-(--color-background-light) rounded-lg">
-                <div class="flex p-5 justify-between items-center">
-                    <div class="flex flex-col gap-3">
+                <div class="flex p-5 justify-between items-center gap-5">
+                    <div class="flex flex-col gap-3 flex-1 min-w-0">
                         <div class="flex flex-col">
                             <div class="flex gap-2">
-                                <h4 class="text-lg font-bold select-none">
+                                <h4 class="text-lg font-bold select-none truncate">
                                     {{ film.title }}
                                 </h4>
                                 <span class="flex items-center gap-1 text-md select-none">

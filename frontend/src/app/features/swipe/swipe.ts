@@ -1,7 +1,6 @@
 import { Component, OnInit, inject, signal, computed, effect, untracked } from '@angular/core';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
-import { LucideEye } from '@lucide/angular';
 import { WatchlistService } from '@core/services/watchlist.service';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { getTmdbImageUrl } from '../../shared/pipes/tmdb-image.pipe';

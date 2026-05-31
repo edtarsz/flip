@@ -1,58 +1,16 @@
-<header>
+<header class="bg-(--color-background) relative">
     <ul class="grid grid-cols-2 py-4">
         <li class="flex justify-center border-r border-(--color-gray)/20">
             <div class="flex flex-col justify-center items-center gap-1 text-sm">
                 <svg lucideGalleryHorizontalEnd size="20"></svg>
-                <a href="/films">Swipe</a>
+                <a routerLink="/swipe">Swipe</a>
             </div>
         </li>
         <li class="flex justify-center">
             <div class="flex flex-col justify-center items-center gap-1 text-sm">
                 <svg lucideThumbsUp size="20"></svg>
-                <a href="/watchlist">Watchlists</a>
+                <a routerLink="/watchlist">Watchlists</a>
             </div>
         </li>
     </ul>
 </header>
-
-<!-- <header class="fixed top-4 left-1/2 -translate-x-1/2 z-1 w-[95%] py-5 px-8 
-               grid grid-cols-3 items-center rounded-md border border-transparent">
-    <a href="/index" class="flex items-center gap-1">
-        <span class="font-bold text-lg">flip</span>
-        <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8">
-    </a>
-
-    <nav>
-        <ul class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold">
-            @if (isAuthenticated()) {
-            <li><a href="/index">Home</a></li>
-            <li><a href="/swipe">Swipe</a></li>
-            <li><a href="/films">Films</a></li>
-            <li><a href="/watchlist">Watchlists</a></li>
-            } @else {
-            <li><a href="/index">Home</a></li>
-            <li><a href="/films">Films</a></li>
-            }
-        </ul>
-    </nav>
-
-    <nav>
-        <ul class="flex gap-[2vw] justify-end font-bold">
-            @if (!isAuthenticated()) {
-            <li class="">
-                <a href="/auth/login">Login</a>
-            </li>
-            <li>
-                <a href="/auth/signup">Register</a>
-            </li>
-            } @else {
-            <li>
-                {{ username }}
-            </li>
-            <li>
-                <a (click)="signOut()" class="cursor-pointer">Logout</a>
-            </li>
-            }
-        </ul>
-    </nav>
-</header> -->

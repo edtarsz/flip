@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { LucideUser } from '@lucide/angular';
 
 @Component({
   selector: 'app-header',
-  imports: [LucideUser],
+  imports: [LucideUser, RouterLink],
   templateUrl: './header-desktop.html',
   styleUrl: './header-desktop.css',
 })
