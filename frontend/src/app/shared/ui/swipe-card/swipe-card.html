@@ -1,11 +1,10 @@
-<div class="relative w-full max-w-[500px] h-[700px]">
-
+<div class="relative w-full h-full">
     <div #swipeCard class="relative w-full h-full">
         <div #innerCard
             class="relative w-full h-full swipe-card cursor-grab flex flex-col items-stretch bg-(--color-background-light) rounded-lg">
 
             <div
-                class="nope-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] left-[-30px] bg-(--color-wine-red)">
+                class="nope-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] left-[-0px] bg-(--color-wine-red)">
                 <svg lucideThumbsDown size="22"></svg>
             </div>
 
@@ -51,7 +50,9 @@
                 </div>
                 <app-separator></app-separator>
                 <div class="overflow-hidden px-5 py-3">
-                    <p class="line-clamp-3 select-none text-lg text-(--color-gray)">{{ film.overview }}</p>
+                    <p class="line-clamp-3 select-none text-md sm:text-lg text-(--color-gray) leading-6.5 sm:leading-7">
+                        {{film.overview }}
+                    </p>
                 </div>
             </div>
         </div>

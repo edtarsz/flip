@@ -13,7 +13,10 @@ import { Separator } from "@shared/ui/separator/separator";
   selector: 'app-swipe',
   imports: [SwipeCard, Separator],
   templateUrl: './swipe.html',
-  styleUrl: './swipe.css'
+  styleUrl: './swipe.css',
+  host: {
+    class: 'flex-1'
+  }
 })
 export class Swipe implements OnInit {
   private filmService = inject(FilmService);

@@ -1,15 +1,16 @@
 import { Component, afterNextRender, OnDestroy } from '@angular/core';
 import { RouterOutlet } from "@angular/router";
-import { Header } from "../../shared/ui/header/header";
+import { Header } from "../../shared/ui/headers/header-desktop/header-desktop";
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, Header],
+  imports: [RouterOutlet, Header, HeaderMobile],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
 })

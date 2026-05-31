@@ -1,12 +1,12 @@
-<header class="fixed top-4 left-1/2 -translate-x-1/2 z-1 w-[95%] py-5 px-8 
-               grid grid-cols-3 items-center rounded-md border border-transparent">
+<header class="fixed top-0 sm:top-4 left-1/2 -translate-x-1/2 z-1 w-[95%] py-3 sm:py-5 px-2 sm:px-8 
+               grid grid-cols-2 sm:grid-cols-3 items-center rounded-md border border-transparent">
     <a href="/index" class="flex items-center gap-1">
         <span class="font-bold text-lg">flip</span>
         <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8">
     </a>
 
-    <nav>
-        <ul class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold">
+    <nav class="hidden sm:block">
+        <ul class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold items-center">
             @if (isAuthenticated()) {
             <li><a href="/index">Home</a></li>
             <li><a href="/swipe">Swipe</a></li>
@@ -20,7 +20,7 @@
     </nav>
 
     <nav>
-        <ul class="flex gap-[2vw] justify-end font-bold">
+        <ul class="flex gap-[2vw] justify-end font-bold items-center">
             @if (!isAuthenticated()) {
             <li class="">
                 <a href="/auth/login">Login</a>
@@ -29,10 +29,16 @@
                 <a href="/auth/signup">Register</a>
             </li>
             } @else {
-            <li>
-                {{ username }}
+            <li class="flex items-center gap-3">
+                <p class="hidden sm:block">
+                    {{ username }}
+                </p>
+                <div
+                    class="aspect-square rounded-full w-7 sm:w-8 bg-(--color-wine-red) flex justify-center items-center">
+                    <svg lucideUser size="18" class="text-(--color-background) hidden sm:block"></svg>
+                </div>
             </li>
-            <li>
+            <li class="hidden sm:block">
                 <a (click)="signOut()" class="cursor-pointer">Logout</a>
             </li>
             }

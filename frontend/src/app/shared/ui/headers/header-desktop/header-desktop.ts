@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
+import { LucideUser } from '@lucide/angular';
 
 @Component({
   selector: 'app-header',
-  imports: [],
-  templateUrl: './header.html',
-  styleUrl: './header.css',
+  imports: [LucideUser],
+  templateUrl: './header-desktop.html',
+  styleUrl: './header-desktop.css',
 })
 export class Header {
   private authService = inject(AuthService);
