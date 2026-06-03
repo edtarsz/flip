@@ -50,6 +50,12 @@ export class SwipeCard {
       const draggables = Draggable.create(this.swipeCard.nativeElement, {
         type: 'x,y',
         zIndexBoost: false,
+        onClick: function (event) {
+          const type = this['pointerEvent']?.type || '';
+          if (type.includes('touch')) {
+            self.swipeCard.nativeElement.click();
+          }
+        },
         onDrag: function () {
           const draggable = this as Draggable;
           const rawRotation = draggable.x * 0.1;

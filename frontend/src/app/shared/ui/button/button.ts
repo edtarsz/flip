@@ -15,4 +15,5 @@ export class Button {
   @Input({ required: false }) type: 'button' | 'submit' | 'reset' = 'button';
   @Input({ required: false }) icon?: ButtonIcon;
   @Input({ required: false }) variant: 'primary' | 'secondary' = 'primary';
+  @Input({ required: false }) disabled: boolean = false;
 }

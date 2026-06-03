@@ -20,8 +20,7 @@
                 <span class="text-xs text-(--color-error)">{{ registerForm.username().errors()[0]?.message }}</span>
                 }
             </div>
-            <button type="button" (click)="goToStep2()"
-                class="font-bold px-3 py-2 rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) transition-all duration-200">Continue</button>
+            <app-button type="button" label="Continue" size="w-full" (click)="goToStep2()"></app-button>
         </div>
         } @else {
         <div class="flex flex-col gap-4 w-full">
@@ -46,8 +45,7 @@
                     }}</span>
                 }
             </div>
-            <button type="submit" [disabled]="registerForm().invalid()"
-                class="font-bold px-3 py-2 rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200">Continue</button>
+            <app-button type="submit" label="Continue" size="w-full" [disabled]="registerForm().invalid()"></app-button>
         </div>
         }
     </form>

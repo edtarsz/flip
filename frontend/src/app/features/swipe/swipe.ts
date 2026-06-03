@@ -43,6 +43,7 @@ export class Swipe implements OnInit {
   bgImageA = signal<string>('');
   bgImageB = signal<string>('');
   isLayerAActive = signal<boolean>(true);
+  isFirstLoad = signal<boolean>(true);
 
   constructor() {
     effect(() => {
@@ -50,7 +51,13 @@ export class Swipe implements OnInit {
       if (film) {
         const imageUrl = getTmdbImageUrl(film.poster_path, 'w1280');
         untracked(() => {
-          this.updateBackground(imageUrl);
+          if (this.isFirstLoad()) {
+            this.bgImageA.set(imageUrl);
+            this.isLayerAActive.set(true);
+            setTimeout(() => this.isFirstLoad.set(false), 0);
+          } else {
+            this.updateBackground(imageUrl);
+          }
         });
       }
     });

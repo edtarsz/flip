@@ -4,11 +4,12 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { LoginSchema, loginSchema } from '@core/types/user.type';
 import { AuthLayout } from '../auth-layout';
+import { Button } from '@shared/ui/button/button';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormField, FormRoot, AuthLayout, RouterModule],
+  imports: [FormField, FormRoot, AuthLayout, RouterModule, Button],
   templateUrl: './login.html',
 })
 export class Login {

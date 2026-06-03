@@ -6,11 +6,12 @@ import { ProfileService } from '@core/services/profile.service';
 import { RegisterSchema, registerSchema } from '@core/types/user.type';
 import { LucideArrowBigLeft } from '@lucide/angular';
 import { AuthLayout } from '../auth-layout';
+import { Button } from '@shared/ui/button/button';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormField, FormRoot, LucideArrowBigLeft, AuthLayout, RouterModule],
+  imports: [FormField, FormRoot, LucideArrowBigLeft, AuthLayout, RouterModule, Button],
   templateUrl: './signup.html',
 })
 export class SignUp {

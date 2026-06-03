@@ -42,11 +42,12 @@
                             }
                         </div>
                     </div>
-                    <div
-                        class="group cursor-pointer w-15 aspect-square rounded-full flex justify-center items-center bg-(--color-wine-red) self-center shrink-0 transition-colors duration-200 hover:bg-(--color-wine-dark)">
+                    <button type="button" (mousedown)="$event.stopPropagation()" (touchstart)="$event.stopPropagation()"
+                        (click)="$event.stopPropagation()"
+                        class="group cursor-pointer w-15 aspect-square rounded-full flex justify-center items-center bg-(--color-wine-red) self-center shrink-0 transition-colors duration-200 hover:bg-(--color-wine-dark) border-0 outline-none">
                         <svg lucideEye size="24"
                             class="text-white transition-colors duration-200 group-hover:text-(--color-text)/80"></svg>
-                    </div>
+                    </button>
                 </div>
                 <app-separator></app-separator>
                 <div class="overflow-hidden px-5 py-3">
