@@ -30,7 +30,10 @@ CREATE TABLE IF NOT EXISTS public.swipes (
     id BIGSERIAL PRIMARY KEY,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     film_id UUID REFERENCES public.films(id) ON DELETE CASCADE,
-    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE
+    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
+    direction TEXT CHECK (direction IN ('like', 'dislike')) NOT NULL,
+    signal_strength REAL DEFAULT NULL,
+    CONSTRAINT swipes_user_film_unique UNIQUE (user_id, film_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.reviews (
@@ -40,4 +43,13 @@ CREATE TABLE IF NOT EXISTS public.reviews (
     rating INTEGER,
     review TEXT,
     user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS public.user_taste_profile (
+    user_id        UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+    attribute_type TEXT NOT NULL,
+    attribute_value TEXT NOT NULL,
+    weight         REAL NOT NULL DEFAULT 0.0 CHECK (weight BETWEEN -1.0 AND 1.0),
+    last_updated   TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    PRIMARY KEY (user_id, attribute_type, attribute_value)
 );

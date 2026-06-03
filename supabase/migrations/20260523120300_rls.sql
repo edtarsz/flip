@@ -3,6 +3,7 @@ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.watchlists ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.swipes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.reviews ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user_taste_profile ENABLE ROW LEVEL SECURITY;
 
 -- Films
 DROP POLICY IF EXISTS "Allow public read access to films" ON public.films;
@@ -74,3 +75,10 @@ UPDATE TO authenticated USING (auth.uid () = user_id);
 DROP POLICY IF EXISTS "Allow users to delete their own reviews" ON public.reviews;
 
 CREATE POLICY "Allow users to delete their own reviews" ON public.reviews FOR DELETE TO authenticated USING (auth.uid () = user_id);
+
+-- Taste Profile
+DROP POLICY IF EXISTS "Allow users to read their own taste profile" ON public.user_taste_profile;
+
+CREATE POLICY "Allow users to read their own taste profile" ON public.user_taste_profile FOR
+SELECT
+    TO authenticated USING (auth.uid() = user_id);

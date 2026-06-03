@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal, computed, effect, untracked } from '@angular/core';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
-import { WatchlistService } from '@core/services/watchlist.service';
+import { SwipeService } from '@core/services/swipe.service';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { getTmdbImageUrl } from '../../shared/pipes/tmdb-image.pipe';
 import { Router } from '@angular/router';
@@ -19,11 +19,10 @@ import { Separator } from "@shared/ui/separator/separator";
 })
 export class Swipe implements OnInit {
   private filmService = inject(FilmService);
-  private watchlistService = inject(WatchlistService);
-
+  private swipeService = inject(SwipeService);
   private router = inject(Router);
 
-  readonly allFilms = this.filmService.films;
+  readonly allFilms = this.swipeService.recommendations;
   readonly genres = this.filmService.genres;
 
   currentIndex = signal(0);
@@ -74,9 +73,10 @@ export class Swipe implements OnInit {
   }
 
   ngOnInit() {
-    if (this.allFilms().length === 0) {
-      this.filmService.getFilms().subscribe();
-    }
+    this.currentIndex.set(0);
+    this.swipeService.clearRecommendations();
+    this.swipeService.getRecommendations().catch(console.error);
+
     if (this.genres().length === 0) {
       this.filmService.getGenres().subscribe();
     }
@@ -84,10 +84,13 @@ export class Swipe implements OnInit {
 
   async onSwiped(direction: 'left' | 'right', film: FilmTMDB) {
     this.currentIndex.update(idx => idx + 1);
-    console.log(direction);
 
-    if (direction === 'right') {
-      await this.watchlistService.addToWatchlist(film);
+    const swipeDirection = direction === 'right' ? 'like' : 'dislike';
+    this.swipeService.recordSwipe(film, swipeDirection, this.genres()).catch(console.error);
+
+    const remaining = this.allFilms().length - this.currentIndex();
+    if (remaining < 5) {
+      this.swipeService.getRecommendations().catch(console.error);
     }
   }
 
