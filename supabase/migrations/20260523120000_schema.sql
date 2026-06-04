@@ -7,8 +7,13 @@ CREATE TABLE IF NOT EXISTS public.films (
     title TEXT,
     poster_path TEXT,
     vote_average REAL,
+    vote_count INTEGER,
     release_date TEXT,
-    genres TEXT[]
+    genres TEXT[],
+    cast_ids BIGINT[] DEFAULT '{}',
+    cast_names TEXT[] DEFAULT '{}',
+    director_id BIGINT DEFAULT NULL,
+    director_name TEXT DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.profiles (

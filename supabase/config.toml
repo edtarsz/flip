@@ -1,0 +1,5 @@
+[functions.record-swipe]
+import_map = "./deno.json"
+
+[functions.get-recommendations]
+import_map = "./deno.json"

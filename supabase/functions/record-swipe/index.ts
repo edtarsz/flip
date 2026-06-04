@@ -7,6 +7,9 @@ import { SwipeController } from './controllers/swipe.controller.ts';
 import { corsHeaders } from '@shared/utils/cors.ts';
 import { errorResponse } from '@shared/utils/http-helper.ts';
 
+const tmdbKey = Deno.env.get('TMDB_API_KEY') ?? ''
+const tmdbUrl = Deno.env.get('TMDB_BASE_URL') ?? ''
+
 Deno.serve(async (req: Request) => {
   const logger = createRequestLogger('AgentsWorker');
   const url = new URL(req.url);
@@ -20,7 +23,7 @@ Deno.serve(async (req: Request) => {
   try {
     const supabaseClient = createServiceClient();
     const swipeRepository = new SwipeRepository(supabaseClient);
-    const swipeController = new SwipeController(swipeRepository);
+    const swipeController = new SwipeController(swipeRepository, tmdbKey, tmdbUrl);
 
     logger.debug('Init', 'Controllers and repositories initialized');
 
@@ -50,3 +53,4 @@ Deno.serve(async (req: Request) => {
     return errorResponse(err);
   }
 })
+console.log('Force deploy update');

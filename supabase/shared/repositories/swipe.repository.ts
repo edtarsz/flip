@@ -12,7 +12,12 @@ export class SwipeRepository {
                 title: film.title,
                 poster_path: film.poster_path,
                 vote_average: film.vote_average,
+                vote_count: film.vote_count,
                 release_date: film.release_date,
+                cast_ids: film.cast_ids ?? [],
+                cast_names: film.cast_names ?? [],
+                director_id: film.director_id ?? null,
+                director_name: film.director_name ?? null,
             }, { onConflict: 'external_film_id' })
             .select('id')
             .single()
@@ -34,27 +39,27 @@ export class SwipeRepository {
         if (error) throw error
     }
 
-    async getGenreWeight(userId: string, genreName: string): Promise<number> {
+    async getAttributeWeight(userId: string, attributeType: string, attributeValue: string): Promise<number> {
         const { data, error } = await this.supabase
             .from('user_taste_profile')
             .select('weight')
             .eq('user_id', userId)
-            .eq('attribute_type', 'genre')
-            .eq('attribute_value', genreName)
+            .eq('attribute_type', attributeType)
+            .eq('attribute_value', attributeValue)
             .maybeSingle()
 
         if (error) throw error
         return data?.weight ?? 0.0
     }
 
-    async upsertGenreWeight(userId: string, genreName: string, weight: number): Promise<void> {
+    async upsertAttributeWeight(userId: string, attributeType: string, attributeValue: string, weight: number): Promise<void> {
         const { error } = await this.supabase
             .from('user_taste_profile')
             .upsert({
                 user_id: userId,
-                attribute_type: 'genre',
-                attribute_value: genreName,
-                weight: weight,
+                attribute_type: attributeType,
+                attribute_value: attributeValue,
+                weight,
                 last_updated: new Date().toISOString(),
             }, { onConflict: 'user_id,attribute_type,attribute_value' })
 
@@ -67,6 +72,20 @@ export class SwipeRepository {
             .select('attribute_value, weight')
             .eq('user_id', userId)
             .eq('attribute_type', 'genre')
+
+        if (error) throw error
+        return data ?? []
+    }
+
+    async getUserPeopleWeights(userId: string): Promise<{ attribute_type: string; attribute_value: string; weight: number }[]> {
+        const { data, error } = await this.supabase
+            .from('user_taste_profile')
+            .select('attribute_type, attribute_value, weight')
+            .eq('user_id', userId)
+            .in('attribute_type', ['actor', 'director'])
+            .gt('weight', 0)
+            .order('weight', { ascending: false })
+            .limit(5)
 
         if (error) throw error
         return data ?? []
@@ -96,5 +115,34 @@ export class SwipeRepository {
             }
         }
         return ids
+    }
+
+    async getRecentLikedExternalFilmIds(userId: string, limit: number = 3): Promise<number[]> {
+        const { data: swipes, error: swipesError } = await this.supabase
+            .from('swipes')
+            .select('film_id')
+            .eq('user_id', userId)
+            .eq('direction', 'like')
+            .order('created_at', { ascending: false })
+            .limit(limit)
+
+        if (swipesError) throw swipesError
+        if (!swipes || swipes.length === 0) return []
+
+        const filmIds = swipes.map(s => s.film_id)
+        const { data: films, error: filmsError } = await this.supabase
+            .from('films')
+            .select('external_film_id')
+            .in('id', filmIds)
+
+        if (filmsError) throw filmsError
+
+        const externalIds: number[] = []
+        for (const f of films ?? []) {
+            if (typeof f.external_film_id === 'number') {
+                externalIds.push(f.external_film_id)
+            }
+        }
+        return externalIds
     }
 }

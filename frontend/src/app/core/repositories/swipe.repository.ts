@@ -26,6 +26,7 @@ export class SwipeRepository {
         title: film.title,
         poster_path: film.poster_path,
         vote_average: film.vote_average,
+        vote_count: film.vote_count,
         release_date: film.release_date,
         direction,
         genre_names: genreNames,

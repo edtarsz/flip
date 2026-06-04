@@ -8,6 +8,7 @@ import { corsHeaders } from '@shared/utils/cors.ts';
 import { errorResponse } from '@shared/utils/http-helper.ts';
 
 const TMDB_KEY = Deno.env.get('TMDB_API_KEY') ?? ''
+const TMDB_BASE_URL = Deno.env.get('TMDB_BASE_URL') ?? ''
 
 Deno.serve(async (req: Request) => {
   const logger = createRequestLogger('RecommendationsWorker');
@@ -22,7 +23,7 @@ Deno.serve(async (req: Request) => {
   try {
     const supabaseClient = createServiceClient();
     const swipeRepository = new SwipeRepository(supabaseClient);
-    const recommendationsController = new RecommendationsController(swipeRepository, TMDB_KEY);
+    const recommendationsController = new RecommendationsController(swipeRepository, TMDB_KEY, TMDB_BASE_URL);
 
     logger.debug('Init', 'Controllers and repositories initialized');
 
