@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class=" flex text-sm gap-2 select-none">
-                            @for (genre of film.genre_ids.slice(0, 3); track $index) {
+                            @for (genre of film.genre_ids.slice(0, 2); track $index) {
                             <span class="bg-(--color-wine-red) rounded-md px-2 py-1">{{ genres.find((g) => g.id
                                 === genre)?.name }}</span>
                             }

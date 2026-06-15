@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layouts/main-layout/main-layout';
-import { filmResolver, filmsResolver, watchlistResolver } from './features/films/films.resolver';
+import { filmResolver } from './features/films/films.resolver';
 import { alreadyAuthGuard, authGuard } from '@core/guards/auth.guard';
 
 export const ROUTES: Routes = [
@@ -15,7 +15,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'index',
-        loadComponent: () => import('./layouts/landing-layout/landing-layout').then(m => m.LandingPage)
+        loadComponent: () => import('./layouts/index-layout/index-layout').then(m => m.IndexLayout)
       },
       {
         path: 'swipe',
@@ -24,7 +24,6 @@ export const ROUTES: Routes = [
       },
       {
         path: 'films',
-        // resolve: { data: filmsResolver }
         children: [
           {
             path: '',
@@ -41,7 +40,11 @@ export const ROUTES: Routes = [
         path: 'watchlist',
         loadComponent: () => import('./features/watchlist/watchlist').then(m => m.Watchlist),
         canActivate: [authGuard]
-        // resolve: { data: watchlistResolver }
+      },
+      {
+        path: 'trees',
+        loadComponent: () => import('./features/trees/trees').then(m => m.Trees),
+        canActivate: [authGuard]
       }
     ]
   },

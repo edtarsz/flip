@@ -4,6 +4,9 @@ export function getTmdbImageUrl(path: string | null | undefined, size: string = 
   if (!path) {
     return '/assets/images/film-placeholder.jpg';
   }
+  if (path.startsWith('/assets/')) {
+    return path;
+  }
   return `https://image.tmdb.org/t/p/${size}${path}`;
 }
 

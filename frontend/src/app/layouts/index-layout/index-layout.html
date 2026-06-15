@@ -1,0 +1,32 @@
+<app-separator class="relative top-25"></app-separator>
+<main
+    class="relative top-25 h-[calc(100vh-6.5rem)] overflow-y-auto w-full flex flex-col items-center no-scrollbar pb-40"
+    data-lenis-prevent>
+    <div class="w-full flex justify-center items-center gap-[5vw] flex-1 min-h-screen bottom-25 relative">
+        <div class="w-[50vw] flex flex-col items-center">
+            <img src="assets/svgs/logo.svg" alt="" class="w-15">
+            <h1 class="w-fit text-center">
+                Cinema. Unleashed.
+            </h1>
+            <h2 class="text-(--color-gray) w-[80%]">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae rerum est
+                tempora at, sit eius recusandae natus unde odit pariatur.
+            </h2>
+            <app-button label="Explore" class="my-5" (click)="onExplore()"></app-button>
+        </div>
+        <div class="relative aspect-2/3 w-[420px] self-center flex items-center justify-center">
+            @for (film of mockFilms; track film.id) {
+            <app-swipe-card [film]="film" [genres]="mockGenres" [isTop]="false" [showBg]="true"
+                class="landing-card absolute top-0 left-0 w-full h-full pointer-events-none origin-bottom-right"></app-swipe-card>
+            }
+        </div>
+    </div>
+
+    <section
+        class="features-section container-padding flex-col items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[60vw] md:w-[80vw] lg:w-[80vw]">
+        @for (item of [1,2,3]; track $index) {
+        <app-card-features></app-card-features>
+        }
+    </section>
+
+</main>

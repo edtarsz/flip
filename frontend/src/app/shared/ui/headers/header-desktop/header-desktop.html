@@ -1,6 +1,6 @@
-<header class="fixed top-0 sm:top-4 left-1/2 -translate-x-1/2 z-1 w-[95%] py-3 sm:py-5 px-2 sm:px-8 
+<header class="fixed top-0 sm:top-4 left-1/2 -translate-x-1/2 z-6 w-[95%] py-3 sm:py-5 px-2 sm:px-8 
                grid grid-cols-2 sm:grid-cols-3 items-center rounded-md border border-transparent">
-    <a href="/index" class="flex items-center gap-1">
+    <a routerLink="/dashboard" class="flex items-center gap-1">
         <span class="font-bold text-lg">flip</span>
         <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8">
     </a>
@@ -8,12 +8,11 @@
     <nav class="hidden sm:block">
         <ul class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold items-center">
             @if (isAuthenticated()) {
-            <li><a routerLink="/index">Home</a></li>
             <li><a routerLink="/swipe">Swipe</a></li>
             <li><a routerLink="/films">Films</a></li>
             <li><a routerLink="/watchlist">Watchlists</a></li>
+            <li><a routerLink="/trees">Trees</a></li>
             } @else {
-            <li><a routerLink="/index">Home</a></li>
             <li><a routerLink="/films">Films</a></li>
             }
         </ul>
