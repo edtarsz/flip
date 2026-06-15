@@ -30,6 +30,13 @@ export class FilmService {
   private filmDetailsSignal = signal<FilmTMDB | null>(null);
   readonly filmDetails = this.filmDetailsSignal.asReadonly();
 
+  selectedGenres = signal<number[]>([]);
+  selectedYear = signal<number | null>(null);
+  searchModel = signal<string>('');
+  submittedQuery = signal<string>('');
+  currentPage = signal<number>(1);
+  hasMorePages = signal<boolean>(true);
+
   getFilms(options: GetFilmsOptions = {}) {
     const genres = options.genres;
     const year = options.year;

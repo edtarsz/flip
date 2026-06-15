@@ -1,4 +1,4 @@
-import { Component, afterNextRender, inject, OnDestroy } from '@angular/core';
+import { Component, afterNextRender, inject, OnDestroy, signal, OnInit } from '@angular/core';
 import { CardFeatures } from "@shared/ui/card-features/card-features";
 import { Button } from "@shared/ui/button/button";
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
@@ -7,20 +7,51 @@ import { gsap } from 'gsap';
 import { MOCK_GENRES, MOCK_LANDING_FILMS } from '@core/mocks/films.mock';
 import { Router } from '@angular/router';
 import Lenis from 'lenis';
+import { AuthService } from '@core/services/auth.service';
+import { FilmCarousel } from "@features/films/film-carousel/film-carousel";
+import { FilmService } from '@core/services/film.service';
 
 @Component({
   selector: 'app-index-layout',
-  imports: [CardFeatures, Button, SwipeCard, Separator],
+  imports: [CardFeatures, Button, SwipeCard, Separator, FilmCarousel],
   templateUrl: './index-layout.html',
   styleUrl: './index-layout.css',
 })
-export class IndexLayout implements OnDestroy {
+export class IndexLayout implements OnInit, OnDestroy {
+  private authService = inject(AuthService);
+  readonly isAuthenticated = this.authService.isAuthenticated;
+
+  private filmService = inject(FilmService);
+  readonly films = this.filmService.films;
+
   private router = inject(Router);
   private localLenis?: Lenis;
   private rafId?: number;
 
+  readonly genres = this.filmService.genres;
+
+  showAll = signal(false);
+  searchModel = signal<string>('');
+
+  currentPage = signal(1);
+  loadingNextPage = signal(false);
+  hasMorePages = signal(true);
+
+  toggledSidebar = signal(false);
+
   mockGenres = MOCK_GENRES;
   mockFilms = MOCK_LANDING_FILMS;
+
+  ngOnInit(): void {
+    if (this.films().length === 0) {
+      this.currentPage.set(1);
+      this.hasMorePages.set(true);
+      this.filmService.getFilms().subscribe();
+    }
+    if (this.genres().length === 0) {
+      this.filmService.getGenres().subscribe();
+    }
+  }
 
   constructor() {
     afterNextRender(() => {
@@ -41,6 +72,33 @@ export class IndexLayout implements OnDestroy {
 
       this.initSwipeAnimation();
     });
+  }
+
+  loadNextPage() {
+    if (this.loadingNextPage() || !this.hasMorePages()) return;
+
+    this.loadingNextPage.set(true);
+    const nextPage = this.currentPage() + 1;
+
+    this.filmService.getFilms({
+      query: this.searchModel(),
+      page: nextPage
+    })
+      // .pipe(delay(1000000))
+      .subscribe({
+        next: (data) => {
+          this.currentPage.set(nextPage);
+          if (!data.results || data.results.length === 0 || nextPage >= data.total_pages) {
+            this.hasMorePages.set(false);
+          }
+        },
+        error: () => {
+          this.loadingNextPage.set(false);
+        },
+        complete: () => {
+          this.loadingNextPage.set(false);
+        }
+      });
   }
 
   ngOnDestroy() {

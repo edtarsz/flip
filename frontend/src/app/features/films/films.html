@@ -6,30 +6,16 @@
 
     <section class="flex flex-col gap-6 p-5 h-full overflow-hidden">
         <div class="flex justify-between items-center">
-            <div class="flex gap-4 items-center h-full">
-                <app-film-search-bar [searchModel]="searchModel()" (searchModelChange)="searchModel.set($event)"
-                    (searchSubmitted)="onSearchSubmitted($event)" (searchReset)="onReset()">
+            <div class="flex gap-4 items-center h-full w-full">
+                <app-film-search-bar class="w-full" [searchModel]="searchModel()"
+                    (searchModelChange)="searchModel.set($event)" (searchSubmitted)="onSearchSubmitted($event)"
+                    (searchReset)="onReset()">
                 </app-film-search-bar>
-            </div>
-            <div class="relative">
-                <button class="text-(--color-gray)/80" (click)="onSeeAll()">{{ rosalia }}</button>
             </div>
         </div>
 
-        @if (showAll()) {
         <app-film-grid [films]="films()" [loading]="loadingNextPage()" [hasMore]="hasMorePages()"
             (nearEnd)="loadNextPage()" class="flex-1 min-h-0">
         </app-film-grid>
-        } @else {
-        <div class="flex-1 min-h-0 flex flex-col gap-6">
-            <app-film-carousel title="Recently Popular" [films]="films()" [loading]="loadingNextPage()"
-                [hasMore]="hasMorePages()" (nearEnd)="loadNextPage()" class="flex-1 min-h-0 flex flex-col">
-            </app-film-carousel>
-
-            <app-film-carousel title="Top Rated" [films]="films()" [loading]="loadingNextPage()"
-                [hasMore]="hasMorePages()" (nearEnd)="loadNextPage()" class="flex-1 min-h-0 flex flex-col">
-            </app-film-carousel>
-        </div>
-        }
     </section>
 </div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, afterNextRender, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, ViewChild, afterNextRender, input, output, effect } from '@angular/core';
 import { LucideCircle, LucideEye, LucideStar, LucideThumbsDown, LucideThumbsUp } from '@lucide/angular';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
@@ -7,7 +7,6 @@ import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 import { getTmdbImageUrl } from '../../pipes/tmdb-image.pipe';
-
 
 @Component({
   selector: 'app-swipe-card',
@@ -19,26 +18,27 @@ export class SwipeCard {
   @ViewChild('swipeCard') swipeCard!: ElementRef<HTMLDivElement>;
   @ViewChild('innerCard') innerCard!: ElementRef<HTMLDivElement>;
 
-  @Input() film!: FilmTMDB;
-  @Input() genres!: GenreTMDB[];
-  @Input() showBg = true;
+  film = input.required<FilmTMDB>();
+  genres = input.required<GenreTMDB[]>();
+  showBg = input<boolean>(true);
+  isTop = input<boolean>(true);
 
-  @Input() set isTop(value: boolean) {
-    this._isTop = value;
-    this.updateDraggableState();
-  }
-
-  get isTop() {
-    return this._isTop;
-  }
-
-  private _isTop = true;
-
-  @Output() swiped = new EventEmitter<'left' | 'right'>();
+  swiped = output<'left' | 'right'>();
 
   private draggableInstance?: Draggable;
 
   constructor() {
+    effect(() => {
+      const top = this.isTop();
+      if (this.draggableInstance) {
+        if (top) {
+          this.draggableInstance.enable();
+        } else {
+          this.draggableInstance.disable();
+        }
+      }
+    });
+
     afterNextRender(() => {
       gsap.registerPlugin(Draggable);
 
@@ -116,22 +116,16 @@ export class SwipeCard {
       });
 
       this.draggableInstance = draggables[0];
-      this.updateDraggableState();
-    });
-  }
-
-  private updateDraggableState() {
-    if (this.draggableInstance) {
-      if (this._isTop) {
+      if (this.isTop()) {
         this.draggableInstance.enable();
       } else {
         this.draggableInstance.disable();
       }
-    }
+    });
   }
 
   getCardImage(): string {
-    const imageUrl = getTmdbImageUrl(this.film.poster_path, 'w1280');
+    const imageUrl = getTmdbImageUrl(this.film().poster_path, 'w1280');
     return `linear-gradient(to top, var(--color-background-light) 0px, var(--color-background-light) 6px, transparent 100%), url('${imageUrl}')`;
   }
 }

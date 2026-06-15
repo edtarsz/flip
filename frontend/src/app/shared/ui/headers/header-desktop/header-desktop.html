@@ -10,8 +10,8 @@
             @if (isAuthenticated()) {
             <li><a routerLink="/swipe">Swipe</a></li>
             <li><a routerLink="/films">Films</a></li>
-            <li><a routerLink="/watchlist">Watchlists</a></li>
-            <li><a routerLink="/trees">Trees</a></li>
+            <!-- <li><a routerLink="/watchlist">Watchlists</a></li> -->
+            <!-- <li><a routerLink="/trees">Trees</a></li> -->
             } @else {
             <li><a routerLink="/films">Films</a></li>
             }
@@ -34,7 +34,7 @@
                 </p>
                 <div
                     class="aspect-square rounded-full w-7 sm:w-8 bg-(--color-wine-red) flex justify-center items-center">
-                    <svg lucideUser size="18" class="text-(--color-background) hidden sm:block"></svg>
+                    <svg lucideUser size="18" class="hidden sm:block"></svg>
                 </div>
             </li>
             <li class="hidden sm:block">

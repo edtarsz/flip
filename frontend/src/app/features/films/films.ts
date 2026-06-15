@@ -4,8 +4,6 @@ import { Separator } from "@shared/ui/separator/separator";
 import { FilmFilters } from './film-filters/film-filters';
 import { FilmSearchBar } from './film-search-bar/film-search-bar';
 import { FilmGrid } from './film-grid/film-grid';
-import { FilmCarousel } from './film-carousel/film-carousel';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-films',
@@ -13,8 +11,7 @@ import { NgClass } from '@angular/common';
     Separator,
     FilmFilters,
     FilmSearchBar,
-    FilmGrid,
-    FilmCarousel],
+    FilmGrid],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
@@ -24,15 +21,15 @@ export class Films implements OnInit {
   readonly films = this.filmService.films;
   readonly genres = this.filmService.genres;
 
-  selectedYear = signal<number | null>(null);
-  selectedGenres = signal<number[]>([]);
+  selectedYear = this.filmService.selectedYear;
+  selectedGenres = this.filmService.selectedGenres;
 
-  showAll = signal(false);
-  searchModel = signal<string>('');
+  searchModel = this.filmService.searchModel;
+  submittedQuery = this.filmService.submittedQuery;
 
-  currentPage = signal(1);
+  currentPage = this.filmService.currentPage;
   loadingNextPage = signal(false);
-  hasMorePages = signal(true);
+  hasMorePages = this.filmService.hasMorePages;
 
   toggledSidebar = signal(false);
 
@@ -40,7 +37,11 @@ export class Films implements OnInit {
     if (this.films().length === 0) {
       this.currentPage.set(1);
       this.hasMorePages.set(true);
-      this.filmService.getFilms().subscribe();
+      this.loadingNextPage.set(true);
+      this.filmService.getFilms().subscribe({
+        complete: () => this.loadingNextPage.set(false),
+        error: () => this.loadingNextPage.set(false)
+      });
     }
     if (this.genres().length === 0) {
       this.filmService.getGenres().subscribe();
@@ -56,7 +57,7 @@ export class Films implements OnInit {
     this.filmService.getFilms({
       genres: this.selectedGenres(),
       year: this.selectedYear(),
-      query: this.searchModel(),
+      query: this.submittedQuery(),
       page: nextPage
     })
       // .pipe(delay(1000000))
@@ -77,7 +78,11 @@ export class Films implements OnInit {
   }
 
   applyFilters(event?: { genres: number[]; year: number | null }) {
-    this.searchModel.set('');
+    const isApplyingFilter = event && (event.genres.length > 0 || event.year !== null);
+    if (isApplyingFilter) {
+      this.searchModel.set('');
+      this.submittedQuery.set('');
+    }
 
     const genres = event ? event.genres : [];
     const year = event ? event.year : null;
@@ -87,42 +92,60 @@ export class Films implements OnInit {
 
     this.currentPage.set(1);
     this.hasMorePages.set(true);
+    this.loadingNextPage.set(true);
 
     this.filmService.getFilms({
-      genres,
-      year
-    }).subscribe();
-
-    this.showAll.set(true);
+      genres: this.selectedGenres(),
+      year: this.selectedYear(),
+      query: this.submittedQuery()
+    }).subscribe({
+      complete: () => this.loadingNextPage.set(false),
+      error: () => this.loadingNextPage.set(false)
+    });
   }
 
   onSearchSubmitted(query: string) {
-    this.selectedGenres.set([]);
-    this.selectedYear.set(null);
+    if (query.trim().length > 0) {
+      this.selectedGenres.set([]);
+      this.selectedYear.set(null);
+    }
+
+    this.submittedQuery.set(query);
 
     this.currentPage.set(1);
     this.hasMorePages.set(true);
+    this.loadingNextPage.set(true);
 
-    this.filmService.getFilms({ query }).subscribe();
-
-    this.showAll.set(true);
-  }
-
-  onSeeAll() {
-    this.showAll.set(!this.showAll());
+    this.filmService.getFilms({
+      genres: this.selectedGenres(),
+      year: this.selectedYear(),
+      query: this.submittedQuery()
+    }).subscribe({
+      complete: () => this.loadingNextPage.set(false),
+      error: () => this.loadingNextPage.set(false)
+    });
   }
 
   onReset() {
     this.searchModel.set('');
-    this.applyFilters();
+    this.submittedQuery.set('');
+
+    this.currentPage.set(1);
+    this.hasMorePages.set(true);
+    this.loadingNextPage.set(true);
+
+    this.filmService.getFilms({
+      genres: this.selectedGenres(),
+      year: this.selectedYear(),
+      query: this.submittedQuery()
+    }).subscribe({
+      complete: () => this.loadingNextPage.set(false),
+      error: () => this.loadingNextPage.set(false)
+    });
   }
 
   toggled() {
     this.toggledSidebar.set(!this.toggledSidebar());
-  }
-
-  get rosalia() {
-    return this.showAll() ? 'Go Back' : 'See All';
   }
 
   get isVisibleSidebar() {

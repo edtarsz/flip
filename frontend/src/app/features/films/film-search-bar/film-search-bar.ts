@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, signal, effect, untracked } from '@angular/core';
+import { Component, signal, effect, untracked, input, output } from '@angular/core';
 import { form, FormField, FormRoot } from '@angular/forms/signals';
 import { LucideSearch, LucideX } from '@lucide/angular';
 import { Button } from '@shared/ui/button/button';
@@ -8,12 +8,12 @@ import { Button } from '@shared/ui/button/button';
   imports: [FormRoot, FormField, LucideSearch, LucideX, Button],
   templateUrl: './film-search-bar.html',
 })
-export class FilmSearchBar implements OnChanges {
-  @Input() searchModel: string = '';
-  @Output() searchModelChange = new EventEmitter<string>();
+export class FilmSearchBar {
+  searchModel = input<string>('');
+  searchModelChange = output<string>();
 
-  @Output() searchSubmitted = new EventEmitter<string>();
-  @Output() searchReset = new EventEmitter<void>();
+  searchSubmitted = output<string>();
+  searchReset = output<void>();
 
   internalSearch = signal<{ query: string }>({ query: '' });
 
@@ -34,15 +34,15 @@ export class FilmSearchBar implements OnChanges {
         this.searchModelChange.emit(query);
       });
     });
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['searchModel']) {
-      const newVal = changes['searchModel'].currentValue || '';
-      if (newVal !== this.internalSearch().query) {
-        this.internalSearch.set({ query: newVal });
-      }
-    }
+    effect(() => {
+      const newVal = this.searchModel() || '';
+      untracked(() => {
+        if (newVal !== this.internalSearch().query) {
+          this.internalSearch.set({ query: newVal });
+        }
+      });
+    });
   }
 
   onReset() {

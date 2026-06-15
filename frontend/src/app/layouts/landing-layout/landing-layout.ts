@@ -13,7 +13,6 @@ import { MOCK_GENRES, MOCK_SWIPE } from 'src/app/seeds/swipe-card';
   styleUrl: './landing-layout.css',
 })
 export class LandingPage implements OnDestroy {
-
   readonly swipeCards = MOCK_SWIPE;
   readonly genres = MOCK_GENRES;
 

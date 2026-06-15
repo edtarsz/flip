@@ -19,7 +19,7 @@
             <div class="flex flex-col gap-4">
                 <p class="font-semibold">Genres</p>
                 <ul class="flex flex-wrap relative gap-2">
-                    @for (genre of genres; track $index) {
+                    @for (genre of genres(); track $index) {
                     <li
                         class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-150 group hover:text-(--color-text)/80">
                         <span (click)="toggleGenre(genre.id)"

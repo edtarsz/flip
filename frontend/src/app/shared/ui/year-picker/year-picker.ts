@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, model, Output, signal } from '@angular/core';
+import { Component, computed, model, output, signal } from '@angular/core';
 import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 
 @Component({
@@ -8,7 +8,7 @@ import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
   styleUrl: './year-picker.css',
 })
 export class YearPicker {
-  @Output() yearReset = new EventEmitter<void>();
+  yearReset = output<void>();
 
   selectedYear = model<number | null>(null);
   isOpen = signal(false);

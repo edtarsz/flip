@@ -11,7 +11,7 @@ import { LucideUser } from '@lucide/angular';
 })
 export class Header {
   private authService = inject(AuthService);
-  private router: any = inject(Router);
+  private router = inject(Router);
   readonly isAuthenticated = this.authService.isAuthenticated;
 
   get user() {

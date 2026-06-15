@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { LucideCornerDownLeft, LucideSearch, LucideEye } from '@lucide/angular';
 
 export type ButtonIcon = 'corner-down-left' | 'search' | 'eye' | 'none';
@@ -10,10 +10,10 @@ export type ButtonIcon = 'corner-down-left' | 'search' | 'eye' | 'none';
   styleUrl: './button.css',
 })
 export class Button {
-  @Input({ required: true }) label!: string;
-  @Input({ required: false }) size: 'w-full' | 'w-fit' = 'w-fit';
-  @Input({ required: false }) type: 'button' | 'submit' | 'reset' = 'button';
-  @Input({ required: false }) icon?: ButtonIcon;
-  @Input({ required: false }) variant: 'primary' | 'secondary' = 'primary';
-  @Input({ required: false }) disabled: boolean = false;
+  label = input.required<string>();
+  size = input<'w-full' | 'w-fit'>('w-fit');
+  type = input<'button' | 'submit' | 'reset'>('button');
+  icon = input<ButtonIcon>();
+  variant = input<'primary' | 'secondary'>('primary');
+  disabled = input<boolean>(false);
 }

@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, inject, NgZone, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, NgZone, OnDestroy, input, output, afterNextRender } from '@angular/core';
 import { Film } from '@shared/ui/film/film';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { Router } from '@angular/router';
+import Lenis from 'lenis';
 
 @Component({
   selector: 'app-film-grid',
@@ -12,13 +13,16 @@ export class FilmGrid implements OnDestroy {
   private ngZone = inject(NgZone);
   private router = inject(Router);
 
-  @Input() films: FilmTMDB[] = [];
-  @Input() loading: boolean = false;
-  @Input() hasMore: boolean = true;
+  films = input<FilmTMDB[]>([]);
+  loading = input<boolean>(false);
+  hasMore = input<boolean>(true);
 
-  @Output() nearEnd = new EventEmitter<void>();
+  nearEnd = output<void>();
 
   private observer: IntersectionObserver | null = null;
+  private localLenis?: Lenis;
+
+  @ViewChild('scrollWrapper') scrollWrapper?: ElementRef<HTMLElement>;
 
   @ViewChild('sentinel') set sentinel(el: ElementRef<HTMLElement> | undefined) {
     if (el) {
@@ -28,12 +32,32 @@ export class FilmGrid implements OnDestroy {
     }
   }
 
+  constructor() {
+    afterNextRender(() => {
+      const wrapper = this.scrollWrapper?.nativeElement;
+      if (wrapper) {
+        this.ngZone.runOutsideAngular(() => {
+          this.localLenis = new Lenis({
+            wrapper: wrapper,
+            content: wrapper.firstElementChild as HTMLElement,
+          });
+
+          const raf = (time: number) => {
+            this.localLenis?.raf(time);
+            requestAnimationFrame(raf);
+          };
+          requestAnimationFrame(raf);
+        });
+      }
+    });
+  }
+
   private initObserver(element: HTMLElement) {
     this.disconnectObserver();
     this.ngZone.runOutsideAngular(() => {
       this.observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting && !this.loading) {
+          if (entry.isIntersecting && !this.loading()) {
             this.ngZone.run(() => {
               this.nearEnd.emit();
             });
@@ -54,6 +78,9 @@ export class FilmGrid implements OnDestroy {
 
   ngOnDestroy() {
     this.disconnectObserver();
+    if (this.localLenis) {
+      this.localLenis.destroy();
+    }
   }
 
   onFilmClick(id: number) {

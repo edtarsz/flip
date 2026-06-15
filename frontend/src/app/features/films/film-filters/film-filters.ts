@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, signal } from '@angular/core';
+import { Component, signal, effect, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 import { Separator } from '@shared/ui/separator/separator';
@@ -11,25 +11,25 @@ import { LucideChevronsDownUp, LucideChevronsUpDown } from '@lucide/angular';
   imports: [NgClass, Separator, YearPicker, Button, LucideChevronsDownUp, LucideChevronsUpDown],
   templateUrl: './film-filters.html',
 })
-export class FilmFilters implements OnChanges {
-  @Input() genres: GenreTMDB[] = [];
-  @Input() selectedGenres: number[] = [];
-  @Input() selectedYear: number | null = null;
+export class FilmFilters {
+  genres = input<GenreTMDB[]>([]);
+  selectedGenres = input<number[]>([]);
+  selectedYear = input<number | null>(null);
 
-  @Output() apply = new EventEmitter<{ genres: number[]; year: number | null }>();
-  @Output() toggle = new EventEmitter<boolean>();
+  apply = output<{ genres: number[]; year: number | null }>();
+  toggle = output<boolean>();
 
   localGenres: number[] = [];
   localYear: number | null = null;
   showSidebar = signal(true);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedGenres']) {
-      this.localGenres = [...(changes['selectedGenres'].currentValue || [])];
-    }
-    if (changes['selectedYear']) {
-      this.localYear = changes['selectedYear'].currentValue;
-    }
+  constructor() {
+    effect(() => {
+      this.localGenres = [...(this.selectedGenres() || [])];
+    });
+    effect(() => {
+      this.localYear = this.selectedYear();
+    });
   }
 
   toggleGenre(genreId: number) {

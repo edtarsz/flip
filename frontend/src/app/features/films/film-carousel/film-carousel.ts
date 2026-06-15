@@ -1,33 +1,30 @@
-import { Component, Input, Output, EventEmitter, ElementRef, viewChild, afterNextRender, inject, NgZone, effect } from '@angular/core';
+import { Component, ElementRef, viewChild, afterNextRender, inject, NgZone, effect, signal, input, output } from '@angular/core';
 import { Film } from '@shared/ui/film/film';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { Router } from '@angular/router';
+import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-film-carousel',
-  imports: [Film],
+  imports: [Film, LucideChevronLeft, LucideChevronRight, NgClass],
   templateUrl: './film-carousel.html',
 })
 export class FilmCarousel {
   private ngZone = inject(NgZone);
   private router = inject(Router);
 
-  @Input() title: string = '';
-  @Input() loading: boolean = false;
-  @Input() hasMore: boolean = true;
+  title = input<string>('');
+  loading = input<boolean>(false);
+  hasMore = input<boolean>(true);
 
-  private _films: FilmTMDB[] = [];
-  @Input() set films(value: FilmTMDB[]) {
-    this._films = value;
-    this.triggerInitialization();
-  }
-  get films() {
-    return this._films;
-  }
+  canScrollLeft = signal(false);
 
-  @Output() nearEnd = new EventEmitter<void>();
+  films = input<FilmTMDB[]>([]);
+
+  nearEnd = output<void>();
 
   carouselRef = viewChild<ElementRef<HTMLElement>>('carouselContainer');
   private readonly targetScrolls = new Map<HTMLElement, number>();
@@ -39,7 +36,8 @@ export class FilmCarousel {
 
     effect(() => {
       const ref = this.carouselRef();
-      if (ref && this._films.length > 0) {
+      const currentFilms = this.films();
+      if (ref && currentFilms.length > 0) {
         this.triggerInitialization();
       }
     });
@@ -47,12 +45,11 @@ export class FilmCarousel {
 
   private triggerInitialization() {
     const ref = this.carouselRef();
-    if (ref && this._films.length > 0) {
+    if (ref && this.films().length > 0) {
       this.ngZone.runOutsideAngular(() => {
         requestAnimationFrame(() => {
           const el = ref.nativeElement;
           this.initDragScroll(el);
-          this.initWheelScroll(el);
         });
       });
     }
@@ -80,7 +77,7 @@ export class FilmCarousel {
         el.scrollLeft -= this['deltaX'];
 
         const maxScroll = el.scrollWidth - el.clientWidth;
-        if (el.scrollLeft >= maxScroll - 400 && !self.loading && self.hasMore) {
+        if (el.scrollLeft >= maxScroll - 400 && !self.loading() && self.hasMore()) {
           self.ngZone.run(() => {
             self.nearEnd.emit();
           });
@@ -94,69 +91,58 @@ export class FilmCarousel {
     });
   }
 
-  private initWheelScroll(el: HTMLElement) {
-    if (el.dataset['wheelInitialized'] === 'true') return;
-    el.dataset['wheelInitialized'] = 'true';
-
-    el.addEventListener('wheel', (event: WheelEvent) => {
-      event.preventDefault();
-
-      if (!this.targetScrolls.has(el)) {
-        this.targetScrolls.set(el, el.scrollLeft);
-      }
-
-      let currentTarget = this.targetScrolls.get(el)! + event.deltaY * 1.5;
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      currentTarget = Math.max(0, Math.min(currentTarget, maxScroll));
-      this.targetScrolls.set(el, currentTarget);
-
-      if (currentTarget >= maxScroll - 400 && !this.loading && this.hasMore) {
-        this.ngZone.run(() => {
-          this.nearEnd.emit();
-        });
-      }
-
-      gsap.to(el, {
-        scrollLeft: currentTarget,
-        duration: 0.8,
-        ease: 'power2.out',
-        overwrite: 'auto'
-      });
-
-      const maxRotation = 10;
-      const rotationAngle = Math.max(-maxRotation, Math.min(maxRotation, event.deltaY * 0.08));
-
-      let cards = (el as any)['_cachedCards'] as HTMLElement[];
-      if (!cards || cards.length !== this._films.length) {
-        cards = Array.from(el.querySelectorAll('.film-card')) as HTMLElement[];
-        (el as any)['_cachedCards'] = cards;
-      }
-
-      if (cards.length > 0) {
-        const cardStep = 200;
-        const startIndex = Math.floor(el.scrollLeft / cardStep);
-        const endIndex = Math.ceil((el.scrollLeft + el.clientWidth) / cardStep);
-
-        const visibleCards = cards.slice(
-          Math.max(0, startIndex - 1),
-          Math.min(cards.length, endIndex + 1)
-        );
-
-        if (visibleCards.length > 0) {
-          gsap.to(visibleCards, {
-            keyframes: [
-              { rotationY: -rotationAngle, duration: 0.4, ease: 'power1.out' },
-              { rotationY: 0, duration: 0.4, ease: 'power2.out' }
-            ],
-            transformOrigin: "center center",
-            overwrite: 'auto'
-          });
-        }
-      }
-    }, { passive: false });
-  }
-
   onFilmClick(id: number) {
     this.router.navigate(['/films', id]);
+  }
+
+  onScroll(event: Event) {
+    const el = event.target as HTMLElement;
+    this.canScrollLeft.set(el.scrollLeft > 10);
+  }
+
+  onScrollBack() {
+    const el = this.carouselRef()?.nativeElement;
+    if (el) {
+      const card = el.querySelector('app-film');
+      const cardWidth = card ? card.getBoundingClientRect().width : 200;
+
+      const filmsToSkip = 2;
+      const gap = 16;
+      const scrollAmount = (cardWidth + gap) * filmsToSkip;
+
+      gsap.to(el, {
+        scrollLeft: Math.max(0, el.scrollLeft - scrollAmount),
+        duration: 0.4,
+        ease: 'power2.out',
+        onComplete: () => {
+          this.canScrollLeft.set(el.scrollLeft > 10);
+        }
+      });
+    }
+  }
+
+  onLoadMore() {
+    const el = this.carouselRef()?.nativeElement;
+    if (el) {
+      const card = el.querySelector('app-film');
+      const cardWidth = card ? card.getBoundingClientRect().width : 200;
+
+      const filmsToSkip = 2;
+      const gap = 16;
+      const scrollAmount = (cardWidth + gap) * filmsToSkip;
+
+      gsap.to(el, {
+        scrollLeft: el.scrollLeft + scrollAmount,
+        duration: 0.4,
+        ease: 'power2.out',
+        onComplete: () => {
+          this.canScrollLeft.set(el.scrollLeft > 10);
+          const maxScroll = el.scrollWidth - el.clientWidth;
+          if (el.scrollLeft >= maxScroll - 400 && !this.loading() && this.hasMore()) {
+            this.nearEnd.emit();
+          }
+        }
+      });
+    }
   }
 }
