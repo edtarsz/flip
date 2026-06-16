@@ -78,14 +78,25 @@ export class Films implements OnInit {
   }
 
   applyFilters(event?: { genres: number[]; year: number | null }) {
-    const isApplyingFilter = event && (event.genres.length > 0 || event.year !== null);
+    const genres = event ? event.genres : [];
+    const year = event ? event.year : null;
+
+    const currentGenres = this.selectedGenres();
+    const currentYear = this.selectedYear();
+
+    const genresUnchanged = genres.length === currentGenres.length && 
+                            genres.every(g => currentGenres.includes(g));
+    const yearUnchanged = year === currentYear;
+
+    if (genresUnchanged && yearUnchanged) {
+      return;
+    }
+
+    const isApplyingFilter = genres.length > 0 || year !== null;
     if (isApplyingFilter) {
       this.searchModel.set('');
       this.submittedQuery.set('');
     }
-
-    const genres = event ? event.genres : [];
-    const year = event ? event.year : null;
 
     this.selectedGenres.set(genres);
     this.selectedYear.set(year);
@@ -105,6 +116,10 @@ export class Films implements OnInit {
   }
 
   onSearchSubmitted(query: string) {
+    if (query === this.submittedQuery()) {
+      return;
+    }
+
     if (query.trim().length > 0) {
       this.selectedGenres.set([]);
       this.selectedYear.set(null);
@@ -128,6 +143,11 @@ export class Films implements OnInit {
 
   onReset() {
     this.searchModel.set('');
+    
+    if (this.submittedQuery() === '') {
+      return;
+    }
+
     this.submittedQuery.set('');
 
     this.currentPage.set(1);

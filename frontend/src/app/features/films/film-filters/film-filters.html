@@ -1,13 +1,13 @@
 <aside
-    class="flex flex-col border-r border-(--color-gray)/20 relative h-full transition-all duration-300 overflow-hidden"
-    [ngClass]="isVisibleSidebar ? 'w-80' : 'w-[74px]'">
+    class="bg-(--color-background) relative md:top-0 left-0 flex flex-col border-r border-(--color-gray)/20 h-full transition-all duration-300 overflow-hidden z-20"
+    [ngClass]="isVisibleSidebar ? 'md:w-80 w-screen' : 'w-[74px]'">
 
-    <div class="absolute top-0 left-0 w-[74px] flex justify-center items-center py-3 transition-opacity duration-300"
-        [ngClass]="isVisibleSidebar ? 'opacity-0 pointer-events-none' : 'opacity-100'">
+    <div class="absolute top-0 left-0 opacity-0 w-[74px] flex justify-center items-center py-3 transition-opacity duration-300"
+        [ngClass]="isVisibleSidebar ? 'pointer-events-none' : 'opacity-100'">
         <svg lucideChevronsUpDown size="32" class="cursor-pointer rotate-90" (click)="onToggleSidebar()"></svg>
     </div>
 
-    <div class="w-80 flex flex-col h-full min-w-[320px] transition-opacity duration-300"
+    <div class="md:w-80 w-screen flex flex-col h-full min-w-[320px] transition-opacity duration-300"
         [ngClass]="isVisibleSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'">
         <div class="flex justify-between items-center px-5 py-3">
             <p class="font-bold text-lg">Filters</p>

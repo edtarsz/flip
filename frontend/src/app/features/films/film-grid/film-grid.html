@@ -1,5 +1,5 @@
 <div #scrollWrapper class="overflow-y-auto h-full custom-scrollbar overscroll-contain pr-2" data-lenis-prevent>
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-x-5 gap-y-6 pb-5">
+    <div class="grid md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] grid-cols-3 sm:gap-x-5 sm:gap-y-6 gap-x-2 gap-y-2 pb-5">
         @if (films().length === 0 && loading()) {
         @for (item of [1,2,3,4]; track $index) {
         <app-film [loading]="true"></app-film>
