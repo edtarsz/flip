@@ -43,9 +43,6 @@ export class Films implements OnInit {
         error: () => this.loadingNextPage.set(false)
       });
     }
-    if (this.genres().length === 0) {
-      this.filmService.getGenres().subscribe();
-    }
   }
 
   loadNextPage() {

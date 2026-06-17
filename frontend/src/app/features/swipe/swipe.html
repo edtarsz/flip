@@ -1,30 +1,62 @@
 <app-separator class="relative top-0 sm:top-25 hidden sm:block"></app-separator>
-<div class="flex items-center h-full sm:h-screen relative px-4 pt-15 sm:px-0 sm:pt-15 justify-center">
-    <div class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105"
-        [class.transition-opacity]="!isFirstLoad()" [class.duration-1000]="!isFirstLoad()"
-        [class.ease-in-out]="!isFirstLoad()" [style.backgroundImage]="'url(' + bgImageA() + ')'"
-        [class.opacity-20]="isLayerAActive()" [class.opacity-0]="!isLayerAActive()">
-    </div>
-
-    <div class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105"
-        [class.transition-opacity]="!isFirstLoad()" [class.duration-1000]="!isFirstLoad()"
-        [class.ease-in-out]="!isFirstLoad()" [style.backgroundImage]="'url(' + bgImageB() + ')'"
-        [class.opacity-20]="!isLayerAActive()" [class.opacity-0]="isLayerAActive()">
-    </div>
-
+<div class="h-full flex flex-col">
     <div
-        class="absolute inset-0 bg-linear-to-t from-(--color-background) via-(--color-background)/70 to-transparent pointer-events-none">
-    </div>
+        class="flex items-center h-full sm:h-screen relative px-4 pt-15 sm:px-0 sm:pt-15 justify-center"
+    >
+        <div
+            class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105"
+            [class.transition-opacity]="shouldAnimateBackdrop() || !isFirstLoad()"
+            [class.duration-1000]="shouldAnimateBackdrop() || !isFirstLoad()"
+            [class.ease-in-out]="shouldAnimateBackdrop() || !isFirstLoad()"
+            [style.backgroundImage]="'url(' + bgImageA() + ')'"
+            [class.opacity-20]="!showCover() && isLayerAActive()"
+            [class.opacity-0]="showCover() || !isLayerAActive()"
+        >
+        </div>
 
-    <div class="relative w-full sm:max-w-[500px] sm:h-[700px] h-full">
-        @for (film of visibleFilms(); track film.id; let idx = $index; let last = $last) {
-        <app-swipe-card [film]="film" [genres]="genres()" [isTop]="last" (click)="onFilmClick(film.id)"
-            [showBg]="last && currentIndex() === allFilms().length - 1" (swiped)="onSwiped($event, film)"
-            class="absolute top-0 left-0 w-full h-full transition-all duration-300 ease-out origin-top"
-            [class.pointer-events-none]="!last" [style.z-index]="idx + 1"
-            [style.transform]="getCardTransform(idx, visibleFilms().length)"
-            [style.filter]="getCardFilter(idx, visibleFilms().length)">
-        </app-swipe-card>
-        }
+        <div
+            class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105"
+            [class.transition-opacity]="shouldAnimateBackdrop() || !isFirstLoad()"
+            [class.duration-1000]="shouldAnimateBackdrop() || !isFirstLoad()"
+            [class.ease-in-out]="shouldAnimateBackdrop() || !isFirstLoad()"
+            [style.backgroundImage]="'url(' + bgImageB() + ')'"
+            [class.opacity-20]="!showCover() && !isLayerAActive()"
+            [class.opacity-0]="showCover() || isLayerAActive()"
+        >
+        </div>
+
+        <div
+            class="absolute inset-0 bg-linear-to-t from-(--color-background) via-(--color-background)/70 to-transparent pointer-events-none"
+        >
+        </div>
+
+        <div class="relative w-full sm:max-w-[500px] sm:h-[700px] h-full">
+            @for (film of visibleFilms(); track film.id; let idx = $index; let
+            last = $last) {
+            <app-swipe-card
+                [film]="film"
+                [genres]="genres()"
+                [isTop]="last"
+                (click)="onFilmClick(film.id)"
+                [showBg]="last && currentIndex() === allFilms().length - 1"
+                (swiped)="onSwiped($event, film)"
+                class="absolute top-0 left-0 w-full h-full transition-all duration-300 ease-out"
+                [class.pointer-events-none]="!last"
+                [class.hidden]="showCover() && !last"
+                [style.z-index]="idx + 1"
+                [style.transform]="getCardTransform(idx, visibleFilms().length)"
+                [style.filter]="getCardFilter(idx, visibleFilms().length)"
+            >
+            </app-swipe-card>
+            } @if (showCover()) {
+            <app-swipe-card
+                [isCover]="true"
+                class="absolute top-0 left-0 w-full h-full z-10"
+                [style.transform]="'translate(0px, 0px) scale(1.005)'"
+                (swiped)="onCoverSwiped()"
+            ></app-swipe-card>
+            }
+        </div>
     </div>
+    <app-header-mobile class="hidden sm:relative"></app-header-mobile>
 </div>

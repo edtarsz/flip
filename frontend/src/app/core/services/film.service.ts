@@ -37,6 +37,17 @@ export class FilmService {
   currentPage = signal<number>(1);
   hasMorePages = signal<boolean>(true);
 
+  resetState(): void {
+    this.filmsSignal.set([]);
+    this.filmDetailsSignal.set(null);
+    this.selectedGenres.set([]);
+    this.selectedYear.set(null);
+    this.searchModel.set('');
+    this.submittedQuery.set('');
+    this.currentPage.set(1);
+    this.hasMorePages.set(true);
+  }
+
   getFilms(options: GetFilmsOptions = {}) {
     const genres = options.genres;
     const year = options.year;
@@ -55,9 +66,19 @@ export class FilmService {
     return this.http.get<any>(url, { headers: this.headers }).pipe(
       tap(data => {
         if (page === 1) {
-          this.filmsSignal.set(data.results);
+          const seen = new Set();
+          const uniqueResults = data.results.filter((film: FilmTMDB) => {
+            if (seen.has(film.id)) return false;
+            seen.add(film.id);
+            return true;
+          });
+          this.filmsSignal.set(uniqueResults);
         } else {
-          this.filmsSignal.update(films => [...films, ...data.results]);
+          this.filmsSignal.update(films => {
+            const existingIds = new Set(films.map(f => f.id));
+            const newFilms = data.results.filter((film: FilmTMDB) => !existingIds.has(film.id));
+            return [...films, ...newFilms];
+          });
         }
       })
     );

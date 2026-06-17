@@ -1,10 +1,10 @@
 <aside
-    class="bg-(--color-background) relative md:top-0 left-0 flex flex-col border-r border-(--color-gray)/20 h-full transition-all duration-300 overflow-hidden z-20"
-    [ngClass]="isVisibleSidebar ? 'md:w-80 w-screen' : 'w-[74px]'">
+    class="bg-(--color-background) relative md:top-0 left-0 flex flex-col h-full transition-all duration-300 overflow-hidden z-20 border-(--color-gray)/20"
+    [ngClass]="isVisibleSidebar ? 'md:w-80 w-screen border-r' : 'md:w-[74px] w-0 border-r-0 md:border-r'">
 
-    <div class="absolute top-0 left-0 opacity-0 w-[74px] flex justify-center items-center py-3 transition-opacity duration-300"
+    <div class="absolute top-0 left-0 opacity-0 md:w-[74px] w-0 flex justify-center items-center py-3 transition-opacity duration-300"
         [ngClass]="isVisibleSidebar ? 'pointer-events-none' : 'opacity-100'">
-        <svg lucideChevronsUpDown size="32" class="cursor-pointer rotate-90" (click)="onToggleSidebar()"></svg>
+        <svg lucideChevronsUpDown size="32" class="cursor-pointer rotate-90 hidden md:block" (click)="onToggleSidebar()"></svg>
     </div>
 
     <div class="md:w-80 w-screen flex flex-col h-full min-w-[320px] transition-opacity duration-300"

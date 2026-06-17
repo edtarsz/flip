@@ -32,90 +32,84 @@ export class RecommendationsController {
     }
 
     async getRecommendations(userId: string): Promise<Response> {
-        const genreProfile = await this.swipeRepository.getUserGenreWeights(userId)
-        const peopleProfile = await this.swipeRepository.getUserPeopleWeights(userId)
-        const swipedIds = await this.swipeRepository.getSwipedExternalFilmIds(userId)
+        const [genreProfile, peopleProfile, swipedIds, genreListData, recentLikes] = await Promise.all([
+            this.swipeRepository.getUserGenreWeights(userId),
+            this.swipeRepository.getUserPeopleWeights(userId),
+            this.swipeRepository.getSwipedExternalFilmIds(userId),
+            this.tmdbFetch('/genre/movie/list').then(r => r.json()),
+            this.swipeRepository.getRecentLikedExternalFilmIds(userId, 3),
+        ])
 
         const genreWeightMap: Record<string, number> = {}
         for (const row of genreProfile) {
             genreWeightMap[row.attribute_value] = row.weight
         }
 
-        const positiveGenres = genreProfile
-            .filter(r => r.weight > 0)
-            .sort((a, b) => b.weight - a.weight)
-
-        const genreListRes = await this.tmdbFetch('/genre/movie/list')
-        const genreListData = await genreListRes.json()
-
         const genreNameToId: Record<string, number> = {}
         const genreIdToName: Record<number, string> = {}
+
         for (const g of genreListData.genres ?? []) {
             genreNameToId[g.name] = g.id
             genreIdToName[g.id] = g.name
         }
 
-        const candidates: TmdbDiscoverResult[] = []
-        const candidateIds = new Set<number>()
-        const fromPeoplePhase = new Set<number>()
-
-        const recentLikes = await this.swipeRepository.getRecentLikedExternalFilmIds(userId, 3)
-
-        if (recentLikes.length > 0) {
-            const perMovieTarget = Math.max(1, Math.floor(TARGET_GENRE_CANDIDATES / recentLikes.length))
-            for (const filmId of recentLikes) {
-                await this.collectCandidates(
-                    `/movie/${filmId}/similar`,
-                    '',
-                    perMovieTarget,
-                    candidates,
-                    candidateIds,
-                    swipedIds,
-                )
-            }
-        } else if (positiveGenres.length > 0) {
-            const topGenreIds = positiveGenres.slice(0, 3).map(r => genreNameToId[r.attribute_value]).filter(Boolean)
-            if (topGenreIds.length > 0) {
-                const genreParam = `with_genres=${topGenreIds.join('|')}`
-                await this.collectCandidates(
-                    '/discover/movie',
-                    `${QUALITY_PARAMS}&${genreParam}`,
-                    TARGET_GENRE_CANDIDATES,
-                    candidates,
-                    candidateIds,
-                    swipedIds,
-                )
-            }
-        }
+        const positiveGenres = genreProfile
+            .filter(r => r.weight > 0)
+            .sort((a, b) => b.weight - a.weight)
 
         const topPeopleIds = peopleProfile
             .slice(0, 3)
             .map(r => r.attribute_value)
 
-        if (topPeopleIds.length > 0) {
-            const peopleParam = `with_people=${topPeopleIds.join('|')}`
-            const beforeCount = candidates.length
-            await this.collectCandidates(
+        const genrePromise = this.buildGenreCandidates(
+            recentLikes, positiveGenres, genreNameToId, swipedIds,
+        )
+
+        const peoplePromise = topPeopleIds.length > 0
+            ? this.fetchCandidates(
                 '/discover/movie',
-                `${QUALITY_PARAMS}&${peopleParam}`,
+                `${QUALITY_PARAMS}&with_people=${topPeopleIds.join('|')}`,
                 TARGET_PEOPLE_CANDIDATES,
-                candidates,
-                candidateIds,
                 swipedIds,
             )
-            for (let i = beforeCount; i < candidates.length; i++) {
-                fromPeoplePhase.add(candidates[i].id)
+            : Promise.resolve([])
+
+        const [genreCandidates, peopleCandidates] = await Promise.all([genrePromise, peoplePromise])
+
+        const candidates: TmdbDiscoverResult[] = []
+        const candidateIds = new Set<number>()
+        const fromPeoplePhase = new Set<number>()
+
+        for (const film of genreCandidates) {
+            if (!candidateIds.has(film.id)) {
+                candidateIds.add(film.id)
+                candidates.push(film)
             }
         }
 
-        await this.collectCandidates(
-            '/discover/movie',
-            QUALITY_PARAMS,
-            TARGET_TOTAL_CANDIDATES,
-            candidates,
-            candidateIds,
-            swipedIds,
-        )
+        for (const film of peopleCandidates) {
+            if (!candidateIds.has(film.id)) {
+                candidateIds.add(film.id)
+                candidates.push(film)
+                fromPeoplePhase.add(film.id)
+            }
+        }
+
+        if (candidates.length < TARGET_TOTAL_CANDIDATES) {
+            const allExcluded = new Set([...swipedIds, ...candidateIds])
+            const backfill = await this.fetchCandidates(
+                '/discover/movie',
+                QUALITY_PARAMS,
+                TARGET_TOTAL_CANDIDATES - candidates.length,
+                allExcluded,
+            )
+            for (const film of backfill) {
+                if (!candidateIds.has(film.id)) {
+                    candidateIds.add(film.id)
+                    candidates.push(film)
+                }
+            }
+        }
 
         const scored = candidates
             .map(film => {
@@ -134,23 +128,63 @@ export class RecommendationsController {
         return Response.json({ results: scored }, { headers: corsHeaders })
     }
 
-    private async collectCandidates(
+    private async buildGenreCandidates(
+        recentLikes: number[],
+        positiveGenres: { attribute_value: string; weight: number }[],
+        genreNameToId: Record<string, number>,
+        swipedIds: Set<number>,
+    ): Promise<TmdbDiscoverResult[]> {
+        if (recentLikes.length > 0) {
+            const perMovieTarget = Math.max(1, Math.floor(TARGET_GENRE_CANDIDATES / recentLikes.length))
+            const batches = await Promise.all(
+                recentLikes.map(filmId =>
+                    this.fetchCandidates(
+                        `/movie/${filmId}/similar`, '',
+                        perMovieTarget, swipedIds,
+                    )
+                )
+            )
+            return batches.flat()
+        }
+
+        if (positiveGenres.length > 0) {
+            const topGenreIds = positiveGenres
+                .slice(0, 3)
+                .map(r => genreNameToId[r.attribute_value])
+                .filter(Boolean)
+
+            if (topGenreIds.length > 0) {
+                return this.fetchCandidates(
+                    '/discover/movie',
+                    `${QUALITY_PARAMS}&with_genres=${topGenreIds.join('|')}`,
+                    TARGET_GENRE_CANDIDATES,
+                    swipedIds,
+                )
+            }
+        }
+
+        return []
+    }
+
+    private async fetchCandidates(
         endpoint: string,
         queryParams: string,
         targetCount: number,
-        candidates: TmdbDiscoverResult[],
-        candidateIds: Set<number>,
-        swipedIds: Set<number>,
+        excludeIds: Set<number>,
         maxPages = 5,
-    ): Promise<void> {
+    ): Promise<TmdbDiscoverResult[]> {
+        const collected: TmdbDiscoverResult[] = []
+        const localIds = new Set<number>()
         let page = 1
 
-        while (candidates.length < targetCount && page <= maxPages) {
-            const fullPath = queryParams ? `${endpoint}?${queryParams}&page=${page}` : `${endpoint}?page=${page}`
+        while (collected.length < targetCount && page <= maxPages) {
+            const fullPath = queryParams
+                ? `${endpoint}?${queryParams}&page=${page}`
+                : `${endpoint}?page=${page}`
             const res = await this.tmdbFetch(fullPath)
 
             if (!res.ok) {
-                if (page === 1 && candidates.length === 0) {
+                if (page === 1 && collected.length === 0) {
                     console.warn(`TMDB fetch failed for ${fullPath}: ${res.statusText}`)
                 }
                 break
@@ -165,14 +199,16 @@ export class RecommendationsController {
                 if ((film.vote_count ?? 0) < MIN_VOTE_COUNT) continue
                 if (!film.release_date || film.release_date < MIN_RELEASE_DATE || film.release_date > TODAY) continue
 
-                if (!swipedIds.has(film.id) && !candidateIds.has(film.id)) {
-                    candidateIds.add(film.id)
-                    candidates.push(film)
+                if (!excludeIds.has(film.id) && !localIds.has(film.id)) {
+                    localIds.add(film.id)
+                    collected.push(film)
                 }
             }
 
             page++
         }
+
+        return collected
     }
 
     private tmdbFetch(path: string): Promise<Response> {

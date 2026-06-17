@@ -5,6 +5,7 @@ import { Separator } from '@shared/ui/separator/separator';
 import { YearPicker } from '@shared/ui/year-picker/year-picker';
 import { Button } from '@shared/ui/button/button';
 import { LucideChevronsDownUp, LucideChevronsUpDown } from '@lucide/angular';
+import { isViewportAtLeast } from '@shared/utils/responsive.util';
 
 @Component({
   selector: 'app-film-filters',
@@ -21,7 +22,7 @@ export class FilmFilters {
 
   localGenres: number[] = [];
   localYear: number | null = null;
-  showSidebar = signal(true);
+  showSidebar = signal(isViewportAtLeast(768));
 
   constructor() {
     effect(() => {

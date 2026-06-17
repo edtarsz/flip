@@ -1,6 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core'
 import { WatchlistRepository } from '@core/repositories/watchlist.repository'
-import { AuthService } from './auth.service'
 import { FilmTMDB, WatchlistItem } from '@core/types/tmdb/film.type'
 
 @Injectable({
@@ -29,5 +28,9 @@ export class WatchlistService {
   async getWatchlist() {
     const watchlist = await this.watchRepo.getWatchlist();
     this.watchlistSignal.set(watchlist);
+  }
+
+  resetState(): void {
+    this.watchlistSignal.set([]);
   }
 }

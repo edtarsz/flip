@@ -1,16 +1,21 @@
-<div #scrollWrapper class="overflow-y-auto h-full custom-scrollbar overscroll-contain pr-2" data-lenis-prevent>
-    <div class="grid md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] grid-cols-3 sm:gap-x-5 sm:gap-y-6 gap-x-2 gap-y-2 pb-5">
-        @if (films().length === 0 && loading()) {
-        @for (item of [1,2,3,4]; track $index) {
+<div
+    #scrollWrapper
+    class="overflow-y-auto h-full custom-scrollbar overscroll-contain pr-2"
+    data-lenis-prevent
+>
+    <div
+        class="grid md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] grid-cols-2 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-6 gap-x-2 gap-y-2 pb-5"
+    >
+        @if (films().length === 0 && loading()) { @for (item of [1, 2, 3, 4];
+        track $index) {
         <app-film [loading]="true"></app-film>
-        }
-        }
-
-        @for (film of films(); track film.id) {
-        <app-film [film]="film" (click)="onFilmClick(film.id)"></app-film>
-        }
-
-        @if (hasMore()) {
+        } } @for (film of films(); track film.id; let idx = $index) {
+        <app-film
+            [film]="film"
+            [isPriority]="idx < 6"
+            (click)="onFilmClick(film.id)"
+        ></app-film>
+        } @if (hasMore()) {
         <div #sentinel id="vertical-infinite-sentinel">
             @if (loading()) {
             <app-film [loading]="true"></app-film>

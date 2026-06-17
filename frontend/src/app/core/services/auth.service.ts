@@ -2,20 +2,29 @@ import { computed, inject, Injectable, signal } from '@angular/core'
 import { supabase } from '../supabase/supabase.client'
 import { User } from '@supabase/supabase-js';
 import { AuthRepository } from '../repositories/auth.repository';
-import { ProfileRepository } from '../repositories/profile.repository';
+import { FilmService } from './film.service';
+import { SwipeService } from './swipe.service';
+import { WatchlistService } from './watchlist.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private authRepository = inject(AuthRepository);
+  private filmService = inject(FilmService);
+  private swipeService = inject(SwipeService);
+  private watchlistService = inject(WatchlistService);
 
   user = signal<User | null>(null);
   isAuthenticated = computed(() => this.user() !== null);
 
   constructor() {
-    supabase.auth.onAuthStateChange((_, session) => {
+    supabase.auth.onAuthStateChange((event, session) => {
       this.user.set(session?.user ?? null);
+
+      if (event === 'SIGNED_IN' && session?.user) {
+        this.swipeService.getRecommendations().catch(console.error);
+      }
     });
   }
 
@@ -62,7 +71,10 @@ export class AuthService {
   }
 
   async signOut() {
-    return await supabase.auth.signOut()
+    this.filmService.resetState();
+    this.swipeService.clearRecommendations();
+    this.watchlistService.resetState();
+    return await supabase.auth.signOut();
   }
 
   async getUser() {

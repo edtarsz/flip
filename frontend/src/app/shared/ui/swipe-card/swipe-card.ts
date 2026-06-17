@@ -18,10 +18,11 @@ export class SwipeCard {
   @ViewChild('swipeCard') swipeCard!: ElementRef<HTMLDivElement>;
   @ViewChild('innerCard') innerCard!: ElementRef<HTMLDivElement>;
 
-  film = input.required<FilmTMDB>();
-  genres = input.required<GenreTMDB[]>();
+  film = input<FilmTMDB | null>(null);
+  genres = input<GenreTMDB[]>([]);
   showBg = input<boolean>(true);
   isTop = input<boolean>(true);
+  isCover = input<boolean>(false);
 
   swiped = output<'left' | 'right'>();
 
@@ -43,8 +44,8 @@ export class SwipeCard {
       gsap.registerPlugin(Draggable);
 
       const inner = this.innerCard.nativeElement;
-      const likeBadge = inner.querySelector('.like-badge') as HTMLElement;
-      const nopeBadge = inner.querySelector('.nope-badge') as HTMLElement;
+      const likeBadge = !this.isCover() ? inner.querySelector('.like-badge') as HTMLElement : null;
+      const nopeBadge = !this.isCover() ? inner.querySelector('.nope-badge') as HTMLElement : null;
       const self = this;
 
       const draggables = Draggable.create(this.swipeCard.nativeElement, {
@@ -61,6 +62,8 @@ export class SwipeCard {
           const rawRotation = draggable.x * 0.1;
           const rotation = Math.max(-20, Math.min(20, rawRotation));
           gsap.to(inner, { rotation: rotation, duration: 0.1, overwrite: 'auto' });
+
+          if (self.isCover()) return;
 
           const dragX = draggable.x;
           const threshold = 45;
@@ -106,11 +109,13 @@ export class SwipeCard {
               duration: 0.5,
               ease: 'elastic.out(1, 0.5)'
             });
-            gsap.to([likeBadge, nopeBadge], {
-              scale: 0,
-              duration: 0.3,
-              overwrite: 'auto'
-            });
+            if (!self.isCover() && likeBadge && nopeBadge) {
+              gsap.to([likeBadge, nopeBadge], {
+                scale: 0,
+                duration: 0.3,
+                overwrite: 'auto'
+              });
+            }
           }
         }
       });
@@ -125,7 +130,9 @@ export class SwipeCard {
   }
 
   getCardImage(): string {
-    const imageUrl = getTmdbImageUrl(this.film().poster_path, 'w1280');
+    const film = this.film();
+    if (!film) return '';
+    const imageUrl = getTmdbImageUrl(film.poster_path, 'w1280');
     return `linear-gradient(to top, var(--color-background-light) 0px, var(--color-background-light) 6px, transparent 100%), url('${imageUrl}')`;
   }
 }

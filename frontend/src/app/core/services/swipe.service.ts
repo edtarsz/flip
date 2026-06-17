@@ -12,8 +12,24 @@ export class SwipeService {
   private recommendationsSignal = signal<FilmTMDB[]>([]);
   readonly recommendations = this.recommendationsSignal.asReadonly();
 
+  private currentIndexSignal = signal(0);
+  readonly currentIndex = this.currentIndexSignal.asReadonly();
+
+  private showCoverSignal = signal(true);
+  readonly showCover = this.showCoverSignal.asReadonly();
+
+  advanceIndex(): void {
+    this.currentIndexSignal.update(idx => idx + 1);
+  }
+
+  setCoverShown(): void {
+    this.showCoverSignal.set(false);
+  }
+
   clearRecommendations(): void {
     this.recommendationsSignal.set([]);
+    this.currentIndexSignal.set(0);
+    this.showCoverSignal.set(true);
   }
 
   async recordSwipe(film: FilmTMDB, direction: 'like' | 'dislike', genres: GenreTMDB[]): Promise<void> {

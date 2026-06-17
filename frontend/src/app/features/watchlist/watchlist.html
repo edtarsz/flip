@@ -1,12 +1,25 @@
-<div class="flex flex-col relative top-25 min-h-[calc(100vh-6.5rem)] overflow-hidden">
+<div
+    class="flex flex-col relative top-15 sm:top-25 h-[calc(100vh-6.5rem)] overflow-hidden"
+>
     <app-separator></app-separator>
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-x-5 gap-y-6 overflow-y-auto h-[calc(100vh-100px)] no-scrollbar overscroll-contain pb-5 p-5"
-        data-lenis-prevent>
-        @for (item of watchlist(); track $index) {
-        <app-film [film]="item.film" class="film-card w-full"
-            (click)="onFilmClick(item.film.external_film_id)"></app-film>
-        } @empty {
-        <p>to do, there are not movies</p>
-        }
+    <div
+        #scrollWrapper
+        class="overflow-y-auto h-full custom-scrollbar overscroll-contain pr-2 p-5 my-2"
+        data-lenis-prevent
+    >
+        <div
+            class="grid md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] grid-cols-2 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-6 gap-x-2 gap-y-2 pb-5"
+        >
+            @for (item of watchlist(); track item.id; let idx = $index) {
+            <app-film
+                [film]="item.film"
+                [isPriority]="idx < 6"
+                class="film-card w-full"
+                (click)="onFilmClick(item.film.external_film_id)"
+            ></app-film>
+            } @empty {
+            <p>to do, there are not movies</p>
+            }
+        </div>
     </div>
 </div>

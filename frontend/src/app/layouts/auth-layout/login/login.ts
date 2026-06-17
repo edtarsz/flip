@@ -38,7 +38,7 @@ export class Login {
           if (error) {
             this.loginError.set(error.message);
           } else {
-            this.router.navigate(['/index']);
+            this.router.navigate(['/swipe']);
           }
         } catch (err: any) {
           this.loginError.set(err.message || 'An unexpected error occurred.');

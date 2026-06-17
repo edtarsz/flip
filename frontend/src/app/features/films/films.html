@@ -1,6 +1,6 @@
-<app-separator class="relative top-25"></app-separator>
-<div class="grid grid-cols-[auto_1fr] relative top-25 h-[calc(100vh-6.5rem)] overflow-hidden">
-    <app-film-filters [genres]="genres()" [selectedGenres]="selectedGenres()" [selectedYear]="selectedYear()"
+<app-separator class="relative top-15 sm:top-25"></app-separator>
+<div class="grid grid-cols-[auto_1fr] relative top-15 sm:top-25 h-[calc(100vh-4rem)] sm:h-[calc(100vh-6.5rem)] overflow-hidden">
+    <app-film-filters #filters [genres]="genres()" [selectedGenres]="selectedGenres()" [selectedYear]="selectedYear()"
         (apply)="applyFilters($event)" (toggle)="toggled()">
     </app-film-filters>
 
@@ -9,7 +9,7 @@
             <div class="flex gap-4 items-center h-full w-full">
                 <app-film-search-bar class="w-full" [searchModel]="searchModel()"
                     (searchModelChange)="searchModel.set($event)" (searchSubmitted)="onSearchSubmitted($event)"
-                    (searchReset)="onReset()">
+                    (searchReset)="onReset()" (toggleFilters)="filters.onToggleSidebar()">
                 </app-film-search-bar>
             </div>
         </div>

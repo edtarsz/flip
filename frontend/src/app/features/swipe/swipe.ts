@@ -6,11 +6,13 @@ import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { getTmdbImageUrl } from '../../shared/pipes/tmdb-image.pipe';
 import { Router } from '@angular/router';
 import { Separator } from "@shared/ui/separator/separator";
+import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
 
+import { WatchlistService } from '@core/services/watchlist.service';
 
 @Component({
   selector: 'app-swipe',
-  imports: [SwipeCard, Separator],
+  imports: [SwipeCard, Separator, HeaderMobile],
   templateUrl: './swipe.html',
   styleUrl: './swipe.css',
   host: {
@@ -20,12 +22,12 @@ import { Separator } from "@shared/ui/separator/separator";
 export class Swipe implements OnInit {
   private filmService = inject(FilmService);
   private swipeService = inject(SwipeService);
+  private watchlistService = inject(WatchlistService);
   private router = inject(Router);
 
   readonly allFilms = this.swipeService.recommendations;
   readonly genres = this.filmService.genres;
-
-  currentIndex = signal(0);
+  readonly currentIndex = this.swipeService.currentIndex;
 
   activeFilm = computed(() => {
     const films = this.allFilms();
@@ -44,8 +46,14 @@ export class Swipe implements OnInit {
   isLayerAActive = signal<boolean>(true);
   isFirstLoad = signal<boolean>(true);
 
+  showCover = this.swipeService.showCover;
+  shouldAnimateBackdrop = signal(false);
+
   constructor() {
     effect(() => {
+      if (this.showCover()) {
+        return;
+      }
       const film = this.activeFilm();
       if (film) {
         const imageUrl = getTmdbImageUrl(film.poster_path, 'w1280');
@@ -73,20 +81,23 @@ export class Swipe implements OnInit {
   }
 
   ngOnInit() {
-    this.currentIndex.set(0);
-    this.swipeService.clearRecommendations();
-    this.swipeService.getRecommendations().catch(console.error);
+    const existing = this.allFilms();
+    const remaining = existing.length - this.currentIndex();
 
-    if (this.genres().length === 0) {
-      this.filmService.getGenres().subscribe();
+    if (remaining < 5) {
+      this.swipeService.getRecommendations().catch(console.error);
     }
   }
 
   async onSwiped(direction: 'left' | 'right', film: FilmTMDB) {
-    this.currentIndex.update(idx => idx + 1);
+    this.swipeService.advanceIndex();
 
     const swipeDirection = direction === 'right' ? 'like' : 'dislike';
     this.swipeService.recordSwipe(film, swipeDirection, this.genres()).catch(console.error);
+
+    if (swipeDirection === 'like') {
+      this.watchlistService.addToWatchlist(film).catch(console.error);
+    }
 
     const remaining = this.allFilms().length - this.currentIndex();
     if (remaining < 5) {
@@ -110,8 +121,12 @@ export class Swipe implements OnInit {
     return `brightness(${brightness})`;
   }
 
+  onCoverSwiped() {
+    this.shouldAnimateBackdrop.set(true);
+    this.swipeService.setCoverShown();
+  }
+
   onFilmClick(id: number) {
     this.router.navigate(['/films', id]);
   }
 }
-

@@ -48,9 +48,6 @@ export class IndexLayout implements OnInit, OnDestroy {
       this.hasMorePages.set(true);
       this.filmService.getFilms().subscribe();
     }
-    if (this.genres().length === 0) {
-      this.filmService.getGenres().subscribe();
-    }
   }
 
   constructor() {

@@ -1,33 +1,29 @@
 @if (variant() === 'primary') {
-<button [type]="type()" [disabled]="disabled()"
-    class="flex items-center gap-1 justify-center font-bold transition-colors duration-200 px-3 h-full min-h-[38px] rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) hover:text-(--color-text)/80 disabled:opacity-50 disabled:cursor-not-allowed {{ size() }}">
-    {{ label() }}
-    @switch (icon()) {
-    @case ('corner-down-left') {
+<button
+    [type]="type()"
+    [disabled]="disabled()"
+    class="flex items-center gap-1 justify-center font-bold transition-colors duration-200 px-3 h-full min-h-[38px] rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) hover:text-(--color-text)/80 disabled:opacity-50 disabled:cursor-not-allowed {{ size() }}"
+>
+    {{ label() }} @switch (icon()) { @case ('corner-down-left') {
     <svg lucideCornerDownLeft size="16"></svg>
-    }
-    @case ('search') {
+    } @case ('search') {
     <svg lucideSearch size="16"></svg>
-    }
-    @case ('eye') {
+    } @case ('eye') {
     <svg lucideEye size="16"></svg>
-    }
-    }
+    } }
 </button>
 } @else {
-<button [type]="type()" [disabled]="disabled()"
-    class="flex items-center gap-1 justify-center font-bold transition-colors duration-200 px-3 h-full min-h-[38px] rounded bg-(--color-oliva) hover:bg-(--color-oliva-dark) hover:text-(--color-text)/80 disabled:opacity-50 disabled:cursor-not-allowed {{ size() }}">
-    {{ label() }}
-    @switch (icon()) {
-    @case ('corner-down-left') {
+<button
+    [type]="type()"
+    [disabled]="disabled()"
+    class="flex items-center gap-1 justify-center font-bold transition-colors duration-200 px-3 h-full min-h-[38px] rounded bg-(--color-oliva) hover:bg-(--color-oliva-dark) hover:text-(--color-text)/80 disabled:opacity-50 disabled:cursor-not-allowed {{ size() }}"
+>
+    {{ label() }} @switch (icon()) { @case ('corner-down-left') {
     <svg lucideCornerDownLeft size="16"></svg>
-    }
-    @case ('search') {
+    } @case ('search') {
     <svg lucideSearch size="16"></svg>
-    }
-    @case ('eye') {
+    } @case ('eye') {
     <svg lucideEye size="16"></svg>
-    }
-    }
+    } }
 </button>
 }

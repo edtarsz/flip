@@ -1,11 +1,11 @@
 import { Component, signal, effect, untracked, input, output } from '@angular/core';
 import { form, FormField, FormRoot } from '@angular/forms/signals';
-import { LucideSearch, LucideX } from '@lucide/angular';
+import { LucideSearch, LucideX, LucideChevronsUpDown } from '@lucide/angular';
 import { Button } from '@shared/ui/button/button';
 
 @Component({
   selector: 'app-film-search-bar',
-  imports: [FormRoot, FormField, LucideSearch, LucideX, Button],
+  imports: [FormRoot, FormField, LucideSearch, LucideX, Button, LucideChevronsUpDown],
   templateUrl: './film-search-bar.html',
 })
 export class FilmSearchBar {
@@ -14,6 +14,7 @@ export class FilmSearchBar {
 
   searchSubmitted = output<string>();
   searchReset = output<void>();
+  toggleFilters = output<void>();
 
   internalSearch = signal<{ query: string }>({ query: '' });
 

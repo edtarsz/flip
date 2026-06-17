@@ -1,5 +1,7 @@
 @if (loading()) {
-<div class="animate-pulse select-none pointer-events-none flex flex-col gap-2 w-full aspect-4/6 h-full">
+<div
+    class="animate-pulse select-none pointer-events-none flex flex-col gap-2 w-full aspect-4/6 h-full"
+>
     <div class="w-full flex-1 bg-(--color-gray-dark) rounded-sm"></div>
     <div class="flex flex-col gap-1 w-full">
         <div class="w-full h-5 bg-(--color-gray-dark) rounded"></div>
@@ -13,22 +15,39 @@
 <div class="cursor-pointer flex flex-col gap-1.5 h-full">
     <div class="flex-1 rounded-sm overflow-hidden">
         @if (film()!.poster_path){
-        <img [src]="film()!.poster_path | tmdbImage:'w342'" [alt]="film()!.title" class="h-full object-cover"
-            draggable="false" loading="lazy">
+        <img
+            [src]="film()!.poster_path | tmdbImage:'w342'"
+            [alt]="film()!.title"
+            class="h-full object-cover"
+            draggable="false"
+            [attr.loading]="isPriority() ? 'eager' : 'lazy'"
+        >
         } @else {
-        <div class="w-full h-full bg-(--color-gray-dark) flex items-center justify-center">
-            <svg lucideImage size="32" class="text-(--color-gray) brightness-60"></svg>
+        <div
+            class="w-full h-full bg-(--color-gray-dark) flex items-center justify-center"
+        >
+            <svg
+                lucideImage
+                size="32"
+                class="text-(--color-gray) brightness-60"
+            >
+            </svg>
         </div>
         }
     </div>
 
     <div class="flex flex-col gap-1 text-wrapper">
-        <p class="font-bold truncate">{{ film()!.title }}</p>
+        <p class="font-bold truncate text-[clamp(0.8rem,3vw,1.2rem)]">
+            {{ film()!.title }}
+        </p>
         <div class="flex items-center justify-between">
-            <p class="text-xs text-(--color-gray)">{{ film()!.release_date | date:'yyyy' }}</p>
+            <p class="text-xs text-(--color-gray)">
+                {{ film()!.release_date | date:'yyyy' }}
+            </p>
             <div class="flex gap-1 items-center">
                 <svg lucideStar size="16" fill="#ffc300" color="#ffc300"></svg>
-                <span class="font-semibold text-sm">{{ film()!.vote_average | number:'1.0-1' }}</span>
+                <span class="font-semibold text-sm"
+                >{{ film()!.vote_average | number:'1.0-1' }}</span>
             </div>
         </div>
     </div>

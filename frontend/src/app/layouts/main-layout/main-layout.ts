@@ -4,13 +4,12 @@ import { Header } from "../../shared/ui/headers/header-desktop/header-desktop";
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, Header, HeaderMobile],
+  imports: [RouterOutlet, Header],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
 })
