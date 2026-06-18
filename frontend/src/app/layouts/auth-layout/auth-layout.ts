@@ -4,7 +4,7 @@ import { Separator } from "@shared/ui/separator/separator";
 
 @Component({
   selector: 'app-auth-layout',
-  imports: [Header, Separator],
+  imports: [Header],
   templateUrl: './auth-layout.html',
   styleUrl: './auth-layout.css',
 })

@@ -8,7 +8,6 @@ import { FilmGrid } from './film-grid/film-grid';
 @Component({
   selector: 'app-films',
   imports: [
-    Separator,
     FilmFilters,
     FilmSearchBar,
     FilmGrid],

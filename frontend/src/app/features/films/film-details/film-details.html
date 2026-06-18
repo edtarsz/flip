@@ -1,9 +1,14 @@
-<app-separator class="relative top-25"></app-separator>
-<div class="flex flex-col relative top-25 h-[calc(100vh-6.5rem)] overflow-hidden px-[5vw] py-10">
+<div
+    class="flex flex-col relative top-20 h-[calc(100vh-5rem)] overflow-hidden px-[5vw] py-10"
+>
     <div class="flex flex-col gap-5">
         <div>
             <h3 class="text-5xl font-bold">{{ film()?.title }}</h3>
         </div>
-        <img [src]="film()?.poster_path | tmdbImage:'w342'" alt="{{ film()?.title }}" class="max-w-80">
+        <img
+            [src]="film()?.poster_path | tmdbImage:'w342'"
+            alt="{{ film()?.title }}"
+            class="max-w-80"
+        >
     </div>
 </div>

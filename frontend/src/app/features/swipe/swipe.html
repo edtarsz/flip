@@ -1,7 +1,8 @@
-<app-separator class="relative top-0 sm:top-25 hidden sm:block"></app-separator>
-<div class="h-full flex flex-col">
+<div
+    class="flex flex-col relative top-20 h-[calc(100dvh-5rem)] sm:h-[calc(100vh-5rem)] overflow-hidden"
+>
     <div
-        class="flex items-center h-full sm:h-screen relative px-4 pt-15 sm:px-0 sm:pt-15 justify-center"
+        class="flex-1 flex flex-col items-center justify-center relative px-4 sm:px-0 py-5"
     >
         <div
             class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105"
@@ -30,33 +31,43 @@
         >
         </div>
 
-        <div class="relative w-full sm:max-w-[500px] sm:h-[700px] h-full">
-            @for (film of visibleFilms(); track film.id; let idx = $index; let
-            last = $last) {
-            <app-swipe-card
-                [film]="film"
-                [genres]="genres()"
-                [isTop]="last"
-                (click)="onFilmClick(film.id)"
-                [showBg]="last && currentIndex() === allFilms().length - 1"
-                (swiped)="onSwiped($event, film)"
-                class="absolute top-0 left-0 w-full h-full transition-all duration-300 ease-out"
-                [class.pointer-events-none]="!last"
-                [class.hidden]="showCover() && !last"
-                [style.z-index]="idx + 1"
-                [style.transform]="getCardTransform(idx, visibleFilms().length)"
-                [style.filter]="getCardFilter(idx, visibleFilms().length)"
+        <div
+            class="grid grid-cols-1 lg:grid-cols-3 w-full h-full px-[5vw] relative z-1 py-4 gap-[4vw] md:gap-[3vw] lg:gap-[5vw]"
+        >
+            <app-card title="My Card" class="hidden lg:flex"></app-card>
+
+            <div
+                class="relative w-full flex-1 min-h-0 sm:h-[700px] sm:flex-none max-w-[500px] mx-auto"
             >
-            </app-swipe-card>
-            } @if (showCover()) {
-            <app-swipe-card
-                [isCover]="true"
-                class="absolute top-0 left-0 w-full h-full z-10"
-                [style.transform]="'translate(0px, 0px) scale(1.005)'"
-                (swiped)="onCoverSwiped()"
-            ></app-swipe-card>
-            }
+                @for (film of visibleFilms(); track film.id; let idx = $index;
+                let last = $last) {
+                <app-swipe-card
+                    [film]="film"
+                    [genres]="genres()"
+                    [isTop]="last"
+                    (click)="onFilmClick(film.id)"
+                    [showBg]="last && currentIndex() === allFilms().length - 1"
+                    (swiped)="onSwiped($event, film)"
+                    class="absolute top-0 left-0 w-full h-full transition-all duration-300 ease-out"
+                    [class.pointer-events-none]="!last"
+                    [class.hidden]="showCover() && !last"
+                    [style.z-index]="idx + 1"
+                    [style.transform]="getCardTransform(idx, visibleFilms().length)"
+                    [style.filter]="getCardFilter(idx, visibleFilms().length)"
+                >
+                </app-swipe-card>
+                } @if (showCover()) {
+                <app-swipe-card
+                    [isCover]="true"
+                    class="absolute top-0 left-0 w-full h-full z-10"
+                    [style.transform]="'translate(0px, 0px) scale(1.005)'"
+                    (swiped)="onCoverSwiped()"
+                ></app-swipe-card>
+                }
+            </div>
+
+            <app-card title="My Card" class="hidden lg:flex"></app-card>
         </div>
     </div>
-    <app-header-mobile class="relative sm:hidden"></app-header-mobile>
+    <app-header-mobile class="relative sm:hidden shrink-0"></app-header-mobile>
 </div>

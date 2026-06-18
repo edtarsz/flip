@@ -1,62 +1,67 @@
-<header
-  class="
-    fixed top-0 sm:top-4 left-1/2 -translate-x-1/2 z-6 w-[95%] py-3 sm:py-5 px-2 sm:px-8
-    grid grid-cols-2 sm:grid-cols-3 items-center rounded-md border border-transparent
-  "
+<div
+  class="fixed top-0 left-0 w-full z-6 flex flex-col bg-(--color-background)"
 >
-  <a routerLink="/dashboard" class="flex items-center gap-1">
-    <span class="font-bold text-lg">flip</span>
-    <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8">
-  </a>
+  <header
+    class="
+      w-full py-6 px-8
+      grid grid-cols-2 sm:grid-cols-3 items-center rounded-md border border-transparent
+    "
+  >
+    <a routerLink="/dashboard" class="flex items-center gap-1">
+      <span class="font-extrabold text-xl">flip</span>
+      <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8">
+    </a>
 
-  <nav class="hidden sm:block">
-    <ul
-      class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold items-center"
-    >
-      @if (isAuthenticated()) {
-      <li><a routerLink="/swipe">Swipe</a></li>
-      <li><a routerLink="/films">Films</a></li>
-      <li><a routerLink="/watchlist">Watchlists</a></li>
-      <!-- <li><a routerLink="/trees">Trees</a></li> -->
-      } @else {
-      <li><a routerLink="/films">Films</a></li>
-      }
-    </ul>
-  </nav>
-
-  <nav>
-    <ul class="flex gap-[2vw] justify-end font-bold items-center">
-      @if (!isAuthenticated()) {
-      <li class="">
-        <a routerLink="/auth/login">Login</a>
-      </li>
-      <li>
-        <a routerLink="/auth/signup">Register</a>
-      </li>
-      } @else {
-      <li
-        class="cursor-pointer flex flex-reverse items-center gap-3 pointer-events-auto sm:pointer-events-none"
-        (click)="toggleOverlay()"
+    <nav class="hidden sm:block">
+      <ul
+        class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold items-center"
       >
-        {{ username }}
-        <div
-          class="aspect-square rounded-full w-7 sm:w-8 bg-(--color-wine-red) flex justify-center items-center"
+        @if (isAuthenticated()) {
+        <li><a routerLink="/swipe">Swipe</a></li>
+        <li><a routerLink="/films">Films</a></li>
+        <li><a routerLink="/watchlist">Watchlists</a></li>
+        <!-- <li><a routerLink="/trees">Trees</a></li> -->
+        } @else {
+        <li><a routerLink="/films">Films</a></li>
+        }
+      </ul>
+    </nav>
+
+    <nav>
+      <ul class="flex gap-[2vw] justify-end font-bold items-center">
+        @if (!isAuthenticated()) {
+        <li class="">
+          <a routerLink="/auth/login">Login</a>
+        </li>
+        <li>
+          <a routerLink="/auth/signup">Register</a>
+        </li>
+        } @else {
+        <li
+          class="cursor-pointer flex flex-reverse items-center gap-3 pointer-events-auto sm:pointer-events-none"
+          (click)="toggleOverlay()"
         >
-          <svg lucideUser size="18" class="hidden sm:block"></svg>
-        </div>
-      </li>
-      <li class="hidden sm:block">
-        <a (click)="signOut()" class="cursor-pointer">Logout</a>
-      </li>
-      }
-    </ul>
-  </nav>
-</header>
+          {{ username }}
+          <div
+            class="aspect-square rounded-full w-7 sm:w-8 bg-(--color-wine-red) flex justify-center items-center"
+          >
+            <svg lucideUser size="18" class="hidden sm:block"></svg>
+          </div>
+        </li>
+        <li class="hidden sm:block">
+          <a (click)="signOut()" class="cursor-pointer">Logout</a>
+        </li>
+        }
+      </ul>
+    </nav>
+  </header>
+  <app-separator></app-separator>
+</div>
 
 @if(isOverlayVisible()) {
-<app-separator class="relative top-15 z-7 sm:hidden"></app-separator>
+<app-separator class="relative top-20 z-7 sm:hidden"></app-separator>
 <div
-  class="top-15 fixed w-screen h-screen bg-(--color-background)/80 z-6 p-5 backdrop-blur-sm sm:hidden"
+  class="top-20 fixed w-screen h-screen bg-(--color-background)/80 z-6 p-5 backdrop-blur-sm sm:hidden"
   (click)="hideOverlay()"
 >
   <div

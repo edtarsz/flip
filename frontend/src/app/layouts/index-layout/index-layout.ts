@@ -13,7 +13,7 @@ import { FilmService } from '@core/services/film.service';
 
 @Component({
   selector: 'app-index-layout',
-  imports: [CardFeatures, Button, SwipeCard, Separator, FilmCarousel],
+  imports: [CardFeatures, Button, SwipeCard, FilmCarousel],
   templateUrl: './index-layout.html',
   styleUrl: './index-layout.css',
 })

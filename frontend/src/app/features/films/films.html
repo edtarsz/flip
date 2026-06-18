@@ -1,21 +1,38 @@
-<app-separator class="relative top-15 sm:top-25"></app-separator>
-<div class="grid grid-cols-[auto_1fr] relative top-15 sm:top-25 h-[calc(100vh-4rem)] sm:h-[calc(100vh-6.5rem)] overflow-hidden">
-    <app-film-filters #filters [genres]="genres()" [selectedGenres]="selectedGenres()" [selectedYear]="selectedYear()"
-        (apply)="applyFilters($event)" (toggle)="toggled()">
+<div
+    class="grid grid-cols-[auto_1fr] relative top-20 h-[calc(100vh-5rem)] overflow-hidden"
+>
+    <app-film-filters
+        #filters
+        [genres]="genres()"
+        [selectedGenres]="selectedGenres()"
+        [selectedYear]="selectedYear()"
+        (apply)="applyFilters($event)"
+        (toggle)="toggled()"
+    >
     </app-film-filters>
 
     <section class="flex flex-col gap-6 p-5 h-full overflow-hidden">
         <div class="flex justify-between items-center">
             <div class="flex gap-4 items-center h-full w-full">
-                <app-film-search-bar class="w-full" [searchModel]="searchModel()"
-                    (searchModelChange)="searchModel.set($event)" (searchSubmitted)="onSearchSubmitted($event)"
-                    (searchReset)="onReset()" (toggleFilters)="filters.onToggleSidebar()">
+                <app-film-search-bar
+                    class="w-full"
+                    [searchModel]="searchModel()"
+                    (searchModelChange)="searchModel.set($event)"
+                    (searchSubmitted)="onSearchSubmitted($event)"
+                    (searchReset)="onReset()"
+                    (toggleFilters)="filters.onToggleSidebar()"
+                >
                 </app-film-search-bar>
             </div>
         </div>
 
-        <app-film-grid [films]="films()" [loading]="loadingNextPage()" [hasMore]="hasMorePages()"
-            (nearEnd)="loadNextPage()" class="flex-1 min-h-0">
+        <app-film-grid
+            [films]="films()"
+            [loading]="loadingNextPage()"
+            [hasMore]="hasMorePages()"
+            (nearEnd)="loadNextPage()"
+            class="flex-1 min-h-0"
+        >
         </app-film-grid>
     </section>
 </div>

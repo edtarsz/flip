@@ -7,7 +7,7 @@ import Lenis from 'lenis';
 
 @Component({
   selector: 'app-watchlist',
-  imports: [Film, Separator],
+  imports: [Film],
   templateUrl: './watchlist.html',
   styleUrl: './watchlist.css',
 })

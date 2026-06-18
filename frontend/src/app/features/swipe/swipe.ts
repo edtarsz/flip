@@ -5,14 +5,13 @@ import { SwipeService } from '@core/services/swipe.service';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { getTmdbImageUrl } from '../../shared/pipes/tmdb-image.pipe';
 import { Router } from '@angular/router';
-import { Separator } from "@shared/ui/separator/separator";
-import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
-
+import { Card } from "@shared/ui/card/card";
 import { WatchlistService } from '@core/services/watchlist.service';
+import { HeaderMobile } from '@shared/ui/headers/header-mobile/header-mobile';
 
 @Component({
   selector: 'app-swipe',
-  imports: [SwipeCard, Separator, HeaderMobile],
+  imports: [SwipeCard, Card, HeaderMobile],
   templateUrl: './swipe.html',
   styleUrl: './swipe.css',
   host: {
