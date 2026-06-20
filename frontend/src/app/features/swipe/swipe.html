@@ -37,7 +37,7 @@
     </div>
 
     <div
-      class="grid grid-cols-1 lg:grid-cols-3 w-full px-[5vw] relative z-1 py-4 gap-[4vw] md:gap-[3vw] lg:gap-[5vw] h-full"
+      class="grid grid-cols-1 lg:grid-cols-3 w-full p-0 sm:px-[5vw] sm:py-4 relative z-1 gap-[4vw] md:gap-[3vw] lg:gap-[5vw] h-full"
     >
       <div class="flex-col gap-5 hidden lg:flex">
         <app-card title="Cast">
@@ -80,7 +80,7 @@
           (click)="onFilmClick(film.id)"
           [showBg]="last && currentIndex() === allFilms().length - 1"
           (swiped)="onSwiped($event, film)"
-          class="absolute top-0 w-full h-full transition-all duration-300 ease-out min-h-0 sm:h-full lg:h-[83%]"
+          class="absolute top-0 w-full h-full transition-all duration-300 ease-out min-h-0 lg:h-[83%]"
           [class.pointer-events-none]="!last"
           [class.hidden]="showCover() && !last"
           [style.z-index]="idx + 1"
@@ -92,7 +92,7 @@
         } @if (showCover()) {
         <app-swipe-card
           [isCover]="true"
-          class="absolute top-0 left-0 w-full h-full z-10 sm:h-full lg:h-[83%]"
+          class="absolute top-0 left-0 w-full h-full z-10 lg:h-[83%]"
           [style.transform-origin]="'center top'"
           [style.transform]="'translate(0px, 0px) scale(1.005)'"
           (swiped)="onCoverSwiped()"
