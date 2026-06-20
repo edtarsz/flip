@@ -1,5 +1,5 @@
 import { SwipeRepository } from "@shared/repositories/swipe.repository.ts"
-import { TmdbDiscoverResult } from "@shared/models/tmdb.ts"
+import { TmdbDiscoverResult, TmdbCreditsResponse } from "@shared/models/tmdb.ts"
 import { corsHeaders } from "@shared/utils/cors.ts"
 
 const TARGET_GENRE_CANDIDATES = 20
@@ -123,9 +123,65 @@ export class RecommendationsController {
                 return { ...film, score: genreScore + peopleBonus }
             })
             .sort((a, b) => b.score - a.score)
-            .slice(0, 20)
 
-        return Response.json({ results: scored }, { headers: corsHeaders })
+        const top20 = scored.slice(0, 20)
+        const top20Ids = top20.map(film => film.id)
+
+        const existingFilms = await this.swipeRepository.getFilmsByExternalIds(top20Ids)
+        const existingMap = new Map<number, typeof existingFilms[0]>()
+        for (const f of existingFilms) {
+            existingMap.set(Number(f.external_film_id), f)
+        }
+
+        const enriched = await Promise.all(
+            top20.map(async (film) => {
+                const dbFilm = existingMap.get(film.id)
+                if (dbFilm) {
+                    return {
+                        ...film,
+                        director_id: dbFilm.director_id,
+                        director_name: dbFilm.director_name,
+                        cast_ids: dbFilm.cast_ids ?? [],
+                        cast_names: dbFilm.cast_names ?? [],
+                    }
+                }
+
+                try {
+                    const credits = await this.fetchCredits(film.id)
+                    const director = credits.crew.find((p) => p.job === 'Director') ?? null
+                    const topCast = credits.cast.slice(0, 3)
+
+                    return {
+                        ...film,
+                        director_id: director?.id ?? null,
+                        director_name: director?.name ?? null,
+                        cast_ids: topCast.map((a) => a.id),
+                        cast_names: topCast.map((a) => a.name),
+                    }
+                } catch (e) {
+                    console.error(`Failed to fetch credits for movie ${film.id}:`, e)
+                    return {
+                        ...film,
+                        director_id: null,
+                        director_name: null,
+                        cast_ids: [],
+                        cast_names: [],
+                    }
+                }
+            })
+        )
+
+        return Response.json({ results: enriched }, { headers: corsHeaders })
+    }
+
+    private async fetchCredits(externalFilmId: number): Promise<TmdbCreditsResponse> {
+        const res = await this.tmdbFetch(`/movie/${externalFilmId}/credits`)
+
+        if (!res.ok) {
+            throw new Error(`TMDB credits fetch failed for film ${externalFilmId}: ${res.statusText}`)
+        }
+
+        return res.json() as Promise<TmdbCreditsResponse>
     }
 
     private async buildGenreCandidates(

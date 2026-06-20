@@ -26,6 +26,16 @@ export class SwipeRepository {
         return data.id
     }
 
+    async getFilmsByExternalIds(externalIds: number[]): Promise<Film[]> {
+        const { data, error } = await this.supabase
+            .from('films')
+            .select('*')
+            .in('external_film_id', externalIds)
+
+        if (error) throw error
+        return data ?? []
+    }
+
     async recordSwipe(userId: string, filmId: string, direction: 'like' | 'dislike', signalStrength: number | null): Promise<void> {
         const { error } = await this.supabase
             .from('swipes')

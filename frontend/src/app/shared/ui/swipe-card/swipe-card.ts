@@ -135,5 +135,39 @@ export class SwipeCard {
     const imageUrl = getTmdbImageUrl(film.poster_path, 'w1280');
     return `linear-gradient(to top, var(--color-background-light) 0px, var(--color-background-light) 6px, transparent 100%), url('${imageUrl}')`;
   }
+
+  swipe(direction: 'left' | 'right'): void {
+    const dirMultiplier = direction === 'right' ? 1 : -1;
+    const cardEl = this.swipeCard.nativeElement;
+    const innerEl = this.innerCard.nativeElement;
+
+    const likeBadge = !this.isCover() ? innerEl.querySelector('.like-badge') as HTMLElement : null;
+    const nopeBadge = !this.isCover() ? innerEl.querySelector('.nope-badge') as HTMLElement : null;
+
+    if (!this.isCover()) {
+      if (direction === 'right' && likeBadge) {
+        gsap.to(likeBadge, { scale: 1, duration: 0.15 });
+      } else if (direction === 'left' && nopeBadge) {
+        gsap.to(nopeBadge, { scale: 1, duration: 0.15 });
+      }
+    }
+
+    gsap.to(cardEl, {
+      x: dirMultiplier * window.innerWidth,
+      y: 0,
+      opacity: 0,
+      duration: 0.4,
+      ease: 'power2.out',
+      onComplete: () => {
+        this.swiped.emit(direction);
+      }
+    });
+
+    gsap.to(innerEl, {
+      rotation: dirMultiplier * 20,
+      duration: 0.4,
+      ease: 'power2.out'
+    });
+  }
 }
 

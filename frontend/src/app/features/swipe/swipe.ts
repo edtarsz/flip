@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, computed, effect, untracked } from '@angular/core';
+import { Component, OnInit, inject, signal, computed, effect, untracked, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
 import { SwipeService } from '@core/services/swipe.service';
@@ -8,10 +8,12 @@ import { Router } from '@angular/router';
 import { Card } from "@shared/ui/card/card";
 import { WatchlistService } from '@core/services/watchlist.service';
 import { HeaderMobile } from '@shared/ui/headers/header-mobile/header-mobile';
+import { PersonItem } from "@shared/ui/person-item/person-item";
+import { LucideThumbsDown, LucideThumbsUp, LucideEye } from '@lucide/angular';
 
 @Component({
   selector: 'app-swipe',
-  imports: [SwipeCard, Card, HeaderMobile],
+  imports: [SwipeCard, Card, HeaderMobile, PersonItem, LucideThumbsDown, LucideThumbsUp, LucideEye],
   templateUrl: './swipe.html',
   styleUrl: './swipe.css',
   host: {
@@ -23,6 +25,8 @@ export class Swipe implements OnInit {
   private swipeService = inject(SwipeService);
   private watchlistService = inject(WatchlistService);
   private router = inject(Router);
+
+  @ViewChildren(SwipeCard) swipeCards!: QueryList<SwipeCard>;
 
   readonly allFilms = this.swipeService.recommendations;
   readonly genres = this.filmService.genres;
@@ -109,8 +113,7 @@ export class Swipe implements OnInit {
     if (distanceFromTop <= 0) return 'translate(0px, 0px) scale(1)';
 
     const scale = 1 - distanceFromTop * 0.05;
-    const translateY = distanceFromTop * 18;
-    return `translateY(${translateY}px) scale(${scale})`;
+    return `scale(${scale})`;
   }
 
   getCardFilter(index: number, total: number): string {
@@ -127,5 +130,32 @@ export class Swipe implements OnInit {
 
   onFilmClick(id: number) {
     this.router.navigate(['/films', id]);
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent) {
+    const key = event.key.toLowerCase();
+    if (key === 'd') {
+      this.swipe('right');
+    } else if (key === 'a') {
+      this.swipe('left');
+    } else if (key === 's') {
+      const film = this.activeFilm();
+      if (film && !this.showCover()) {
+        this.onFilmClick(film.id);
+      }
+    }
+  }
+
+  swipe(direction: 'left' | 'right'): void {
+    const topCard = this.getTopCard();
+    if (topCard) {
+      topCard.swipe(direction);
+    }
+  }
+
+  private getTopCard(): SwipeCard | undefined {
+    const cards = this.swipeCards.toArray();
+    return cards[cards.length - 1];
   }
 }

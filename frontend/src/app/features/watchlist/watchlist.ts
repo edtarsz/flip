@@ -2,12 +2,12 @@ import { Component, inject, OnInit, ViewChild, ElementRef, NgZone, afterNextRend
 import { Router } from '@angular/router';
 import { WatchlistService } from '@core/services/watchlist.service';
 import { Film } from "@shared/ui/film/film";
-import { Separator } from "@shared/ui/separator/separator";
 import Lenis from 'lenis';
+import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
 
 @Component({
   selector: 'app-watchlist',
-  imports: [Film],
+  imports: [Film, HeaderMobile],
   templateUrl: './watchlist.html',
   styleUrl: './watchlist.css',
 })

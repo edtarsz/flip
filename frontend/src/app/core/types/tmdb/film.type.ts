@@ -14,10 +14,14 @@ export type FilmTMDB = {
     video: boolean
     vote_average: number
     vote_count: number
+    director_id?: number | null
+    director_name?: string | null
+    cast_ids?: number[]
+    cast_names?: string[]
 }
 
 export type WatchlistFilmTMDB = {
-    id: number
+    id: string
     title: string
     poster_path: string
     vote_average: number
@@ -26,9 +30,9 @@ export type WatchlistFilmTMDB = {
 }
 
 export type WatchlistItem = {
-    id: number
+    id: string
     created_at: string
-    film_id: number
+    film_id: string
     user_id: string
     film: WatchlistFilmTMDB
 }
