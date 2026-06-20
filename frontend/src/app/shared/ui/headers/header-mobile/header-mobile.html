@@ -2,7 +2,8 @@
     <app-separator></app-separator>
     <ul class="grid grid-cols-2">
         <li
-            class="flex justify-center border-r border-(--color-gray)/20 py-4"
+            (click)="navToSwipe()"
+            class="flex justify-center border-r border-(--color-gray)/20 py-4 w-full"
         >
             <div
                 class="flex flex-col justify-center items-center gap-1 text-sm"
@@ -11,9 +12,12 @@
                 <a routerLink="/swipe">Swipe</a>
             </div>
         </li>
-        <li class="flex justify-center">
+        <li
+            (click)="navToWatchlist()"
+            class="flex justify-center"
+        >
             <div
-                class="flex flex-col justify-center items-center gap-1 text-sm"
+                class="flex flex-col justify-center items-center gap-1 text-sm w-full"
             >
                 <svg lucideThumbsUp size="20"></svg>
                 <a routerLink="/watchlist">Watchlists</a>

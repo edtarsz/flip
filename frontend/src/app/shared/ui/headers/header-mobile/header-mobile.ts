@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { LucideGalleryHorizontalEnd, LucideThumbsUp } from '@lucide/angular';
 import { Separator } from "@shared/ui/separator/separator";
 
@@ -9,4 +9,14 @@ import { Separator } from "@shared/ui/separator/separator";
     templateUrl: './header-mobile.html',
     styleUrl: './header-mobile.css',
 })
-export class HeaderMobile {}
+export class HeaderMobile {
+    private router = inject(Router)
+
+    navToSwipe() {
+        this.router.navigate(['/swipe'])
+    }
+
+    navToWatchlist() {
+        this.router.navigate(['/watchlist'])
+    }
+}
