@@ -1,0 +1,9 @@
+.film-card {
+  --film-aspect-ratio: 2/3;
+}
+
+@media (min-width: 768px) {
+  .film-card {
+    --film-aspect-ratio: 2/3;
+  }
+}

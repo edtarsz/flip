@@ -35,7 +35,7 @@
         </div>
         }
     </div>
-
+    @if (!hideFilmDetails()) {
     <div class="flex flex-col gap-1 text-wrapper">
         <p class="font-bold truncate text-[clamp(0.8rem,3vw,1.2rem)]">
             {{ film()!.title }}
@@ -51,5 +51,6 @@
             </div>
         </div>
     </div>
+    }
 </div>
 }

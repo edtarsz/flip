@@ -4,7 +4,7 @@
   <header
     class="
       w-full py-6 px-8
-      grid grid-cols-2 sm:grid-cols-3 items-center rounded-md border border-transparent
+      grid grid-cols-2 sm:grid-cols-3 items-center
     "
   >
     <a routerLink="/dashboard" class="flex items-center gap-1">
@@ -17,12 +17,24 @@
         class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold items-center"
       >
         @if (isAuthenticated()) {
-        <li><a routerLink="/swipe">Swipe</a></li>
-        <li><a routerLink="/films">Films</a></li>
-        <li><a routerLink="/watchlist">Watchlists</a></li>
-        <!-- <li><a routerLink="/trees">Trees</a></li> -->
+        <li>
+          <a routerLink="/swipe" routerLinkActive="text-(--color-wine-red)"
+          >Swipe</a>
+        </li>
+        <li>
+          <a routerLink="/films" routerLinkActive="text-(--color-wine-red)"
+          >Films</a>
+        </li>
+        <li>
+          <a routerLink="/watchlist" routerLinkActive="text-(--color-wine-red)"
+          >Watchlists</a>
+        </li>
+        <!-- <li><a routerLink="/trees" routerLinkActive="text-(--color-wine-red)">Trees</a></li> -->
         } @else {
-        <li><a routerLink="/films">Films</a></li>
+        <li>
+          <a routerLink="/films" routerLinkActive="text-(--color-wine-red)"
+          >Films</a>
+        </li>
         }
       </ul>
     </nav>
@@ -31,10 +43,14 @@
       <ul class="flex gap-[2vw] justify-end font-bold items-center">
         @if (!isAuthenticated()) {
         <li class="">
-          <a routerLink="/auth/login">Login</a>
+          <a routerLink="/auth/login" routerLinkActive="text-(--color-wine-red)"
+          >Login</a>
         </li>
         <li>
-          <a routerLink="/auth/signup">Register</a>
+          <a
+            routerLink="/auth/signup"
+            routerLinkActive="text-(--color-wine-red)"
+          >Register</a>
         </li>
         } @else {
         <li
@@ -59,7 +75,7 @@
 </div>
 
 @if(isOverlayVisible()) {
-<app-separator class="relative top-20 z-7 sm:hidden"></app-separator>
+<app-separator class="fixed top-20 z-7 sm:hidden"></app-separator>
 <div
   class="top-20 fixed w-screen h-screen bg-(--color-background)/80 z-6 p-5 backdrop-blur-sm sm:hidden"
   (click)="hideOverlay()"
@@ -75,24 +91,28 @@
       <li>
         <a
           routerLink="/swipe"
+          routerLinkActive="text-(--color-wine-red)"
           class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
         >Swipe</a>
       </li>
       <li>
         <a
           routerLink="/films"
+          routerLinkActive="text-(--color-wine-red)"
           class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
         >Films</a>
       </li>
       <li>
         <a
           routerLink="/watchlist"
+          routerLinkActive="text-(--color-wine-red)"
           class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
         >Watchlists</a>
       </li>
       <li>
         <a
           routerLink="/trees"
+          routerLinkActive="text-(--color-wine-red)"
           class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
         >Trees</a>
       </li>
@@ -103,7 +123,13 @@
         >Log out</a>
       </li>
       } @else {
-      <li><a routerLink="/films" class="p-2">Films</a></li>
+      <li>
+        <a
+          routerLink="/films"
+          routerLinkActive="text-(--color-wine-red)"
+          class="p-2"
+        >Films</a>
+      </li>
       }
     </ul>
   </div>

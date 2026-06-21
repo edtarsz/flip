@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { ToastService } from '@core/services/toast.service';
 import { LucideUser } from '@lucide/angular';
@@ -7,7 +7,7 @@ import { Separator } from "@shared/ui/separator/separator";
 
 @Component({
   selector: 'app-header',
-  imports: [LucideUser, RouterLink, Separator],
+  imports: [LucideUser, RouterLink, RouterLinkActive, Separator],
   templateUrl: './header-desktop.html',
   styleUrl: './header-desktop.css',
 })

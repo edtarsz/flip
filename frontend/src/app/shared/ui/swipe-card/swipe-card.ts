@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, afterNextRender, input, output, effect, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, afterNextRender, input, output, effect, OnDestroy, inject } from '@angular/core';
 import { LucideCircle, LucideEye, LucideStar, LucideThumbsDown, LucideThumbsUp } from '@lucide/angular';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
@@ -27,6 +27,7 @@ export class SwipeCard implements OnDestroy {
   swiped = output<'left' | 'right'>();
 
   private draggableInstance?: Draggable;
+  private hostEl = inject(ElementRef<HTMLElement>);
 
   constructor() {
     effect(() => {
@@ -47,6 +48,7 @@ export class SwipeCard implements OnDestroy {
       const likeBadge = !this.isCover() ? inner.querySelector('.like-badge') as HTMLElement : null;
       const nopeBadge = !this.isCover() ? inner.querySelector('.nope-badge') as HTMLElement : null;
       const self = this;
+      let savedZIndex = '';
 
       const draggables = Draggable.create(this.swipeCard.nativeElement, {
         type: 'x,y',
@@ -56,6 +58,10 @@ export class SwipeCard implements OnDestroy {
           if (type.includes('touch')) {
             self.swipeCard.nativeElement.click();
           }
+        },
+        onDragStart: function () {
+          savedZIndex = self.hostEl.nativeElement.style.zIndex;
+          self.hostEl.nativeElement.style.zIndex = '100';
         },
         onDrag: function () {
           const draggable = this as Draggable;
@@ -79,6 +85,7 @@ export class SwipeCard implements OnDestroy {
         },
         onRelease: function () {
           const draggable = this as Draggable;
+          self.hostEl.nativeElement.style.zIndex = savedZIndex;
           if (Math.abs(draggable.x) > 45) {
             const direction = draggable.x > 0 ? 1 : -1;
             const swipeDirection = draggable.x > 0 ? 'right' : 'left';

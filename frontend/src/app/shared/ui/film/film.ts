@@ -14,4 +14,5 @@ export class Film {
   film = input<FilmTMDB | WatchlistFilmTMDB>();
   loading = input<boolean>(false);
   isPriority = input<boolean>(false);
+  hideFilmDetails = input<boolean>(false);
 }

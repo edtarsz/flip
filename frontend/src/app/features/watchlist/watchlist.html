@@ -3,15 +3,15 @@
 >
     <div
         #scrollWrapper
-        class="flex-1 min-h-0 overflow-y-auto custom-scrollbar overscroll-contain pr-2 px-5 my-4 mr-4"
+        class="flex-1 min-h-0 overflow-y-auto custom-scrollbar overscroll-contain pr-2 sm:px-4 sm:my-4 sm:mr-4 px-2 my-2 mr-2"
         data-lenis-prevent
     >
         <div
-            class="grid md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] grid-cols-2 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-6 gap-x-2 gap-y-2 pb-5"
+            class="sm:flex flex-wrap grid grid-cols-3 sm:justify-start justify-center sm:gap-x-5 sm:gap-y-6 gap-x-2 gap-y-2 pb-5"
         >
             @if (isLoading()) {
             <div
-                class="aspect-2/3 w-full bg-(--color-background-light) rounded-lg animate-pulse"
+                class="aspect-2/3 max-w-[180px] w-full bg-(--color-background-light) rounded-lg animate-pulse"
             >
             </div>
             } @else { @for (item of watchlist(); track item.id; let idx =
@@ -19,8 +19,9 @@
             <app-film
                 [film]="item.film"
                 [isPriority]="idx < 6"
-                class="film-card w-full"
+                class="film-card grow basis-[80px] sm:basis-[150px] max-w-[180px]"
                 (click)="onFilmClick(item.film.external_film_id)"
+                [hideFilmDetails]="true"
             ></app-film>
             } @empty {
             <div
