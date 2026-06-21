@@ -1,6 +1,6 @@
 <aside
-    class="bg-(--color-background) relative md:top-0 left-0 flex flex-col h-full transition-all duration-300 overflow-hidden z-1 border-(--color-gray)/20"
-    [ngClass]="isVisibleSidebar ? 'md:w-80 w-screen border-r' : 'md:w-[74px] w-0 border-r-0 md:border-r'"
+    class="bg-(--color-background) fixed md:relative md:top-0 left-0 flex flex-col h-full transition-all duration-300 overflow-hidden z-2 border-(--color-gray)/20"
+    [ngClass]="isVisibleSidebar ? 'md:w-80 w-70 border-r' : 'md:w-[74px] w-0 border-r-0 md:border-r'"
 >
     <div
         class="absolute top-0 left-0 opacity-0 md:w-[74px] w-0 flex justify-center items-center py-3 transition-opacity duration-300"
@@ -16,7 +16,7 @@
     </div>
 
     <div
-        class="md:w-80 w-screen flex flex-col h-full min-w-[320px] transition-opacity duration-300"
+        class="md:w-80 w-70 flex flex-col h-full md:min-w-[320px] min-w-0 transition-opacity duration-300"
         [ngClass]="isVisibleSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'"
     >
         <div class="flex justify-between items-center px-5 py-3">
@@ -78,3 +78,11 @@
         </div>
     </div>
 </aside>
+
+@if (isVisibleSidebar) {
+<div
+    class="fixed z-1 right-0 w-screen flex justify-end h-screen bg-(--color-background)/50"
+    (click)="onToggleSidebar()"
+>
+</div>
+}

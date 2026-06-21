@@ -35,6 +35,13 @@
     animation: fadeIn 0.15s ease-out;
 }
 
+@media (max-width: 767px) {
+    .panel {
+        top: auto;
+        bottom: calc(100% + 0.5rem);
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

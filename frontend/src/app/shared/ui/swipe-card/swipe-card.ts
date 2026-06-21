@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, afterNextRender, input, output, effect } from '@angular/core';
+import { Component, ElementRef, ViewChild, afterNextRender, input, output, effect, OnDestroy } from '@angular/core';
 import { LucideCircle, LucideEye, LucideStar, LucideThumbsDown, LucideThumbsUp } from '@lucide/angular';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
@@ -14,7 +14,7 @@ import { getTmdbImageUrl } from '../../pipes/tmdb-image.pipe';
   templateUrl: './swipe-card.html',
   styleUrl: './swipe-card.css'
 })
-export class SwipeCard {
+export class SwipeCard implements OnDestroy {
   @ViewChild('swipeCard') swipeCard!: ElementRef<HTMLDivElement>;
   @ViewChild('innerCard') innerCard!: ElementRef<HTMLDivElement>;
 
@@ -168,6 +168,12 @@ export class SwipeCard {
       duration: 0.4,
       ease: 'power2.out'
     });
+  }
+
+  ngOnDestroy() {
+    if (this.draggableInstance) {
+      this.draggableInstance.kill();
+    }
   }
 }
 

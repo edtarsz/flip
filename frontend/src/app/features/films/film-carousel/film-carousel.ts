@@ -1,4 +1,4 @@
-import { Component, ElementRef, viewChild, afterNextRender, inject, NgZone, effect, signal, input, output } from '@angular/core';
+import { Component, ElementRef, viewChild, afterNextRender, inject, NgZone, effect, signal, input, output, OnDestroy } from '@angular/core';
 import { Film } from '@shared/ui/film/film';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { gsap } from 'gsap';
@@ -12,7 +12,7 @@ import { NgClass } from '@angular/common';
   imports: [Film, LucideChevronLeft, LucideChevronRight, NgClass],
   templateUrl: './film-carousel.html',
 })
-export class FilmCarousel {
+export class FilmCarousel implements OnDestroy {
   private ngZone = inject(NgZone);
   private router = inject(Router);
 
@@ -28,6 +28,7 @@ export class FilmCarousel {
 
   carouselRef = viewChild<ElementRef<HTMLElement>>('carouselContainer');
   private readonly targetScrolls = new Map<HTMLElement, number>();
+  private draggableInstance?: Draggable;
 
   constructor() {
     afterNextRender(() => {
@@ -67,7 +68,7 @@ export class FilmCarousel {
 
     const self = this;
 
-    Draggable.create(proxy, {
+    const draggables = Draggable.create(proxy, {
       type: 'x',
       trigger: el,
       onPress: () => {
@@ -89,6 +90,8 @@ export class FilmCarousel {
         gsap.set(proxy, { x: 0, y: 0 });
       }
     });
+
+    this.draggableInstance = draggables[0];
   }
 
   onFilmClick(id: number) {
@@ -143,6 +146,12 @@ export class FilmCarousel {
           }
         }
       });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.draggableInstance) {
+      this.draggableInstance.kill();
     }
   }
 }

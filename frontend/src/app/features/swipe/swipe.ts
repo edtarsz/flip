@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal, computed, effect, untracked, ViewChildren, QueryList, HostListener } from '@angular/core';
+import { ToastService } from '@core/services/toast.service';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
 import { SwipeService } from '@core/services/swipe.service';
@@ -87,7 +88,7 @@ export class Swipe implements OnInit {
     const existing = this.allFilms();
     const remaining = existing.length - this.currentIndex();
 
-    if (remaining < 5) {
+    if (remaining < 10) {
       this.swipeService.getRecommendations().catch(console.error);
     }
   }
@@ -103,7 +104,7 @@ export class Swipe implements OnInit {
     }
 
     const remaining = this.allFilms().length - this.currentIndex();
-    if (remaining < 5) {
+    if (remaining < 10) {
       this.swipeService.getRecommendations().catch(console.error);
     }
   }

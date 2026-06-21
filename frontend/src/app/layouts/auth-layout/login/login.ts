@@ -5,6 +5,7 @@ import { AuthService } from '@core/services/auth.service';
 import { LoginSchema, loginSchema } from '@core/types/user.type';
 import { AuthLayout } from '../auth-layout';
 import { Button } from '@shared/ui/button/button';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ import { Button } from '@shared/ui/button/button';
 export class Login {
   private authService = inject(AuthService)
   private router = inject(Router)
+  private toast = inject(ToastService)
 
   loginError = signal<string | null>(null);
 
@@ -38,6 +40,7 @@ export class Login {
           if (error) {
             this.loginError.set(error.message);
           } else {
+            this.toast.show(`Bienvenido ${this.authService.user()?.user_metadata['username']}!`, 'success');
             this.router.navigate(['/swipe']);
           }
         } catch (err: any) {

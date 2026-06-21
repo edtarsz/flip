@@ -125,12 +125,15 @@
     --color-gray: #989595;
     --color-gray-dark: #222222;
 
+    --color-wine-light: #bb418c;
     --color-wine-red: #893168;
     --color-wine-dark: #581f42;
     --color-oliva: #435e45;
     --color-oliva-dark: #212e21;
 
-    --color-error: #d94759;
+    --color-error: #c11f32;
+    --color-success: #2a9d8f;
+    --color-info: #4d8eb8;
 }
 
 body {

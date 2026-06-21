@@ -27,6 +27,7 @@ export class SwipeRepository {
     }
 
     async getFilmsByExternalIds(externalIds: number[]): Promise<Film[]> {
+        if (!externalIds || externalIds.length === 0) return []
         const { data, error } = await this.supabase
             .from('films')
             .select('*')
@@ -102,55 +103,41 @@ export class SwipeRepository {
     }
 
     async getSwipedExternalFilmIds(userId: string): Promise<Set<number>> {
-        const { data: swipes, error: swipesError } = await this.supabase
+        const { data, error } = await this.supabase
             .from('swipes')
-            .select('film_id')
+            .select('films ( external_film_id )')
             .eq('user_id', userId)
 
-        if (swipesError) throw swipesError
-        if (!swipes || swipes.length === 0) return new Set()
-
-        const filmIds = swipes.map(s => s.film_id)
-        const { data: films, error: filmsError } = await this.supabase
-            .from('films')
-            .select('external_film_id')
-            .in('id', filmIds)
-
-        if (filmsError) throw filmsError
+        if (error) throw error
 
         const ids = new Set<number>()
-        for (const f of films ?? []) {
-            if (typeof f.external_film_id === 'number') {
-                ids.add(f.external_film_id)
+        for (const row of data ?? []) {
+            const films = row.films as unknown as { external_film_id: number } | { external_film_id: number }[] | null;
+            const externalId = Array.isArray(films) ? films[0]?.external_film_id : films?.external_film_id;
+            if (typeof externalId === 'number') {
+                ids.add(externalId)
             }
         }
         return ids
     }
 
     async getRecentLikedExternalFilmIds(userId: string, limit: number = 3): Promise<number[]> {
-        const { data: swipes, error: swipesError } = await this.supabase
+        const { data, error } = await this.supabase
             .from('swipes')
-            .select('film_id')
+            .select('films ( external_film_id )')
             .eq('user_id', userId)
             .eq('direction', 'like')
             .order('created_at', { ascending: false })
             .limit(limit)
 
-        if (swipesError) throw swipesError
-        if (!swipes || swipes.length === 0) return []
-
-        const filmIds = swipes.map(s => s.film_id)
-        const { data: films, error: filmsError } = await this.supabase
-            .from('films')
-            .select('external_film_id')
-            .in('id', filmIds)
-
-        if (filmsError) throw filmsError
+        if (error) throw error
 
         const externalIds: number[] = []
-        for (const f of films ?? []) {
-            if (typeof f.external_film_id === 'number') {
-                externalIds.push(f.external_film_id)
+        for (const row of data ?? []) {
+            const films = row.films as unknown as { external_film_id: number } | { external_film_id: number }[] | null;
+            const externalId = Array.isArray(films) ? films[0]?.external_film_id : films?.external_film_id;
+            if (typeof externalId === 'number') {
+                externalIds.push(externalId)
             }
         }
         return externalIds

@@ -22,7 +22,7 @@ export class FilmFilters {
 
   localGenres: number[] = [];
   localYear: number | null = null;
-  showSidebar = signal(isViewportAtLeast(768));
+  showSidebar = signal(isViewportAtLeast(768, false));
 
   constructor() {
     effect(() => {
@@ -57,6 +57,10 @@ export class FilmFilters {
       genres: this.localGenres,
       year: this.localYear,
     });
+    if (!isViewportAtLeast(768)) {
+      this.showSidebar.set(false);
+      this.toggle.emit(false);
+    }
   }
 
   onClear() {

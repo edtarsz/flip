@@ -43,7 +43,7 @@
         <app-card title="Cast">
           <ul class="flex flex-col gap-2">
             @if (activeFilm() && activeFilm().cast_names && !showCover()) { @for
-            (castMember of activeFilm()!.cast_names!; track castMember) {
+            (castMember of activeFilm()!.cast_names!; track $index) {
             <app-person-item
               [name]="castMember"
             ></app-person-item>

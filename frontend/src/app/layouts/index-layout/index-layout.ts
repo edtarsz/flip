@@ -1,4 +1,4 @@
-import { Component, afterNextRender, inject, OnDestroy, signal, OnInit } from '@angular/core';
+import { Component, afterNextRender, inject, OnDestroy, signal, OnInit, effect } from '@angular/core';
 import { CardFeatures } from "@shared/ui/card-features/card-features";
 import { Button } from "@shared/ui/button/button";
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
@@ -27,6 +27,10 @@ export class IndexLayout implements OnInit, OnDestroy {
   private router = inject(Router);
   private localLenis?: Lenis;
   private rafId?: number;
+
+  private initTimeoutId?: any;
+  private swipeTimeoutId?: any;
+  private activeTimeline?: gsap.core.Timeline;
 
   readonly genres = this.filmService.genres;
 
@@ -66,8 +70,17 @@ export class IndexLayout implements OnInit, OnDestroy {
         };
         this.rafId = requestAnimationFrame(update);
       }
+    });
 
-      this.initSwipeAnimation();
+    effect(() => {
+      const authenticated = this.isAuthenticated();
+      this.cleanupSwipeAnimation();
+
+      if (!authenticated) {
+        this.initTimeoutId = setTimeout(() => {
+          this.initSwipeAnimation();
+        }, 50);
+      }
     });
   }
 
@@ -99,12 +112,31 @@ export class IndexLayout implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.cleanupSwipeAnimation();
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
     }
     if (this.localLenis) {
       this.localLenis.destroy();
     }
+  }
+
+  private cleanupSwipeAnimation() {
+    if (this.initTimeoutId) {
+      clearTimeout(this.initTimeoutId);
+      this.initTimeoutId = undefined;
+    }
+    if (this.swipeTimeoutId) {
+      clearTimeout(this.swipeTimeoutId);
+      this.swipeTimeoutId = undefined;
+    }
+    if (this.activeTimeline) {
+      this.activeTimeline.kill();
+      this.activeTimeline = undefined;
+    }
+    gsap.killTweensOf('.landing-card');
+    gsap.killTweensOf('.like-badge');
+    gsap.killTweensOf('.nope-badge');
   }
 
   private initSwipeAnimation() {
@@ -144,6 +176,7 @@ export class IndexLayout implements OnInit, OnDestroy {
 
     const performSwipe = () => {
       const topCard = stack[stack.length - 1];
+      if (!topCard) return;
       const direction = swipeDirections[swipeIndex % swipeDirections.length];
       swipeIndex++;
 
@@ -156,9 +189,10 @@ export class IndexLayout implements OnInit, OnDestroy {
       const targetX = direction === 'right' ? 500 : -500;
       const targetRot = direction === 'right' ? 5 : -5;
 
-      const swipeTl = gsap.timeline({
+      this.activeTimeline = gsap.timeline({
         onComplete: () => {
-          stack.unshift(stack.pop()!);
+          const popped = stack.pop();
+          if (popped) stack.unshift(popped);
 
           gsap.set(topCard, {
             x: 80,
@@ -174,11 +208,11 @@ export class IndexLayout implements OnInit, OnDestroy {
           if (likeBadge) gsap.set(likeBadge, { scale: 0 });
           if (nopeBadge) gsap.set(nopeBadge, { scale: 0 });
 
-          setTimeout(performSwipe, 500);
+          this.swipeTimeoutId = setTimeout(performSwipe, 500);
         }
       });
 
-      swipeTl.to(topCard, { x: direction === 'right' ? 40 : -40, rotation: targetRot, duration: 0.6, ease: 'power1.out' })
+      this.activeTimeline.to(topCard, { x: direction === 'right' ? 40 : -40, rotation: targetRot, duration: 0.6, ease: 'power1.out' })
         .to(activeBadge, { scale: 1.2, duration: 0.3 }, '<')
         .to(topCard, { x: targetX, rotation: 0, opacity: 0, duration: 0.5, ease: 'power2.in' })
         .to(activeBadge, { scale: 0, duration: 0.2 }, '<');
@@ -193,7 +227,7 @@ export class IndexLayout implements OnInit, OnDestroy {
 
         gsap.set(card, { zIndex: newIdx });
 
-        swipeTl.to(card, {
+        this.activeTimeline.to(card, {
           x: newX,
           scale: newScale,
           filter: `brightness(${newBrightness})`,
@@ -203,7 +237,7 @@ export class IndexLayout implements OnInit, OnDestroy {
       }
     };
 
-    setTimeout(performSwipe, 500);
+    this.swipeTimeoutId = setTimeout(performSwipe, 500);
   }
 
   onExplore() {

@@ -9,7 +9,13 @@
         <div
             class="grid md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] grid-cols-2 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-6 gap-x-2 gap-y-2 pb-5"
         >
-            @for (item of watchlist(); track item.id; let idx = $index) {
+            @if (isLoading()) {
+            <div
+                class="aspect-2/3 w-full bg-(--color-background-light) rounded-lg animate-pulse"
+            >
+            </div>
+            } @else { @for (item of watchlist(); track item.id; let idx =
+            $index) {
             <app-film
                 [film]="item.film"
                 [isPriority]="idx < 6"
@@ -17,8 +23,18 @@
                 (click)="onFilmClick(item.film.external_film_id)"
             ></app-film>
             } @empty {
-            <p>to do, there are not movies</p>
-            }
+            <div
+                class="col-span-full flex flex-col items-center justify-center py-20 text-center select-none"
+            >
+                <p class="text-(--color-gray) text-lg font-bold">
+                    Tu watchlist está vacía
+                </p>
+                <p class="text-(--color-gray)/60 text-sm mt-1">
+                    Desliza a la derecha (like) en las películas para
+                    guardarlas aquí.
+                </p>
+            </div>
+            } }
         </div>
     </div>
     <app-header-mobile class="relative sm:hidden shrink-0"></app-header-mobile>

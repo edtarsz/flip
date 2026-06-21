@@ -1,0 +1,62 @@
+<div
+  class="fixed bottom-0 top-5 sm:top-auto right-1/2 translate-x-1/2 sm:translate-x-0 sm:bottom-8 sm:right-8 z-10 flex flex-col gap-3 max-w-sm w-full pointer-events-none"
+>
+  @for (toast of toasts(); track toast.id) {
+  <div
+    class="bg-(--color-wine-red) text-white pointer-events-auto flex items-center gap-3 p-4 rounded-lg shadow-lg backdrop-blur-md transition-all duration-300 transform translate-y-0 scale-100 opacity-100 relative overflow-hidden"
+    [class.toast-exit]="toast.isDismissing"
+  >
+    <div
+      class="flex justify-center items-center rounded-full aspect-square w-6 shrink-0"
+      [ngClass]="{
+        'bg-(--color-success)': toast.type === 'success',
+        'bg-(--color-error)': toast.type === 'error',
+        'bg-(--color-info)': toast.type === 'info'
+      }"
+    >
+      @if (toast.type === 'success') {
+      <svg
+        lucideCheck
+        size="12"
+        strokeWidth="4"
+        class="shrink-0 text-(--color-text)"
+      >
+      </svg>
+      } @else if (toast.type === 'error') {
+      <span class="text-white font-bold">!</span>
+      } @else {
+      <span class="text-white font-bold">!</span>
+      }
+    </div>
+
+    <div
+      class="flex-1 text-sm select-none leading-5 font-bold"
+    >
+      {{ toast.message }}
+    </div>
+
+    <button
+      (click)="dismiss(toast.id)"
+      class="hover:text-white transition-colors duration-200 cursor-pointer p-2 rounded-full hover:bg-white/10 flex items-center justify-center border-0 outline-none"
+    >
+      <svg lucideX size="16"></svg>
+    </button>
+
+    <!-- Bottom progress bar container (acts as the border) -->
+    <div
+      class="absolute bottom-0 left-0 right-0 h-[3px] bg-(--color-wine-dark) overflow-hidden rounded-b-lg"
+    >
+      <div
+        class="h-full w-full origin-left progress-bar"
+        [ngClass]="{
+          'bg-(--color-success)': toast.type === 'success',
+          'bg-(--color-error)': toast.type === 'error',
+          'bg-(--color-info)': toast.type === 'info'
+        }"
+        [style.animationDuration.ms]="toast.duration || 4000"
+      >
+      </div>
+    </div>
+  </div>
+  }
+</div>

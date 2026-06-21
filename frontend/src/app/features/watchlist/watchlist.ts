@@ -17,8 +17,10 @@ export class Watchlist implements OnInit, OnDestroy {
   private ngZone = inject(NgZone);
 
   readonly watchlist = this.watchlistService.watchlist;
+  readonly isLoading = this.watchlistService.isLoading;
 
   private localLenis?: Lenis;
+  private rafId?: number;
   @ViewChild('scrollWrapper') scrollWrapper?: ElementRef<HTMLElement>;
 
   constructor() {
@@ -33,9 +35,9 @@ export class Watchlist implements OnInit, OnDestroy {
 
           const raf = (time: number) => {
             this.localLenis?.raf(time);
-            requestAnimationFrame(raf);
+            this.rafId = requestAnimationFrame(raf);
           };
-          requestAnimationFrame(raf);
+          this.rafId = requestAnimationFrame(raf);
         });
       }
     });
@@ -46,6 +48,9 @@ export class Watchlist implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+    }
     if (this.localLenis) {
       this.localLenis.destroy();
     }
