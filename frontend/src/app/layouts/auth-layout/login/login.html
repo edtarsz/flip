@@ -5,7 +5,7 @@
             <input
                 type="email"
                 [formField]="loginForm.email"
-                class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+                class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
             >
             @if (loginForm.email().touched() && loginForm.email().invalid()) {
             <span class="text-xs text-(--color-error)"
@@ -18,7 +18,7 @@
             <input
                 type="password"
                 [formField]="loginForm.password"
-                class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+                class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
             >
             @if (loginForm.password().touched() &&
             loginForm.password().invalid()) {
