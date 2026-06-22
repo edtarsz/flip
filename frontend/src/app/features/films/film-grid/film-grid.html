@@ -4,7 +4,7 @@
     data-lenis-prevent
 >
     <div
-        class="grid md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] grid-cols-2 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-6 gap-x-2 gap-y-2 pb-5"
+        class="sm:flex flex-wrap grid grid-cols-3 sm:justify-start justify-center sm:gap-x-3 sm:gap-y-6 gap-x-2 gap-y-2 pb-5"
     >
         @if (films().length === 0 && loading()) { @for (item of [1, 2, 3, 4];
         track $index) {
@@ -14,6 +14,7 @@
             [film]="film"
             [isPriority]="idx < 6"
             (click)="onFilmClick(film.id)"
+            class="film-card grow basis-[80px] sm:basis-[180px]"
         ></app-film>
         } @if (hasMore()) {
         <div #sentinel id="vertical-infinite-sentinel">

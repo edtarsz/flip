@@ -7,7 +7,7 @@
       grid grid-cols-2 sm:grid-cols-3 items-center
     "
   >
-    <a routerLink="/dashboard" class="flex items-center gap-1">
+    <a routerLink="/dashboard" class="flex items-center gap-2">
       <span class="font-extrabold text-xl">flip</span>
       <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8">
     </a>
@@ -39,8 +39,38 @@
       </ul>
     </nav>
 
-    <nav>
-      <ul class="flex gap-[2vw] justify-end font-bold items-center">
+    <nav class="h-full">
+      <ul class="flex gap-[2vw] justify-end font-bold items-center h-full">
+        <li
+          class="hidden md:flex rounded-md bg-(--color-gray-dark) border border-(--color-gray)/20 gap-1 h-full p-0.5"
+        >
+          <button
+            class="rounded-md aspect-square flex justify-center items-center p-1 transition-colors duration-200"
+            [class.bg-(--color-wine-red)]="currentTheme() === 'light'"
+            (click)="toggleTheme()"
+          >
+            <svg
+              lucideSun
+              size="16"
+              class="hidden sm:block"
+              [class.text-(--color-background)]="currentTheme() === 'light'"
+            >
+            </svg>
+          </button>
+          <button
+            class="rounded-md aspect-square flex justify-center items-center p-1 transition-colors duration-200"
+            [class.bg-(--color-wine-red)]="currentTheme() === 'dark'"
+            (click)="toggleTheme()"
+          >
+            <svg
+              lucideMoon
+              size="16"
+              class="hidden sm:block"
+              [class.text-(--color-background)]="currentTheme() === 'dark'"
+            >
+            </svg>
+          </button>
+        </li>
         @if (!isAuthenticated()) {
         <li class="">
           <a routerLink="/auth/login" routerLinkActive="text-(--color-wine-red)"

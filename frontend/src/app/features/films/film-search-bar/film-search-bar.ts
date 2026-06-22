@@ -11,6 +11,7 @@ import { Button } from '@shared/ui/button/button';
 export class FilmSearchBar {
   searchModel = input<string>('');
   searchModelChange = output<string>();
+  hasActiveFilters = input<boolean>(false);
 
   searchSubmitted = output<string>();
   searchReset = output<void>();

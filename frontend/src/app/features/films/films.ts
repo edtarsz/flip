@@ -160,8 +160,4 @@ export class Films implements OnInit {
       error: () => this.loadingNextPage.set(false)
     });
   }
-
-  get isVisibleSidebar() {
-    return this.toggledSidebar();
-  }
 }

@@ -1,47 +1,62 @@
 <aside
     class="bg-(--color-background) fixed md:relative md:top-0 left-0 flex flex-col h-full transition-all duration-300 overflow-hidden z-2 border-(--color-gray)/20"
-    [ngClass]="isVisibleSidebar ? 'md:w-80 w-70 border-r' : 'md:w-[74px] w-0 border-r-0 md:border-r'"
+    [ngClass]="isVisibleSidebar ? 'md:w-80 w-70 border-r' : 'md:w-[70px] w-0 border-r-0 md:border-r'"
 >
     <div
-        class="absolute top-0 left-0 opacity-0 md:w-[74px] w-0 flex justify-center items-center py-3 transition-opacity duration-300"
+        class="absolute top-0 left-0 opacity-0 md:w-[74px] w-0 flex justify-start items-center transition-opacity duration-300 p-2"
         [ngClass]="isVisibleSidebar ? 'pointer-events-none' : 'opacity-100'"
     >
-        <svg
-            lucideChevronsUpDown
-            size="32"
-            class="cursor-pointer rotate-90 hidden md:block"
+        <div
             (click)="onToggleSidebar()"
+            class="cursor-pointer p-2 hover:bg-(--color-gray)/20 rounded-full transition-colors duration-200"
         >
-        </svg>
+            <svg
+                lucideChevronsUpDown
+                size="32"
+                class="rotate-90 hidden md:block"
+            >
+            </svg>
+            @if (localGenres.length > 0 || localYear !== null) {
+            <span
+                class="absolute top-3 right-4 bg-(--color-wine-red) w-3 flex items-center justify-center rounded-full aspect-square text-xs"
+            ></span>
+            }
+        </div>
     </div>
 
     <div
         class="md:w-80 w-70 flex flex-col h-full md:min-w-[320px] min-w-0 transition-opacity duration-300"
         [ngClass]="isVisibleSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'"
     >
-        <div class="flex justify-between items-center px-5 py-3">
+        <div
+            class="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-2"
+        >
             <p class="font-bold text-lg">Filters</p>
-            <svg
-                lucideChevronsDownUp
-                size="28"
-                class="cursor-pointer rotate-90"
+            <div
                 (click)="onToggleSidebar()"
+                class="p-1 sm:p-2 hover:bg-(--color-gray)/20 rounded-full cursor-pointer transition-colors duration-200"
             >
-            </svg>
+                <svg
+                    lucideChevronsDownUp
+                    size="30"
+                    class="rotate-90"
+                >
+                </svg>
+            </div>
         </div>
         <app-separator></app-separator>
 
-        <div class="flex flex-col gap-5 p-5">
-            <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-3 sm:gap-5 p-3 sm:p-4">
+            <div class="flex flex-col gap-2 sm:gap-4">
                 <p class="font-semibold">Genres</p>
-                <ul class="flex flex-wrap relative gap-2">
+                <ul class="flex flex-wrap relative gap-1.5 sm:gap-2">
                     @for (genre of genres(); track $index) {
                     <li
                         class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-150 group hover:text-(--color-text)/80"
                     >
                         <span
                             (click)="toggleGenre(genre.id)"
-                            class="px-3 py-1 rounded-full border transition-color duration-150"
+                            class="text-sm sm:text-base px-3 py-1 rounded-full border transition-color duration-150"
                             [ngClass]="localGenres.includes(genre.id) ? 'bg-(--color-wine-red) text-(--color-text) border-(--color-wine-red)' : 'group-hover:border-(--color-gray)/50 border-(--color-gray)/20'"
                         >
                             {{ genre.name }}
@@ -51,7 +66,7 @@
                 </ul>
             </div>
 
-            <div class="rounded-sm flex flex-col gap-4">
+            <div class="rounded-sm flex flex-col gap-2 sm:gap-4">
                 <p class="font-semibold">Release Date</p>
                 <app-year-picker
                     [selectedYear]="localYear"
