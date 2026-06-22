@@ -32,7 +32,7 @@
         </div> -->
 
     <div
-      class="absolute inset-0 bg-linear-to-b from-(--color-background) via-(--color-background)/10 to-transparent pointer-events-none"
+      class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent pointer-events-none"
     >
     </div>
 
@@ -103,23 +103,23 @@
         >
           <div
             (click)="swipe('left')"
-            class="cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background-light) border border-(--color-gray)/30"
+            class="cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background) border border-(--color-gray)/30"
           >
             <div
               class="absolute bg-(--color-wine-red) aspect-square w-8 rounded-full flex justify-center items-center top-[-5px] right-[-5px]"
             >
-              <p class="text-md font-bold">A</p>
+              <p class="text-md font-bold text-white">A</p>
             </div>
             <svg lucideThumbsDown size="25"></svg>
           </div>
           <div
             (click)="!showCover() && activeFilm() && onFilmClick(activeFilm()!.id)"
-            class="cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background-light) border border-(--color-gray)/30"
+            class="cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background) border border-(--color-gray)/30"
           >
             <div
               class="absolute bg-(--color-wine-red) aspect-square w-8 rounded-full flex justify-center items-center top-[-5px] right-[-5px]"
             >
-              <p class="text-md font-bold">S</p>
+              <p class="text-md font-bold text-white">S</p>
             </div>
             <svg
               lucideEye
@@ -131,12 +131,12 @@
 
           <div
             (click)="swipe('right')"
-            class="cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background-light) border border-(--color-gray)/30"
+            class="cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background) border border-(--color-gray)/30"
           >
             <div
               class="absolute bg-(--color-wine-red) aspect-square w-8 rounded-full flex justify-center items-center top-[-5px] right-[-5px]"
             >
-              <p class="text-md font-bold">D</p>
+              <p class="text-md font-bold text-white">D</p>
             </div>
             <svg lucideThumbsUp size="25"></svg>
           </div>

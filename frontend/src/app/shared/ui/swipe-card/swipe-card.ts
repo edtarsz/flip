@@ -140,7 +140,7 @@ export class SwipeCard implements OnDestroy {
     const film = this.film();
     if (!film) return '';
     const imageUrl = getTmdbImageUrl(film.poster_path, 'w1280');
-    return `linear-gradient(to top, var(--color-background-light) 0px, var(--color-background-light) 6px, transparent 100%), url('${imageUrl}')`;
+    return `linear-gradient(to top, var(--color-background) 0px, var(--color-background) 6px, transparent 100%), url('${imageUrl}')`;
   }
 
   swipe(direction: 'left' | 'right'): void {

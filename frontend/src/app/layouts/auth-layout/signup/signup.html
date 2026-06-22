@@ -4,55 +4,92 @@
         <div class="flex flex-col gap-4 w-full">
             <div class="flex flex-col gap-2">
                 <label for="email" class="text-sm">Enter your email</label>
-                <input type="email" [formField]="registerForm.email"
+                <input
+                    type="email"
+                    [formField]="registerForm.email"
                     (keydown.enter)="$event.preventDefault(); goToStep2()"
-                    class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200">
-                @if (registerForm.email().touched() && registerForm.email().invalid()) {
-                <span class="text-xs text-(--color-error)">{{ registerForm.email().errors()[0]?.message }}</span>
+                    class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+                >
+                @if (registerForm.email().touched() &&
+                registerForm.email().invalid()) {
+                <span class="text-xs text-(--color-error)"
+                >{{ registerForm.email().errors()[0]?.message }}</span>
                 }
             </div>
             <div class="flex flex-col gap-2">
                 <label for="username" class="text-sm">Choose a username</label>
-                <input type="username" [formField]="registerForm.username"
+                <input
+                    type="username"
+                    [formField]="registerForm.username"
                     (keydown.enter)="$event.preventDefault(); goToStep2()"
-                    class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200">
-                @if (registerForm.username().touched() && registerForm.username().invalid()) {
-                <span class="text-xs text-(--color-error)">{{ registerForm.username().errors()[0]?.message }}</span>
+                    class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+                >
+                @if (registerForm.username().touched() &&
+                registerForm.username().invalid()) {
+                <span class="text-xs text-(--color-error)"
+                >{{ registerForm.username().errors()[0]?.message }}</span>
                 }
             </div>
-            <app-button type="button" label="Continue" size="w-full" (click)="goToStep2()"></app-button>
+            <app-button
+                type="button"
+                label="Continue"
+                size="w-full"
+                (click)="goToStep2()"
+            ></app-button>
         </div>
         } @else {
         <div class="flex flex-col gap-4 w-full">
-            <button type="button" (click)="step.set(1)"
-                class="text-left text-xs text-(--color-gray) hover:text-white flex items-center gap-1 w-fit">
+            <button
+                type="button"
+                (click)="step.set(1)"
+                class="text-left text-xs text-(--color-gray) hover:text-white flex items-center gap-1 w-fit"
+            >
                 <svg lucideArrowBigLeft size="22"></svg> Back
             </button>
-            <div class="flex flex-col gap-2">
+             <div class="flex flex-col gap-2">
                 <label for="password" class="text-sm">Password</label>
-                <input type="password" [formField]="registerForm.password"
-                    class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200">
-                @if (registerForm.password().touched() && registerForm.password().invalid()) {
-                <span class="text-xs text-(--color-error)">{{ registerForm.password().errors()[0]?.message }}</span>
+                <input
+                    type="password"
+                    [formField]="registerForm.password"
+                    autocomplete="new-password"
+                    class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+                >
+                @if (registerForm.password().touched() &&
+                registerForm.password().invalid()) {
+                <span class="text-xs text-(--color-error)"
+                >{{ registerForm.password().errors()[0]?.message }}</span>
                 }
             </div>
             <div class="flex flex-col gap-2">
-                <label for="confirmPassword" class="text-sm">Confirm password</label>
-                <input type="password" [formField]="registerForm.confirmPassword"
-                    class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200">
-                @if (registerForm.confirmPassword().touched() && registerForm.confirmPassword().invalid()) {
-                <span class="text-xs text-(--color-error)">{{ registerForm.confirmPassword().errors()[0]?.message
+                <label for="confirmPassword" class="text-sm"
+                >Confirm password</label>
+                <input
+                    type="password"
+                    [formField]="registerForm.confirmPassword"
+                    autocomplete="new-password"
+                    class="bg-transparent border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+                >
+                @if (registerForm.confirmPassword().touched() &&
+                registerForm.confirmPassword().invalid()) {
+                <span class="text-xs text-(--color-error)"
+                >{{ registerForm.confirmPassword().errors()[0]?.message
                     }}</span>
                 }
             </div>
-            <app-button type="submit" label="Continue" size="w-full" [disabled]="registerForm().invalid()"></app-button>
+            <app-button
+                label="Continue"
+                size="w-full"
+                [disabled]="registerForm().invalid()"
+            ></app-button>
         </div>
         }
     </form>
 
     <p class="text-sm text-center text-(--color-gray) mt-2">
         Already have an account?
-        <a routerLink="/auth/login"
-            class="text-(--color-wine-red) hover:underline font-semibold cursor-pointer ml-1">Log In</a>
+        <a
+            routerLink="/auth/login"
+            class="text-(--color-wine-red) hover:underline font-semibold cursor-pointer ml-1"
+        >Log In</a>
     </p>
 </app-auth-layout>

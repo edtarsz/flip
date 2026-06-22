@@ -4,7 +4,7 @@
     <div #swipeCard class="relative w-full h-full">
         <div
             #innerCard
-            class="relative w-full h-full swipe-card cursor-grab flex flex-col bg-(--color-background-light) rounded-lg"
+            class="relative w-full h-full swipe-card cursor-grab flex flex-col bg-(--color-background) rounded-lg border border-(--color-text)/20"
             [class.items-stretch]="!isCover()"
             [class.items-center]="isCover()"
             [class.justify-center]="isCover()"
@@ -12,7 +12,7 @@
             @if (isCover()) {
             <div class="flex flex-col items-center gap-4 text-center px-6">
                 <h2
-                    class="text-2xl font-bold text-white select-none"
+                    class="text-2xl font-bold text-(--color-text) select-none"
                 >
                     Swipe to start
                 </h2>
@@ -24,13 +24,13 @@
             </div>
             } @else {
             <div
-                class="nope-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] right-[-30px] bg-(--color-wine-red)"
+                class="nope-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] right-[-30px] bg-(--color-wine-red) text-white"
             >
                 <svg lucideThumbsDown size="22"></svg>
             </div>
 
             <div
-                class="like-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] left-[-30px] bg-(--color-wine-red)"
+                class="like-badge absolute w-15 aspect-square rounded-full flex items-center justify-center scale-0 top-[50%] translate-y-[-50%] left-[-30px] bg-(--color-wine-red) text-white"
             >
                 <svg lucideThumbsUp size="22"></svg>
             </div>
@@ -40,7 +40,7 @@
                 [style.background-image]="getCardImage()"
             >
             </div>
-            <div class="flex flex-col bg-(--color-background-light) rounded-lg">
+            <div class="flex flex-col bg-(--color-background) rounded-lg">
                 <div class="flex p-5 justify-between items-center gap-5">
                     <div class="flex flex-col gap-3 flex-1 min-w-0">
                         <div class="flex flex-col">
@@ -79,7 +79,7 @@
                             @for (genre of film()?.genre_ids?.slice(0, 2); track
                             $index) {
                             <span
-                                class="bg-(--color-wine-red) rounded-md px-2 py-1"
+                                class="bg-(--color-wine-red) text-white rounded-md px-2 py-1"
                             >{{ genres().find((g) => g.id === genre)?.name
                                 }}</span>
                             }
@@ -103,7 +103,7 @@
                 <app-separator></app-separator>
                 <div class="overflow-hidden px-5 py-3">
                     <p
-                        class="line-clamp-3 select-none text-md sm:text-lg text-(--color-gray) leading-6.5 sm:leading-7"
+                        class="line-clamp-3 select-none text-md sm:text-lg text-(--color-text)/50 leading-6.5 sm:leading-7"
                     >
                         {{film()?.overview }}
                     </p>

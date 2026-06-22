@@ -16,7 +16,7 @@
         }
     </div>
     <div
-        class="flex rounded-sm gap-2 w-full min-w-0 lg:max-w-[500px] border border-(--color-gray)/20 items-center px-3 py-2"
+        class="flex rounded-sm gap-2 w-full min-w-0 lg:max-w-[500px] border border-(--color-gray)/20 bg-(--color-background) items-center px-3 py-2"
     >
         <svg lucideSearch size="16" color="var(--color-gray)" class="shrink-0">
         </svg>
@@ -38,7 +38,6 @@
     </div>
     <div class="flex gap-2">
         <app-button
-            type="submit"
             label="Search"
             icon="corner-down-left"
             class="h-full"
@@ -46,7 +45,7 @@
         <button
             type="button"
             (click)="onReset()"
-            class="bg-transparent border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-150 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
+            class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-150 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
         >
             Clear
         </button>

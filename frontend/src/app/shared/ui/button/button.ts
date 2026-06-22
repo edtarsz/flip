@@ -12,8 +12,6 @@ export type ButtonIcon = 'corner-down-left' | 'search' | 'eye' | 'none';
 export class Button {
   label = input.required<string>();
   size = input<'w-full' | 'w-fit'>('w-fit');
-  type = input<'button' | 'submit' | 'reset'>('button');
   icon = input<ButtonIcon>();
-  variant = input<'primary' | 'secondary'>('primary');
   disabled = input<boolean>(false);
 }

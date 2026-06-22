@@ -137,8 +137,8 @@
 }
 
 :root[data-theme="light"], :root.light {
-    --color-background: #fcfcfb;
-    --color-background-light: #cecece;
+    --color-background: #e0e0e0;
+    --color-background-light: #fcfcfb;
     --color-text: #111111;
     --color-gray: #757272;
     --color-gray-dark: #e5e5e4;

@@ -1,5 +1,5 @@
 <aside
-    class="bg-(--color-background) fixed md:relative md:top-0 left-0 flex flex-col h-full transition-all duration-300 overflow-hidden z-2 border-(--color-gray)/20"
+    class="bg-(--color-background) fixed md:relative md:top-0 left-0 flex flex-col h-full transition-[width] duration-300 overflow-hidden z-2 border-(--color-gray)/20"
     [ngClass]="isVisibleSidebar ? 'md:w-80 w-70 border-r' : 'md:w-[70px] w-0 border-r-0 md:border-r'"
 >
     <div
@@ -56,8 +56,8 @@
                     >
                         <span
                             (click)="toggleGenre(genre.id)"
-                            class="text-sm sm:text-base px-3 py-1 rounded-full border transition-color duration-150"
-                            [ngClass]="localGenres.includes(genre.id) ? 'bg-(--color-wine-red) text-(--color-text) border-(--color-wine-red)' : 'group-hover:border-(--color-gray)/50 border-(--color-gray)/20'"
+                            class="text-sm sm:text-base px-3 py-1 rounded-full border transition-color duration-150 bg-(--color-background)"
+                            [ngClass]="localGenres.includes(genre.id) ? 'bg-(--color-wine-red) text-white border-(--color-wine-red)' : 'group-hover:border-(--color-gray)/50 border-(--color-gray)/20'"
                         >
                             {{ genre.name }}
                         </span>
@@ -85,7 +85,7 @@
                 <button
                     type="button"
                     (click)="onClear()"
-                    class="bg-transparent border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-150 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
+                    class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-150 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
                 >
                     Clear
                 </button>
