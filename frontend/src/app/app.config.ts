@@ -7,6 +7,10 @@ import { AuthService } from '@core/services/auth.service';
 import { FilmService } from '@core/services/film.service';
 import { firstValueFrom } from 'rxjs';
 import { GlobalErrorHandler } from '@core/handlers/global-error.handler';
+import { gsap } from 'gsap';
+import { Draggable } from 'gsap/Draggable';
+
+gsap.registerPlugin(Draggable);
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -8,6 +8,12 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 import { getTmdbImageUrl } from '../../pipes/tmdb-image.pipe';
 
+const SWIPE_THRESHOLD = 45;
+const SWIPE_DURATION = 0.3;
+const SNAP_DURATION = 0.5;
+const SWIPE_EASE = 'power2.out';
+const SNAP_EASE = 'elastic.out(1, 0.5)';
+
 @Component({
   selector: 'app-swipe-card',
   imports: [Separator, LucideStar, LucideEye, DecimalPipe, DatePipe, LucideCircle, LucideThumbsUp, LucideThumbsDown],
@@ -25,6 +31,7 @@ export class SwipeCard implements OnDestroy {
   isCover = input<boolean>(false);
 
   swiped = output<'left' | 'right'>();
+  clicked = output<void>();
 
   private draggableInstance?: Draggable;
   private hostEl = inject(ElementRef<HTMLElement>);
@@ -42,86 +49,62 @@ export class SwipeCard implements OnDestroy {
     });
 
     afterNextRender(() => {
-      gsap.registerPlugin(Draggable);
-
       const inner = this.innerCard.nativeElement;
       const likeBadge = !this.isCover() ? inner.querySelector('.like-badge') as HTMLElement : null;
       const nopeBadge = !this.isCover() ? inner.querySelector('.nope-badge') as HTMLElement : null;
-      const self = this;
       let savedZIndex = '';
+      let dragStarted = false;
 
       const draggables = Draggable.create(this.swipeCard.nativeElement, {
         type: 'x,y',
         zIndexBoost: false,
-        onClick: function (event) {
-          const type = this['pointerEvent']?.type || '';
-          if (type.includes('touch')) {
-            self.swipeCard.nativeElement.click();
+        minimumMovement: 6,
+        onClick: () => {
+          if (!this.isCover()) {
+            this.clicked.emit();
           }
         },
-        onDragStart: function () {
-          savedZIndex = self.hostEl.nativeElement.style.zIndex;
-          self.hostEl.nativeElement.style.zIndex = '100';
+        onDragStart: () => {
+          dragStarted = true;
+          savedZIndex = this.hostEl.nativeElement.style.zIndex;
+          this.hostEl.nativeElement.style.zIndex = '100';
         },
-        onDrag: function () {
-          const draggable = this as Draggable;
-          const rawRotation = draggable.x * 0.1;
-          const rotation = Math.max(-20, Math.min(20, rawRotation));
-          gsap.to(inner, { rotation: rotation, duration: 0.1, overwrite: 'auto' });
+        onDrag: () => {
+          const d = this.draggableInstance!;
+          const rotation = Math.max(-20, Math.min(20, d.x * 0.1));
+          gsap.to(inner, { rotation, duration: 0.1, overwrite: 'auto' });
 
-          if (self.isCover()) return;
+          if (this.isCover()) return;
 
-          const dragX = draggable.x;
-          const threshold = 45;
-          const scale = Math.min(1, Math.abs(dragX) / threshold);
-
-          if (dragX > 0) {
-            gsap.set(likeBadge, { scale: scale });
+          const scale = Math.min(1, Math.abs(d.x) / SWIPE_THRESHOLD);
+          if (d.x > 0) {
+            gsap.set(likeBadge, { scale });
             gsap.set(nopeBadge, { scale: 0 });
           } else {
-            gsap.set(nopeBadge, { scale: scale });
+            gsap.set(nopeBadge, { scale });
             gsap.set(likeBadge, { scale: 0 });
           }
         },
-        onRelease: function () {
-          const draggable = this as Draggable;
-          self.hostEl.nativeElement.style.zIndex = savedZIndex;
-          if (Math.abs(draggable.x) > 45) {
-            const direction = draggable.x > 0 ? 1 : -1;
-            const swipeDirection = draggable.x > 0 ? 'right' : 'left';
-            gsap.to(draggable.target, {
-              x: direction * window.innerWidth,
-              y: draggable.y + (draggable.y * 0.5),
-              opacity: 0,
-              duration: 0.3,
-              ease: 'power2.out',
-              onComplete: () => {
-                self.swiped.emit(swipeDirection);
-              }
-            });
-            gsap.to(inner, {
-              rotation: direction * 45,
-              duration: 0.5,
-              ease: 'power2.out'
-            });
+        onRelease: () => {
+          const d = this.draggableInstance!;
+          if (dragStarted) {
+            this.hostEl.nativeElement.style.zIndex = savedZIndex;
+            dragStarted = false;
+          }
+
+          if (Math.abs(d.x) > SWIPE_THRESHOLD) {
+            const mult = d.x > 0 ? 1 : -1;
+            const swipeDirection = d.x > 0 ? 'right' : 'left';
+            gsap.timeline({ onComplete: () => this.swiped.emit(swipeDirection) })
+              .to(d.target, { x: mult * window.innerWidth, y: d.y * 1.5, opacity: 0, duration: SWIPE_DURATION, ease: SWIPE_EASE })
+              .to(inner, { rotation: mult * 45, duration: SWIPE_DURATION, ease: SWIPE_EASE }, '<');
           } else {
-            gsap.to(draggable.target, {
-              x: 0,
-              y: 0,
-              duration: 0.5,
-              ease: 'elastic.out(1, 0.5)'
-            });
-            gsap.to(inner, {
-              rotation: 0,
-              duration: 0.5,
-              ease: 'elastic.out(1, 0.5)'
-            });
-            if (!self.isCover() && likeBadge && nopeBadge) {
-              gsap.to([likeBadge, nopeBadge], {
-                scale: 0,
-                duration: 0.3,
-                overwrite: 'auto'
-              });
+            gsap.timeline()
+              .to(d.target, { x: 0, y: 0, duration: SNAP_DURATION, ease: SNAP_EASE })
+              .to(inner, { rotation: 0, duration: SNAP_DURATION, ease: SNAP_EASE }, '<');
+
+            if (!this.isCover() && likeBadge && nopeBadge) {
+              gsap.to([likeBadge, nopeBadge], { scale: 0, duration: SWIPE_DURATION, overwrite: 'auto' });
             }
           }
         }
@@ -144,43 +127,23 @@ export class SwipeCard implements OnDestroy {
   }
 
   swipe(direction: 'left' | 'right'): void {
-    const dirMultiplier = direction === 'right' ? 1 : -1;
+    const mult = direction === 'right' ? 1 : -1;
     const cardEl = this.swipeCard.nativeElement;
     const innerEl = this.innerCard.nativeElement;
 
-    const likeBadge = !this.isCover() ? innerEl.querySelector('.like-badge') as HTMLElement : null;
-    const nopeBadge = !this.isCover() ? innerEl.querySelector('.nope-badge') as HTMLElement : null;
-
     if (!this.isCover()) {
-      if (direction === 'right' && likeBadge) {
-        gsap.to(likeBadge, { scale: 1, duration: 0.15 });
-      } else if (direction === 'left' && nopeBadge) {
-        gsap.to(nopeBadge, { scale: 1, duration: 0.15 });
-      }
+      const badge = direction === 'right'
+        ? innerEl.querySelector('.like-badge') as HTMLElement
+        : innerEl.querySelector('.nope-badge') as HTMLElement;
+      if (badge) gsap.to(badge, { scale: 1, duration: 0.15 });
     }
 
-    gsap.to(cardEl, {
-      x: dirMultiplier * window.innerWidth,
-      y: 0,
-      opacity: 0,
-      duration: 0.4,
-      ease: 'power2.out',
-      onComplete: () => {
-        this.swiped.emit(direction);
-      }
-    });
-
-    gsap.to(innerEl, {
-      rotation: dirMultiplier * 20,
-      duration: 0.4,
-      ease: 'power2.out'
-    });
+    gsap.timeline({ onComplete: () => this.swiped.emit(direction) })
+      .to(cardEl, { x: mult * window.innerWidth, y: 0, opacity: 0, duration: 0.4, ease: SWIPE_EASE })
+      .to(innerEl, { rotation: mult * 20, duration: 0.4, ease: SWIPE_EASE }, '<');
   }
 
   ngOnDestroy() {
-    if (this.draggableInstance) {
-      this.draggableInstance.kill();
-    }
+    this.draggableInstance?.kill();
   }
 }
-

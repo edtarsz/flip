@@ -8,7 +8,7 @@
     "
   >
     <a routerLink="/dashboard" class="flex items-center gap-2">
-      <span class="font-extrabold text-xl">flip</span>
+      <span class="font-extrabold text-lg sm:text-xl">flip</span>
       <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8">
     </a>
 
@@ -45,11 +45,11 @@
           <app-theme-toggle></app-theme-toggle>
         </li>
         @if (!isAuthenticated()) {
-        <li class="">
+        <li class="text-sm sm:text-base">
           <a routerLink="/auth/login" routerLinkActive="text-(--color-wine-red)"
           >Login</a>
         </li>
-        <li>
+        <li class="text-sm sm:text-base">
           <a
             routerLink="/auth/signup"
             routerLinkActive="text-(--color-wine-red)"
@@ -57,7 +57,7 @@
         </li>
         } @else {
         <li
-          class="cursor-pointer flex flex-reverse items-center gap-3 pointer-events-auto sm:pointer-events-none"
+          class="cursor-pointer flex text-sm sm:text-base flex-reverse items-center gap-3 pointer-events-auto sm:pointer-events-none"
           (click)="toggleOverlay()"
         >
           {{ username }}

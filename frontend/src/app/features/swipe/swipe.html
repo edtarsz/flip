@@ -77,7 +77,7 @@
           [film]="film"
           [genres]="genres()"
           [isTop]="last"
-          (click)="onFilmClick(film.id)"
+          (clicked)="onFilmClick(film.id)"
           [showBg]="last && currentIndex() === allFilms().length - 1"
           (swiped)="onSwiped($event, film)"
           class="absolute top-0 w-full h-full transition-all duration-300 ease-out min-h-0 lg:h-[83%]"
