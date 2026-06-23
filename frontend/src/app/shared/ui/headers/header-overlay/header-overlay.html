@@ -1,6 +1,8 @@
-<app-separator class="fixed top-12 z-7 sm:hidden"></app-separator>
+<app-separator
+  class="fixed top-12 left-0 w-full z-7 block sm:hidden"
+></app-separator>
 <div
-  class="top-12 fixed w-screen h-[calc(100dvh-3rem)] bg-(--color-background)/80 z-6 px-1 py-2 backdrop-blur-sm sm:hidden"
+  class="top-12 fixed w-screen h-[calc(100dvh-3rem)] bg-(--color-background)/80 z-6 px-2 py-2 backdrop-blur-sm sm:hidden flex flex-col justify-between"
   (click)="onClose()"
 >
   <div
@@ -8,52 +10,133 @@
     (click)="$event.stopPropagation()"
   >
     <ul
-      class="flex flex-col justify-center gap-[4vw] lg:gap-[3vw] font-bold items-end w-full px-2"
+      class="flex flex-col justify-center gap-2 font-bold items-end w-full"
     >
       @if (isAuthenticated()) {
-      <li>
-        <a
-          routerLink="/swipe"
-          routerLinkActive="text-(--color-wine-red)"
-          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
-        >Swipe</a>
+      <!-- <li
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        routerLink="/index"
+        routerLinkActive
+        #indexActive="routerLinkActive"
+      >
+        <hr
+          class="h-px border-0 bg-(--color-wine-red)/40"
+          [class.w-full]="indexActive.isActive"
+        >
+        <span [class.text-(--color-wine-red)]="indexActive.isActive">
+          Home
+        </span>
+        <svg
+          lucideHouse
+          size="16"
+          class="shrink-0"
+          [ngClass]="{'text-(--color-wine-red)': indexActive.isActive}"
+        >
+        </svg>
+      </li> -->
+      <li
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        routerLink="/swipe"
+        routerLinkActive
+        #swipeActive="routerLinkActive"
+      >
+        <hr
+          class="h-px border-0 bg-(--color-wine-red)/40"
+          [class.w-full]="swipeActive.isActive"
+        >
+        <span [class.text-(--color-wine-red)]="swipeActive.isActive">
+          Swipe
+        </span>
+        <svg
+          lucideGalleryHorizontalEnd
+          size="16"
+          class="shrink-0"
+          [ngClass]="{'text-(--color-wine-red)': swipeActive.isActive}"
+        >
+        </svg>
       </li>
-      <li>
-        <a
-          routerLink="/films"
-          routerLinkActive="text-(--color-wine-red)"
-          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
-        >Films</a>
+      <li
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        routerLink="/films"
+        routerLinkActive
+        #filmsActive="routerLinkActive"
+      >
+        <hr
+          class="h-px border-0 bg-(--color-wine-red)/40"
+          [class.w-full]="filmsActive.isActive"
+        >
+        <span [class.text-(--color-wine-red)]="filmsActive.isActive"
+        >Films</span>
+        <svg
+          lucideClapperboard
+          size="16"
+          class="shrink-0"
+          [ngClass]="{'text-(--color-wine-red)': filmsActive.isActive}"
+        >
+        </svg>
       </li>
-      <li>
-        <a
-          routerLink="/watchlist"
-          routerLinkActive="text-(--color-wine-red)"
-          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
-        >Watchlists</a>
+      <li
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        routerLink="/watchlist"
+        routerLinkActive
+        #watchlistActive="routerLinkActive"
+      >
+        <hr
+          class="h-px border-0 bg-(--color-wine-red)/40"
+          [class.w-full]="watchlistActive.isActive"
+        >
+        <span [class.text-(--color-wine-red)]="watchlistActive.isActive"
+        >Watchlists</span>
+        <svg
+          lucideThumbsUp
+          size="16"
+          class="shrink-0"
+          [ngClass]="{'text-(--color-wine-red)': watchlistActive.isActive}"
+        >
+        </svg>
       </li>
-      <li>
-        <a
-          routerLink="/trees"
-          routerLinkActive="text-(--color-wine-red)"
-          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
-        >Trees</a>
-      </li>
-      <li>
-        <a
-          (click)="onSignOut()"
-          class="cursor-pointer duration-200 p-2 text-(--color-error)/60"
-        >Log out</a>
+      <li
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        routerLink="/trees"
+        routerLinkActive
+        #treesActive="routerLinkActive"
+      >
+        <hr
+          class="h-px border-0 bg-(--color-wine-red)/40"
+          [class.w-full]="treesActive.isActive"
+        >
+        <span [class.text-(--color-wine-red)]="treesActive.isActive"
+        >Trees</span>
+        <svg
+          lucideNetwork
+          size="16"
+          class="shrink-0"
+          [ngClass]="{'text-(--color-wine-red)': treesActive.isActive}"
+        >
+        </svg>
       </li>
       } @else {
-      <li>
-        <a
-          routerLink="/films"
-          routerLinkActive="text-(--color-wine-red)"
-          class="p-2"
-        >Films</a>
+      <li
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        routerLink="/films"
+        routerLinkActive
+        #filmsInactiveActive="routerLinkActive"
+      >
+        <span [class.text-(--color-wine-red)]="filmsInactiveActive.isActive"
+        >Films</span>
       </li>
       }
     </ul>
+  </div>
+
+  <div
+    class="flex justify-between w-full"
+    (click)="$event.stopPropagation()"
+  >
+    <app-theme-toggle (toggleTheme)="onToggleTheme()"></app-theme-toggle>
+    <a
+      (click)="onSignOut()"
+      class="cursor-pointer p-2 text-(--color-error) text-sm font-bold"
+    >Log out</a>
   </div>
 </div>

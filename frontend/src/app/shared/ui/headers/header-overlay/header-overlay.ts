@@ -1,15 +1,31 @@
+import { NgClass } from '@angular/common';
 import { Component, inject, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
+import { ThemeService } from '@core/services/theme.service';
+import { LucideClapperboard, LucideGalleryHorizontalEnd, LucideHouse, LucideNetwork, LucideThumbsUp } from '@lucide/angular';
 import { Separator } from '@shared/ui/separator/separator';
+import { ThemeToggle } from "@shared/ui/theme-toggle/theme-toggle";
 
 @Component({
   selector: 'app-header-overlay',
-  imports: [RouterLink, RouterLinkActive, Separator],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    Separator,
+    LucideGalleryHorizontalEnd,
+    LucideClapperboard,
+    RouterLinkActive,
+    NgClass,
+    LucideThumbsUp,
+    LucideNetwork,
+    ThemeToggle
+],
   templateUrl: './header-overlay.html',
 })
 export class HeaderOverlay {
   private authService = inject(AuthService);
+  private themeService = inject(ThemeService);
 
   readonly isAuthenticated = this.authService.isAuthenticated;
 
@@ -22,5 +38,9 @@ export class HeaderOverlay {
 
   onSignOut() {
     this.signedOut.emit();
+  }
+
+  onToggleTheme() {
+    this.themeService.toggleTheme();
   }
 }
