@@ -2,13 +2,14 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { ToastService } from '@core/services/toast.service';
-import { LucideMoon, LucideSun, LucideUser } from '@lucide/angular';
+import { LucideUser } from '@lucide/angular';
 import { Separator } from "@shared/ui/separator/separator";
-import { ThemeService } from '@core/services/theme.service';
+import { ThemeToggle } from '@shared/ui/theme-toggle/theme-toggle';
+import { HeaderOverlay } from '@shared/ui/headers/header-overlay/header-overlay';
 
 @Component({
   selector: 'app-header',
-  imports: [LucideUser, RouterLink, RouterLinkActive, Separator, LucideSun, LucideMoon],
+  imports: [ThemeToggle, HeaderOverlay, LucideUser, RouterLink, RouterLinkActive, Separator],
   templateUrl: './header-desktop.html',
   styleUrl: './header-desktop.css',
 })
@@ -16,10 +17,8 @@ export class Header {
   private authService = inject(AuthService);
   private router = inject(Router);
   private toast = inject(ToastService);
-  private themeService = inject(ThemeService);
 
   readonly isAuthenticated = this.authService.isAuthenticated;
-  readonly currentTheme = this.themeService.theme;
 
   isOverlayVisible = signal(false);
 
@@ -36,10 +35,6 @@ export class Header {
     this.authService.signOut();
     this.router.navigate(['/']);
     this.toast.show(`Vuelve pronto ${this.authService.user()?.user_metadata['username']}!`, 'success');
-  }
-
-  toggleTheme() {
-    this.themeService.toggleTheme();
   }
 
   toggleOverlay() {

@@ -1,8 +1,8 @@
 <div
-  class="flex flex-col relative top-20 h-[calc(100dvh-5rem)] sm:h-[calc(100vh-5rem)]"
+  class="flex flex-col relative top-12 sm:top-20 h-[calc(100dvh-3rem)] sm:h-[calc(100vh-5rem)]"
 >
   <div
-    class="flex-1 flex flex-col items-center justify-center relative p-2 sm:p-4"
+    class="flex-1 flex flex-col items-center relative p-2 sm:p-4"
   >
     <div
       class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105"
@@ -10,7 +10,7 @@
       [class.duration-1000]="shouldAnimateBackdrop() || !isFirstLoad()"
       [class.ease-in-out]="shouldAnimateBackdrop() || !isFirstLoad()"
       [style.backgroundImage]="'url(' + bgImageA() + ')'"
-      [class.opacity-20]="!showCover() && isLayerAActive()"
+      [class.opacity-80]="!showCover() && isLayerAActive()"
       [class.opacity-0]="showCover() || !isLayerAActive()"
     >
     </div>
@@ -21,15 +21,15 @@
       [class.duration-1000]="shouldAnimateBackdrop() || !isFirstLoad()"
       [class.ease-in-out]="shouldAnimateBackdrop() || !isFirstLoad()"
       [style.backgroundImage]="'url(' + bgImageB() + ')'"
-      [class.opacity-20]="!showCover() && !isLayerAActive()"
+      [class.opacity-80]="!showCover() && !isLayerAActive()"
       [class.opacity-0]="showCover() || isLayerAActive()"
     >
     </div>
 
-    <!-- <div
-            class="absolute inset-0 bg-linear-to-t from-(--color-background) via-(--color-background)/1 to-transparent pointer-events-none"
-        >
-        </div> -->
+    <div
+      class="absolute inset-0 bg-linear-to-t from-(--color-background) via-(--color-background)/1 to-transparent pointer-events-none"
+    >
+    </div>
 
     <div
       class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent pointer-events-none"
@@ -69,7 +69,7 @@
       </div>
 
       <div
-        class="relative w-full flex-1 sm:flex-none max-w-[500px] mx-auto"
+        class="relative w-full flex-1 sm:flex-none max-w-[500px] mx-auto h-full"
       >
         @for (film of visibleFilms(); track film.id; let idx = $index; let last
         = $last) {
@@ -94,7 +94,7 @@
           [isCover]="true"
           class="absolute top-0 left-0 w-full h-full z-4 lg:h-[83%]"
           [style.transform-origin]="'center top'"
-          [style.transform]="'translate(0px, 0px) scale(1.005)'"
+          [style.transform]="'translate(0px, 0px) scale(1)'"
           (swiped)="onCoverSwiped()"
         ></app-swipe-card>
         }
@@ -103,7 +103,7 @@
         >
           <div
             (click)="swipe('left')"
-            class="cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background) border border-(--color-gray)/20"
+            class="shadow-lg cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background) border border-(--color-gray)/20"
           >
             <div
               class="absolute bg-(--color-wine-red) aspect-square w-8 rounded-full flex justify-center items-center top-[-5px] right-[-5px]"
@@ -114,7 +114,7 @@
           </div>
           <div
             (click)="!showCover() && activeFilm() && onFilmClick(activeFilm()!.id)"
-            class="cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background) border border-(--color-gray)/20"
+            class="shadow-lg cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background) border border-(--color-gray)/20"
           >
             <div
               class="absolute bg-(--color-wine-red) aspect-square w-8 rounded-full flex justify-center items-center top-[-5px] right-[-5px]"
@@ -131,7 +131,7 @@
 
           <div
             (click)="swipe('right')"
-            class="cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background) border border-(--color-gray)/20"
+            class="shadow-xl cursor-pointer relative flex justify-center items-center h-[70%] rounded-full aspect-square bg-(--color-background) border border-(--color-gray)/20"
           >
             <div
               class="absolute bg-(--color-wine-red) aspect-square w-8 rounded-full flex justify-center items-center top-[-5px] right-[-5px]"

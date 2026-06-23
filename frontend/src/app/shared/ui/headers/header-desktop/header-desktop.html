@@ -3,7 +3,7 @@
 >
   <header
     class="
-      w-full py-6 px-8
+      w-full py-2 sm:py-6 px-3 sm:px-8
       grid grid-cols-2 sm:grid-cols-3 items-center
     "
   >
@@ -41,35 +41,8 @@
 
     <nav class="h-full">
       <ul class="flex gap-[2vw] justify-end font-bold items-center h-full">
-        <li
-          class="hidden md:flex rounded-md bg-(--color-gray-dark) border border-(--color-gray)/20 gap-1 h-full p-0.5"
-        >
-          <button
-            class="rounded-md aspect-square flex justify-center items-center p-1 transition-colors duration-200"
-            [class.bg-(--color-wine-red)]="currentTheme() === 'light'"
-            (click)="toggleTheme()"
-          >
-            <svg
-              lucideSun
-              size="16"
-              class="hidden sm:block"
-              [class.text-(--color-background)]="currentTheme() === 'light'"
-            >
-            </svg>
-          </button>
-          <button
-            class="rounded-md aspect-square flex justify-center items-center p-1 transition-colors duration-200"
-            [class.bg-(--color-wine-red)]="currentTheme() === 'dark'"
-            (click)="toggleTheme()"
-          >
-            <svg
-              lucideMoon
-              size="16"
-              class="hidden sm:block"
-              [class.text-(--color-background)]="currentTheme() === 'dark'"
-            >
-            </svg>
-          </button>
+        <li class="hidden md:flex h-full">
+          <app-theme-toggle></app-theme-toggle>
         </li>
         @if (!isAuthenticated()) {
         <li class="">
@@ -109,64 +82,9 @@
   <app-separator></app-separator>
 </div>
 
-@if(isOverlayVisible()) {
-<app-separator class="fixed top-20 z-7 sm:hidden"></app-separator>
-<div
-  class="top-20 fixed w-screen h-screen bg-(--color-background)/80 z-6 p-5 backdrop-blur-sm sm:hidden"
-  (click)="hideOverlay()"
->
-  <div
-    class="flex flex-col items-end w-full"
-    (click)="$event.stopPropagation()"
-  >
-    <ul
-      class="flex flex-col justify-center gap-[4vw] lg:gap-[3vw] font-bold items-end w-full px-2"
-    >
-      @if (isAuthenticated()) {
-      <li>
-        <a
-          routerLink="/swipe"
-          routerLinkActive="text-(--color-wine-red)"
-          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
-        >Swipe</a>
-      </li>
-      <li>
-        <a
-          routerLink="/films"
-          routerLinkActive="text-(--color-wine-red)"
-          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
-        >Films</a>
-      </li>
-      <li>
-        <a
-          routerLink="/watchlist"
-          routerLinkActive="text-(--color-wine-red)"
-          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
-        >Watchlists</a>
-      </li>
-      <li>
-        <a
-          routerLink="/trees"
-          routerLinkActive="text-(--color-wine-red)"
-          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
-        >Trees</a>
-      </li>
-      <li>
-        <a
-          (click)="signOut()"
-          class="text-(--color-wine-red) cursor-pointer duration-200 p-2"
-        >Log out</a>
-      </li>
-      } @else {
-      <li>
-        <a
-          routerLink="/films"
-          routerLinkActive="text-(--color-wine-red)"
-          class="p-2"
-        >Films</a>
-      </li>
-      }
-    </ul>
-  </div>
-</div>
+@if (isOverlayVisible()) {
+<app-header-overlay
+  (close)="hideOverlay()"
+  (signedOut)="signOut()"
+></app-header-overlay>
 }

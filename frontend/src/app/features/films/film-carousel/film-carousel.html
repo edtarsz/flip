@@ -1,40 +1,63 @@
-<h4 class="w-fit font-bold text-xl pb-3">{{ title() }}</h4>
+<h4 class="w-fit font-bold text-xl pb-2 sm:pb-3">{{ title() }}</h4>
 
 <div class="relative min-h-0 flex">
-    <div #carouselContainer (scroll)="onScroll($event)"
-        class="flex-1 min-h-0 perspective-distant flex gap-4 overflow-x-scroll no-scrollbar drag-scroll py-1">
+    <div
+        #carouselContainer
+        (scroll)="onScroll($event)"
+        class="flex-1 min-h-0 perspective-distant flex gap-4 overflow-x-scroll no-scrollbar drag-scroll py-1"
+    >
         @for (film of films(); track film.id) {
-        <app-film [film]="film" class="film-card h-full" (click)="onFilmClick(film.id)"></app-film>
-        }
-
-        @if (hasMore() && loading()) {
+        <app-film
+            [film]="film"
+            class="film-card h-full"
+            (click)="onFilmClick(film.id)"
+        ></app-film>
+        } @if (hasMore() && loading()) {
         <app-film [loading]="true" class="film-card h-full"></app-film>
         }
     </div>
 
-    <div [ngClass]="{
+    <div
+        [ngClass]="{
         'opacity-100': canScrollLeft(),
         'opacity-0': !canScrollLeft()
     }"
-        class="transition-all duration-300 absolute left-0 top-0 bottom-0 w-40 bg-linear-to-r from-(--color-background) to-transparent pointer-events-none z-1">
+        class="transition-all duration-300 absolute left-0 top-0 bottom-0 w-40 bg-linear-to-r from-(--color-background) to-transparent pointer-events-none z-1"
+    >
     </div>
 
-    <button (click)="onScrollBack()"
+    <button
+        (click)="onScrollBack()"
         class="transition-all duration-300 group hover:border-(--color-gray)/50 absolute left-[-10px] top-[45%] border border-(--color-gray)/40 -translate-y-1/2 h-[20%] w-10 rounded-md flex justify-center items-center cursor-pointer z-4 backdrop-blur-xs"
-        aria-label="Retroceder" [ngClass]="{
+        aria-label="Retroceder"
+        [ngClass]="{
             'opacity-100 pointer-events-auto': canScrollLeft(),
             'opacity-0 pointer-events-none': !canScrollLeft()
-        }">
-        <svg lucideChevronLeft size="26" class="group-hover:text-white/80 duration-200 text-(--color-gray)"></svg>
+        }"
+    >
+        <svg
+            lucideChevronLeft
+            size="26"
+            class="group-hover:text-white/80 duration-200 text-(--color-gray)"
+        >
+        </svg>
     </button>
 
     <div
-        class="absolute right-0 top-0 bottom-0 w-40 bg-linear-to-l from-(--color-background) to-transparent pointer-events-none z-1">
+        class="absolute right-0 top-0 bottom-0 w-40 bg-linear-to-l from-(--color-background) to-transparent pointer-events-none z-1"
+    >
     </div>
 
-    <button (click)="onLoadMore()"
+    <button
+        (click)="onLoadMore()"
         class="transition-all group hover:border-(--color-gray)/50 absolute right-[-10px] top-[45%] border border-(--color-gray)/40 -translate-y-1/2 h-[20%] w-10 rounded-md flex justify-center items-center cursor-pointer z-4 backdrop-blur-xs"
-        aria-label="Cargar más">
-        <svg lucideChevronRight size="26" class="group-hover:text-white/80 duration-200 text-(--color-gray)"></svg>
+        aria-label="Cargar más"
+    >
+        <svg
+            lucideChevronRight
+            size="26"
+            class="group-hover:text-white/80 duration-200 text-(--color-gray)"
+        >
+        </svg>
     </button>
 </div>

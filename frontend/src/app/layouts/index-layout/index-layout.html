@@ -1,5 +1,5 @@
 <main
-    class="relative top-20 h-[calc(100vh-5rem)] overflow-y-auto w-full flex flex-col items-center no-scrollbar pb-40 bg-(--color-background-light)"
+    class="relative top-12 sm:top-20 h-[calc(100dvh-3rem)] sm:h-[calc(100vh-5rem)] overflow-y-auto w-full flex flex-col items-center no-scrollbar pb-40 bg-(--color-background-light)"
     data-lenis-prevent
 >
     <div class="w-full flex flex-col items-center gap-16">
@@ -50,7 +50,9 @@
             }
         </section>
         } @else {
-        <div class="h-[calc(100vh-2.5rem)] w-full flex flex-col gap-6 p-5">
+        <div
+            class="h-[calc(100vh-2.5rem)] w-full flex flex-col gap-6 p-2 sm:p-4"
+        >
             <app-film-carousel
                 title="Recently Popular"
                 [films]="films()"

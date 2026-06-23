@@ -1,0 +1,59 @@
+<app-separator class="fixed top-12 z-7 sm:hidden"></app-separator>
+<div
+  class="top-12 fixed w-screen h-[calc(100dvh-3rem)] bg-(--color-background)/80 z-6 px-1 py-2 backdrop-blur-sm sm:hidden"
+  (click)="onClose()"
+>
+  <div
+    class="flex flex-col items-end w-full"
+    (click)="$event.stopPropagation()"
+  >
+    <ul
+      class="flex flex-col justify-center gap-[4vw] lg:gap-[3vw] font-bold items-end w-full px-2"
+    >
+      @if (isAuthenticated()) {
+      <li>
+        <a
+          routerLink="/swipe"
+          routerLinkActive="text-(--color-wine-red)"
+          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
+        >Swipe</a>
+      </li>
+      <li>
+        <a
+          routerLink="/films"
+          routerLinkActive="text-(--color-wine-red)"
+          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
+        >Films</a>
+      </li>
+      <li>
+        <a
+          routerLink="/watchlist"
+          routerLinkActive="text-(--color-wine-red)"
+          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
+        >Watchlists</a>
+      </li>
+      <li>
+        <a
+          routerLink="/trees"
+          routerLinkActive="text-(--color-wine-red)"
+          class="duration-200 p-2 hover:border-b-(--color-wine-red) border-b-2 border-b-transparent transition-colors"
+        >Trees</a>
+      </li>
+      <li>
+        <a
+          (click)="onSignOut()"
+          class="cursor-pointer duration-200 p-2 text-(--color-error)/60"
+        >Log out</a>
+      </li>
+      } @else {
+      <li>
+        <a
+          routerLink="/films"
+          routerLinkActive="text-(--color-wine-red)"
+          class="p-2"
+        >Films</a>
+      </li>
+      }
+    </ul>
+  </div>
+</div>

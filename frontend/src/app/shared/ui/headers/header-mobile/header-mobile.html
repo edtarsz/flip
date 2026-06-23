@@ -3,23 +3,23 @@
     <ul class="grid grid-cols-2">
         <li
             (click)="navToSwipe()"
-            class="flex justify-center border-r border-(--color-gray)/20 py-4 w-full"
+            class="flex justify-center border-r border-(--color-gray)/20 py-2 sm:py-4 w-full"
         >
             <div
-                class="flex flex-col justify-center items-center gap-1 text-sm"
+                class="flex flex-col justify-center items-center text-xs"
             >
-                <svg lucideGalleryHorizontalEnd size="20"></svg>
+                <svg lucideGalleryHorizontalEnd size="16"></svg>
                 <a routerLink="/swipe">Swipe</a>
             </div>
         </li>
         <li
             (click)="navToWatchlist()"
-            class="flex justify-center"
+            class="flex justify-center py-2 sm:py-4 w-full"
         >
             <div
-                class="flex flex-col justify-center items-center gap-1 text-sm w-full"
+                class="flex flex-col justify-center items-center gap-1 text-xs w-full"
             >
-                <svg lucideThumbsUp size="20"></svg>
+                <svg lucideThumbsUp size="16"></svg>
                 <a routerLink="/watchlist">Watchlists</a>
             </div>
         </li>

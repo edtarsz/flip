@@ -3,7 +3,7 @@
 >
   @for (toast of toasts(); track toast.id) {
   <div
-    class="bg-(--color-wine-red) text-white pointer-events-auto flex items-center gap-3 p-4 rounded-lg shadow-lg backdrop-blur-md transition-all duration-300 transform translate-y-0 scale-100 opacity-100 relative overflow-hidden"
+    class="shadow-lg bg-(--color-wine-red) text-white pointer-events-auto flex items-center gap-3 p-4 rounded-lg backdrop-blur-md transition-all duration-300 transform translate-y-0 scale-100 opacity-100 relative overflow-hidden"
     [class.toast-exit]="toast.isDismissing"
   >
     <div
@@ -19,7 +19,7 @@
         lucideCheck
         size="12"
         strokeWidth="4"
-        class="shrink-0 text-(--color-text)"
+        class="shrink-0 text-white"
       >
       </svg>
       } @else if (toast.type === 'error') {
