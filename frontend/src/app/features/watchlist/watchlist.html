@@ -1,6 +1,17 @@
 <div
-    class="flex flex-col relative top-12 sm:top-20 h-[calc(100dvh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden"
+    class="flex flex-col relative z-0 top-12 sm:top-20 h-[calc(100dvh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden"
 >
+    <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
+        <div
+            class="absolute inset-0 bg-linear-to-t from-(--color-background) via-(--color-background)/1 to-transparent"
+        >
+        </div>
+        <div
+            class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
+        >
+        </div>
+    </div>
+
     <div
         #scrollWrapper
         class="flex-1 min-h-0 overflow-y-auto custom-scrollbar overscroll-contain pr-2 sm:px-4 sm:my-4 sm:mr-4 px-2 my-2 mr-2"

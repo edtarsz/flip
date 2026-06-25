@@ -38,7 +38,13 @@
             routerLinkActive="text-(--color-wine-red)"
           >Watchlists</a>
         </li>
-        <!-- <li><a routerLink="/trees" routerLinkActive="text-(--color-wine-red)">Trees</a></li> -->
+        <li
+          class="flex gap-2 items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors"
+          routerLinkActive="text-(--color-wine-red)"
+        >
+          <a routerLink="/trees">Trees</a>
+          <svg lucidePickaxe size="15" class="hidden sm:block"></svg>
+        </li>
         } @else {
         <li>
           <a
@@ -52,7 +58,9 @@
     </nav>
 
     <nav class="h-full">
-      <ul class="flex gap-[2vw] justify-end font-bold items-center h-full">
+      <ul
+        class="flex gap-5 sm:gap-[2vw] justify-end font-bold items-center h-full"
+      >
         <li class="hidden md:flex h-full">
           <app-theme-toggle></app-theme-toggle>
         </li>

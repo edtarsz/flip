@@ -45,25 +45,25 @@ export const ROUTES: Routes = [
         path: 'trees',
         loadComponent: () => import('./features/trees/trees').then(m => m.Trees),
         canActivate: [authGuard]
-      }
-    ]
-  },
-  {
-    path: 'auth',
-    canActivate: [alreadyAuthGuard],
-    children: [
-      {
-        path: 'login',
-        loadComponent: () => import('./layouts/auth-layout/login/login').then(m => m.Login),
       },
       {
-        path: 'signup',
-        loadComponent: () => import('./layouts/auth-layout/signup/signup').then(m => m.SignUp),
-      },
-      {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full'
+        path: 'auth',
+        canActivate: [alreadyAuthGuard],
+        children: [
+          {
+            path: 'login',
+            loadComponent: () => import('./layouts/auth-layout/login/login').then(m => m.Login),
+          },
+          {
+            path: 'signup',
+            loadComponent: () => import('./layouts/auth-layout/signup/signup').then(m => m.SignUp),
+          },
+          {
+            path: '',
+            redirectTo: 'login',
+            pathMatch: 'full'
+          }
+        ]
       }
     ]
   },

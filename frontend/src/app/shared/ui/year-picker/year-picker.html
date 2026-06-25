@@ -1,5 +1,9 @@
-<div class="year-picker">
-    <button class="trigger" (click)="toggle()" type="button">
+<div class="relative w-full">
+    <button
+        class="flex items-center justify-between w-full px-3 py-2 bg-(--color-background) border border-(--color-gray)/20 rounded-md text-(--color-gray) text-sm cursor-pointer transition-colors duration-200 hover:border-(--color-gray)/40"
+        (click)="toggle()"
+        type="button"
+    >
         <span>{{ selectedYear() ?? 'Any year' }}</span>
         <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
             <path
@@ -13,25 +17,39 @@
     </button>
 
     @if (isOpen()) {
-    <div class="panel">
-        <div class="panel-header">
-            <button type="button" (click)="prevPage()" class="nav-btn">
+    <div
+        class="absolute left-0 w-full min-w-[220px] bg-(--color-background) border border-(--color-gray)/20 rounded-lg p-2 top-auto bottom-[calc(100%+0.5rem)] md:top-[calc(100%+0.5rem)] md:bottom-auto z-10"
+    >
+        <div class="flex items-center justify-between py-1 mb-2 gap-1">
+            <button
+                type="button"
+                (click)="prevPage()"
+                class="flex items-center justify-center w-20 h-10 rounded-md bg-transparent border-none text-(--color-gray) cursor-pointer transition-colors duration-150 hover:bg-(--color-gray)/10 hover:text-(--color-text)"
+            >
                 <svg lucideChevronLeft size="20"></svg>
             </button>
-            <span class="range-label whitespace-nowrap"
+            <span
+                class="text-[0.8rem] font-semibold text-(--color-text) whitespace-nowrap"
             >{{ rangeLabel() }}</span>
-            <button type="button" (click)="nextPage()" class="nav-btn">
+            <button
+                type="button"
+                (click)="nextPage()"
+                class="flex items-center justify-center w-20 h-10 rounded-md bg-transparent border-none text-(--color-gray) cursor-pointer transition-colors duration-150 hover:bg-(--color-gray)/10 hover:text-(--color-text)"
+            >
                 <svg lucideChevronRight size="20"></svg>
             </button>
         </div>
 
-        <div class="year-grid">
+        <div class="grid grid-cols-3 gap-1">
             @for (year of years(); track year) {
             <button
                 type="button"
-                class="year-cell"
-                [class.selected]="year === selectedYear()"
-                [class.current]="year === currentYear"
+                class="py-[0.4rem] border-none rounded-md cursor-pointer transition-all duration-150 text-[0.8rem]"
+                [ngClass]="{
+                    'bg-(--color-wine-red) text-white font-semibold hover:bg-(--color-wine-dark)': year === selectedYear(),
+                    'text-(--color-wine-red) font-semibold bg-transparent hover:bg-(--color-gray)/10': year === currentYear && year !== selectedYear(),
+                    'text-(--color-gray) bg-transparent hover:bg-(--color-gray)/10 hover:text-(--color-text)': year !== selectedYear() && year !== currentYear
+                }"
                 (click)="select(year)"
             >
                 {{ year }}
@@ -40,7 +58,13 @@
         </div>
 
         @if (selectedYear() !== null) {
-        <button type="button" class="clear-btn" (click)="clear()">Clear</button>
+        <button
+            type="button"
+            class="block w-full mt-2 p-[0.35rem] bg-transparent border border-(--color-gray)/15 rounded-md text-(--color-gray) text-xs font-bold cursor-pointer transition-all duration-150 hover:text-(--color-text) hover:border-(--color-gray)/30"
+            (click)="clear()"
+        >
+            Clear
+        </button>
         }
     </div>
     }

@@ -1,9 +1,8 @@
 import { Component, input } from '@angular/core';
-import { Header } from "@shared/ui/headers/header-desktop/header-desktop";
 
 @Component({
   selector: 'app-auth-layout',
-  imports: [Header],
+  imports: [],
   templateUrl: './auth-layout.html',
   styleUrl: './auth-layout.css',
 })

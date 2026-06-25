@@ -1,11 +1,11 @@
 import { Component, computed, model, output, signal } from '@angular/core';
 import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-year-picker',
-  imports: [LucideChevronLeft, LucideChevronRight],
+  imports: [LucideChevronLeft, LucideChevronRight, NgClass],
   templateUrl: './year-picker.html',
-  styleUrl: './year-picker.css',
 })
 export class YearPicker {
   yearReset = output<void>();

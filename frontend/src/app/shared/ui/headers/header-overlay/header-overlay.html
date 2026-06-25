@@ -115,6 +115,14 @@
         >
         </svg>
       </li>
+      <li
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+      >
+        <a
+          (click)="onSignOut()"
+          class="cursor-pointer text-(--color-error) text-sm font-bold"
+        >Log out</a>
+      </li>
       } @else {
       <li
         class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
@@ -130,13 +138,9 @@
   </div>
 
   <div
-    class="flex justify-between w-full"
+    class="flex justify-end w-full"
     (click)="$event.stopPropagation()"
   >
     <app-theme-toggle (toggleTheme)="onToggleTheme()"></app-theme-toggle>
-    <a
-      (click)="onSignOut()"
-      class="cursor-pointer p-2 text-(--color-error) text-sm font-bold"
-    >Log out</a>
   </div>
 </div>

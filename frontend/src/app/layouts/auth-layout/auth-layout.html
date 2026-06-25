@@ -1,7 +1,21 @@
-<app-header></app-header>
-<main class="w-full min-h-screen bg-(--color-background-light)">
+<div
+    class="w-full h-screen relative z-0"
+>
     <div
-        class="flex flex-col gap-10 justify-center items-center h-[calc(100vh-5rem)] relative p-5"
+        class="absolute inset-0 bg-(--color-background-light) bg-dots -z-10 pointer-events-none"
+    >
+        <div
+            class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background-light)/1 to-transparent"
+        >
+        </div>
+        <div
+            class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background-light)/10 to-transparent"
+        >
+        </div>
+    </div>
+
+    <div
+        class="flex flex-col gap-10 justify-center items-center h-screen relative p-5"
     >
         <div
             class="flex flex-col gap-4 w-full p-[5vw] md:w-[500px] border border-(--color-gray)/20 md:p-10 rounded-md bg-(--color-background)"
@@ -14,4 +28,4 @@
             <ng-content></ng-content>
         </div>
     </div>
-</main>
+</div>

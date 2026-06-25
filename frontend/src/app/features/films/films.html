@@ -1,12 +1,24 @@
 <div
-    class="grid grid-cols-[auto_1fr] relative top-12 sm:top-20 h-[calc(100vh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden"
+    class="grid grid-cols-[auto_1fr] relative z-0 top-12 sm:top-20 h-[calc(100vh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden"
 >
+    <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
+        <div
+            class="absolute inset-0 bg-linear-to-t from-(--color-background) via-(--color-background)/1 to-transparent"
+        >
+        </div>
+        <div
+            class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
+        >
+        </div>
+    </div>
+
     <app-film-filters
         #filters
         [genres]="genres()"
         [selectedGenres]="selectedGenres()"
         [selectedYear]="selectedYear()"
         (apply)="applyFilters($event)"
+        class="h-full border-r border-(--color-gray)/20 hidden md:block"
     >
     </app-film-filters>
 
