@@ -95,4 +95,12 @@ export class FilmService {
       tap(data => this.filmDetailsSignal.set(data))
     );
   }
+
+  getCollectionById(id: number | string) {
+    return this.http.get<any>(`${this.url}/collection/${id}`, { headers: this.headers });
+  }
+
+  getListById(id: number | string, page: number = 1) {
+    return this.http.get<any>(`${this.url}/list/${id}?page=${page}`, { headers: this.headers });
+  }
 }

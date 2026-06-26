@@ -1,130 +1,135 @@
 <div
-    #viewport
-    class="bg-dots relative top-12 sm:top-20 h-[calc(100vh-3rem)] sm:h-[calc(100vh-5rem)] bg-(--color-background-light) overflow-hidden select-none"
-    [class.cursor-grab]="!isDragging()"
-    [class.cursor-grabbing]="isDragging()"
-    (mousedown)="onMouseDown($event)"
-    (wheel)="onWheel($event)"
+    class="bg-dots z-0 relative top-12 sm:top-20 h-[calc(100vh-3rem)] sm:h-[calc(100vh-5rem)] bg-(--color-background-light) overflow-hidden select-none"
 >
-    <div
-        class="absolute"
-        style="width: 6000px; height: 4000px; top: 0; left: 0; transform-origin: 0 0"
-        [style.transform]="'translate(' + translateX() + 'px,' + translateY() + 'px) scale(' + scale() + ')'"
-    >
-        <svg
-            style="position: absolute; top: 0; left: 0; width: 6000px; height: 4000px"
-            pointer-events="none"
-            overflow="visible"
-        >
-            <line
-                [attr.x1]="spineX1"
-                [attr.y1]="SPINE_Y"
-                [attr.x2]="spineX2"
-                [attr.y2]="SPINE_Y"
-                stroke="#989595"
-                stroke-width="1"
-                opacity="0.25"
-            />
-
-            <circle
-                [attr.cx]="spineX1"
-                [attr.cy]="SPINE_Y"
-                r="5"
-                fill="none"
-                stroke="#989595"
-                stroke-width="2"
-                opacity="0.5"
-            />
-
-            <circle
-                [attr.cx]="spineX2"
-                [attr.cy]="SPINE_Y"
-                r="5"
-                fill="none"
-                stroke="#989595"
-                stroke-width="2"
-                opacity="0.5"
-            />
-
-            @for (marker of yearMarkers; track marker.year) {
-            <circle
-                [attr.cx]="marker.cx"
-                [attr.cy]="SPINE_Y"
-                r="4"
-                fill="#989595"
-                opacity="0.45"
-            />
-            <text
-                [attr.x]="marker.cx"
-                [attr.y]="SPINE_Y + 22"
-                text-anchor="middle"
-                fill="#989595"
-                opacity="0.55"
-                font-size="12"
-                font-family="Lato, sans-serif"
-                font-weight="700"
-                letter-spacing="1"
-            >
-                {{ marker.year }}
-            </text>
-            } @for (item of filmLayout; track item.film.id) {
-            <path
-                [attr.d]="item.branchPath"
-                fill="none"
-                stroke="#989595"
-                stroke-width="1.5"
-                stroke-dasharray="4 3"
-                opacity="0.3"
-            />
-            }
-        </svg>
-
-        @for (item of filmLayout; track item.film.id) {
+    <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
         <div
-            class="absolute cursor-pointer transition-transform duration-200"
-            [class.cursor-grabbing]="draggingFilm() === item"
-            [class.transition-none]="draggingFilm() === item"
-            [style.left.px]="item.x"
-            [style.top.px]="item.y"
-            [style.z-index]="draggingFilm() === item ? 50 : 10"
-            (mousedown)="onFilmMouseDown($event, item)"
+            class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background)/1 to-transparent"
         >
-            <app-film
-                [film]="item.film"
-                class="block w-[120px] h-[240px] shadow-2xl transition-transform duration-200"
-                [class.hover:scale-105]="!draggingFilm()"
-            />
         </div>
-        }
+        <div
+            class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
+        >
+        </div>
     </div>
 
-    <div class="absolute top-6 right-6 flex gap-2 z-5">
-        <button
-            class="p-4 rounded-full bg-(--color-background) hover:bg-(--color-gray)/20 border border-(--color-gray)/20 text-(--color-text) text-sm font-semibold transition-colors shadow-lg cursor-pointer backdrop-blur-sm"
-            (click)="resetViewport()"
+    <div class="w-full h-full flex p-20 justify-center gap-2">
+        <div
+            class="max-w-[300px] perspective-distant group shadow-md cursor-pointer"
+            routerLink="/trees/8136"
         >
-            <svg lucideHouse size="15"></svg>
-        </button>
-        <button
-            class="p-4 rounded-full bg-(--color-background) hover:bg-(--color-gray)/20 border border-(--color-gray)/20 text-(--color-text) text-sm font-semibold transition-colors shadow-lg cursor-pointer backdrop-blur-sm"
-            (click)="resetFilms()"
+            <div
+                class="flex h-full transition-transform duration-300 ease-in-out group-hover:transform-[rotateY(25deg)]"
+            >
+                <div
+                    class="p-6 flex flex-col items-center bg-(--color-background) rounded-md shadow-2xl"
+                >
+                    <img
+                        src="assets/images/trees/marvel-studios-seeklogo.png"
+                        alt=""
+                        class="w-full"
+                    >
+                    <p class="font-extrabold text-2xl mt-auto pb-4">
+                        Star Wars
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div
+            class="max-w-[350px] perspective-distant group cursor-pointer"
+            routerLink="/trees/84979"
         >
-            <svg lucideRotateCcw size="15"></svg>
-        </button>
-    </div>
+            <div
+                class="border border-(--color-gray)/20 flex flex-col h-full transition-transform duration-500 ease-out group-hover:transform-[rotateY(15deg)] p-4 bg-[#f4f1ea] text-gray-900 rounded-xs shadow-lg"
+            >
+                <div
+                    class="border-b-4 border-double border-gray-900 pb-2 mb-3 flex flex-col items-center"
+                >
+                    <h1
+                        class="font-serif font-black text-4xl uppercase tracking-tighter leading-none text-center"
+                    >
+                        The Daily Bugle
+                    </h1>
+                    <div
+                        class="w-full border-t border-gray-900 mt-1 pt-1 flex justify-between text-[9px] uppercase tracking-widest font-serif font-bold"
+                    >
+                        <span>Vol. CXX • No. 42</span>
+                        <span>New York, NY</span>
+                    </div>
+                </div>
 
-    <div class="absolute bottom-6 right-6 flex flex-col gap-2 z-5">
-        <button
-            class="p-4 rounded-full bg-(--color-background) hover:bg-(--color-gray)/20 border border-(--color-gray)/20 text-(--color-text) text-sm font-semibold transition-colors shadow-lg cursor-pointer backdrop-blur-sm"
-            (click)="zoom(1.2)"
-        >
-            <svg lucidePlus size="15"></svg>
-        </button>
-        <button
-            class="p-4 rounded-full bg-(--color-background) hover:bg-(--color-gray)/20 border border-(--color-gray)/20 text-(--color-text) text-sm font-semibold transition-colors shadow-lg cursor-pointer backdrop-blur-sm"
-            (click)="zoom(1 / 1.2)"
-        >
-            <svg lucideMinus size="15"></svg>
-        </button>
+                <div class="border border-gray-900 p-2 bg-gray-100">
+                    <img
+                        src="assets/images/trees/marvel-studios-seeklogo.png"
+                        alt="Marvel Logo"
+                        class="w-full grayscale contrast-125 mix-blend-multiply"
+                    >
+                </div>
+
+                <h2
+                    class="font-serif font-black text-3xl leading-8 text-center border-b border-gray-400 py-2 mb-2"
+                >
+                    MARVEL CINEMATIC UNIVERSE
+                </h2>
+
+                <div
+                    class="grid grid-cols-2 gap-4 text-[11px] font-serif leading-tight"
+                >
+                    <div
+                        class="flex flex-col gap-2"
+                    >
+                        <p
+                            class="text-justify first-letter:text-5xl first-letter:font-black first-letter:float-left first-letter:mr-2 first-letter:-mt-1 first-letter:leading-none"
+                        >
+                            Fugit deserunt sapiente corporis saepe et commodi
+                            amet omnis. Provident culpa nulla magnam praesentium
+                            blanditiis sunt.
+                        </p>
+                        <p class="text-justify">
+                            Asperiores amet vel nobis, quaerat optio corrupti
+                            incidunt. Vitae impedit repellendus assumenda!
+                        </p>
+                        <p class="text-justify">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Amet quia rem dolores maxime recusandae
+                            cupiditate ab, temporibus facilis distinctio tempore
+                            porro sunt alias, incidunt dolorum molestias.
+                            Mollitia consectetur repellat accusantium.
+                        </p>
+                        <p class="text-justify">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Amet quia rem dolores maxime recusandae
+                            cupiditate ab, temporibus facilis distinctio tempore
+                            porro sunt alias, incidunt dolorum molestias.
+                            Mollitia consectetur repellat accusantium.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <div
+                            class="w-full aspect-4/3 bg-gray-300 border border-gray-500 overflow-hidden relative flex items-center justify-center p-2"
+                        >
+                            <img
+                                src="assets/images/trees/marvel-studios-seeklogo.png"
+                                alt=""
+                                class="w-full grayscale opacity-50 mix-blend-multiply"
+                            >
+                        </div>
+                        <p
+                            class="text-justify font-bold italic text-[9px] leading-tight text-gray-700"
+                        >
+                            "Provident culpa nulla magnam praesentium blanditiis
+                            sunt deserunt id..."
+                        </p>
+                        <p class="text-justify">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Amet quia rem dolores maxime recusandae
+                            cupiditate ab, temporibus facilis distinctio tempore
+                            porro sunt alias, incidunt dolorum molestias.
+                            Mollitia consectetur repellat accusantium.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

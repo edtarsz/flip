@@ -43,8 +43,18 @@ export const ROUTES: Routes = [
       },
       {
         path: 'trees',
-        loadComponent: () => import('./features/trees/trees').then(m => m.Trees),
-        canActivate: [authGuard]
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./features/trees/trees').then(m => m.Trees),
+            canActivate: [authGuard]
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('./shared/ui/tree/tree').then(m => m.Tree),
+            canActivate: [authGuard]
+          }
+        ]
       },
       {
         path: 'auth',
