@@ -65,11 +65,17 @@
           <app-theme-toggle></app-theme-toggle>
         </li>
         @if (!isAuthenticated()) {
-        <li class="text-sm sm:text-base">
+        <li
+          class="flex gap-2 items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors"
+          routerLinkActive="text-(--color-wine-red)"
+        >
           <a routerLink="/auth/login" routerLinkActive="text-(--color-wine-red)"
           >Login</a>
         </li>
-        <li class="text-sm sm:text-base">
+        <li
+          class="flex gap-2 items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors"
+          routerLinkActive="text-(--color-wine-red)"
+        >
           <a
             routerLink="/auth/signup"
             routerLinkActive="text-(--color-wine-red)"
@@ -103,6 +109,15 @@
     </nav>
   </header>
   <app-separator></app-separator>
+  @if (isLoading()) {
+  <div class="h-1 w-full bg-(--color-wine-dark) overflow-hidden relative">
+    <div
+      class="absolute top-0 bottom-0 left-0 bg-(--color-wine-light) shadow-[0_0_8px_var(--color-wine-light)] rounded-r-full transition-all duration-300 ease-out"
+      [style.width.%]="progress()"
+    >
+    </div>
+  </div>
+  }
 </div>
 
 @if (isOverlayVisible()) {

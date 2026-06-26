@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { ToastService } from '@core/services/toast.service';
+import { LoadingService } from '@core/services/loading.service';
 import { LucidePickaxe, LucideUser } from '@lucide/angular';
 import { Separator } from "@shared/ui/separator/separator";
 import { ThemeToggle } from '@shared/ui/theme-toggle/theme-toggle';
@@ -17,6 +18,10 @@ export class Header {
   private authService = inject(AuthService);
   private router = inject(Router);
   private toast = inject(ToastService);
+  private loadingService = inject(LoadingService);
+
+  readonly isLoading = this.loadingService.isLoading;
+  readonly progress = this.loadingService.progress;
 
   readonly isAuthenticated = this.authService.isAuthenticated;
 

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { LucideCornerDownLeft, LucideSearch, LucideEye } from '@lucide/angular';
 
 export type ButtonIcon = 'corner-down-left' | 'search' | 'eye' | 'none';
@@ -14,4 +14,13 @@ export class Button {
   size = input<'w-full' | 'w-fit'>('w-fit');
   icon = input<ButtonIcon>();
   disabled = input<boolean>(false);
+  type = input<'button' | 'submit' | 'reset'>('submit');
+
+  enableTransition = signal(false);
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.enableTransition.set(true);
+    }, 50);
+  }
 }

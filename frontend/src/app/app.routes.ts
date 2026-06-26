@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { MainLayout } from './layouts/main-layout/main-layout';
 import { filmResolver } from './features/films/films.resolver';
 import { alreadyAuthGuard, authGuard } from '@core/guards/auth.guard';
+import { AuthLayout } from './layouts/auth-layout/auth-layout';
 
 export const ROUTES: Routes = [
   {
@@ -58,6 +59,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'auth',
+        component: AuthLayout,
         canActivate: [alreadyAuthGuard],
         children: [
           {

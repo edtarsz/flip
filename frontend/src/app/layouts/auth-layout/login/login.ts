@@ -3,14 +3,13 @@ import { form, FormField, FormRoot, validateStandardSchema } from '@angular/form
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { LoginSchema, loginSchema } from '@core/types/user.type';
-import { AuthLayout } from '../auth-layout';
 import { Button } from '@shared/ui/button/button';
 import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormField, FormRoot, AuthLayout, RouterModule, Button],
+  imports: [FormField, FormRoot, RouterModule, Button],
   templateUrl: './login.html',
 })
 export class Login {
