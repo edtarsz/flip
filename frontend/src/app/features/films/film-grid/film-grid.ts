@@ -16,6 +16,7 @@ export class FilmGrid implements OnDestroy {
   films = input<FilmTMDB[]>([]);
   loading = input<boolean>(false);
   hasMore = input<boolean>(true);
+  hideFilmDetails = input<boolean>(false);
 
   nearEnd = output<void>();
 

@@ -47,6 +47,7 @@
         <app-separator></app-separator>
 
         <div class="flex flex-col gap-3 sm:gap-5 p-3 sm:p-4">
+            @if (genres().length > 0) {
             <div class="flex flex-col gap-2 sm:gap-4">
                 <p class="font-semibold">Genres</p>
                 <ul class="flex flex-wrap relative gap-1.5 sm:gap-2">
@@ -65,6 +66,7 @@
                     }
                 </ul>
             </div>
+            }
 
             <div class="rounded-sm flex flex-col gap-2 sm:gap-4">
                 <p class="font-semibold">Release Date</p>

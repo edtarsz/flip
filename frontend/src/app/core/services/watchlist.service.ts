@@ -14,6 +14,9 @@ export class WatchlistService {
   private isLoadingSignal = signal<boolean>(true);
   readonly isLoading = this.isLoadingSignal.asReadonly();
 
+  currentPage = signal<number>(1);
+  hasMorePages = signal<boolean>(true);
+
   private hasLoaded = false;
 
   async addToWatchlist(film: FilmTMDB) {
@@ -29,11 +32,12 @@ export class WatchlistService {
         poster_path: film.poster_path,
         vote_average: film.vote_average,
         release_date: film.release_date,
-        external_film_id: film.id
+        external_film_id: film.id,
+        genre_ids: film.genre_ids
       }
     };
 
-    this.watchlistSignal.update(items => [...items, tempItem]);
+    this.watchlistSignal.update(items => [tempItem, ...items]);
 
     try {
       const res: any = await this.watchRepo.addToWatchlist({
@@ -41,10 +45,10 @@ export class WatchlistService {
         title: film.title,
         posterPath: film.poster_path,
         voteAverage: film.vote_average,
-        releaseDate: film.release_date
+        releaseDate: film.release_date,
+        genreIds: film.genre_ids || []
       });
 
-      // Confirm with real database data
       this.watchlistSignal.update(items => items.map(item => {
         if (item.id === tempId) {
           return {
@@ -58,7 +62,8 @@ export class WatchlistService {
               poster_path: film.poster_path,
               vote_average: film.vote_average,
               release_date: film.release_date,
-              external_film_id: film.id
+              external_film_id: film.id,
+              genre_ids: film.genre_ids
             }
           };
         }
@@ -90,15 +95,37 @@ export class WatchlistService {
     }
   }
 
-  async getWatchlist(forceRefresh = false) {
-    if (this.hasLoaded && !forceRefresh) {
+  async getWatchlist(page: number = 1, forceRefresh = false) {
+    if (this.hasLoaded && !forceRefresh && page === 1) {
       this.isLoadingSignal.set(false);
       return;
     }
-    this.isLoadingSignal.set(true);
+
+    if (page === 1 || forceRefresh) {
+      this.currentPage.set(1);
+      this.hasMorePages.set(true);
+      this.isLoadingSignal.set(true);
+    }
+
     try {
-      const watchlist = await this.watchRepo.getWatchlist();
-      this.watchlistSignal.set(watchlist);
+      const limit = 20;
+      const watchlist = await this.watchRepo.getWatchlist(page, limit);
+
+      if (watchlist.length < limit) {
+        this.hasMorePages.set(false);
+      }
+
+      if (page === 1 || forceRefresh) {
+        this.watchlistSignal.set(watchlist);
+      } else {
+        this.watchlistSignal.update(items => {
+          const existingIds = new Set(items.map(i => i.id));
+          const newItems = watchlist.filter(item => !existingIds.has(item.id));
+          return [...items, ...newItems];
+        });
+      }
+
+      this.currentPage.set(page);
       this.hasLoaded = true;
     } finally {
       this.isLoadingSignal.set(false);
@@ -109,5 +136,7 @@ export class WatchlistService {
     this.watchlistSignal.set([]);
     this.isLoadingSignal.set(true);
     this.hasLoaded = false;
+    this.currentPage.set(1);
+    this.hasMorePages.set(true);
   }
 }

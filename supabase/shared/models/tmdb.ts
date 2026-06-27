@@ -34,6 +34,7 @@ export interface Film {
     vote_average: number
     vote_count?: number
     release_date: string
+    genre_ids?: number[]
     cast_ids?: number[]
     cast_names?: string[]
     director_id?: number | null

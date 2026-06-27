@@ -13,8 +13,9 @@
         <app-film
             [film]="film"
             [isPriority]="idx < 6"
+            [hideFilmDetails]="hideFilmDetails()"
             (click)="onFilmClick(film.id)"
-            class="film-card grow basis-[80px] sm:basis-[180px]"
+            class="film-card grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
         ></app-film>
         } @if (hasMore()) {
         <div #sentinel id="vertical-infinite-sentinel">

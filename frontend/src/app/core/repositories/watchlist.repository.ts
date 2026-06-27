@@ -13,13 +13,15 @@ export class WatchlistRepository {
     posterPath: string;
     voteAverage: number;
     releaseDate: string;
+    genreIds: number[];
   }) {
     const { data, error } = await supabase.rpc('add_to_watchlist_with_film', {
       p_external_film_id: payload.externalFilmId,
       p_title: payload.title,
       p_poster_path: payload.posterPath,
       p_vote_average: payload.voteAverage,
-      p_release_date: payload.releaseDate
+      p_release_date: payload.releaseDate,
+      p_genre_ids: payload.genreIds
     })
     if (error) throw error
     return data
@@ -43,7 +45,10 @@ export class WatchlistRepository {
     }
   }
 
-  async getWatchlist() {
+  async getWatchlist(page: number = 1, limit: number = 20) {
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+
     const { data, error } = await supabase
       .from('watchlists')
       .select(`
@@ -57,9 +62,13 @@ export class WatchlistRepository {
           poster_path,
           vote_average,
           release_date,
-          external_film_id
+          external_film_id,
+          genre_ids
         )
-      `);
+      `)
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: true })
+      .range(from, to);
 
     if (error) throw error
     return data as unknown as WatchlistItem[]

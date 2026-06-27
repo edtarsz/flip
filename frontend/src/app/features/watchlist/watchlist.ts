@@ -1,62 +1,69 @@
-import { Component, inject, OnInit, ViewChild, ElementRef, NgZone, afterNextRender, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { WatchlistService } from '@core/services/watchlist.service';
-import { Film } from "@shared/ui/film/film";
-import Lenis from 'lenis';
+import { FilmService } from '@core/services/film.service';
+import { FilmFilters } from '../films/film-filters/film-filters';
+import { FilmGrid } from '../films/film-grid/film-grid';
 import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
+import { FilmTMDB } from '@core/types/tmdb/film.type';
+import { LucideChevronsUpDown } from '@lucide/angular';
 
 @Component({
   selector: 'app-watchlist',
-  imports: [Film, HeaderMobile],
+  imports: [HeaderMobile, FilmFilters, FilmGrid, LucideChevronsUpDown],
   templateUrl: './watchlist.html',
   styleUrl: './watchlist.css',
 })
-export class Watchlist implements OnInit, OnDestroy {
-  private router = inject(Router);
+export class Watchlist implements OnInit {
   private watchlistService = inject(WatchlistService);
-  private ngZone = inject(NgZone);
+  private filmService = inject(FilmService);
+
+  readonly genres = this.filmService.genres;
 
   readonly watchlist = this.watchlistService.watchlist;
   readonly isLoading = this.watchlistService.isLoading;
+  readonly hasMorePages = this.watchlistService.hasMorePages;
 
-  private localLenis?: Lenis;
-  private rafId?: number;
-  @ViewChild('scrollWrapper') scrollWrapper?: ElementRef<HTMLElement>;
+  selectedYear = signal<number | null>(null);
+  selectedGenres = signal<number[]>([]);
 
-  constructor() {
-    afterNextRender(() => {
-      const wrapper = this.scrollWrapper?.nativeElement;
-      if (wrapper) {
-        this.ngZone.runOutsideAngular(() => {
-          this.localLenis = new Lenis({
-            wrapper: wrapper,
-            content: wrapper.firstElementChild as HTMLElement,
-          });
+  filteredWatchlistAsFilms = computed<FilmTMDB[]>(() => {
+    let items = this.watchlist();
+    const year = this.selectedYear();
+    const genres = this.selectedGenres();
+    
+    if (year !== null) {
+      items = items.filter(item => {
+        if (!item.film.release_date) return false;
+        return item.film.release_date.startsWith(year.toString());
+      });
+    }
 
-          const raf = (time: number) => {
-            this.localLenis?.raf(time);
-            this.rafId = requestAnimationFrame(raf);
-          };
-          this.rafId = requestAnimationFrame(raf);
-        });
-      }
-    });
+    if (genres.length > 0) {
+      items = items.filter(item => {
+        if (!item.film.genre_ids || item.film.genre_ids.length === 0) return false;
+        return genres.every(g => item.film.genre_ids?.includes(g));
+      });
+    }
+
+    return items.map(item => ({
+      ...item.film,
+      id: item.film.external_film_id
+    })) as unknown as FilmTMDB[];
+  });
+
+  loadNextPage() {
+    this.watchlistService.getWatchlist(this.watchlistService.currentPage() + 1);
   }
 
   ngOnInit(): void {
     this.watchlistService.getWatchlist();
-  }
-
-  ngOnDestroy() {
-    if (this.rafId) {
-      cancelAnimationFrame(this.rafId);
-    }
-    if (this.localLenis) {
-      this.localLenis.destroy();
+    if (this.genres().length === 0) {
+      this.filmService.getGenres();
     }
   }
 
-  onFilmClick(id: number) {
-    this.router.navigate(['/films', id]);
+  applyFilters(filters: { genres: number[]; year: number | null }) {
+    this.selectedGenres.set(filters.genres);
+    this.selectedYear.set(filters.year);
   }
 }

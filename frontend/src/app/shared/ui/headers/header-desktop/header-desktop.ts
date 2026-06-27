@@ -3,14 +3,14 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { ToastService } from '@core/services/toast.service';
 import { LoadingService } from '@core/services/loading.service';
-import { LucidePickaxe, LucideUser } from '@lucide/angular';
+import { LucideUser } from '@lucide/angular';
 import { Separator } from "@shared/ui/separator/separator";
 import { ThemeToggle } from '@shared/ui/theme-toggle/theme-toggle';
 import { HeaderOverlay } from '@shared/ui/headers/header-overlay/header-overlay';
 
 @Component({
   selector: 'app-header',
-  imports: [ThemeToggle, HeaderOverlay, LucideUser, RouterLink, RouterLinkActive, Separator, LucidePickaxe],
+  imports: [ThemeToggle, HeaderOverlay, LucideUser, RouterLink, RouterLinkActive, Separator],
   templateUrl: './header-desktop.html',
   styleUrl: './header-desktop.css',
 })

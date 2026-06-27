@@ -16,31 +16,49 @@ export type Database = {
     Tables: {
       films: {
         Row: {
+          cast_ids: number[] | null
+          cast_names: string[] | null
           created_at: string
+          director_id: number | null
+          director_name: string | null
           external_film_id: number
+          genres: string[] | null
           id: string
           poster_path: string | null
           release_date: string | null
           title: string | null
           vote_average: number | null
+          vote_count: number | null
         }
         Insert: {
+          cast_ids?: number[] | null
+          cast_names?: string[] | null
           created_at?: string
+          director_id?: number | null
+          director_name?: string | null
           external_film_id: number
+          genres?: string[] | null
           id?: string
           poster_path?: string | null
           release_date?: string | null
           title?: string | null
           vote_average?: number | null
+          vote_count?: number | null
         }
         Update: {
+          cast_ids?: number[] | null
+          cast_names?: string[] | null
           created_at?: string
+          director_id?: number | null
+          director_name?: string | null
           external_film_id?: number
+          genres?: string[] | null
           id?: string
           poster_path?: string | null
           release_date?: string | null
           title?: string | null
           vote_average?: number | null
+          vote_count?: number | null
         }
         Relationships: []
       }
@@ -103,20 +121,26 @@ export type Database = {
       swipes: {
         Row: {
           created_at: string
+          direction: string | null
           film_id: string | null
           id: number
+          signal_strength: number | null
           user_id: string | null
         }
         Insert: {
           created_at?: string
+          direction?: string | null
           film_id?: string | null
           id?: number
+          signal_strength?: number | null
           user_id?: string | null
         }
         Update: {
           created_at?: string
+          direction?: string | null
           film_id?: string | null
           id?: number
+          signal_strength?: number | null
           user_id?: string | null
         }
         Relationships: [
@@ -129,6 +153,38 @@ export type Database = {
           },
           {
             foreignKeyName: "swipes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_taste_profile: {
+        Row: {
+          attribute_type: string
+          attribute_value: string
+          last_updated: string
+          user_id: string
+          weight: number
+        }
+        Insert: {
+          attribute_type: string
+          attribute_value: string
+          last_updated?: string
+          user_id: string
+          weight?: number
+        }
+        Update: {
+          attribute_type?: string
+          attribute_value?: string
+          last_updated?: string
+          user_id?: string
+          weight?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_taste_profile_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"

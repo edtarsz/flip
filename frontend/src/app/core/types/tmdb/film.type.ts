@@ -27,6 +27,7 @@ export type WatchlistFilmTMDB = {
     vote_average: number
     release_date: string
     external_film_id: number
+    genre_ids?: number[]
 }
 
 export type WatchlistItem = {

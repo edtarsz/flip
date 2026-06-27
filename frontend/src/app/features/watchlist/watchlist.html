@@ -12,42 +12,45 @@
         </div>
     </div>
 
-    <div
-        #scrollWrapper
-        class="flex-1 min-h-0 overflow-y-auto custom-scrollbar overscroll-contain pr-2 sm:px-4 sm:my-4 sm:mr-4 px-2 my-2 mr-2"
-        data-lenis-prevent
-    >
-        <div
-            class="sm:flex flex-wrap grid grid-cols-3 sm:justify-start justify-center sm:gap-x-3 sm:gap-y-3 gap-x-2 gap-y-2 pb-5"
+    <div class="grid grid-cols-[auto_1fr] flex-1 min-h-0 overflow-hidden">
+        <app-film-filters
+            #filters
+            [genres]="genres()"
+            [selectedGenres]="selectedGenres()"
+            [selectedYear]="selectedYear()"
+            (apply)="applyFilters($event)"
+            class="h-full"
         >
-            @if (isLoading()) {
-            <div
-                class="aspect-2/3 max-w-[150px] w-full bg-(--color-background) rounded-sm animate-pulse"
-            >
-            </div>
-            } @else { @for (item of watchlist(); track item.id; let idx =
-            $index) {
-            <app-film
-                [film]="item.film"
-                [isPriority]="idx < 6"
-                class="film-card grow basis-[80px] sm:basis-[150px] max-w-[180px]"
-                (click)="onFilmClick(item.film.external_film_id)"
-                [hideFilmDetails]="true"
-            ></app-film>
-            } @empty {
+        </app-film-filters>
+
+        <section
+            class="flex flex-col gap-2 sm:gap-5 p-2 sm:p-5 h-full overflow-hidden"
+        >
+            @if (filteredWatchlistAsFilms().length === 0 && !isLoading()) {
             <div
                 class="col-span-full flex flex-col items-center justify-center py-20 text-center select-none"
             >
                 <p class="text-(--color-gray) text-lg font-bold">
-                    Tu watchlist está vacía
+                    Tu watchlist está vacía o no hay coincidencias
                 </p>
                 <p class="text-(--color-gray)/60 text-sm mt-1">
                     Desliza a la derecha (like) en las películas para
-                    guardarlas aquí.
+                    guardarlas aquí, o ajusta tus filtros/búsqueda.
                 </p>
             </div>
-            } }
-        </div>
+            } @else {
+            <app-film-grid
+                [films]="filteredWatchlistAsFilms()"
+                [loading]="isLoading()"
+                [hasMore]="hasMorePages()"
+                [hideFilmDetails]="true"
+                (nearEnd)="loadNextPage()"
+                class="flex-1 min-h-0"
+            >
+            </app-film-grid>
+            }
+        </section>
     </div>
+
     <app-header-mobile class="relative sm:hidden shrink-0"></app-header-mobile>
 </div>

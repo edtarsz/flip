@@ -14,6 +14,7 @@ export class SwipeRepository {
                 vote_average: film.vote_average,
                 vote_count: film.vote_count,
                 release_date: film.release_date,
+                genre_ids: film.genre_ids ?? [],
                 cast_ids: film.cast_ids ?? [],
                 cast_names: film.cast_names ?? [],
                 director_id: film.director_id ?? null,
