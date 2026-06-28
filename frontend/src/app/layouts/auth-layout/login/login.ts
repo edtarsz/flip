@@ -5,6 +5,7 @@ import { AuthService } from '@core/services/auth.service';
 import { LoginSchema, loginSchema } from '@core/types/user.type';
 import { Button } from '@shared/ui/button/button';
 import { ToastService } from '@core/services/toast.service';
+import { LoadingService } from '@core/services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,9 @@ import { ToastService } from '@core/services/toast.service';
 })
 export class Login {
   private authService = inject(AuthService)
-  private router = inject(Router)
-  private toast = inject(ToastService)
+  private router = inject(Router);
+  private toast = inject(ToastService);
+  private loadingService = inject(LoadingService);
 
   loginError = signal<string | null>(null);
 
@@ -30,6 +32,7 @@ export class Login {
     submission: {
       action: async (fields) => {
         this.loginError.set(null);
+        this.loadingService.start();
         try {
           const { error } = await this.authService.signIn(
             fields().value().email,
@@ -38,12 +41,14 @@ export class Login {
 
           if (error) {
             this.loginError.set(error.message);
+            this.loadingService.stop();
           } else {
             this.toast.show(`Bienvenido ${this.authService.user()?.user_metadata['username']}!`, 'success');
             this.router.navigate(['/swipe']);
           }
         } catch (err: any) {
           this.loginError.set(err.message || 'An unexpected error occurred.');
+          this.loadingService.stop();
         }
       }
     }

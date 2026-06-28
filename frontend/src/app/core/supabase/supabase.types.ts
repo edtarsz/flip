@@ -22,6 +22,7 @@ export type Database = {
           director_id: number | null
           director_name: string | null
           external_film_id: number
+          genre_ids: number[] | null
           genres: string[] | null
           id: string
           poster_path: string | null
@@ -37,6 +38,7 @@ export type Database = {
           director_id?: number | null
           director_name?: string | null
           external_film_id: number
+          genre_ids?: number[] | null
           genres?: string[] | null
           id?: string
           poster_path?: string | null
@@ -52,6 +54,7 @@ export type Database = {
           director_id?: number | null
           director_name?: string | null
           external_film_id?: number
+          genre_ids?: number[] | null
           genres?: string[] | null
           id?: string
           poster_path?: string | null
@@ -68,18 +71,21 @@ export type Database = {
           created_at: string
           id: string
           username: string
+          watched_film_ids: string[] | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
           id?: string
           username: string
+          watched_film_ids?: string[] | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
           id?: string
           username?: string
+          watched_film_ids?: string[] | null
         }
         Relationships: []
       }
@@ -236,6 +242,7 @@ export type Database = {
       add_to_watchlist_with_film: {
         Args: {
           p_external_film_id: number
+          p_genre_ids: number[]
           p_poster_path: string
           p_release_date: string
           p_title: string
@@ -246,6 +253,18 @@ export type Database = {
       }
       check_email_exists: { Args: { p_email: string }; Returns: boolean }
       check_username_exists: { Args: { p_username: string }; Returns: boolean }
+      mark_film_as_watched: {
+        Args: {
+          p_external_film_id: number
+          p_genre_ids: number[]
+          p_poster_path: string
+          p_release_date: string
+          p_title: string
+          p_user_id?: string
+          p_vote_average: number
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

@@ -7,4 +7,5 @@ import { Component, input } from '@angular/core';
 })
 export class Card {
   title = input.required<string>();
+  isEmpty = input<boolean>(false);
 }

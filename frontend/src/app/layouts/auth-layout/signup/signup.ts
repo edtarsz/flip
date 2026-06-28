@@ -6,6 +6,7 @@ import { ProfileService } from '@core/services/profile.service';
 import { RegisterSchema, registerSchema } from '@core/types/user.type';
 import { LucideArrowBigLeft } from '@lucide/angular';
 import { Button } from '@shared/ui/button/button';
+import { LoadingService } from '@core/services/loading.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,6 +18,7 @@ export class SignUp {
   private authService = inject(AuthService)
   private profileService = inject(ProfileService)
   private router = inject(Router)
+  private loadingService = inject(LoadingService)
 
   step = signal<1 | 2>(1);
   emailError = signal<string | null>(null);
@@ -44,13 +46,19 @@ export class SignUp {
   }, {
     submission: {
       action: async (fields) => {
-        await this.authService.signUp(
-          fields().value().email,
-          fields().value().password,
-          fields().value().username
-        );
+        this.loadingService.start();
+        try {
+          await this.authService.signUp(
+            fields().value().email,
+            fields().value().password,
+            fields().value().username
+          );
 
-        this.router.navigate(['/swipe']);
+          this.router.navigate(['/swipe']);
+        } catch (e) {
+          this.loadingService.stop();
+          console.error(e);
+        }
       }
     }
   })

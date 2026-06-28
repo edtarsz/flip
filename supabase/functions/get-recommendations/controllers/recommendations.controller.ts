@@ -1,5 +1,5 @@
 import { SwipeRepository } from "@shared/repositories/swipe.repository.ts"
-import { TmdbDiscoverResult, TmdbCreditsResponse } from "@shared/models/tmdb.ts"
+import { TmdbDiscoverResult, TmdbMovieDetailsResponse } from "@shared/models/tmdb.ts"
 import { corsHeaders } from "@shared/utils/cors.ts"
 
 const TARGET_GENRE_CANDIDATES = 20
@@ -147,9 +147,9 @@ export class RecommendationsController {
                 }
 
                 try {
-                    const credits = await this.fetchCredits(film.id)
-                    const director = credits.crew.find((p) => p.job === 'Director') ?? null
-                    const topCast = credits.cast.slice(0, 3)
+                    const details = await this.fetchFilmDetails(film.id)
+                    const director = details.credits?.crew.find((p) => p.job === 'Director') ?? null
+                    const topCast = details.credits?.cast.slice(0, 3) ?? []
 
                     return {
                         ...film,
@@ -157,15 +157,17 @@ export class RecommendationsController {
                         director_name: director?.name ?? null,
                         cast_ids: topCast.map((a) => a.id),
                         cast_names: topCast.map((a) => a.name),
+                        watch_providers: details["watch/providers"]?.results ?? null
                     }
                 } catch (e) {
-                    console.error(`Failed to fetch credits for movie ${film.id}:`, e)
+                    console.error(`Failed to fetch details for movie ${film.id}:`, e)
                     return {
                         ...film,
                         director_id: null,
                         director_name: null,
                         cast_ids: [],
                         cast_names: [],
+                        watch_providers: null
                     }
                 }
             })
@@ -174,14 +176,14 @@ export class RecommendationsController {
         return Response.json({ results: enriched }, { headers: corsHeaders })
     }
 
-    private async fetchCredits(externalFilmId: number): Promise<TmdbCreditsResponse> {
-        const res = await this.tmdbFetch(`/movie/${externalFilmId}/credits`)
+    private async fetchFilmDetails(externalFilmId: number): Promise<TmdbMovieDetailsResponse> {
+        const res = await this.tmdbFetch(`/movie/${externalFilmId}?append_to_response=credits,watch/providers`)
 
         if (!res.ok) {
-            throw new Error(`TMDB credits fetch failed for film ${externalFilmId}: ${res.statusText}`)
+            throw new Error(`TMDB details fetch failed for film ${externalFilmId}: ${res.statusText}`)
         }
 
-        return res.json() as Promise<TmdbCreditsResponse>
+        return res.json() as Promise<TmdbMovieDetailsResponse>
     }
 
     private async buildGenreCandidates(

@@ -1,19 +1,18 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { WatchlistService } from '@core/services/watchlist.service';
 import { FilmService } from '@core/services/film.service';
 import { FilmFilters } from '../films/film-filters/film-filters';
 import { FilmGrid } from '../films/film-grid/film-grid';
 import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
 import { FilmTMDB } from '@core/types/tmdb/film.type';
-import { LucideChevronsUpDown } from '@lucide/angular';
 
 @Component({
   selector: 'app-watchlist',
-  imports: [HeaderMobile, FilmFilters, FilmGrid, LucideChevronsUpDown],
+  imports: [HeaderMobile, FilmFilters, FilmGrid],
   templateUrl: './watchlist.html',
   styleUrl: './watchlist.css',
 })
-export class Watchlist implements OnInit {
+export class Watchlist {
   private watchlistService = inject(WatchlistService);
   private filmService = inject(FilmService);
 
@@ -53,13 +52,6 @@ export class Watchlist implements OnInit {
 
   loadNextPage() {
     this.watchlistService.getWatchlist(this.watchlistService.currentPage() + 1);
-  }
-
-  ngOnInit(): void {
-    this.watchlistService.getWatchlist();
-    if (this.genres().length === 0) {
-      this.filmService.getGenres();
-    }
   }
 
   applyFilters(filters: { genres: number[]; year: number | null }) {

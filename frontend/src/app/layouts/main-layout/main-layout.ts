@@ -27,7 +27,6 @@ export class MainLayout implements OnDestroy {
       this.lenis.on('scroll', ScrollTrigger.update);
 
       gsap.ticker.add(this.tickerCallback);
-
       gsap.ticker.lagSmoothing(0);
     });
   }

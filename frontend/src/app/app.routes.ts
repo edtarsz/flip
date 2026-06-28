@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layouts/main-layout/main-layout';
-import { filmResolver } from './features/films/films.resolver';
+import { filmResolver, filmsResolver, watchlistResolver } from './features/films/films.resolver';
+import { swipeResolver } from './features/swipe/swipe.resolver';
 import { alreadyAuthGuard, authGuard } from '@core/guards/auth.guard';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
 
@@ -21,14 +22,16 @@ export const ROUTES: Routes = [
       {
         path: 'swipe',
         loadComponent: () => import('./features/swipe/swipe').then(m => m.Swipe),
-        canActivate: [authGuard]
+        canActivate: [authGuard],
+        resolve: { swipe: swipeResolver }
       },
       {
         path: 'films',
         children: [
           {
             path: '',
-            loadComponent: () => import('./features/films/films').then(m => m.Films)
+            loadComponent: () => import('./features/films/films').then(m => m.Films),
+            resolve: { films: filmsResolver }
           },
           {
             path: ':id',
@@ -40,7 +43,8 @@ export const ROUTES: Routes = [
       {
         path: 'watchlist',
         loadComponent: () => import('./features/watchlist/watchlist').then(m => m.Watchlist),
-        canActivate: [authGuard]
+        canActivate: [authGuard],
+        resolve: { watchlist: watchlistResolver }
       },
       {
         path: 'trees',

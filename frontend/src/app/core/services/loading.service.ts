@@ -12,6 +12,8 @@ export class LoadingService {
   readonly progress = this.progressSignal.asReadonly();
 
   start() {
+    if (this.isLoadingSignal()) return;
+    
     this.clearTimeouts();
     this.isLoadingSignal.set(true);
     this.progressSignal.set(0);
@@ -25,10 +27,11 @@ export class LoadingService {
     this.clearTimeouts();
     this.progressSignal.set(100);
 
+    // La barra tiene un duration 300, el timeout tiene que ser mayor
     setTimeout(() => {
       this.isLoadingSignal.set(false);
       this.progressSignal.set(0);
-    }, 100);
+    }, 350);
   }
 
   private clearTimeouts() {

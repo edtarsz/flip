@@ -35,11 +35,11 @@ export class Header {
     return this.authService.user()?.user_metadata?.['username'];
   }
 
-  signOut() {
+  async signOut() {
+    const username = this.authService.user()?.user_metadata?.['username'];
     this.isOverlayVisible.set(false);
-    this.authService.signOut();
-    this.router.navigate(['/']);
-    this.toast.show(`Vuelve pronto ${this.authService.user()?.user_metadata['username']}!`, 'success');
+    await this.authService.signOut();
+    this.toast.show(`Vuelve pronto ${username}!`, 'success');
   }
 
   toggleOverlay() {

@@ -108,18 +108,19 @@
     </nav>
   </header>
   <app-separator></app-separator>
-  @if (isLoading()) {
-  <div class="h-1 w-full bg-(--color-wine-dark) overflow-hidden relative">
-    <div
-      class="absolute top-0 bottom-0 left-0 bg-(--color-wine-light) shadow-[0_0_8px_var(--color-wine-light)] rounded-r-full transition-all duration-300 ease-out"
-      [style.width.%]="progress()"
-    >
-    </div>
-  </div>
-  }
 </div>
 
-@if (isOverlayVisible()) {
+@if (isLoading()) {
+<div
+  class="fixed top-12 sm:top-20 left-0 h-1 w-full bg-(--color-wine-dark) overflow-hidden z-10"
+>
+  <div
+    class="absolute top-0 bottom-0 left-0 bg-(--color-wine-light) shadow-[0_0_8px_var(--color-wine-light)] rounded-r-full transition-all duration-300 ease-out"
+    [style.width.%]="progress()"
+  >
+  </div>
+</div>
+} @if (isOverlayVisible()) {
 <app-header-overlay
   (close)="hideOverlay()"
   (signedOut)="signOut()"

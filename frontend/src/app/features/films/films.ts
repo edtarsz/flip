@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FilmService } from '@core/services/film.service';
 import { Separator } from "@shared/ui/separator/separator";
 import { FilmFilters } from './film-filters/film-filters';
@@ -15,7 +15,7 @@ import { isViewportAtLeast } from '@shared/utils/responsive.util';
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
-export class Films implements OnInit {
+export class Films {
   private filmService = inject(FilmService);
 
   readonly films = this.filmService.films;
@@ -32,18 +32,6 @@ export class Films implements OnInit {
   hasMorePages = this.filmService.hasMorePages;
 
   toggledSidebar = signal(isViewportAtLeast(768, false));
-
-  ngOnInit(): void {
-    if (this.films().length === 0) {
-      this.currentPage.set(1);
-      this.hasMorePages.set(true);
-      this.loadingNextPage.set(true);
-      this.filmService.getFilms().subscribe({
-        complete: () => this.loadingNextPage.set(false),
-        error: () => this.loadingNextPage.set(false)
-      });
-    }
-  }
 
   loadNextPage() {
     if (this.loadingNextPage() || !this.hasMorePages()) return;

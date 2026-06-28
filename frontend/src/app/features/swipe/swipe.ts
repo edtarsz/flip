@@ -1,5 +1,4 @@
-import { Component, OnInit, inject, signal, computed, effect, untracked, ViewChildren, QueryList, HostListener } from '@angular/core';
-import { ToastService } from '@core/services/toast.service';
+import { Component, inject, signal, computed, effect, untracked, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
 import { SwipeService } from '@core/services/swipe.service';
@@ -11,17 +10,18 @@ import { WatchlistService } from '@core/services/watchlist.service';
 import { HeaderMobile } from '@shared/ui/headers/header-mobile/header-mobile';
 import { PersonItem } from "@shared/ui/person-item/person-item";
 import { LucideThumbsDown, LucideThumbsUp, LucideEye } from '@lucide/angular';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-swipe',
-  imports: [SwipeCard, Card, HeaderMobile, PersonItem, LucideThumbsDown, LucideThumbsUp, LucideEye],
+  imports: [SwipeCard, Card, HeaderMobile, PersonItem, LucideThumbsDown, LucideThumbsUp, LucideEye, NgClass],
   templateUrl: './swipe.html',
   styleUrl: './swipe.css',
   host: {
     class: 'flex-1'
   }
 })
-export class Swipe implements OnInit {
+export class Swipe {
   private filmService = inject(FilmService);
   private swipeService = inject(SwipeService);
   private watchlistService = inject(WatchlistService);
@@ -43,6 +43,18 @@ export class Swipe implements OnInit {
     const films = this.allFilms();
     const start = this.currentIndex();
     return films.slice(start, start + 3).reverse();
+  });
+
+  activeProviders = computed(() => {
+    const film = this.activeFilm();
+    if (!film || !film.watch_providers) return [];
+    
+    const userRegion = (navigator.language || 'en-US').split('-')[1]?.toUpperCase() || 'US';
+    
+    const providersForRegion = film.watch_providers[userRegion] || film.watch_providers['US'];
+    if (!providersForRegion) return [];
+
+    return (providersForRegion.flatrate || []).slice(0, 8);
   });
 
   bgImageA = signal<string>('');
@@ -81,15 +93,6 @@ export class Swipe implements OnInit {
     } else {
       this.bgImageA.set(newUrl);
       this.isLayerAActive.set(true);
-    }
-  }
-
-  ngOnInit() {
-    const existing = this.allFilms();
-    const remaining = existing.length - this.currentIndex();
-
-    if (remaining < 10) {
-      this.swipeService.getRecommendations().catch(console.error);
     }
   }
 

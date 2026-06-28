@@ -14,8 +14,8 @@
 
     <div class="w-full h-full flex p-20 justify-center gap-2">
         <div
-            class="max-w-[300px] perspective-distant group shadow-md cursor-pointer"
-            routerLink="/trees/8136"
+            class="w-[300px] perspective-distant group shadow-md cursor-pointer"
+            routerLink="{{getRoute('star-wars')}}"
         >
             <div
                 class="flex h-full transition-transform duration-300 ease-in-out group-hover:transform-[rotateY(25deg)]"
@@ -36,7 +36,7 @@
         </div>
         <div
             class="max-w-[350px] perspective-distant group cursor-pointer"
-            routerLink="/trees/84979"
+            routerLink="{{getRoute('marvel-studios')}}"
         >
             <div
                 class="border border-(--color-gray)/20 flex flex-col h-full transition-transform duration-500 ease-out group-hover:transform-[rotateY(15deg)] p-4 bg-[#f4f1ea] text-gray-900 rounded-xs shadow-lg"

@@ -40,32 +40,49 @@
       class="grid grid-cols-1 lg:grid-cols-3 w-full p-0 sm:px-[5vw] sm:py-4 relative gap-[4vw] md:gap-[3vw] lg:gap-[5vw] h-full"
     >
       <div class="flex-col gap-5 hidden lg:flex">
-        <app-card title="Cast">
+        <app-card title="Cast" [isEmpty]="showCover()">
           <ul class="flex flex-col gap-2">
             @if (activeFilm() && activeFilm().cast_names && !showCover()) { @for
             (castMember of activeFilm()!.cast_names!; track $index) {
             <app-person-item
               [name]="castMember"
             ></app-person-item>
-            } } @else {
-            <p class="text-sm text-(--color-gray) select-none">
-              No cast info available
-            </p>
-            }
+            }}
           </ul>
         </app-card>
-        <app-card title="Direction">
+        <app-card title="Direction" [isEmpty]="showCover()">
           @if (activeFilm() && activeFilm().director_name && !showCover()) {
           <app-person-item
             [name]="activeFilm()!.director_name!"
           ></app-person-item>
-          } @else {
-          <p class="text-sm text-(--color-gray) select-none">
-            No director info available
-          </p>
           }
         </app-card>
-        <app-card title="Where To Watch"></app-card>
+        <app-card
+          title="Where To Watch"
+          [isEmpty]="showCover() || activeProviders().length === 0"
+        >
+          <ul
+            class="grid gap-2"
+            [ngClass]="{
+            'grid-cols-1': activeProviders().length <= 1,
+            'grid-cols-2': activeProviders().length > 1
+          }"
+          >
+            @for (provider of activeProviders(); track provider.provider_id) {
+            <li
+              class="flex items-center gap-3 bg-(--color-gray)/20 p-2 w-full rounded-lg"
+            >
+              <img
+                [src]="'https://image.tmdb.org/t/p/w92' + provider.logo_path"
+                [alt]="provider.provider_name"
+                class="w-8 h-8 rounded-md"
+              />
+              <span class="text-sm font-semibold truncate"
+              >{{ provider.provider_name }}</span>
+            </li>
+            }
+          </ul>
+        </app-card>
       </div>
 
       <div

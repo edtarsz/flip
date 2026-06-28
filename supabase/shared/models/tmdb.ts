@@ -39,4 +39,29 @@ export interface Film {
     cast_names?: string[]
     director_id?: number | null
     director_name?: string | null
+    watch_providers?: TmdbWatchProviderResult | null
+}
+
+export interface TmdbProvider {
+    provider_id: number;
+    provider_name: string;
+    logo_path: string;
+}
+
+export interface TmdbWatchProviderRegion {
+    link?: string;
+    flatrate?: TmdbProvider[];
+    rent?: TmdbProvider[];
+    buy?: TmdbProvider[];
+}
+
+export interface TmdbWatchProviderResult {
+    [region: string]: TmdbWatchProviderRegion;
+}
+
+export interface TmdbMovieDetailsResponse extends TmdbDiscoverResult {
+    credits?: TmdbCreditsResponse;
+    "watch/providers"?: {
+        results: TmdbWatchProviderResult;
+    };
 }

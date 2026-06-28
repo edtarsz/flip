@@ -18,6 +18,12 @@ export type FilmTMDB = {
     director_name?: string | null
     cast_ids?: number[]
     cast_names?: string[]
+    watch_providers?: Record<string, {
+        link?: string;
+        flatrate?: Array<{ provider_id: number; provider_name: string; logo_path: string }>;
+        rent?: Array<{ provider_id: number; provider_name: string; logo_path: string }>;
+        buy?: Array<{ provider_id: number; provider_name: string; logo_path: string }>;
+    }> | null
 }
 
 export type WatchlistFilmTMDB = {
