@@ -1,9 +1,9 @@
 <aside
-    class="bg-(--color-background) fixed md:relative md:top-0 left-0 flex flex-col h-full transition-[width] duration-300 overflow-hidden z-2 border-(--color-gray)/20"
+    class="bg-(--color-background) fixed md:relative md:top-0 left-0 flex flex-col h-full transition-[width] duration-200 overflow-hidden z-2 border-(--color-gray)/20"
     [ngClass]="isVisibleSidebar ? 'md:w-80 w-70 border-r' : 'md:w-[70px] w-0 border-r-0 md:border-r'"
 >
     <div
-        class="absolute top-0 left-0 opacity-0 md:w-[74px] w-0 flex justify-start items-center transition-opacity duration-300 p-2"
+        class="absolute top-0 left-0 opacity-0 md:w-[74px] w-0 flex justify-start items-center transition-opacity duration-200 p-2"
         [ngClass]="isVisibleSidebar ? 'pointer-events-none' : 'opacity-100'"
     >
         <div
@@ -25,7 +25,7 @@
     </div>
 
     <div
-        class="md:w-80 w-70 flex flex-col h-full md:min-w-[320px] min-w-0 transition-opacity duration-300"
+        class="md:w-80 w-70 flex flex-col h-full md:min-w-[320px] min-w-0 transition-opacity duration-200"
         [ngClass]="isVisibleSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'"
     >
         <div
@@ -53,11 +53,11 @@
                 <ul class="flex flex-wrap relative gap-1.5 sm:gap-2">
                     @for (genre of genres(); track $index) {
                     <li
-                        class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-150 group hover:text-(--color-text)/80"
+                        class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80"
                     >
                         <span
                             (click)="toggleGenre(genre.id)"
-                            class="text-sm sm:text-base px-3 py-1 rounded-full border transition-color duration-150 bg-(--color-background)"
+                            class="text-sm sm:text-base px-3 py-1 rounded-full border transition-color duration-200 bg-(--color-background)"
                             [ngClass]="localGenres.includes(genre.id) ? 'bg-(--color-wine-red) text-white border-(--color-wine-red)' : 'group-hover:border-(--color-gray)/50 border-(--color-gray)/20'"
                         >
                             {{ genre.name }}
@@ -87,7 +87,7 @@
                 <button
                     type="button"
                     (click)="onClear()"
-                    class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-150 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
+                    class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-200 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
                 >
                     Clear
                 </button>

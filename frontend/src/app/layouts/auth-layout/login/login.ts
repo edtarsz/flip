@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, untracked } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { form, FormField, FormRoot, validateStandardSchema } from '@angular/forms/signals';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
@@ -19,8 +19,6 @@ export class Login {
   private toast = inject(ToastService);
   private loadingService = inject(LoadingService);
 
-  loginError = signal<string | null>(null);
-
   loginModel = signal<LoginSchema>({
     email: '',
     password: ''
@@ -31,7 +29,6 @@ export class Login {
   }, {
     submission: {
       action: async (fields) => {
-        this.loginError.set(null);
         this.loadingService.start();
         try {
           const { error } = await this.authService.signIn(
@@ -40,25 +37,17 @@ export class Login {
           );
 
           if (error) {
-            this.loginError.set(error.message);
+            this.toast.show(error.message, 'error');
             this.loadingService.stop();
           } else {
             this.toast.show(`Bienvenido ${this.authService.user()?.user_metadata['username']}!`, 'success');
             this.router.navigate(['/swipe']);
           }
         } catch (err: any) {
-          this.loginError.set(err.message || 'An unexpected error occurred.');
+          this.toast.show(err.message || 'An unexpected error occurred.', 'error');
           this.loadingService.stop();
         }
       }
     }
   })
-
-  constructor() {
-    effect(() => {
-      this.loginModel().email;
-      this.loginModel().password;
-      untracked(() => this.loginError.set(null));
-    });
-  }
 }

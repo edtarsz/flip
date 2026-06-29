@@ -27,11 +27,11 @@ export class LoadingService {
     this.clearTimeouts();
     this.progressSignal.set(100);
 
-    // La barra tiene un duration 300, el timeout tiene que ser mayor
+    // La barra tiene un duration 200, el timeout tiene que ser mayor
     setTimeout(() => {
       this.isLoadingSignal.set(false);
       this.progressSignal.set(0);
-    }, 350);
+    }, 250);
   }
 
   private clearTimeouts() {

@@ -22,13 +22,13 @@
         'opacity-100': canScrollLeft(),
         'opacity-0': !canScrollLeft()
     }"
-        class="transition-all duration-300 absolute left-0 top-0 bottom-0 w-40 bg-linear-to-r from-(--color-background) to-transparent pointer-events-none z-1"
+        class="transition-all duration-200 absolute left-0 top-0 bottom-0 w-40 bg-linear-to-r from-(--color-background) to-transparent pointer-events-none z-1"
     >
     </div>
 
     <button
         (click)="onScrollBack()"
-        class="transition-all duration-300 group hover:border-(--color-gray)/50 absolute left-[-10px] top-[45%] border border-(--color-gray)/40 -translate-y-1/2 h-[20%] w-10 rounded-md flex justify-center items-center cursor-pointer z-4 backdrop-blur-xs"
+        class="transition-all duration-200 group hover:border-(--color-gray)/50 absolute left-[-10px] top-[45%] border border-(--color-gray)/40 -translate-y-1/2 h-[20%] w-10 rounded-md flex justify-center items-center cursor-pointer z-4 backdrop-blur-xs"
         aria-label="Retroceder"
         [ngClass]="{
             'opacity-100 pointer-events-auto': canScrollLeft(),

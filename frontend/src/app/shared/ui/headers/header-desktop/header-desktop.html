@@ -19,35 +19,36 @@
         @if (isAuthenticated()) {
         <li>
           <a
-            class="hover:text-(--color-wine-red)"
+            class="hover:text-(--color-wine-red) transition-colors duration-200"
             routerLink="/swipe"
             routerLinkActive="text-(--color-wine-red)"
           >Swipe</a>
         </li>
         <li>
           <a
-            class="hover:text-(--color-wine-red)"
+            class="hover:text-(--color-wine-red) transition-colors duration-200"
             routerLink="/films"
             routerLinkActive="text-(--color-wine-red)"
           >Films</a>
         </li>
         <li>
           <a
-            class="hover:text-(--color-wine-red)"
+            class="hover:text-(--color-wine-red) transition-colors duration-200"
             routerLink="/watchlist"
             routerLinkActive="text-(--color-wine-red)"
           >Watchlist</a>
         </li>
-        <li
-          class="hover:text-(--color-wine-red)"
-          routerLinkActive="text-(--color-wine-red)"
-        >
-          <a routerLink="/trees">Trees</a>
+        <li>
+          <a
+            class="hover:text-(--color-wine-red) transition-colors duration-200"
+            routerLink="/trees"
+            routerLinkActive="text-(--color-wine-red)"
+          >Trees</a>
         </li>
         } @else {
         <li>
           <a
-            class="hover:text-(--color-wine-red)"
+            class="hover:text-(--color-wine-red) transition-colors duration-200"
             routerLink="/films"
             routerLinkActive="text-(--color-wine-red)"
           >Films</a>
@@ -65,14 +66,14 @@
         </li>
         @if (!isAuthenticated()) {
         <li
-          class="flex gap-2 items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors"
+          class="flex gap-2 items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
           routerLinkActive="text-(--color-wine-red)"
         >
           <a routerLink="/auth/login" routerLinkActive="text-(--color-wine-red)"
           >Login</a>
         </li>
         <li
-          class="flex gap-2 items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors"
+          class="flex gap-2 items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
           routerLinkActive="text-(--color-wine-red)"
         >
           <a
@@ -100,7 +101,7 @@
         <li class="hidden sm:block">
           <a
             (click)="signOut()"
-            class="cursor-pointer hover:text-(--color-error)"
+            class="cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200 text-(--color-text)"
           >Logout</a>
         </li>
         }
@@ -115,7 +116,7 @@
   class="fixed top-12 sm:top-20 left-0 h-1 w-full bg-(--color-wine-dark) overflow-hidden z-10"
 >
   <div
-    class="absolute top-0 bottom-0 left-0 bg-(--color-wine-light) shadow-[0_0_8px_var(--color-wine-light)] rounded-r-full transition-all duration-300 ease-out"
+    class="absolute top-0 bottom-0 left-0 bg-(--color-wine-light) shadow-[0_0_8px_var(--color-wine-light)] rounded-r-full transition-all duration-200 ease-out"
     [style.width.%]="progress()"
   >
   </div>

@@ -23,6 +23,7 @@ export class SignUp {
   step = signal<1 | 2>(1);
   emailError = signal<string | null>(null);
   usernameError = signal<string | null>(null);
+  registerError = signal<string | null>(null);
 
   lastCheckedEmail = signal<string | null>(null);
   lastCheckedUsername = signal<string | null>(null);
@@ -55,8 +56,9 @@ export class SignUp {
           );
 
           this.router.navigate(['/swipe']);
-        } catch (e) {
+        } catch (e: any) {
           this.loadingService.stop();
+          this.registerError.set(e.message || 'An unexpected error occurred.');
           console.error(e);
         }
       }
@@ -69,6 +71,7 @@ export class SignUp {
       untracked(() => {
         this.emailError.set(null);
         this.lastCheckedEmail.set(null);
+        this.registerError.set(null);
       });
     });
 
@@ -77,6 +80,15 @@ export class SignUp {
       untracked(() => {
         this.usernameError.set(null);
         this.lastCheckedUsername.set(null);
+        this.registerError.set(null);
+      });
+    });
+
+    effect(() => {
+      this.registerModel().password;
+      this.registerModel().confirmPassword;
+      untracked(() => {
+        this.registerError.set(null);
       });
     });
   }

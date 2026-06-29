@@ -35,103 +35,70 @@
         </svg>
       </li> -->
       <li
-        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
         routerLink="/swipe"
-        routerLinkActive
-        #swipeActive="routerLinkActive"
+        routerLinkActive="text-(--color-wine-red)"
       >
-        <hr
-          class="h-px border-0 bg-(--color-wine-red)/40"
-          [class.w-full]="swipeActive.isActive"
-        >
-        <span [class.text-(--color-wine-red)]="swipeActive.isActive">
-          Swipe
-        </span>
+        <span>Swipe</span>
         <svg
           lucideGalleryHorizontalEnd
           size="16"
           class="shrink-0"
-          [ngClass]="{'text-(--color-wine-red)': swipeActive.isActive}"
         >
         </svg>
       </li>
       <li
-        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
         routerLink="/films"
-        routerLinkActive
-        #filmsActive="routerLinkActive"
+        routerLinkActive="text-(--color-wine-red)"
       >
-        <hr
-          class="h-px border-0 bg-(--color-wine-red)/40"
-          [class.w-full]="filmsActive.isActive"
-        >
-        <span [class.text-(--color-wine-red)]="filmsActive.isActive"
-        >Films</span>
+        <span>Films</span>
         <svg
           lucideClapperboard
           size="16"
           class="shrink-0"
-          [ngClass]="{'text-(--color-wine-red)': filmsActive.isActive}"
         >
         </svg>
       </li>
       <li
-        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
         routerLink="/watchlist"
-        routerLinkActive
-        #watchlistActive="routerLinkActive"
+        routerLinkActive="text-(--color-wine-red)"
       >
-        <hr
-          class="h-px border-0 bg-(--color-wine-red)/40"
-          [class.w-full]="watchlistActive.isActive"
-        >
-        <span [class.text-(--color-wine-red)]="watchlistActive.isActive"
-        >Watchlists</span>
+        <span>Watchlists</span>
         <svg
           lucideThumbsUp
           size="16"
           class="shrink-0"
-          [ngClass]="{'text-(--color-wine-red)': watchlistActive.isActive}"
         >
         </svg>
       </li>
       <li
-        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
         routerLink="/trees"
-        routerLinkActive
-        #treesActive="routerLinkActive"
+        routerLinkActive="text-(--color-wine-red)"
       >
-        <hr
-          class="h-px border-0 bg-(--color-wine-red)/40"
-          [class.w-full]="treesActive.isActive"
-        >
-        <span [class.text-(--color-wine-red)]="treesActive.isActive"
-        >Trees</span>
+        <span>Trees</span>
         <svg
           lucideNetwork
           size="16"
           class="shrink-0"
-          [ngClass]="{'text-(--color-wine-red)': treesActive.isActive}"
         >
         </svg>
       </li>
       <li
-        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer text-(--color-text) hover:text-(--color-wine-red) transition-colors duration-200"
+        (click)="onSignOut()"
       >
-        <a
-          (click)="onSignOut()"
-          class="cursor-pointer text-(--color-error) text-sm font-bold"
-        >Log out</a>
+        <span>Log out</span>
       </li>
       } @else {
       <li
-        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
+        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
         routerLink="/films"
-        routerLinkActive
-        #filmsInactiveActive="routerLinkActive"
+        routerLinkActive="text-(--color-wine-red)"
       >
-        <span [class.text-(--color-wine-red)]="filmsInactiveActive.isActive"
-        >Films</span>
+        <span>Films</span>
       </li>
       }
     </ul>

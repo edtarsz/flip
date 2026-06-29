@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-auth-layout',
@@ -8,5 +8,9 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './auth-layout.css',
 })
 export class AuthLayout {
-  
+  private router = inject(Router);
+
+  get title(): string {
+    return this.router.url.includes('login') ? 'Log In' : 'Sign Up';
+  }
 }

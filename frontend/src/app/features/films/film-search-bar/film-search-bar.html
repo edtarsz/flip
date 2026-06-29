@@ -1,6 +1,6 @@
 <form class="flex items-center gap-2 h-full" [formRoot]="searchForm">
     <div
-        class="opacity-100 w-[74px] flex justify-center items-center transition-opacity duration-300 relative md:hidden cursor-pointer"
+        class="opacity-100 w-[74px] flex justify-center items-center transition-opacity duration-200 relative md:hidden cursor-pointer"
         (click)="toggleFilters.emit()"
     >
         <svg
@@ -45,7 +45,7 @@
         <button
             type="button"
             (click)="onReset()"
-            class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-150 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
+            class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-200 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
         >
             Clear
         </button>

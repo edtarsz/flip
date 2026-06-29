@@ -24,7 +24,7 @@
             <button
                 type="button"
                 (click)="prevPage()"
-                class="flex items-center justify-center w-20 h-10 rounded-md bg-transparent border-none text-(--color-gray) cursor-pointer transition-colors duration-150 hover:bg-(--color-gray)/10 hover:text-(--color-text)"
+                class="flex items-center justify-center w-20 h-10 rounded-md bg-transparent border-none text-(--color-gray) cursor-pointer transition-colors duration-200 hover:bg-(--color-gray)/10 hover:text-(--color-text)"
             >
                 <svg lucideChevronLeft size="20"></svg>
             </button>
@@ -34,7 +34,7 @@
             <button
                 type="button"
                 (click)="nextPage()"
-                class="flex items-center justify-center w-20 h-10 rounded-md bg-transparent border-none text-(--color-gray) cursor-pointer transition-colors duration-150 hover:bg-(--color-gray)/10 hover:text-(--color-text)"
+                class="flex items-center justify-center w-20 h-10 rounded-md bg-transparent border-none text-(--color-gray) cursor-pointer transition-colors duration-200 hover:bg-(--color-gray)/10 hover:text-(--color-text)"
             >
                 <svg lucideChevronRight size="20"></svg>
             </button>
@@ -44,7 +44,7 @@
             @for (year of years(); track year) {
             <button
                 type="button"
-                class="py-[0.4rem] border-none rounded-md cursor-pointer transition-all duration-150 text-[0.8rem]"
+                class="py-[0.4rem] border-none rounded-md cursor-pointer transition-all duration-200 text-[0.8rem]"
                 [ngClass]="{
                     'bg-(--color-wine-red) text-white font-semibold hover:bg-(--color-wine-dark)': year === selectedYear(),
                     'text-(--color-wine-red) font-semibold bg-transparent hover:bg-(--color-gray)/10': year === currentYear && year !== selectedYear(),
@@ -60,7 +60,7 @@
         @if (selectedYear() !== null) {
         <button
             type="button"
-            class="block w-full mt-2 p-[0.35rem] bg-transparent border border-(--color-gray)/15 rounded-md text-(--color-gray) text-xs font-bold cursor-pointer transition-all duration-150 hover:text-(--color-text) hover:border-(--color-gray)/30"
+            class="block w-full mt-2 p-[0.35rem] bg-transparent border border-(--color-gray)/15 rounded-md text-(--color-gray) text-xs font-bold cursor-pointer transition-all duration-200 hover:text-(--color-text) hover:border-(--color-gray)/30"
             (click)="clear()"
         >
             Clear

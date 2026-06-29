@@ -1,4 +1,4 @@
-import { Component, afterNextRender, inject, OnDestroy, signal, OnInit, effect } from '@angular/core';
+import { Component, afterNextRender, inject, OnDestroy, signal, effect } from '@angular/core';
 import { CardFeatures } from "@shared/ui/card-features/card-features";
 import { Button } from "@shared/ui/button/button";
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
@@ -17,7 +17,7 @@ import { FilmService } from '@core/services/film.service';
   templateUrl: './index-layout.html',
   styleUrl: './index-layout.css',
 })
-export class IndexLayout implements OnInit, OnDestroy {
+export class IndexLayout implements OnDestroy {
   private authService = inject(AuthService);
   readonly isAuthenticated = this.authService.isAuthenticated;
 
@@ -45,14 +45,6 @@ export class IndexLayout implements OnInit, OnDestroy {
 
   mockGenres = MOCK_GENRES;
   mockFilms = MOCK_LANDING_FILMS;
-
-  ngOnInit(): void {
-    if (this.films().length === 0) {
-      this.currentPage.set(1);
-      this.hasMorePages.set(true);
-      this.filmService.getFilms().subscribe();
-    }
-  }
 
   constructor() {
     afterNextRender(() => {

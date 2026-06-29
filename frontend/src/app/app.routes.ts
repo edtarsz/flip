@@ -17,7 +17,8 @@ export const ROUTES: Routes = [
       },
       {
         path: 'index',
-        loadComponent: () => import('./layouts/index-layout/index-layout').then(m => m.IndexLayout)
+        loadComponent: () => import('./layouts/index-layout/index-layout').then(m => m.IndexLayout),
+        resolve: { films: filmsResolver }
       },
       {
         path: 'swipe',

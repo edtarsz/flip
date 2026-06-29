@@ -62,11 +62,15 @@ export class AuthService {
 
   async signOut() {
     this.loadingService.start();
-    await supabase.auth.signOut();
-    this.filmService.resetState();
-    this.swipeService.clearRecommendations();
-    this.watchlistService.resetState();
-    this.router.navigate(['/index']);
+    try {
+      await supabase.auth.signOut();
+      this.filmService.resetState();
+      this.swipeService.clearRecommendations();
+      this.watchlistService.resetState();
+      await this.router.navigate(['/index']);
+    } finally {
+      this.loadingService.stop();
+    }
   }
 
   async getUser() {
