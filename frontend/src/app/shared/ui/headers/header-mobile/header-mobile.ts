@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LucideGalleryHorizontalEnd, LucideThumbsUp } from '@lucide/angular';
 import { Separator } from "@shared/ui/separator/separator";
 
 @Component({
     selector: 'app-header-mobile',
-    imports: [LucideGalleryHorizontalEnd, LucideThumbsUp, RouterLink, Separator],
+    imports: [LucideGalleryHorizontalEnd, LucideThumbsUp, RouterLink, Separator, RouterLinkActive],
     templateUrl: './header-mobile.html',
     styleUrl: './header-mobile.css',
 })
