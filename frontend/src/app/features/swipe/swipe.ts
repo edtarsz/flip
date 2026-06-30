@@ -144,9 +144,8 @@ export class Swipe {
     } else if (key === 'a') {
       this.swipe('left');
     } else if (key === 's') {
-      const film = this.activeFilm();
-      if (film && !this.showCover()) {
-        this.onFilmClick(film.id);
+      if (!this.showCover()) {
+        this.getTopCard()?.toggleSeen();
       }
     }
   }

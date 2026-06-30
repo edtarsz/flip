@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, afterNextRender, input, output, effect, OnDestroy, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, afterNextRender, input, output, effect, OnDestroy, inject, signal } from '@angular/core';
 import { LucideCircle, LucideEye, LucideStar, LucideThumbsDown, LucideThumbsUp } from '@lucide/angular';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
@@ -7,6 +7,7 @@ import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 import { getTmdbImageUrl } from '../../pipes/tmdb-image.pipe';
+import { ButtonFeedback } from '../button-feedback/button-feedback';
 
 const SWIPE_THRESHOLD = 45;
 const SWIPE_DURATION = 0.3;
@@ -16,7 +17,7 @@ const SNAP_EASE = 'elastic.out(1, 0.5)';
 
 @Component({
   selector: 'app-swipe-card',
-  imports: [Separator, LucideStar, LucideEye, DecimalPipe, DatePipe, LucideCircle, LucideThumbsUp, LucideThumbsDown],
+  imports: [Separator, LucideStar, LucideEye, DecimalPipe, DatePipe, LucideCircle, LucideThumbsUp, LucideThumbsDown, ButtonFeedback],
   templateUrl: './swipe-card.html',
   styleUrl: './swipe-card.css'
 })
@@ -29,6 +30,7 @@ export class SwipeCard implements OnDestroy {
   showBg = input<boolean>(true);
   isTop = input<boolean>(true);
   isCover = input<boolean>(false);
+  isSeen = signal<boolean>(false);
 
   swiped = output<'left' | 'right'>();
   clicked = output<void>();
@@ -59,7 +61,11 @@ export class SwipeCard implements OnDestroy {
         type: 'x,y',
         zIndexBoost: false,
         minimumMovement: 6,
-        onClick: () => {
+        onClick: (e) => {
+          const target = e.target as HTMLElement;
+          if (target && (target.closest('button') || target.closest('app-button-feedback'))) {
+            return;
+          }
           if (!this.isCover()) {
             this.clicked.emit();
           }
@@ -145,5 +151,9 @@ export class SwipeCard implements OnDestroy {
 
   ngOnDestroy() {
     this.draggableInstance?.kill();
+  }
+
+  toggleSeen() {
+    this.isSeen.set(!this.isSeen());
   }
 }

@@ -3,7 +3,7 @@
     [disabled]="disabled()"
     [class.transition-colors]="enableTransition() && !disabled()"
     [class.duration-200]="enableTransition() && !disabled()"
-    class="text-white text-sm sm:text-base flex items-center gap-1 justify-center font-bold px-3 h-full min-h-[38px] rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) disabled:opacity-50 disabled:cursor-not-allowed {{ size() }}"
+    class="text-white hover:text-white/80 text-sm sm:text-base flex items-center gap-1 justify-center font-bold px-3 h-full min-h-[38px] rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) disabled:opacity-50 disabled:cursor-not-allowed {{ size() }}"
 >
     {{ label() }} @switch (icon()) { @case ('corner-down-left') {
     <svg lucideCornerDownLeft size="16"></svg>
