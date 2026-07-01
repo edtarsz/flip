@@ -14,10 +14,11 @@ export class WatchlistService {
   private isLoadingSignal = signal<boolean>(true);
   readonly isLoading = this.isLoadingSignal.asReadonly();
 
+  private hasLoadedSignal = signal<boolean>(false);
+  readonly hasLoaded = this.hasLoadedSignal.asReadonly();
+
   currentPage = signal<number>(1);
   hasMorePages = signal<boolean>(true);
-
-  private hasLoaded = false;
 
   async addToWatchlist(film: FilmTMDB) {
     const tempId = `temp-${Date.now()}`;
@@ -95,13 +96,36 @@ export class WatchlistService {
     }
   }
 
-  async getWatchlist(page: number = 1, forceRefresh = false) {
-    if (this.hasLoaded && !forceRefresh && page === 1) {
+  activeFilters = signal<{ genres: number[]; year: number | null }>({ genres: [], year: null });
+
+  async getWatchlist(
+    page: number = 1, 
+    forceRefresh = false,
+    filters?: { genres: number[]; year: number | null }
+  ) {
+    let currentFilters = this.activeFilters();
+    let filtersChanged = false;
+
+    if (filters) {
+      const genresChanged = filters.genres.length !== currentFilters.genres.length ||
+        !filters.genres.every(g => currentFilters.genres.includes(g));
+      const yearChanged = filters.year !== currentFilters.year;
+
+      if (genresChanged || yearChanged) {
+        filtersChanged = true;
+        this.activeFilters.set(filters);
+        currentFilters = filters;
+      }
+    }
+
+    const shouldReset = page === 1 || forceRefresh || filtersChanged;
+
+    if (this.hasLoadedSignal() && !forceRefresh && !filtersChanged && page === 1) {
       this.isLoadingSignal.set(false);
       return;
     }
 
-    if (page === 1 || forceRefresh) {
+    if (shouldReset) {
       this.currentPage.set(1);
       this.hasMorePages.set(true);
       this.isLoadingSignal.set(true);
@@ -109,13 +133,13 @@ export class WatchlistService {
 
     try {
       const limit = 20;
-      const watchlist = await this.watchRepo.getWatchlist(page, limit);
+      const watchlist = await this.watchRepo.getWatchlist(shouldReset ? 1 : page, limit, currentFilters);
 
       if (watchlist.length < limit) {
         this.hasMorePages.set(false);
       }
 
-      if (page === 1 || forceRefresh) {
+      if (shouldReset) {
         this.watchlistSignal.set(watchlist);
       } else {
         this.watchlistSignal.update(items => {
@@ -125,8 +149,8 @@ export class WatchlistService {
         });
       }
 
-      this.currentPage.set(page);
-      this.hasLoaded = true;
+      this.currentPage.set(shouldReset ? 1 : page);
+      this.hasLoadedSignal.set(true);
     } finally {
       this.isLoadingSignal.set(false);
     }
@@ -135,8 +159,9 @@ export class WatchlistService {
   resetState(): void {
     this.watchlistSignal.set([]);
     this.isLoadingSignal.set(true);
-    this.hasLoaded = false;
+    this.hasLoadedSignal.set(false);
     this.currentPage.set(1);
     this.hasMorePages.set(true);
+    this.activeFilters.set({ genres: [], year: null });
   }
 }

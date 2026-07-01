@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, afterNextRender, input, output, effect, OnDestroy, inject, signal } from '@angular/core';
+import { Component, ElementRef, afterNextRender, input, output, effect, OnDestroy, inject, signal, viewChild } from '@angular/core';
 import { LucideCircle, LucideEye, LucideStar, LucideThumbsDown, LucideThumbsUp } from '@lucide/angular';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
@@ -22,8 +22,8 @@ const SNAP_EASE = 'elastic.out(1, 0.5)';
   styleUrl: './swipe-card.css'
 })
 export class SwipeCard implements OnDestroy {
-  @ViewChild('swipeCard') swipeCard!: ElementRef<HTMLDivElement>;
-  @ViewChild('innerCard') innerCard!: ElementRef<HTMLDivElement>;
+  swipeCard = viewChild<ElementRef<HTMLDivElement>>('swipeCard');
+  innerCard = viewChild<ElementRef<HTMLDivElement>>('innerCard');
 
   film = input<FilmTMDB | null>(null);
   genres = input<GenreTMDB[]>([]);
@@ -51,13 +51,13 @@ export class SwipeCard implements OnDestroy {
     });
 
     afterNextRender(() => {
-      const inner = this.innerCard.nativeElement;
+      const inner = this.innerCard()!.nativeElement;
       const likeBadge = !this.isCover() ? inner.querySelector('.like-badge') as HTMLElement : null;
       const nopeBadge = !this.isCover() ? inner.querySelector('.nope-badge') as HTMLElement : null;
       let savedZIndex = '';
       let dragStarted = false;
 
-      const draggables = Draggable.create(this.swipeCard.nativeElement, {
+      const draggables = Draggable.create(this.swipeCard()!.nativeElement, {
         type: 'x,y',
         zIndexBoost: false,
         minimumMovement: 6,
@@ -134,8 +134,8 @@ export class SwipeCard implements OnDestroy {
 
   swipe(direction: 'left' | 'right'): void {
     const mult = direction === 'right' ? 1 : -1;
-    const cardEl = this.swipeCard.nativeElement;
-    const innerEl = this.innerCard.nativeElement;
+    const cardEl = this.swipeCard()!.nativeElement;
+    const innerEl = this.innerCard()!.nativeElement;
 
     if (!this.isCover()) {
       const badge = direction === 'right'

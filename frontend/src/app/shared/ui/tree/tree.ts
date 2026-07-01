@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, signal, ViewChild, ChangeDetectorRef, inject, afterNextRender, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, signal, ChangeDetectorRef, inject, afterNextRender, OnInit, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
@@ -34,7 +34,7 @@ interface GroupedFilm {
   styleUrl: './tree.css',
 })
 export class Tree implements OnInit {
-  @ViewChild('viewport') viewportRef!: ElementRef<HTMLDivElement>;
+  viewportRef = viewChild<ElementRef<HTMLDivElement>>('viewport');
   private cdr = inject(ChangeDetectorRef);
   private route = inject(ActivatedRoute);
   private filmService = inject(FilmService);
@@ -104,7 +104,7 @@ export class Tree implements OnInit {
     this.cdr.detectChanges();
     
     setTimeout(() => {
-      if (this.viewportRef) {
+      if (this.viewportRef()) {
         this.resetViewport(false);
       }
     }, 0);
@@ -112,7 +112,7 @@ export class Tree implements OnInit {
 
   constructor() {
     afterNextRender(() => {
-      if (this.viewportRef) {
+      if (this.viewportRef()) {
         this.resetViewport(false);
       }
     });
@@ -276,8 +276,8 @@ export class Tree implements OnInit {
   }
 
   resetViewport(animate: boolean = true) {
-    const vw = this.viewportRef.nativeElement.clientWidth;
-    const vh = this.viewportRef.nativeElement.clientHeight;
+    const vw = this.viewportRef()!.nativeElement.clientWidth;
+    const vh = this.viewportRef()!.nativeElement.clientHeight;
     
     this._targetX = -(this.spineX1 - Math.floor(vw * 0.1));
     this._targetY = -(this.SPINE_Y - Math.floor(vh * 0.5));
@@ -401,11 +401,11 @@ export class Tree implements OnInit {
     let viewportCy = 0;
 
     if (cx !== undefined && cy !== undefined) {
-      const rect = this.viewportRef.nativeElement.getBoundingClientRect();
+      const rect = this.viewportRef()!.nativeElement.getBoundingClientRect();
       viewportCx = cx - rect.left;
       viewportCy = cy - rect.top;
     } else {
-      const rect = this.viewportRef.nativeElement.getBoundingClientRect();
+      const rect = this.viewportRef()!.nativeElement.getBoundingClientRect();
       viewportCx = rect.width / 2;
       viewportCy = rect.height / 2;
     }

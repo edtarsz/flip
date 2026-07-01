@@ -45,18 +45,25 @@ export class WatchlistRepository {
     }
   }
 
-  async getWatchlist(page: number = 1, limit: number = 20) {
+  async getWatchlist(
+    page: number = 1, 
+    limit: number = 20,
+    filters?: { genres?: number[]; year?: number | null }
+  ) {
     const from = (page - 1) * limit;
     const to = from + limit - 1;
 
-    const { data, error } = await supabase
+    const isFiltering = (filters?.genres && filters.genres.length > 0) || filters?.year;
+    const filmRelationSelector = isFiltering ? 'film:films!inner' : 'film:films';
+
+    let query = supabase
       .from('watchlists')
       .select(`
         id,
         created_at,
         film_id,
         user_id,
-        film:films (
+        ${filmRelationSelector} (
           id,
           title,
           poster_path,
@@ -69,6 +76,16 @@ export class WatchlistRepository {
       .order('created_at', { ascending: false })
       .order('id', { ascending: true })
       .range(from, to);
+
+    if (filters?.genres && filters.genres.length > 0) {
+      query = query.contains('film.genre_ids', filters.genres);
+    }
+
+    if (filters?.year) {
+      query = query.like('film.release_date', `${filters.year}%`);
+    }
+
+    const { data, error } = await query;
 
     if (error) throw error
     return data as unknown as WatchlistItem[]

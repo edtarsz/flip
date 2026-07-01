@@ -26,6 +26,33 @@
         <section
             class="flex flex-col gap-2 sm:gap-5 p-2 sm:p-5 h-full overflow-hidden"
         >
+            <ul
+                class="flex overflow-scroll relative gap-1.5 sm:hidden no-scrollbar py-2 shrink-0"
+            >
+                @for (genre of topGenres(); track genre.id) {
+                <li
+                    (click)="toggleQuickFilterGenre(genre.id)"
+                    class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 shrink-0"
+                >
+                    <span
+                        class="text-sm px-3 py-1 rounded-full border transition-color duration-200"
+                        [class]="selectedGenres().includes(genre.id) ? 'bg-(--color-wine-red) text-white border-(--color-wine-red)' : 'bg-(--color-background) border-(--color-gray)/20 group-hover:border-(--color-gray)/50'"
+                    >
+                        {{ genre.name }}
+                    </span>
+                </li>
+                }
+                <li
+                    (click)="filters.onToggleSidebar()"
+                    class="relative bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 aspect-square rounded-full h-8 w-8 shrink-0 font-bold"
+                >
+                    @if (hasActiveFilters()) {
+                    <span
+                        class="absolute top-0 right-0 bg-(--color-wine-red) w-[8px] flex items-center justify-center rounded-full aspect-square text-xs"
+                    ></span>
+                    } ...
+                </li>
+            </ul>
             @if (filteredWatchlistAsFilms().length === 0 && !isLoading()) {
             <div
                 class="col-span-full flex flex-col items-center justify-center py-20 text-center select-none"

@@ -18,7 +18,11 @@
             class="film-card grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
         ></app-film>
         } @if (hasMore()) {
-        <div #sentinel id="vertical-infinite-sentinel">
+        <div
+            #sentinel
+            id="vertical-infinite-sentinel"
+            class="col-span-full w-full h-10 flex justify-center items-center"
+        >
             @if (loading()) {
             <app-film [loading]="true"></app-film>
             }

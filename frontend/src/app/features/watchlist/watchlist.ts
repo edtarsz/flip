@@ -5,6 +5,7 @@ import { FilmFilters } from '../films/film-filters/film-filters';
 import { FilmGrid } from '../films/film-grid/film-grid';
 import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
 import { FilmTMDB } from '@core/types/tmdb/film.type';
+import { GenreTMDB } from '@core/types/tmdb/genre.type';
 
 @Component({
   selector: 'app-watchlist',
@@ -25,25 +26,49 @@ export class Watchlist {
   selectedYear = signal<number | null>(null);
   selectedGenres = signal<number[]>([]);
 
+  topGenres = computed<GenreTMDB[]>(() => {
+    const countMap: Record<number, number> = {};
+    for (const item of this.watchlist()) {
+      if (item.film && item.film.genre_ids) {
+        let filmGenresIds = item.film.genre_ids;
+
+        for (const genreId of filmGenresIds) {
+          countMap[genreId] = (countMap[genreId] || 0) + 1;
+        }
+      }
+    }
+
+    const top3Ids = Object.keys(countMap).map(Number).slice(0, 3);
+    const allGenres = this.genres();
+
+    return top3Ids.map(id => {
+      const found = allGenres.find(g => g.id === id);
+      return found || { id, name: `` };
+    });
+  });
+  
+  hasActiveFilters = computed<boolean>(() => {
+    return this.selectedGenres().length > 0 || this.selectedYear() !== null;
+  });
+
+  toggleQuickFilterGenre(genreId: number) {
+    const current = this.selectedGenres();
+    let next: number[];
+    if (current.includes(genreId)) {
+      next = current.filter(id => id !== genreId);
+    } else {
+      next = [...current, genreId];
+    }
+    this.selectedGenres.set(next);
+    
+    this.watchlistService.getWatchlist(1, false, {
+      genres: next,
+      year: this.selectedYear()
+    });
+  }
+
   filteredWatchlistAsFilms = computed<FilmTMDB[]>(() => {
     let items = this.watchlist();
-    const year = this.selectedYear();
-    const genres = this.selectedGenres();
-    
-    if (year !== null) {
-      items = items.filter(item => {
-        if (!item.film.release_date) return false;
-        return item.film.release_date.startsWith(year.toString());
-      });
-    }
-
-    if (genres.length > 0) {
-      items = items.filter(item => {
-        if (!item.film.genre_ids || item.film.genre_ids.length === 0) return false;
-        return genres.every(g => item.film.genre_ids?.includes(g));
-      });
-    }
-
     return items.map(item => ({
       ...item.film,
       id: item.film.external_film_id
@@ -51,11 +76,16 @@ export class Watchlist {
   });
 
   loadNextPage() {
-    this.watchlistService.getWatchlist(this.watchlistService.currentPage() + 1);
+    this.watchlistService.getWatchlist(
+      this.watchlistService.currentPage() + 1, 
+      false, 
+      { genres: this.selectedGenres(), year: this.selectedYear() }
+    );
   }
 
   applyFilters(filters: { genres: number[]; year: number | null }) {
     this.selectedGenres.set(filters.genres);
     this.selectedYear.set(filters.year);
+    this.watchlistService.getWatchlist(1, false, filters);
   }
 }

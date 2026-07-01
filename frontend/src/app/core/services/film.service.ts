@@ -2,8 +2,30 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
-import { tap } from 'rxjs';
+import { tap, of, catchError } from 'rxjs';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
+
+const FALLBACK_GENRES: GenreTMDB[] = [
+  { id: 28, name: 'Action' },
+  { id: 12, name: 'Adventure' },
+  { id: 16, name: 'Animation' },
+  { id: 35, name: 'Comedy' },
+  { id: 80, name: 'Crime' },
+  { id: 99, name: 'Documentary' },
+  { id: 18, name: 'Drama' },
+  { id: 10751, name: 'Family' },
+  { id: 14, name: 'Fantasy' },
+  { id: 36, name: 'History' },
+  { id: 27, name: 'Horror' },
+  { id: 10402, name: 'Music' },
+  { id: 9648, name: 'Mystery' },
+  { id: 10749, name: 'Romance' },
+  { id: 878, name: 'Science Fiction' },
+  { id: 10770, name: 'TV Movie' },
+  { id: 53, name: 'Thriller' },
+  { id: 10752, name: 'War' },
+  { id: 37, name: 'Western' }
+];
 
 export interface GetFilmsOptions {
   genres?: number[];
@@ -85,8 +107,40 @@ export class FilmService {
   }
 
   getGenres() {
+    const cacheKey = 'tmdb_genres';
+    const cacheTimeKey = 'tmdb_genres_timestamp';
+    const oneWeek = 7 * 24 * 60 * 60 * 1000;
+
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      const timestamp = localStorage.getItem(cacheTimeKey);
+
+      if (cached && timestamp && (Date.now() - Number(timestamp) < oneWeek)) {
+        const genres = JSON.parse(cached);
+        this.genresSignal.set(genres);
+        return of({ genres });
+      }
+    } catch (e) {
+      console.warn('LocalStorage not available or corrupted:', e);
+    }
+
     return this.http.get<any>(`${this.url}/genre/movie/list`, { headers: this.headers }).pipe(
-      tap(data => this.genresSignal.set(data.genres))
+      tap(data => {
+        if (data && data.genres) {
+          this.genresSignal.set(data.genres);
+          try {
+            localStorage.setItem(cacheKey, JSON.stringify(data.genres));
+            localStorage.setItem(cacheTimeKey, Date.now().toString());
+          } catch (e) {
+            console.warn('Failed to save genres to localStorage:', e);
+          }
+        }
+      }),
+      catchError(err => {
+        console.error('Error fetching genres from TMDB, using fallback:', err);
+        this.genresSignal.set(FALLBACK_GENRES);
+        return of({ genres: FALLBACK_GENRES });
+      })
     );
   }
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject, NgZone, OnDestroy, input, output, afterNextRender } from '@angular/core';
+import { Component, ElementRef, inject, NgZone, OnDestroy, input, output, afterNextRender, viewChild, effect } from '@angular/core';
 import { Film } from '@shared/ui/film/film';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { Router } from '@angular/router';
@@ -23,19 +23,12 @@ export class FilmGrid implements OnDestroy {
   private observer: IntersectionObserver | null = null;
   private localLenis?: Lenis;
 
-  @ViewChild('scrollWrapper') scrollWrapper?: ElementRef<HTMLElement>;
-
-  @ViewChild('sentinel') set sentinel(el: ElementRef<HTMLElement> | undefined) {
-    if (el) {
-      this.initObserver(el.nativeElement);
-    } else {
-      this.disconnectObserver();
-    }
-  }
+  scrollWrapper = viewChild<ElementRef<HTMLElement>>('scrollWrapper');
+  sentinel = viewChild<ElementRef<HTMLElement>>('sentinel');
 
   constructor() {
     afterNextRender(() => {
-      const wrapper = this.scrollWrapper?.nativeElement;
+      const wrapper = this.scrollWrapper()?.nativeElement;
       if (wrapper) {
         this.ngZone.runOutsideAngular(() => {
           this.localLenis = new Lenis({
@@ -51,6 +44,15 @@ export class FilmGrid implements OnDestroy {
         });
       }
     });
+
+    effect(() => {
+      const el = this.sentinel();
+      if (el) {
+        this.initObserver(el.nativeElement);
+      } else {
+        this.disconnectObserver();
+      }
+    });
   }
 
   private initObserver(element: HTMLElement) {
@@ -64,7 +66,11 @@ export class FilmGrid implements OnDestroy {
             });
           }
         },
-        { threshold: 0.1 }
+        {
+          root: this.scrollWrapper()?.nativeElement || null,
+          rootMargin: '150px',
+          threshold: 0.1
+        }
       );
       this.observer.observe(element);
     });

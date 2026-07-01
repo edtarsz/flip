@@ -23,7 +23,6 @@ export type Database = {
           director_name: string | null
           external_film_id: number
           genre_ids: number[] | null
-          genres: string[] | null
           id: string
           poster_path: string | null
           release_date: string | null
@@ -39,7 +38,6 @@ export type Database = {
           director_name?: string | null
           external_film_id: number
           genre_ids?: number[] | null
-          genres?: string[] | null
           id?: string
           poster_path?: string | null
           release_date?: string | null
@@ -55,7 +53,6 @@ export type Database = {
           director_name?: string | null
           external_film_id?: number
           genre_ids?: number[] | null
-          genres?: string[] | null
           id?: string
           poster_path?: string | null
           release_date?: string | null

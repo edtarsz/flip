@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, effect, untracked, ViewChildren, QueryList, HostListener } from '@angular/core';
+import { Component, inject, signal, computed, effect, untracked, HostListener, viewChildren } from '@angular/core';
 import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
 import { SwipeService } from '@core/services/swipe.service';
@@ -27,7 +27,7 @@ export class Swipe {
   private watchlistService = inject(WatchlistService);
   private router = inject(Router);
 
-  @ViewChildren(SwipeCard) swipeCards!: QueryList<SwipeCard>;
+  swipeCards = viewChildren(SwipeCard);
 
   readonly allFilms = this.swipeService.recommendations;
   readonly genres = this.filmService.genres;
@@ -158,7 +158,7 @@ export class Swipe {
   }
 
   private getTopCard(): SwipeCard | undefined {
-    const cards = this.swipeCards.toArray();
+    const cards = this.swipeCards();
     return cards[cards.length - 1];
   }
 }

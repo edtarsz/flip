@@ -24,13 +24,15 @@ export const watchlistResolver: ResolveFn<any> = async () => {
   const loadingService = inject(LoadingService);
   const filmService = inject(FilmService);
 
-  if (watchlistService.watchlist().length === 0) {
+  if (!watchlistService.hasLoaded()) {
     loadingService.start();
     await watchlistService.getWatchlist();
-    if (filmService.genres().length === 0) {
-      await firstValueFrom(filmService.getGenres());
-    }
   }
+
+  if (filmService.genres().length === 0) {
+    await firstValueFrom(filmService.getGenres());
+  }
+  
   return true;
 };
 

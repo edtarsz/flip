@@ -1,5 +1,6 @@
 <div
-  class="flex relative rounded-full bg-(--color-gray-dark) border border-(--color-gray)/20 gap-1 h-full p-0.5"
+  (click)="toggle()"
+  class="flex relative rounded-full bg-(--color-gray-dark) border border-(--color-gray)/20 gap-1 h-full p-0.5 cursor-pointer"
 >
   <span
     class="absolute top-0.5 bottom-0.5 left-0.5 aspect-square rounded-full bg-(--color-wine-red) pointer-events-none transition-transform duration-200 ease-in-out"
@@ -8,7 +9,6 @@
 
   <button
     class="relative rounded-md aspect-square flex justify-center items-center p-1 transition-colors duration-200"
-    (click)="toggle()"
   >
     <svg
       lucideSun
@@ -21,7 +21,6 @@
 
   <button
     class="relative rounded-md aspect-square flex justify-center items-center p-1 transition-colors duration-200"
-    (click)="toggle()"
   >
     <svg
       lucideMoon

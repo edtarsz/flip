@@ -18,7 +18,6 @@ export class FilmFilters {
   selectedYear = input<number | null>(null);
 
   apply = output<{ genres: number[]; year: number | null }>();
-  toggle = output<boolean>();
 
   localGenres: number[] = [];
   localYear: number | null = null;
@@ -70,7 +69,6 @@ export class FilmFilters {
 
   onToggleSidebar() {
     this.showSidebar.set(!this.showSidebar());
-    this.toggle.emit(this.showSidebar());
   }
 
   get isVisibleSidebar() {

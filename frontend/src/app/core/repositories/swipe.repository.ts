@@ -30,6 +30,7 @@ export class SwipeRepository {
         release_date: film.release_date,
         direction,
         genre_names: genreNames,
+        genre_ids: film.genre_ids || [],
         signal_strength: null,
       },
       method: 'POST'

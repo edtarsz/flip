@@ -12,6 +12,7 @@ const recordSwipeSchema = z.object({
     release_date: z.string().nullable().optional(),
     direction: z.enum(['like', 'dislike']),
     genre_names: z.array(z.string()),
+    genre_ids: z.array(z.number()).optional(),
     signal_strength: z.number().nullable().optional(),
 })
 
@@ -56,6 +57,7 @@ export class SwipeController {
             vote_average: payload.vote_average ?? 0,
             vote_count: payload.vote_count ?? 0,
             release_date: payload.release_date ?? '',
+            genre_ids: payload.genre_ids ?? [],
             cast_ids: topCast.map(a => a.id),
             cast_names: topCast.map(a => a.name),
             director_id: director?.id ?? null,
