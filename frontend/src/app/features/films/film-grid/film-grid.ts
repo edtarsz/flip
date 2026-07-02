@@ -21,6 +21,7 @@ import Lenis from 'lenis';
   templateUrl: './film-grid.html',
 })
 export class FilmGrid implements OnDestroy {
+
   private ngZone = inject(NgZone);
   private router = inject(Router);
 

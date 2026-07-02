@@ -6,3 +6,7 @@
   min-width: 0;
   aspect-ratio: var(--film-aspect-ratio, 2/3.7);
 }
+
+:host(.hide-details) {
+  aspect-ratio: 2/3;
+}

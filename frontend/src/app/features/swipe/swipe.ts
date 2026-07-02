@@ -96,6 +96,14 @@ export class Swipe {
   showCover = this.swipeService.showCover;
   shouldAnimateBackdrop = signal(false);
 
+  toggleSeenOnActiveCard() {
+    const cards = this.swipeCards();
+    if (cards.length > 0 && !this.showCover()) {
+      const topCard = cards[cards.length - 1];
+      topCard.toggleSeen();
+    }
+  }
+
   constructor() {
     effect(() => {
       if (this.showCover()) {

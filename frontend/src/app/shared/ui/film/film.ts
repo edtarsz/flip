@@ -11,6 +11,9 @@ import { isImageLoaded, markImageLoaded } from '@shared/utils/image-cache.util';
   imports: [LucideStar, DecimalPipe, DatePipe, TmdbImagePipe, LucideImage, Skeleton],
   templateUrl: './film.html',
   styleUrl: './film.css',
+  host: {
+    '[class.hide-details]': 'hideFilmDetails()',
+  }
 })
 export class Film implements OnInit {
   film = input<FilmTMDB | WatchlistFilmTMDB>();

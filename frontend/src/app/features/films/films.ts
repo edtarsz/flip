@@ -1,14 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
 import { FilmService } from '@core/services/film.service';
-import { Separator } from '@shared/ui/separator/separator';
 import { FilmFilters } from './film-filters/film-filters';
 import { FilmSearchBar } from './film-search-bar/film-search-bar';
 import { FilmGrid } from './film-grid/film-grid';
 import { isViewportAtLeast } from '@shared/utils/responsive.util';
+import { LucideListFilter, LucideX } from '@lucide/angular';
+import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
 
 @Component({
   selector: 'app-films',
-  imports: [FilmFilters, FilmSearchBar, FilmGrid],
+  imports: [FilmFilters, FilmSearchBar, FilmGrid, LucideListFilter, LucideX, HeaderMobile],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
@@ -28,7 +29,7 @@ export class Films {
   loadingNextPage = signal(false);
   hasMorePages = this.filmService.hasMorePages;
 
-  toggledSidebar = signal(isViewportAtLeast(768, false));
+  toggledSidebar = signal(isViewportAtLeast('MD', false));
 
   loadNextPage() {
     if (this.loadingNextPage() || !this.hasMorePages()) return;

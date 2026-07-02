@@ -1,25 +1,49 @@
-<header class="bg-(--color-background) relative">
+<header class="bg-(--color-background) relative z-2">
   <app-separator></app-separator>
-  <ul class="grid grid-cols-2">
+  <ul class="grid grid-cols-4">
     <li
-      (click)="navToSwipe()"
-      class="flex justify-center border-r border-(--color-gray)/20 py-2 sm:py-4 w-full"
+      routerLink="/swipe"
+      class="flex justify-center border-r border-(--color-gray)/20 py-4 w-full cursor-pointer"
     >
       <div
         routerLinkActive="text-(--color-wine-red)"
-        class="flex flex-col justify-center items-center text-xs"
+        class="flex flex-col justify-center items-center text-xs pointer-events-none"
       >
         <svg lucideGalleryHorizontalEnd size="16"></svg>
-        <a routerLink="/swipe">Swipe</a>
+        <!-- <span>Swipe</span> -->
       </div>
     </li>
-    <li (click)="navToWatchlist()" class="flex justify-center py-2 sm:py-4 w-full">
+    <li
+      routerLink="/watchlist"
+      class="flex justify-center border-r border-(--color-gray)/20 py-4 w-full cursor-pointer"
+    >
       <div
         routerLinkActive="text-(--color-wine-red)"
-        class="flex flex-col justify-center items-center gap-1 text-xs w-full"
+        class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
       >
         <svg lucideThumbsUp size="16"></svg>
-        <a routerLink="/watchlist">Watchlist</a>
+        <!-- <span>Watchlist</span> -->
+      </div>
+    </li>
+    <li
+      routerLink="/films"
+      class="flex justify-center border-r border-(--color-gray)/20 py-4 w-full cursor-pointer"
+    >
+      <div
+        routerLinkActive="text-(--color-wine-red)"
+        class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+      >
+        <svg lucideClapperboard size="16"></svg>
+        <!-- <span>Movies</span> -->
+      </div>
+    </li>
+    <li routerLink="/trees" class="flex justify-center py-4 w-full cursor-pointer">
+      <div
+        routerLinkActive="text-(--color-wine-red)"
+        class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+      >
+        <svg lucideNetwork size="16"></svg>
+        <!-- <span>Trees</span> -->
       </div>
     </li>
   </ul>

@@ -1,11 +1,6 @@
-<div
-  #scrollWrapper
-  class="overflow-y-auto h-full custom-scrollbar overscroll-contain pr-2"
-  data-lenis-prevent
->
-  <div
-    class="sm:flex flex-wrap grid grid-cols-3 sm:justify-start justify-center sm:gap-x-3 sm:gap-y-6 gap-x-2 gap-y-2 pb-5"
-  >
+<div #scrollWrapper class="overflow-y-auto h-full pr-0 sm:pr-2 custom-scrollbar" data-lenis-prevent>
+  <!-- <div #scrollWrapper class="overflow-y-auto h-full no-scrollbar" data-lenis-prevent> -->
+  <div class="sm:flex flex-wrap grid grid-cols-3 sm:justify-start justify-center sm:gap-3 gap-2">
     @if (films().length === 0 && loading()) {
       @for (item of [1, 2, 3, 4]; track $index) {
         <app-film [loading]="true"></app-film>
@@ -17,7 +12,7 @@
         [isPriority]="idx < 6"
         [hideFilmDetails]="hideFilmDetails()"
         (click)="onFilmClick(film)"
-        class="film-card grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
+        class="grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
       ></app-film>
     }
     @if (hasMore()) {

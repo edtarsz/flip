@@ -1,16 +1,5 @@
 <form class="flex items-center gap-2 h-full" [formRoot]="searchForm">
   <div
-    class="opacity-100 w-[74px] flex justify-center items-center transition-opacity duration-200 relative md:hidden cursor-pointer"
-    (click)="toggleFilters.emit()"
-  >
-    <svg lucideChevronsUpDown size="32" class="rotate-90"></svg>
-    @if (hasActiveFilters()) {
-      <span
-        class="absolute top-0 right-0 bg-(--color-wine-red) w-[8px] flex items-center justify-center rounded-full aspect-square text-xs"
-      ></span>
-    }
-  </div>
-  <div
     class="flex rounded-sm gap-2 w-full min-w-0 lg:max-w-[500px] border border-(--color-gray)/20 bg-(--color-background) items-center px-3 py-2"
   >
     <svg lucideSearch size="16" color="var(--color-gray)" class="shrink-0"></svg>

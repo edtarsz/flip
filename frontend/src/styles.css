@@ -104,28 +104,40 @@
     /* Firefox */
   }
 
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background-color: var(--color-gray-dark);
-    border-radius: 5px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: var(--color-wine-red);
-    border-radius: 5px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-wine-dark);
-  }
-
-  @supports not selector(::-webkit-scrollbar) {
+  @media (max-width: 639px) {
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
     .custom-scrollbar {
-      scrollbar-width: thin;
-      scrollbar-color: var(--color-wine-red) var(--color-gray-dark);
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background-color: var(--color-gray-dark);
+      border-radius: 5px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: var(--color-wine-red);
+      border-radius: 5px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background-color: var(--color-wine-dark);
+    }
+
+    @supports not selector(::-webkit-scrollbar) {
+      .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-wine-red) var(--color-gray-dark);
+      }
     }
   }
 }

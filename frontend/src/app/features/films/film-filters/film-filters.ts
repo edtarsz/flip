@@ -21,7 +21,7 @@ export class FilmFilters {
 
   localGenres: number[] = [];
   localYear: number | null = null;
-  showSidebar = signal(isViewportAtLeast(768, false));
+  showSidebar = signal(isViewportAtLeast('MD', false));
 
   constructor() {
     effect(() => {

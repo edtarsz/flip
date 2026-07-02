@@ -1,11 +1,11 @@
 import { Component, signal, effect, untracked, input, output } from '@angular/core';
 import { form, FormField, FormRoot } from '@angular/forms/signals';
-import { LucideSearch, LucideX, LucideChevronsUpDown } from '@lucide/angular';
+import { LucideSearch, LucideX } from '@lucide/angular';
 import { Button } from '@shared/ui/button/button';
 
 @Component({
   selector: 'app-film-search-bar',
-  imports: [FormRoot, FormField, LucideSearch, LucideX, Button, LucideChevronsUpDown],
+  imports: [FormRoot, FormField, LucideSearch, LucideX, Button],
   templateUrl: './film-search-bar.html',
 })
 export class FilmSearchBar {
