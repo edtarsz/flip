@@ -1,4 +1,4 @@
 export type GenreTMDB = {
-    id: number
-    name: string
-}
+  id: number;
+  name: string;
+};

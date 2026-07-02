@@ -1,83 +1,82 @@
 <div
-    class="flex flex-col relative z-0 top-12 sm:top-20 h-[calc(100dvh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden"
+  class="flex flex-col relative z-0 top-12 sm:top-20 h-[calc(100dvh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden"
 >
-    <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
+  <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
+    <div
+      class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background)/1 to-transparent"
+    ></div>
+    <div
+      class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
+    ></div>
+  </div>
+
+  <div class="grid grid-cols-[auto_1fr] flex-1 min-h-0 overflow-hidden">
+    <app-film-filters
+      #filters
+      [genres]="genres()"
+      [selectedGenres]="selectedGenres()"
+      [selectedYear]="selectedYear()"
+      (apply)="applyFilters($event)"
+      class="h-full"
+    >
+    </app-film-filters>
+
+    <section class="flex flex-col gap-2 sm:gap-5 p-2 sm:p-5 h-full overflow-hidden">
+      <ul class="flex overflow-scroll relative gap-1.5 sm:hidden no-scrollbar shrink-0">
+        @for (genre of topGenres(); track genre.id) {
+          <li
+            (click)="toggleQuickFilterGenre(genre.id)"
+            class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 shrink-0"
+          >
+            <span
+              class="text-sm px-3 py-1 rounded-full border transition-color duration-200"
+              [class]="
+                selectedGenres().includes(genre.id)
+                  ? 'bg-(--color-wine-red) text-white border-(--color-wine-red)'
+                  : 'bg-(--color-background) border-(--color-gray)/20 group-hover:border-(--color-gray)/50'
+              "
+            >
+              {{ genre.name }}
+            </span>
+          </li>
+        }
+        <li
+          (click)="filters.onToggleSidebar()"
+          class="relative bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 aspect-square rounded-full h-8 w-8 shrink-0 font-bold"
+        >
+          @if (hasActiveFilters()) {
+            <span
+              class="absolute top-0 right-0 bg-(--color-wine-red) w-[8px] flex items-center justify-center rounded-full aspect-square text-xs"
+            ></span>
+          }
+          ...
+        </li>
+      </ul>
+      @if (filteredWatchlistAsFilms().length === 0 && !isLoading()) {
         <div
-            class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background)/1 to-transparent"
+          class="col-span-full flex flex-col items-center justify-center py-20 text-center select-none"
         >
+          <p class="text-(--color-gray) text-lg font-bold">
+            Tu watchlist está vacía o no hay coincidencias
+          </p>
+          <p class="text-(--color-gray)/60 text-sm mt-1">
+            Desliza a la derecha (like) en las películas para guardarlas aquí, o ajusta tus
+            filtros/búsqueda.
+          </p>
         </div>
-        <div
-            class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
+      } @else {
+        <app-film-grid
+          [films]="filteredWatchlistAsFilms()"
+          [loading]="isLoading()"
+          [hasMore]="hasMorePages()"
+          [hideFilmDetails]="true"
+          (nearEnd)="loadNextPage()"
+          class="flex-1 min-h-0"
         >
-        </div>
-    </div>
+        </app-film-grid>
+      }
+    </section>
+  </div>
 
-    <div class="grid grid-cols-[auto_1fr] flex-1 min-h-0 overflow-hidden">
-        <app-film-filters
-            #filters
-            [genres]="genres()"
-            [selectedGenres]="selectedGenres()"
-            [selectedYear]="selectedYear()"
-            (apply)="applyFilters($event)"
-            class="h-full"
-        >
-        </app-film-filters>
-
-        <section
-            class="flex flex-col gap-2 sm:gap-5 p-2 sm:p-5 h-full overflow-hidden"
-        >
-            <ul
-                class="flex overflow-scroll relative gap-1.5 sm:hidden no-scrollbar shrink-0"
-            >
-                @for (genre of topGenres(); track genre.id) {
-                <li
-                    (click)="toggleQuickFilterGenre(genre.id)"
-                    class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 shrink-0"
-                >
-                    <span
-                        class="text-sm px-3 py-1 rounded-full border transition-color duration-200"
-                        [class]="selectedGenres().includes(genre.id) ? 'bg-(--color-wine-red) text-white border-(--color-wine-red)' : 'bg-(--color-background) border-(--color-gray)/20 group-hover:border-(--color-gray)/50'"
-                    >
-                        {{ genre.name }}
-                    </span>
-                </li>
-                }
-                <li
-                    (click)="filters.onToggleSidebar()"
-                    class="relative bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 aspect-square rounded-full h-8 w-8 shrink-0 font-bold"
-                >
-                    @if (hasActiveFilters()) {
-                    <span
-                        class="absolute top-0 right-0 bg-(--color-wine-red) w-[8px] flex items-center justify-center rounded-full aspect-square text-xs"
-                    ></span>
-                    } ...
-                </li>
-            </ul>
-            @if (filteredWatchlistAsFilms().length === 0 && !isLoading()) {
-            <div
-                class="col-span-full flex flex-col items-center justify-center py-20 text-center select-none"
-            >
-                <p class="text-(--color-gray) text-lg font-bold">
-                    Tu watchlist está vacía o no hay coincidencias
-                </p>
-                <p class="text-(--color-gray)/60 text-sm mt-1">
-                    Desliza a la derecha (like) en las películas para
-                    guardarlas aquí, o ajusta tus filtros/búsqueda.
-                </p>
-            </div>
-            } @else {
-            <app-film-grid
-                [films]="filteredWatchlistAsFilms()"
-                [loading]="isLoading()"
-                [hasMore]="hasMorePages()"
-                [hideFilmDetails]="true"
-                (nearEnd)="loadNextPage()"
-                class="flex-1 min-h-0"
-            >
-            </app-film-grid>
-            }
-        </section>
-    </div>
-
-    <app-header-mobile class="relative sm:hidden shrink-0"></app-header-mobile>
+  <app-header-mobile class="relative sm:hidden shrink-0"></app-header-mobile>
 </div>

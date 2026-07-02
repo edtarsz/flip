@@ -14,6 +14,6 @@ export class PersonItem {
       .split(' ')
       .map((word) => word[0])
       .join('')
-      .toUpperCase()
+      .toUpperCase();
   }
 }

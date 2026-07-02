@@ -33,7 +33,8 @@ Deno.serve(async (req: Request) => {
 
     router.get('/', async () => {
       logger.info('Route', `Matched: ${method} /`);
-      const response = await recommendationsController.getRecommendations(user.id);
+      const limit = Number(url.searchParams.get('limit')) || 20;
+      const response = await recommendationsController.getRecommendations(user.id, limit);
       logger.success('Request', `${method} ${pathname}`);
       return response;
     });

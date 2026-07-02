@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core'
-import { supabase } from '@core/supabase/supabase.client'
+import { Injectable } from '@angular/core';
+import { supabase } from '@core/supabase/supabase.client';
 import { WatchlistItem } from '@core/types/tmdb/film.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WatchlistRepository {
-
   async addToWatchlist(payload: {
     externalFilmId: number;
     title: string;
@@ -21,10 +20,10 @@ export class WatchlistRepository {
       p_poster_path: payload.posterPath,
       p_vote_average: payload.voteAverage,
       p_release_date: payload.releaseDate,
-      p_genre_ids: payload.genreIds
-    })
-    if (error) throw error
-    return data
+      p_genre_ids: payload.genreIds,
+    });
+    if (error) throw error;
+    return data;
   }
 
   async removeFromWatchlist(externalFilmId: number) {
@@ -37,18 +36,15 @@ export class WatchlistRepository {
     if (filmError) throw filmError;
 
     if (film) {
-      const { error } = await supabase
-        .from('watchlists')
-        .delete()
-        .eq('film_id', film.id);
+      const { error } = await supabase.from('watchlists').delete().eq('film_id', film.id);
       if (error) throw error;
     }
   }
 
   async getWatchlist(
-    page: number = 1, 
+    page: number = 1,
     limit: number = 20,
-    filters?: { genres?: number[]; year?: number | null }
+    filters?: { genres?: number[]; year?: number | null },
   ) {
     const from = (page - 1) * limit;
     const to = from + limit - 1;
@@ -58,7 +54,8 @@ export class WatchlistRepository {
 
     let query = supabase
       .from('watchlists')
-      .select(`
+      .select(
+        `
         id,
         created_at,
         film_id,
@@ -72,7 +69,8 @@ export class WatchlistRepository {
           external_film_id,
           genre_ids
         )
-      `)
+      `,
+      )
       .order('created_at', { ascending: false })
       .order('id', { ascending: true })
       .range(from, to);
@@ -87,7 +85,7 @@ export class WatchlistRepository {
 
     const { data, error } = await query;
 
-    if (error) throw error
-    return data as unknown as WatchlistItem[]
+    if (error) throw error;
+    return data as unknown as WatchlistItem[];
   }
 }

@@ -24,8 +24,14 @@ const FALLBACK_GENRES: GenreTMDB[] = [
   { id: 10770, name: 'TV Movie' },
   { id: 53, name: 'Thriller' },
   { id: 10752, name: 'War' },
-  { id: 37, name: 'Western' }
+  { id: 37, name: 'Western' },
 ];
+
+const VOTE_COUNT_THRESHOLD = 150;
+const GENRES_CACHE_EXPIRY = 7 * 24 * 60 * 60 * 1000;
+const DEFAULT_SORT = 'popularity.desc';
+const DEFAULT_PAGE = 1;
+const DETAILS_APPEND_TO_RESPONSE = 'watch/providers,credits';
 
 export interface GetFilmsOptions {
   genres?: number[];
@@ -41,7 +47,7 @@ export class FilmService {
   private http = inject(HttpClient);
 
   private url = environment.tmdbUrl;
-  private headers = new HttpHeaders().set('Authorization', `Bearer ${environment.tmdbKey}`)
+  private headers = new HttpHeaders().set('Authorization', `Bearer ${environment.tmdbKey}`);
 
   private filmsSignal = signal<FilmTMDB[]>([]);
   readonly films = this.filmsSignal.asReadonly();
@@ -76,19 +82,19 @@ export class FilmService {
     const genres = options.genres;
     const year = options.year;
     const query = options.query;
-    const page = options.page ?? 1;
+    const page = options.page ?? DEFAULT_PAGE;
 
     const isSearch = query && query.trim().length > 0;
 
     let url = isSearch
-      ? `${this.url}/search/movie?query=${query}&page=${page}`
-      : `${this.url}/discover/movie?sort_by=popularity.desc&include_adult=false&page=${page}`;
+      ? `${this.url}/search/movie?query=${query}&page=${page}&include_adult=false`
+      : `${this.url}/discover/movie?sort_by=${DEFAULT_SORT}&include_adult=false&vote_count.gte=${VOTE_COUNT_THRESHOLD}&page=${page}`;
 
     if (genres && genres.length > 0) url += `&with_genres=${genres.join(',')}`;
     if (year) url += `&primary_release_year=${year}`;
 
     return this.http.get<any>(url, { headers: this.headers }).pipe(
-      tap(data => {
+      tap((data) => {
         if (page === 1) {
           const seen = new Set();
           const uniqueResults = data.results.filter((film: FilmTMDB) => {
@@ -98,26 +104,22 @@ export class FilmService {
           });
           this.filmsSignal.set(uniqueResults);
         } else {
-          this.filmsSignal.update(films => {
-            const existingIds = new Set(films.map(f => f.id));
+          this.filmsSignal.update((films) => {
+            const existingIds = new Set(films.map((f) => f.id));
             const newFilms = data.results.filter((film: FilmTMDB) => !existingIds.has(film.id));
             return [...films, ...newFilms];
           });
         }
-      })
+      }),
     );
   }
 
   getGenres() {
-    const cacheKey = 'tmdb_genres';
-    const cacheTimeKey = 'tmdb_genres_timestamp';
-    const oneWeek = 7 * 24 * 60 * 60 * 1000;
-
     try {
-      const cached = localStorage.getItem(cacheKey);
-      const timestamp = localStorage.getItem(cacheTimeKey);
+      const cached = localStorage.getItem('tmdb_genres');
+      const timestamp = localStorage.getItem('tmdb_genres_timestamp');
 
-      if (cached && timestamp && (Date.now() - Number(timestamp) < oneWeek)) {
+      if (cached && timestamp && Date.now() - Number(timestamp) < GENRES_CACHE_EXPIRY) {
         const genres = JSON.parse(cached);
         this.genresSignal.set(genres);
         return of({ genres });
@@ -127,22 +129,22 @@ export class FilmService {
     }
 
     return this.http.get<any>(`${this.url}/genre/movie/list`, { headers: this.headers }).pipe(
-      tap(data => {
+      tap((data) => {
         if (data && data.genres) {
           this.genresSignal.set(data.genres);
           try {
-            localStorage.setItem(cacheKey, JSON.stringify(data.genres));
-            localStorage.setItem(cacheTimeKey, Date.now().toString());
+            localStorage.setItem('tmdb_genres', JSON.stringify(data.genres));
+            localStorage.setItem('tmdb_genres_timestamp', Date.now().toString());
           } catch (e) {
             console.warn('Failed to save genres to localStorage:', e);
           }
         }
       }),
-      catchError(err => {
+      catchError((err) => {
         console.error('Error fetching genres from TMDB, using fallback:', err);
         this.genresSignal.set(FALLBACK_GENRES);
         return of({ genres: FALLBACK_GENRES });
-      })
+      }),
     );
   }
 
@@ -152,29 +154,35 @@ export class FilmService {
       this.filmDetailsSignal.set(cached);
       return of(cached);
     }
-    
-    return this.http.get<any>(`${this.url}/movie/${id}?append_to_response=watch/providers,credits`, { headers: this.headers }).pipe(
-      map(data => {
-        if (data) {
-          if (data['watch/providers']) {
-            data.watch_providers = data['watch/providers'].results;
-          }
-          if (data.credits && data.credits.crew) {
-            const crew = data.credits.crew;
-            const directorObj = crew.find((member: any) => member.job === 'Director');
-            const writerObj = crew.find((member: any) => member.job === 'Screenplay' || member.job === 'Writer');
-            
-            data.director = directorObj ? directorObj.name : null;
-            data.screenwriter = writerObj ? writerObj.name : null;
-          }
-        }
-        return data;
-      }),
-      tap(data => {
-        this.filmCache.set(id, data);
-        this.filmDetailsSignal.set(data);
+
+    return this.http
+      .get<any>(`${this.url}/movie/${id}?append_to_response=${DETAILS_APPEND_TO_RESPONSE}`, {
+        headers: this.headers,
       })
-    );
+      .pipe(
+        map((data) => {
+          if (data) {
+            if (data['watch/providers']) {
+              data.watch_providers = data['watch/providers'].results;
+            }
+            if (data.credits && data.credits.crew) {
+              const crew = data.credits.crew;
+              const directorObj = crew.find((member: any) => member.job === 'Director');
+              const writerObj = crew.find(
+                (member: any) => member.job === 'Screenplay' || member.job === 'Writer',
+              );
+
+              data.director = directorObj ? directorObj.name : null;
+              data.screenwriter = writerObj ? writerObj.name : null;
+            }
+          }
+          return data;
+        }),
+        tap((data) => {
+          this.filmCache.set(id, data);
+          this.filmDetailsSignal.set(data);
+        }),
+      );
   }
 
   getCollectionById(id: number | string) {

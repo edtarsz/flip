@@ -19,7 +19,7 @@ export class FilmSearchBar {
 
   internalSearch = signal<{ query: string }>({ query: '' });
 
-  searchForm = form(this.internalSearch, () => { }, {
+  searchForm = form(this.internalSearch, () => {}, {
     submission: {
       action: async (fields) => {
         const query = fields().value().query || '';

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core'
-import { supabase } from '@core/supabase/supabase.client'
+import { Injectable } from '@angular/core';
+import { supabase } from '@core/supabase/supabase.client';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WatchedRepository {
   async markAsWatched(payload: {
@@ -19,15 +19,18 @@ export class WatchedRepository {
       p_poster_path: payload.posterPath,
       p_vote_average: payload.voteAverage,
       p_release_date: payload.releaseDate,
-      p_genre_ids: payload.genreIds
-    })
-    
-    if (error) throw error
-    return data as { success: boolean; film_id: string }
+      p_genre_ids: payload.genreIds,
+    });
+
+    if (error) throw error;
+    return data as { success: boolean; film_id: string };
   }
 
   async getWatchedFilmIds(): Promise<string[]> {
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession();
     if (sessionError || !session) return [];
 
     const { data, error } = await supabase

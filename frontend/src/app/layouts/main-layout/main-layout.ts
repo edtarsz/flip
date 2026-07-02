@@ -1,6 +1,6 @@
 import { Component, afterNextRender, OnDestroy } from '@angular/core';
-import { RouterOutlet } from "@angular/router";
-import { Header } from "../../shared/ui/headers/header-desktop/header-desktop";
+import { RouterOutlet } from '@angular/router';
+import { Header } from '../../shared/ui/headers/header-desktop/header-desktop';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

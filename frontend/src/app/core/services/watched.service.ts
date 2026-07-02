@@ -3,7 +3,7 @@ import { WatchedRepository } from '../repositories/watched.repository';
 import { FilmTMDB } from '../types/tmdb/film.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WatchedService {
   private watchedRepository = inject(WatchedRepository);
@@ -34,11 +34,11 @@ export class WatchedService {
         posterPath: film.poster_path || '',
         voteAverage: film.vote_average,
         releaseDate: film.release_date,
-        genreIds: film.genre_ids || []
+        genreIds: film.genre_ids || [],
       });
 
       if (result && result.film_id) {
-        this.watchedFilmIdsSignal.update(ids => {
+        this.watchedFilmIdsSignal.update((ids) => {
           if (!ids.includes(result.film_id)) {
             return [...ids, result.film_id];
           }

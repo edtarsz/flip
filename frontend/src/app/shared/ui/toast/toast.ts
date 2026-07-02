@@ -7,7 +7,7 @@ import { NgClass } from '@angular/common';
   selector: 'app-toast',
   imports: [NgClass, LucideCheck, LucideX],
   templateUrl: './toast.html',
-  styleUrl: './toast.css'
+  styleUrl: './toast.css',
 })
 export class ToastComponent {
   toastService = inject(ToastService);

@@ -1,15 +1,15 @@
 .hero-bg {
-    background-image:
-        linear-gradient(to top, var(--color-background-light) 0%, transparent 100%),
-        url('/assets/images/michael.webp');
-    background-size: cover;
-    background-position: center;
-    margin-bottom: -2px;
+  background-image:
+    linear-gradient(to top, var(--color-background-light) 0%, transparent 100%),
+    url('/assets/images/michael.webp');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: -2px;
 }
 
 .swipe-card {
-    touch-action: none;
-    transform-origin: center bottom;
-    position: relative;
-    will-change: transform;
+  touch-action: none;
+  transform-origin: center bottom;
+  position: relative;
+  will-change: transform;
 }

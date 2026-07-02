@@ -9,7 +9,7 @@ export function formatRuntime(minutes: number | null | undefined): string {
 
 @Pipe({
   name: 'runtime',
-  standalone: true
+  standalone: true,
 })
 export class RuntimePipe implements PipeTransform {
   transform(minutes: number | null | undefined): string {

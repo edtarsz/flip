@@ -1,399 +1,391 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
-  }
+    PostgrestVersion: '14.5';
+  };
   public: {
     Tables: {
       films: {
         Row: {
-          cast_ids: number[] | null
-          cast_names: string[] | null
-          created_at: string
-          director_id: number | null
-          director_name: string | null
-          external_film_id: number
-          genre_ids: number[] | null
-          id: string
-          poster_path: string | null
-          release_date: string | null
-          title: string | null
-          vote_average: number | null
-          vote_count: number | null
-          watch_providers: Json | null
-        }
+          cast_ids: number[] | null;
+          cast_names: string[] | null;
+          created_at: string;
+          director_id: number | null;
+          director_name: string | null;
+          external_film_id: number;
+          genre_ids: number[] | null;
+          id: string;
+          poster_path: string | null;
+          release_date: string | null;
+          title: string | null;
+          vote_average: number | null;
+          vote_count: number | null;
+          watch_providers: Json | null;
+        };
         Insert: {
-          cast_ids?: number[] | null
-          cast_names?: string[] | null
-          created_at?: string
-          director_id?: number | null
-          director_name?: string | null
-          external_film_id: number
-          genre_ids?: number[] | null
-          id?: string
-          poster_path?: string | null
-          release_date?: string | null
-          title?: string | null
-          vote_average?: number | null
-          vote_count?: number | null
-          watch_providers?: Json | null
-        }
+          cast_ids?: number[] | null;
+          cast_names?: string[] | null;
+          created_at?: string;
+          director_id?: number | null;
+          director_name?: string | null;
+          external_film_id: number;
+          genre_ids?: number[] | null;
+          id?: string;
+          poster_path?: string | null;
+          release_date?: string | null;
+          title?: string | null;
+          vote_average?: number | null;
+          vote_count?: number | null;
+          watch_providers?: Json | null;
+        };
         Update: {
-          cast_ids?: number[] | null
-          cast_names?: string[] | null
-          created_at?: string
-          director_id?: number | null
-          director_name?: string | null
-          external_film_id?: number
-          genre_ids?: number[] | null
-          id?: string
-          poster_path?: string | null
-          release_date?: string | null
-          title?: string | null
-          vote_average?: number | null
-          vote_count?: number | null
-          watch_providers?: Json | null
-        }
-        Relationships: []
-      }
+          cast_ids?: number[] | null;
+          cast_names?: string[] | null;
+          created_at?: string;
+          director_id?: number | null;
+          director_name?: string | null;
+          external_film_id?: number;
+          genre_ids?: number[] | null;
+          id?: string;
+          poster_path?: string | null;
+          release_date?: string | null;
+          title?: string | null;
+          vote_average?: number | null;
+          vote_count?: number | null;
+          watch_providers?: Json | null;
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
-          avatar_url: string | null
-          created_at: string
-          id: string
-          username: string
-          watched_film_ids: string[] | null
-        }
+          avatar_url: string | null;
+          created_at: string;
+          id: string;
+          username: string;
+          watched_film_ids: string[] | null;
+        };
         Insert: {
-          avatar_url?: string | null
-          created_at?: string
-          id?: string
-          username: string
-          watched_film_ids?: string[] | null
-        }
+          avatar_url?: string | null;
+          created_at?: string;
+          id?: string;
+          username: string;
+          watched_film_ids?: string[] | null;
+        };
         Update: {
-          avatar_url?: string | null
-          created_at?: string
-          id?: string
-          username?: string
-          watched_film_ids?: string[] | null
-        }
-        Relationships: []
-      }
+          avatar_url?: string | null;
+          created_at?: string;
+          id?: string;
+          username?: string;
+          watched_film_ids?: string[] | null;
+        };
+        Relationships: [];
+      };
       reviews: {
         Row: {
-          created_at: string
-          film_id: string | null
-          id: number
-          rating: number | null
-          review: string | null
-          user_id: string | null
-        }
+          created_at: string;
+          film_id: string | null;
+          id: number;
+          rating: number | null;
+          review: string | null;
+          user_id: string | null;
+        };
         Insert: {
-          created_at?: string
-          film_id?: string | null
-          id?: number
-          rating?: number | null
-          review?: string | null
-          user_id?: string | null
-        }
+          created_at?: string;
+          film_id?: string | null;
+          id?: number;
+          rating?: number | null;
+          review?: string | null;
+          user_id?: string | null;
+        };
         Update: {
-          created_at?: string
-          film_id?: string | null
-          id?: number
-          rating?: number | null
-          review?: string | null
-          user_id?: string | null
-        }
+          created_at?: string;
+          film_id?: string | null;
+          id?: number;
+          rating?: number | null;
+          review?: string | null;
+          user_id?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "reviews_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: 'reviews_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
           },
-        ]
-      }
+        ];
+      };
       swipes: {
         Row: {
-          created_at: string
-          direction: string | null
-          film_id: string | null
-          id: number
-          signal_strength: number | null
-          user_id: string | null
-        }
+          created_at: string;
+          direction: string | null;
+          film_id: string | null;
+          id: number;
+          signal_strength: number | null;
+          user_id: string | null;
+        };
         Insert: {
-          created_at?: string
-          direction?: string | null
-          film_id?: string | null
-          id?: number
-          signal_strength?: number | null
-          user_id?: string | null
-        }
+          created_at?: string;
+          direction?: string | null;
+          film_id?: string | null;
+          id?: number;
+          signal_strength?: number | null;
+          user_id?: string | null;
+        };
         Update: {
-          created_at?: string
-          direction?: string | null
-          film_id?: string | null
-          id?: number
-          signal_strength?: number | null
-          user_id?: string | null
-        }
+          created_at?: string;
+          direction?: string | null;
+          film_id?: string | null;
+          id?: number;
+          signal_strength?: number | null;
+          user_id?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "swipes_film_id_fkey"
-            columns: ["film_id"]
-            isOneToOne: false
-            referencedRelation: "films"
-            referencedColumns: ["id"]
+            foreignKeyName: 'swipes_film_id_fkey';
+            columns: ['film_id'];
+            isOneToOne: false;
+            referencedRelation: 'films';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "swipes_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: 'swipes_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
           },
-        ]
-      }
+        ];
+      };
       user_taste_profile: {
         Row: {
-          attribute_type: string
-          attribute_value: string
-          last_updated: string
-          user_id: string
-          weight: number
-        }
+          attribute_type: string;
+          attribute_value: string;
+          last_updated: string;
+          user_id: string;
+          weight: number;
+        };
         Insert: {
-          attribute_type: string
-          attribute_value: string
-          last_updated?: string
-          user_id: string
-          weight?: number
-        }
+          attribute_type: string;
+          attribute_value: string;
+          last_updated?: string;
+          user_id: string;
+          weight?: number;
+        };
         Update: {
-          attribute_type?: string
-          attribute_value?: string
-          last_updated?: string
-          user_id?: string
-          weight?: number
-        }
+          attribute_type?: string;
+          attribute_value?: string;
+          last_updated?: string;
+          user_id?: string;
+          weight?: number;
+        };
         Relationships: [
           {
-            foreignKeyName: "user_taste_profile_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: 'user_taste_profile_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
           },
-        ]
-      }
+        ];
+      };
       watchlists: {
         Row: {
-          created_at: string
-          film_id: string
-          id: string
-          user_id: string
-        }
+          created_at: string;
+          film_id: string;
+          id: string;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          film_id: string
-          id?: string
-          user_id: string
-        }
+          created_at?: string;
+          film_id: string;
+          id?: string;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          film_id?: string
-          id?: string
-          user_id?: string
-        }
+          created_at?: string;
+          film_id?: string;
+          id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "watchlists_film_id_fkey"
-            columns: ["film_id"]
-            isOneToOne: false
-            referencedRelation: "films"
-            referencedColumns: ["id"]
+            foreignKeyName: 'watchlists_film_id_fkey';
+            columns: ['film_id'];
+            isOneToOne: false;
+            referencedRelation: 'films';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "watchlists_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: 'watchlists_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
           },
-        ]
-      }
-    }
+        ];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
       add_to_watchlist_with_film: {
         Args: {
-          p_external_film_id: number
-          p_genre_ids: number[]
-          p_poster_path: string
-          p_release_date: string
-          p_title: string
-          p_user_id?: string
-          p_vote_average: number
-        }
-        Returns: Json
-      }
-      check_email_exists: { Args: { p_email: string }; Returns: boolean }
-      check_username_exists: { Args: { p_username: string }; Returns: boolean }
+          p_external_film_id: number;
+          p_genre_ids: number[];
+          p_poster_path: string;
+          p_release_date: string;
+          p_title: string;
+          p_user_id?: string;
+          p_vote_average: number;
+        };
+        Returns: Json;
+      };
+      check_email_exists: { Args: { p_email: string }; Returns: boolean };
+      check_username_exists: { Args: { p_username: string }; Returns: boolean };
       mark_film_as_watched: {
         Args: {
-          p_external_film_id: number
-          p_genre_ids: number[]
-          p_poster_path: string
-          p_release_date: string
-          p_title: string
-          p_user_id?: string
-          p_vote_average: number
-        }
-        Returns: Json
-      }
-    }
+          p_external_film_id: number;
+          p_genre_ids: number[];
+          p_poster_path: string;
+          p_release_date: string;
+          p_title: string;
+          p_user_id?: string;
+          p_vote_average: number;
+        };
+        Returns: Json;
+      };
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>;
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>];
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
+      Row: infer R;
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+    ? (DefaultSchema['Tables'] & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R;
       }
       ? R
       : never
-    : never
+    : never;
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+      Insert: infer I;
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I;
       }
       ? I
       : never
-    : never
+    : never;
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+      Update: infer U;
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U;
       }
       ? U
       : never
-    : never
+    : never;
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
+    | keyof DefaultSchema['Enums']
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
+    : never;
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
+    | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+    : never;
 
 export const Constants = {
   public: {
     Enums: {},
   },
-} as const
+} as const;

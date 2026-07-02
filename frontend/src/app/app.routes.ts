@@ -13,53 +13,55 @@ export const ROUTES: Routes = [
       {
         path: '',
         redirectTo: 'index',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'index',
-        loadComponent: () => import('./layouts/index-layout/index-layout').then(m => m.IndexLayout),
-        resolve: { films: filmsResolver }
+        loadComponent: () =>
+          import('./layouts/index-layout/index-layout').then((m) => m.IndexLayout),
+        resolve: { films: filmsResolver },
       },
       {
         path: 'swipe',
-        loadComponent: () => import('./features/swipe/swipe').then(m => m.Swipe),
+        loadComponent: () => import('./features/swipe/swipe').then((m) => m.Swipe),
         canActivate: [authGuard],
-        resolve: { swipe: swipeResolver }
+        resolve: { swipe: swipeResolver },
       },
       {
         path: 'films',
         children: [
           {
             path: '',
-            loadComponent: () => import('./features/films/films').then(m => m.Films),
-            resolve: { films: filmsResolver }
+            loadComponent: () => import('./features/films/films').then((m) => m.Films),
+            resolve: { films: filmsResolver },
           },
           {
             path: ':id',
-            loadComponent: () => import('./features/films/film-details/film-details').then(m => m.FilmDetails),
-          }
-        ]
+            loadComponent: () =>
+              import('./features/films/film-details/film-details').then((m) => m.FilmDetails),
+          },
+        ],
       },
       {
         path: 'watchlist',
-        loadComponent: () => import('./features/watchlist/watchlist').then(m => m.Watchlist),
+        loadComponent: () => import('./features/watchlist/watchlist').then((m) => m.Watchlist),
         canActivate: [authGuard],
-        resolve: { watchlist: watchlistResolver }
+        resolve: { watchlist: watchlistResolver },
       },
       {
         path: 'trees',
         children: [
           {
             path: '',
-            loadComponent: () => import('./features/trees/trees').then(m => m.Trees),
-            canActivate: [authGuard]
+            loadComponent: () => import('./features/trees/trees').then((m) => m.Trees),
+            canActivate: [authGuard],
           },
           {
             path: ':id',
-            loadComponent: () => import('./shared/ui/tree/tree').then(m => m.Tree),
-            canActivate: [authGuard]
-          }
-        ]
+            loadComponent: () => import('./shared/ui/tree/tree').then((m) => m.Tree),
+            canActivate: [authGuard],
+          },
+        ],
       },
       {
         path: 'auth',
@@ -68,23 +70,24 @@ export const ROUTES: Routes = [
         children: [
           {
             path: 'login',
-            loadComponent: () => import('./layouts/auth-layout/login/login').then(m => m.Login),
+            loadComponent: () => import('./layouts/auth-layout/login/login').then((m) => m.Login),
           },
           {
             path: 'signup',
-            loadComponent: () => import('./layouts/auth-layout/signup/signup').then(m => m.SignUp),
+            loadComponent: () =>
+              import('./layouts/auth-layout/signup/signup').then((m) => m.SignUp),
           },
           {
             path: '',
             redirectTo: 'login',
-            pathMatch: 'full'
-          }
-        ]
-      }
-    ]
+            pathMatch: 'full',
+          },
+        ],
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: 'index'
-  }
+    redirectTo: 'index',
+  },
 ];

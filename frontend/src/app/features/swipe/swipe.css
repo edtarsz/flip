@@ -1,5 +1,5 @@
 .swipe-card {
-    touch-action: none;
-    transform-origin: center bottom;
-    position: relative;
+  touch-action: none;
+  transform-origin: center bottom;
+  position: relative;
 }

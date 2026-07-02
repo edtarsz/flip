@@ -6,10 +6,12 @@ import { LoadingService } from '@core/services/loading.service';
 export const swipeResolver: ResolveFn<boolean> = async () => {
   const swipeService = inject(SwipeService);
   const loadingService = inject(LoadingService);
-  
-  if (swipeService.recommendations().length < 10) {
+
+  const remaining = swipeService.recommendations().length - swipeService.currentIndex();
+
+  if (remaining === 0) {
     loadingService.start();
-    await swipeService.getRecommendations();
+    await swipeService.getRecommendations(10);
   }
   return true;
 };

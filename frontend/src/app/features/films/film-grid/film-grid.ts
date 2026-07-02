@@ -1,4 +1,15 @@
-import { Component, ElementRef, inject, NgZone, OnDestroy, input, output, afterNextRender, viewChild, effect } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  NgZone,
+  OnDestroy,
+  input,
+  output,
+  afterNextRender,
+  viewChild,
+  effect,
+} from '@angular/core';
 import { Film } from '@shared/ui/film/film';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { Router } from '@angular/router';
@@ -69,8 +80,8 @@ export class FilmGrid implements OnDestroy {
         {
           root: this.scrollWrapper()?.nativeElement || null,
           rootMargin: '150px',
-          threshold: 0.1
-        }
+          threshold: 0.1,
+        },
       );
       this.observer.observe(element);
     });

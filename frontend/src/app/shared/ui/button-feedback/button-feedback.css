@@ -1,49 +1,51 @@
 :host(.btn-good),
 :host(.btn-meh),
 :host(.btn-bad) {
-    transform: translate(0, 0) scale(0);
-    transition: transform 200ms ease-out, background-color 200ms ease-out;
-    will-change: transform;
+  transform: translate(0, 0) scale(0);
+  transition:
+    transform 200ms ease-out,
+    background-color 200ms ease-out;
+  will-change: transform;
 }
 
 :host(.btn-good) {
-    width: 5rem;
-    height: 5rem;
-    background-color: #166534;
+  width: 5rem;
+  height: 5rem;
+  background-color: #166534;
 }
 :host(.btn-good.active) {
-    transform: translate(0px, -90px) scale(1);
+  transform: translate(0px, -90px) scale(1);
 }
 :host(.btn-good.active:hover) {
-    background-color: #14532d; 
-    transform: translate(0px, -90px) scale(1.05);
+  background-color: #14532d;
+  transform: translate(0px, -90px) scale(1.05);
 }
 
 :host(.btn-meh) {
-    width: 4.625rem; 
-    height: 4.625rem;
-    background-color: #ca8a04;
+  width: 4.625rem;
+  height: 4.625rem;
+  background-color: #ca8a04;
 }
 :host(.btn-meh.active) {
-    transform: translate(-76px, -45px) scale(1);
-    transition-delay: 50ms;
+  transform: translate(-76px, -45px) scale(1);
+  transition-delay: 50ms;
 }
 :host(.btn-meh.active:hover) {
-    background-color: #a16207;
-    transform: translate(-76px, -45px) scale(1.05);
-    transition-delay: 0ms;
+  background-color: #a16207;
+  transform: translate(-76px, -45px) scale(1.05);
+  transition-delay: 0ms;
 }
 :host(.btn-bad) {
-    width: 4rem;
-    height: 4rem;
-    background-color: #991b1b; 
+  width: 4rem;
+  height: 4rem;
+  background-color: #991b1b;
 }
 :host(.btn-bad.active) {
-    transform: translate(-78px, 28px) scale(1);
-    transition-delay: 80ms;
+  transform: translate(-78px, 28px) scale(1);
+  transition-delay: 80ms;
 }
 :host(.btn-bad.active:hover) {
-    background-color: #7f1d1d;
-    transform: translate(-78px, 28px) scale(1.05);
-    transition-delay: 0ms;
+  background-color: #7f1d1d;
+  transform: translate(-78px, 28px) scale(1.05);
+  transition-delay: 0ms;
 }

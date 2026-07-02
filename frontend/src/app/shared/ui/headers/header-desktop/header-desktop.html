@@ -1,109 +1,95 @@
-<div
-  class="fixed top-0 left-0 w-full z-6 flex flex-col bg-(--color-background)"
->
-  <header
-    class="
-      w-full py-2 sm:py-6 px-3 sm:px-8
-      grid grid-cols-2 sm:grid-cols-3 items-center
-    "
-  >
+<div class="fixed top-0 left-0 w-full z-6 flex flex-col bg-(--color-background)">
+  <header class="w-full py-2 sm:py-6 px-3 sm:px-8 grid grid-cols-2 sm:grid-cols-3 items-center">
     <a routerLink="/dashboard" class="flex items-center gap-2">
       <span class="font-extrabold text-lg sm:text-xl">flip</span>
-      <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8">
+      <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8" />
     </a>
 
     <nav class="hidden sm:block">
-      <ul
-        class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold items-center"
-      >
+      <ul class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold items-center">
         @if (isAuthenticated()) {
-        <li>
-          <a
-            class="hover:text-(--color-wine-red) transition-colors duration-200"
-            routerLink="/swipe"
-            routerLinkActive="text-(--color-wine-red)"
-          >Swipe</a>
-        </li>
-        <li>
-          <a
-            class="hover:text-(--color-wine-red) transition-colors duration-200"
-            routerLink="/films"
-            routerLinkActive="text-(--color-wine-red)"
-          >Films</a>
-        </li>
-        <li>
-          <a
-            class="hover:text-(--color-wine-red) transition-colors duration-200"
-            routerLink="/watchlist"
-            routerLinkActive="text-(--color-wine-red)"
-          >Watchlist</a>
-        </li>
-        <li>
-          <a
-            class="hover:text-(--color-wine-red) transition-colors duration-200"
-            routerLink="/trees"
-            routerLinkActive="text-(--color-wine-red)"
-          >Trees</a>
-        </li>
+          <li>
+            <a
+              class="hover:text-(--color-wine-red) transition-colors duration-200"
+              routerLink="/swipe"
+              routerLinkActive="text-(--color-wine-red)"
+              >Swipe</a
+            >
+          </li>
+          <li>
+            <a
+              class="hover:text-(--color-wine-red) transition-colors duration-200"
+              routerLink="/films"
+              routerLinkActive="text-(--color-wine-red)"
+              >Films</a
+            >
+          </li>
+          <li>
+            <a
+              class="hover:text-(--color-wine-red) transition-colors duration-200"
+              routerLink="/watchlist"
+              routerLinkActive="text-(--color-wine-red)"
+              >Watchlist</a
+            >
+          </li>
+          <li>
+            <a
+              class="hover:text-(--color-wine-red) transition-colors duration-200"
+              routerLink="/trees"
+              routerLinkActive="text-(--color-wine-red)"
+              >Trees</a
+            >
+          </li>
         } @else {
-        <li>
-          <a
-            class="hover:text-(--color-wine-red) transition-colors duration-200"
-            routerLink="/films"
-            routerLinkActive="text-(--color-wine-red)"
-          >Films</a>
-        </li>
+          <li>
+            <a
+              class="hover:text-(--color-wine-red) transition-colors duration-200"
+              routerLink="/films"
+              routerLinkActive="text-(--color-wine-red)"
+              >Films</a
+            >
+          </li>
         }
       </ul>
     </nav>
 
     <nav class="h-full">
-      <ul
-        class="flex gap-5 sm:gap-[2vw] justify-end font-bold items-center h-full"
-      >
+      <ul class="flex gap-5 sm:gap-[2vw] justify-end font-bold items-center h-full">
         <li class="hidden md:flex h-full">
           <app-theme-toggle></app-theme-toggle>
         </li>
         @if (!isAuthenticated()) {
-        <li
-          class="flex gap-2 text-sm items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
-          routerLinkActive="text-(--color-wine-red)"
-        >
-          <a routerLink="/auth/login" routerLinkActive="text-(--color-wine-red)"
-          >Login</a>
-        </li>
-        <li
-          class="flex gap-2 text-sm items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
-          routerLinkActive="text-(--color-wine-red)"
-        >
-          <a
-            routerLink="/auth/signup"
+          <li
+            class="flex gap-2 text-sm items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
             routerLinkActive="text-(--color-wine-red)"
-          >Register</a>
-        </li>
-        } @else {
-        <li
-          class="cursor-pointer flex text-sm sm:text-base flex-reverse items-center gap-3 pointer-events-auto sm:pointer-events-none h-full"
-          (click)="toggleOverlay()"
-        >
-          {{ username }}
-          <div
-            class="aspect-square rounded-full h-full bg-(--color-wine-red) flex justify-center items-center"
           >
-            <svg
-              lucideUser
-              size="15"
-              class="text-white hidden sm:block"
+            <a routerLink="/auth/login" routerLinkActive="text-(--color-wine-red)">Login</a>
+          </li>
+          <li
+            class="flex gap-2 text-sm items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
+            routerLinkActive="text-(--color-wine-red)"
+          >
+            <a routerLink="/auth/signup" routerLinkActive="text-(--color-wine-red)">Register</a>
+          </li>
+        } @else {
+          <li
+            class="cursor-pointer flex text-sm sm:text-base flex-reverse items-center gap-3 pointer-events-auto sm:pointer-events-none h-full"
+            (click)="toggleOverlay()"
+          >
+            {{ username }}
+            <div
+              class="aspect-square rounded-full h-full bg-(--color-wine-red) flex justify-center items-center"
             >
-            </svg>
-          </div>
-        </li>
-        <li class="hidden sm:block">
-          <a
-            (click)="signOut()"
-            class="cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200 text-(--color-text)"
-          >Logout</a>
-        </li>
+              <svg lucideUser size="15" class="text-white hidden sm:block"></svg>
+            </div>
+          </li>
+          <li class="hidden sm:block">
+            <a
+              (click)="signOut()"
+              class="cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200 text-(--color-text)"
+              >Logout</a
+            >
+          </li>
         }
       </ul>
     </nav>
@@ -112,18 +98,13 @@
 </div>
 
 @if (isLoading()) {
-<div
-  class="fixed top-12 sm:top-20 left-0 h-1 w-full bg-(--color-wine-dark) overflow-hidden z-10"
->
-  <div
-    class="absolute top-0 bottom-0 left-0 bg-(--color-wine-light) shadow-[0_0_8px_var(--color-wine-light)] rounded-r-full transition-all duration-200 ease-out"
-    [style.width.%]="progress()"
-  >
+  <div class="fixed top-12 sm:top-20 left-0 h-1 w-full bg-(--color-wine-dark) overflow-hidden z-10">
+    <div
+      class="absolute top-0 bottom-0 left-0 bg-(--color-wine-light) shadow-[0_0_8px_var(--color-wine-light)] rounded-r-full transition-all duration-200 ease-out"
+      [style.width.%]="progress()"
+    ></div>
   </div>
-</div>
-} @if (isOverlayVisible()) {
-<app-header-overlay
-  (close)="hideOverlay()"
-  (signedOut)="signOut()"
-></app-header-overlay>
+}
+@if (isOverlayVisible()) {
+  <app-header-overlay (close)="hideOverlay()" (signedOut)="signOut()"></app-header-overlay>
 }

@@ -3,7 +3,7 @@ import { WatchlistService } from '@core/services/watchlist.service';
 import { FilmService } from '@core/services/film.service';
 import { FilmFilters } from '../films/film-filters/film-filters';
 import { FilmGrid } from '../films/film-grid/film-grid';
-import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
+import { HeaderMobile } from '@shared/ui/headers/header-mobile/header-mobile';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 
@@ -38,15 +38,18 @@ export class Watchlist {
       }
     }
 
-    const top3Ids = Object.keys(countMap).map(Number).slice(0, 3);
+    const top3Ids = Object.keys(countMap)
+      .map(Number)
+      .sort((a, b) => countMap[b] - countMap[a])
+      .slice(0, 3);
     const allGenres = this.genres();
 
-    return top3Ids.map(id => {
-      const found = allGenres.find(g => g.id === id);
+    return top3Ids.map((id) => {
+      const found = allGenres.find((g) => g.id === id);
       return found || { id, name: `` };
     });
   });
-  
+
   hasActiveFilters = computed<boolean>(() => {
     return this.selectedGenres().length > 0 || this.selectedYear() !== null;
   });
@@ -55,32 +58,31 @@ export class Watchlist {
     const current = this.selectedGenres();
     let next: number[];
     if (current.includes(genreId)) {
-      next = current.filter(id => id !== genreId);
+      next = current.filter((id) => id !== genreId);
     } else {
       next = [...current, genreId];
     }
     this.selectedGenres.set(next);
-    
+
     this.watchlistService.getWatchlist(1, false, {
       genres: next,
-      year: this.selectedYear()
+      year: this.selectedYear(),
     });
   }
 
   filteredWatchlistAsFilms = computed<FilmTMDB[]>(() => {
     let items = this.watchlist();
-    return items.map(item => ({
+    return items.map((item) => ({
       ...item.film,
-      id: item.film.external_film_id
+      id: item.film.external_film_id,
     })) as unknown as FilmTMDB[];
   });
 
   loadNextPage() {
-    this.watchlistService.getWatchlist(
-      this.watchlistService.currentPage() + 1, 
-      false, 
-      { genres: this.selectedGenres(), year: this.selectedYear() }
-    );
+    this.watchlistService.getWatchlist(this.watchlistService.currentPage() + 1, false, {
+      genres: this.selectedGenres(),
+      year: this.selectedYear(),
+    });
   }
 
   applyFilters(filters: { genres: number[]; year: number | null }) {

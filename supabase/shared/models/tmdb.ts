@@ -6,6 +6,7 @@ export interface TmdbDiscoverResult {
     vote_count?: number
     release_date: string
     genre_ids: number[]
+    adult?: boolean
 }
 
 export interface TmdbCreditsCast {
@@ -39,6 +40,7 @@ export interface Film {
     cast_names?: string[]
     director_id?: number | null
     director_name?: string | null
+    runtime?: number | null
     watch_providers?: TmdbWatchProviderResult | null
 }
 
@@ -60,6 +62,7 @@ export interface TmdbWatchProviderResult {
 }
 
 export interface TmdbMovieDetailsResponse extends TmdbDiscoverResult {
+    runtime?: number | null;
     credits?: TmdbCreditsResponse;
     "watch/providers"?: {
         results: TmdbWatchProviderResult;

@@ -1,5 +1,17 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideAppInitializer, inject, ErrorHandler } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withInMemoryScrolling, withPreloading, PreloadAllModules } from '@angular/router';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideAppInitializer,
+  inject,
+  ErrorHandler,
+} from '@angular/core';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+  withPreloading,
+  PreloadAllModules,
+} from '@angular/router';
 
 import { ROUTES } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
@@ -24,6 +36,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideAppInitializer(() => inject(AuthService).init()),
     provideAppInitializer(() => firstValueFrom(inject(FilmService).getGenres())),
-    { provide: ErrorHandler, useClass: GlobalErrorHandler }
-  ]
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+  ],
 };

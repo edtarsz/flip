@@ -31,7 +31,7 @@ export class RecommendationsController {
         this.tmdbUrl = tmdbUrl
     }
 
-    async getRecommendations(userId: string): Promise<Response> {
+    async getRecommendations(userId: string, limit = 20): Promise<Response> {
         const [genreProfile, peopleProfile, swipedIds, genreListData, recentLikes] = await Promise.all([
             this.swipeRepository.getUserGenreWeights(userId),
             this.swipeRepository.getUserPeopleWeights(userId),
@@ -124,23 +124,24 @@ export class RecommendationsController {
             })
             .sort((a, b) => b.score - a.score)
 
-        const top20 = scored.slice(0, 20)
-        const top20Ids = top20.map(film => film.id)
+        const topN = scored.slice(0, limit)
+        const topNIds = topN.map(film => film.id)
 
-        const existingFilms = await this.swipeRepository.getFilmsByExternalIds(top20Ids)
+        const existingFilms = await this.swipeRepository.getFilmsByExternalIds(topNIds)
         const existingMap = new Map<number, typeof existingFilms[0]>()
         for (const f of existingFilms) {
             existingMap.set(Number(f.external_film_id), f)
         }
 
         const enriched = await Promise.all(
-            top20.map(async (film) => {
+            topN.map(async (film) => {
                 const dbFilm = existingMap.get(film.id)
                 if (dbFilm) {
                     return {
                         ...film,
                         director_id: dbFilm.director_id,
                         director_name: dbFilm.director_name,
+                        runtime: dbFilm.runtime ?? null,
                         cast_ids: dbFilm.cast_ids ?? [],
                         cast_names: dbFilm.cast_names ?? [],
                         watch_providers: dbFilm.watch_providers ?? null,
@@ -151,14 +152,31 @@ export class RecommendationsController {
                     const details = await this.fetchFilmDetails(film.id)
                     const director = details.credits?.crew.find((p) => p.job === 'Director') ?? null
                     const topCast = details.credits?.cast.slice(0, 3) ?? []
+                    const watchProviders = details["watch/providers"]?.results ?? null
+
+                    const enrichedFilm = {
+                        external_film_id: film.id,
+                        title: film.title,
+                        poster_path: film.poster_path,
+                        vote_average: film.vote_average,
+                        vote_count: film.vote_count,
+                        release_date: film.release_date,
+                        genre_ids: film.genre_ids ?? [],
+                        director_id: director?.id ?? null,
+                        director_name: director?.name ?? null,
+                        runtime: details.runtime ?? null,
+                        cast_ids: topCast.map((a) => a.id),
+                        cast_names: topCast.map((a) => a.name),
+                        watch_providers: watchProviders
+                    }
+
+                    this.swipeRepository.upsertFilm(enrichedFilm).catch(e => {
+                        console.error(`Cache upsert failed for film ${film.id}:`, e)
+                    })
 
                     return {
                         ...film,
-                        director_id: director?.id ?? null,
-                        director_name: director?.name ?? null,
-                        cast_ids: topCast.map((a) => a.id),
-                        cast_names: topCast.map((a) => a.name),
-                        watch_providers: details["watch/providers"]?.results ?? null
+                        ...enrichedFilm
                     }
                 } catch (e) {
                     console.error(`Failed to fetch details for movie ${film.id}:`, e)
@@ -166,6 +184,7 @@ export class RecommendationsController {
                         ...film,
                         director_id: null,
                         director_name: null,
+                        runtime: null,
                         cast_ids: [],
                         cast_names: [],
                         watch_providers: null
@@ -257,6 +276,7 @@ export class RecommendationsController {
             for (const film of results) {
                 if ((film.vote_count ?? 0) < MIN_VOTE_COUNT) continue
                 if (!film.release_date || film.release_date < MIN_RELEASE_DATE || film.release_date > TODAY) continue
+                if (film.adult) continue
 
                 if (!excludeIds.has(film.id) && !localIds.has(film.id)) {
                     localIds.add(film.id)

@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './separator.html',
   styleUrl: './separator.css',
 })
-export class Separator { }
+export class Separator {}

@@ -10,7 +10,7 @@ export function getWatchProvidersList(watchProvidersObj: any): WatchProviderItem
 
   const userRegion = (navigator.language || 'en-US').split('-')[1]?.toUpperCase() || 'US';
   const providersForRegion = watchProvidersObj[userRegion] || watchProvidersObj['US'];
-  
+
   if (!providersForRegion) return [];
 
   const flatrate = providersForRegion.flatrate || [];

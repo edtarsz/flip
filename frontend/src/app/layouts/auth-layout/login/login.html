@@ -1,42 +1,43 @@
 <form [formRoot]="loginForm" class="flex flex-col gap-4 w-full">
-    <div class="flex flex-col gap-2">
-        <label for="email" class="text-sm">Enter your email</label>
-        <input
-            type="email"
-            [formField]="loginForm.email"
-            class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
-        >
-        @if (loginForm.email().touched() && loginForm.email().invalid()) {
-        <span class="text-xs text-(--color-error)"
-        >{{ loginForm.email().errors()[0]?.message }}</span>
-        }
-    </div>
+  <div class="flex flex-col gap-2">
+    <label for="email" class="text-sm">Enter your email</label>
+    <input
+      type="email"
+      [formField]="loginForm.email"
+      class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+    />
+    @if (loginForm.email().touched() && loginForm.email().invalid()) {
+      <span class="text-xs text-(--color-error)">{{ loginForm.email().errors()[0]?.message }}</span>
+    }
+  </div>
 
-    <div class="flex flex-col gap-2">
-        <label for="password" class="text-sm">Password</label>
-        <input
-            type="password"
-            [formField]="loginForm.password"
-            class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
-        >
-        @if (loginForm.password().touched() && loginForm.password().invalid()) {
-        <span class="text-xs text-(--color-error)"
-        >{{ loginForm.password().errors()[0]?.message }}</span>
-        }
-    </div>
+  <div class="flex flex-col gap-2">
+    <label for="password" class="text-sm">Password</label>
+    <input
+      type="password"
+      [formField]="loginForm.password"
+      class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+    />
+    @if (loginForm.password().touched() && loginForm.password().invalid()) {
+      <span class="text-xs text-(--color-error)">{{
+        loginForm.password().errors()[0]?.message
+      }}</span>
+    }
+  </div>
 
-    <app-button
-        label="Log In"
-        size="w-full"
-        [disabled]="loginForm().invalid() || !loginModel().email || !loginModel().password"
-    >
-    </app-button>
+  <app-button
+    label="Log In"
+    size="w-full"
+    [disabled]="loginForm().invalid() || !loginModel().email || !loginModel().password"
+  >
+  </app-button>
 </form>
 
 <p class="text-sm text-center text-(--color-gray) mt-2">
-    Don't have an account?
-    <a
-        routerLink="/auth/signup"
-        class="text-(--color-wine-red) hover:underline font-semibold cursor-pointer ml-1"
-    >Sign Up</a>
+  Don't have an account?
+  <a
+    routerLink="/auth/signup"
+    class="text-(--color-wine-red) hover:underline font-semibold cursor-pointer ml-1"
+    >Sign Up</a
+  >
 </p>

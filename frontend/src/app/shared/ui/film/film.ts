@@ -3,7 +3,7 @@ import { Component, input, signal, OnInit } from '@angular/core';
 import { FilmTMDB, WatchlistFilmTMDB } from '@core/types/tmdb/film.type';
 import { LucideImage, LucideStar } from '@lucide/angular';
 import { TmdbImagePipe } from '../../pipes/tmdb-image.pipe';
-import { Skeleton } from "@shared/ui/skeleton/skeleton";
+import { Skeleton } from '@shared/ui/skeleton/skeleton';
 import { isImageLoaded, markImageLoaded } from '@shared/utils/image-cache.util';
 
 @Component({

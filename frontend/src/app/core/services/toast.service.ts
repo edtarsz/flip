@@ -9,7 +9,7 @@ export interface Toast {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToastService {
   private toastsSignal = signal<Toast[]>([]);
@@ -19,7 +19,7 @@ export class ToastService {
     const id = Math.random().toString(36).substring(2, 9);
     const toast: Toast = { id, message, type, duration };
 
-    this.toastsSignal.update(current => [...current, toast]);
+    this.toastsSignal.update((current) => [...current, toast]);
 
     setTimeout(() => {
       this.dismiss(id);
@@ -27,15 +27,15 @@ export class ToastService {
   }
 
   dismiss(id: string) {
-    const toast = this.toastsSignal().find(t => t.id === id);
+    const toast = this.toastsSignal().find((t) => t.id === id);
     if (!toast || toast.isDismissing) return;
 
-    this.toastsSignal.update(current =>
-      current.map(t => t.id === id ? { ...t, isDismissing: true } : t)
+    this.toastsSignal.update((current) =>
+      current.map((t) => (t.id === id ? { ...t, isDismissing: true } : t)),
     );
 
     setTimeout(() => {
-      this.toastsSignal.update(current => current.filter(t => t.id !== id));
+      this.toastsSignal.update((current) => current.filter((t) => t.id !== id));
     }, 350);
   }
 }

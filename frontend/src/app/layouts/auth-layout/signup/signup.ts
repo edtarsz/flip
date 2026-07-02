@@ -1,5 +1,11 @@
 import { Component, effect, inject, signal, untracked } from '@angular/core';
-import { form, FormField, FormRoot, validate, validateStandardSchema } from '@angular/forms/signals';
+import {
+  form,
+  FormField,
+  FormRoot,
+  validate,
+  validateStandardSchema,
+} from '@angular/forms/signals';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { ProfileService } from '@core/services/profile.service';
@@ -15,10 +21,10 @@ import { LoadingService } from '@core/services/loading.service';
   templateUrl: './signup.html',
 })
 export class SignUp {
-  private authService = inject(AuthService)
-  private profileService = inject(ProfileService)
-  private router = inject(Router)
-  private loadingService = inject(LoadingService)
+  private authService = inject(AuthService);
+  private profileService = inject(ProfileService);
+  private router = inject(Router);
+  private loadingService = inject(LoadingService);
 
   step = signal<1 | 2>(1);
   emailError = signal<string | null>(null);
@@ -32,38 +38,44 @@ export class SignUp {
     email: '',
     username: '',
     password: '',
-    confirmPassword: ''
-  })
+    confirmPassword: '',
+  });
 
-  registerForm = form(this.registerModel, (schemaPath) => {
-    validateStandardSchema(schemaPath, registerSchema);
+  registerForm = form(
+    this.registerModel,
+    (schemaPath) => {
+      validateStandardSchema(schemaPath, registerSchema);
 
-    validate(schemaPath.email, () => {
-      return this.emailError() ? { kind: 'exists', message: this.emailError()! } : undefined;
-    });
-    validate(schemaPath.username, () => {
-      return this.usernameError() ? { kind: 'exists', message: this.usernameError()! } : undefined;
-    });
-  }, {
-    submission: {
-      action: async (fields) => {
-        this.loadingService.start();
-        try {
-          await this.authService.signUp(
-            fields().value().email,
-            fields().value().password,
-            fields().value().username
-          );
+      validate(schemaPath.email, () => {
+        return this.emailError() ? { kind: 'exists', message: this.emailError()! } : undefined;
+      });
+      validate(schemaPath.username, () => {
+        return this.usernameError()
+          ? { kind: 'exists', message: this.usernameError()! }
+          : undefined;
+      });
+    },
+    {
+      submission: {
+        action: async (fields) => {
+          this.loadingService.start();
+          try {
+            await this.authService.signUp(
+              fields().value().email,
+              fields().value().password,
+              fields().value().username,
+            );
 
-          this.router.navigate(['/swipe']);
-        } catch (e: any) {
-          this.loadingService.stop();
-          this.registerError.set(e.message || 'An unexpected error occurred.');
-          console.error(e);
-        }
-      }
-    }
-  })
+            this.router.navigate(['/swipe']);
+          } catch (e: any) {
+            this.loadingService.stop();
+            this.registerError.set(e.message || 'An unexpected error occurred.');
+            console.error(e);
+          }
+        },
+      },
+    },
+  );
 
   constructor() {
     effect(() => {

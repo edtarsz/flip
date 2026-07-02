@@ -1,5 +1,5 @@
-import { computed, inject, Injectable, signal } from '@angular/core'
-import { supabase } from '../supabase/supabase.client'
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { supabase } from '../supabase/supabase.client';
 import { User } from '@supabase/supabase-js';
 import { AuthRepository } from '../repositories/auth.repository';
 import { FilmService } from './film.service';
@@ -9,7 +9,7 @@ import { LoadingService } from './loading.service';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private authRepository = inject(AuthRepository);
@@ -29,7 +29,9 @@ export class AuthService {
   }
 
   async init(): Promise<void> {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     this.user.set(session?.user ?? null);
   }
 
@@ -50,7 +52,7 @@ export class AuthService {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { username } }
+      options: { data: { username } },
     });
     if (error) throw error;
     return data;
@@ -74,7 +76,7 @@ export class AuthService {
   }
 
   async getUser() {
-    return await supabase.auth.getUser()
+    return await supabase.auth.getUser();
   }
 
   async checkEmailExists(email: string): Promise<boolean> {

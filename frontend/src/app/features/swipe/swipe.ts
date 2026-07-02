@@ -1,27 +1,46 @@
-import { Component, inject, signal, computed, effect, untracked, HostListener, viewChildren } from '@angular/core';
-import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
+import {
+  Component,
+  inject,
+  signal,
+  computed,
+  effect,
+  untracked,
+  HostListener,
+  viewChildren,
+} from '@angular/core';
+import { SwipeCard } from '@shared/ui/swipe-card/swipe-card';
 import { FilmService } from '@core/services/film.service';
 import { SwipeService } from '@core/services/swipe.service';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { getTmdbImageUrl, TmdbImagePipe } from '@shared/pipes/tmdb-image.pipe';
 import { Router } from '@angular/router';
-import { Card } from "@shared/ui/card/card";
+import { Card } from '@shared/ui/card/card';
 import { WatchlistService } from '@core/services/watchlist.service';
 import { HeaderMobile } from '@shared/ui/headers/header-mobile/header-mobile';
-import { ButtonDesktopKey } from "@shared/ui/button-desktop-key/button-desktop-key";
-import { ProviderCard } from "@shared/ui/provider-card/provider-card";
-import { PersonItem } from "@shared/ui/person-item/person-item";
+import { ButtonDesktopKey } from '@shared/ui/button-desktop-key/button-desktop-key';
+import { ProviderCard } from '@shared/ui/provider-card/provider-card';
+import { PersonItem } from '@shared/ui/person-item/person-item';
 import { LucideThumbsDown, LucideThumbsUp, LucideEye } from '@lucide/angular';
 import { getWatchProvidersList } from '@shared/utils/watch-providers.util';
 
 @Component({
   selector: 'app-swipe',
-  imports: [SwipeCard, Card, HeaderMobile, PersonItem, LucideThumbsDown, LucideThumbsUp, LucideEye, ButtonDesktopKey, ProviderCard],
+  imports: [
+    SwipeCard,
+    Card,
+    HeaderMobile,
+    PersonItem,
+    LucideThumbsDown,
+    LucideThumbsUp,
+    LucideEye,
+    ButtonDesktopKey,
+    ProviderCard,
+  ],
   templateUrl: './swipe.html',
   styleUrl: './swipe.css',
   host: {
-    class: 'flex-1'
-  }
+    class: 'flex-1',
+  },
 })
 export class Swipe {
   private filmService = inject(FilmService);
@@ -50,9 +69,7 @@ export class Swipe {
   showAllProviders = signal<boolean>(false);
 
   showAllProvidersLabel = computed(() => {
-    return this.showAllProviders() 
-      ? 'Ver menos' 
-      : `Ver más (+${this.watchProviders().length - 6})`;
+    return this.showAllProviders() ? 'Ver menos' : `Ver más (+${this.watchProviders().length - 6})`;
   });
 
   watchProviders = computed(() => {
@@ -68,7 +85,7 @@ export class Swipe {
   });
 
   toggleShowAll() {
-    this.showAllProviders.update(v => !v);
+    this.showAllProviders.update((v) => !v);
   }
 
   bgImageA = signal<string>('');
@@ -122,12 +139,12 @@ export class Swipe {
 
     const remaining = this.allFilms().length - this.currentIndex();
     if (remaining < 10) {
-      this.swipeService.getRecommendations().catch(console.error);
+      this.swipeService.getRecommendations(20).catch(console.error);
     }
   }
 
   getCardTransform(index: number, total: number): string {
-    const distanceFromTop = (total - 1) - index;
+    const distanceFromTop = total - 1 - index;
     if (distanceFromTop <= 0) return 'translate(0px, 0px) scale(1)';
 
     const scale = 1 - distanceFromTop * 0.05;
@@ -135,7 +152,7 @@ export class Swipe {
   }
 
   getCardFilter(index: number, total: number): string {
-    const distanceFromTop = (total - 1) - index;
+    const distanceFromTop = total - 1 - index;
     if (distanceFromTop <= 0) return 'brightness(1)';
     const brightness = 1 - distanceFromTop * 0.45;
     return `brightness(${brightness})`;

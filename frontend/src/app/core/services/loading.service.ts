@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoadingService {
   private isLoadingSignal = signal<boolean>(false);
@@ -13,7 +13,7 @@ export class LoadingService {
 
   start() {
     if (this.isLoadingSignal()) return;
-    
+
     this.clearTimeouts();
     this.isLoadingSignal.set(true);
     this.progressSignal.set(0);

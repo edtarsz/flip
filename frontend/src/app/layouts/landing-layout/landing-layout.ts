@@ -1,9 +1,9 @@
 import { Component, afterNextRender, OnDestroy } from '@angular/core';
 import { LucideStar } from '@lucide/angular';
-import { CardFeatures } from "@shared/ui/card-features/card-features";
+import { CardFeatures } from '@shared/ui/card-features/card-features';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Button } from "@shared/ui/button/button";
+import { Button } from '@shared/ui/button/button';
 import { MOCK_GENRES, MOCK_SWIPE } from 'src/app/seeds/swipe-card';
 
 @Component({
@@ -33,7 +33,7 @@ export class LandingPage implements OnDestroy {
           trigger: '.hero-section',
           start: 'bottom 200px',
           toggleActions: 'play none none reverse',
-        }
+        },
       });
     });
   }
@@ -46,7 +46,7 @@ export class LandingPage implements OnDestroy {
     const headerEl = document.querySelector('app-header header') as HTMLElement;
     if (headerEl) {
       gsap.set(headerEl, {
-        clearProps: 'backgroundColor,backdropFilter,borderColor,boxShadow'
+        clearProps: 'backgroundColor,backdropFilter,borderColor,boxShadow',
       });
     }
   }

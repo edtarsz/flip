@@ -28,7 +28,7 @@ export class YearPicker {
   currentYear = new Date().getFullYear();
 
   toggle() {
-    this.isOpen.update(v => !v);
+    this.isOpen.update((v) => !v);
   }
 
   select(year: number) {
@@ -37,11 +37,11 @@ export class YearPicker {
   }
 
   prevPage() {
-    this.pageStart.update(v => v - 12);
+    this.pageStart.update((v) => v - 12);
   }
 
   nextPage() {
-    this.pageStart.update(v => v + 12);
+    this.pageStart.update((v) => v + 12);
   }
 
   clear() {

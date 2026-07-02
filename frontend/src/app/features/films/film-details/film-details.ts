@@ -1,22 +1,34 @@
 import { Component, inject, computed, signal, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FilmService } from '@core/services/film.service';
-import { TmdbImagePipe } from "@shared/pipes/tmdb-image.pipe";
-import { Button } from "@shared/ui/button/button";
+import { TmdbImagePipe } from '@shared/pipes/tmdb-image.pipe';
+import { Button } from '@shared/ui/button/button';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { LucideClock, LucideStar } from '@lucide/angular';
 import { FilmDetailsTMDB } from '@core/types/tmdb/film.type';
-import { Card } from "@shared/ui/card/card";
-import { Separator } from "@shared/ui/separator/separator";
-import { RuntimePipe } from "@shared/pipes/runtime.pipe";
+import { Card } from '@shared/ui/card/card';
+import { Separator } from '@shared/ui/separator/separator';
+import { RuntimePipe } from '@shared/pipes/runtime.pipe';
 import { getWatchProvidersList } from '@shared/utils/watch-providers.util';
-import { ProviderCard } from "@shared/ui/provider-card/provider-card";
-import { Skeleton } from "@shared/ui/skeleton/skeleton";
+import { ProviderCard } from '@shared/ui/provider-card/provider-card';
+import { Skeleton } from '@shared/ui/skeleton/skeleton';
 import { isImageLoaded, markImageLoaded } from '@shared/utils/image-cache.util';
 
 @Component({
   selector: 'app-film-details',
-  imports: [TmdbImagePipe, Button, DatePipe, LucideClock, LucideStar, DecimalPipe, Card, Separator, RuntimePipe, ProviderCard, Skeleton],
+  imports: [
+    TmdbImagePipe,
+    Button,
+    DatePipe,
+    LucideClock,
+    LucideStar,
+    DecimalPipe,
+    Card,
+    Separator,
+    RuntimePipe,
+    ProviderCard,
+    Skeleton,
+  ],
   templateUrl: './film-details.html',
   styleUrl: './film-details.css',
 })
@@ -28,7 +40,7 @@ export class FilmDetails implements OnInit {
   isLoading = signal<boolean>(false);
   posterLoaded = signal<boolean>(false);
   backdropLoaded = signal<boolean>(false);
-  
+
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     const stateFilm = history.state.film;
@@ -38,11 +50,11 @@ export class FilmDetails implements OnInit {
     }
     this.isLoading.set(true);
 
-    this.filmService.getFilmById(id).subscribe(data => {
+    this.filmService.getFilmById(id).subscribe((data) => {
       // setTimeout(() => {
       this.film.set(data);
       this.isLoading.set(false);
-      
+
       if (isImageLoaded(data.poster_path)) {
         this.posterLoaded.set(true);
       }
@@ -52,13 +64,11 @@ export class FilmDetails implements OnInit {
       // },);
     });
   }
-  
+
   showAllProviders = signal<boolean>(false);
 
   showAllProvidersLabel = computed(() => {
-    return this.showAllProviders() 
-      ? 'Ver menos' 
-      : `Ver más (+${this.watchProviders().length - 6})`;
+    return this.showAllProviders() ? 'Ver menos' : `Ver más (+${this.watchProviders().length - 6})`;
   });
 
   watchProviders = computed(() => {

@@ -1,14 +1,14 @@
 import { Component, afterNextRender, inject, OnDestroy, signal, effect } from '@angular/core';
-import { CardFeatures } from "@shared/ui/card-features/card-features";
-import { Button } from "@shared/ui/button/button";
-import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
+import { CardFeatures } from '@shared/ui/card-features/card-features';
+import { Button } from '@shared/ui/button/button';
+import { SwipeCard } from '@shared/ui/swipe-card/swipe-card';
 import { Separator } from '@shared/ui/separator/separator';
 import { gsap } from 'gsap';
 import { MOCK_GENRES, MOCK_LANDING_FILMS } from '@core/mocks/films.mock';
 import { Router } from '@angular/router';
 import Lenis from 'lenis';
 import { AuthService } from '@core/services/auth.service';
-import { FilmCarousel } from "@features/films/film-carousel/film-carousel";
+import { FilmCarousel } from '@features/films/film-carousel/film-carousel';
 import { FilmService } from '@core/services/film.service';
 
 @Component({
@@ -52,8 +52,8 @@ export class IndexLayout implements OnDestroy {
       if (scrollableMain) {
         this.localLenis = new Lenis({
           wrapper: scrollableMain,
-          content: scrollableMain.firstElementChild as HTMLElement || scrollableMain,
-          autoRaf: false
+          content: (scrollableMain.firstElementChild as HTMLElement) || scrollableMain,
+          autoRaf: false,
         });
 
         const update = (time: number) => {
@@ -82,10 +82,11 @@ export class IndexLayout implements OnDestroy {
     this.loadingNextPage.set(true);
     const nextPage = this.currentPage() + 1;
 
-    this.filmService.getFilms({
-      query: this.searchModel(),
-      page: nextPage
-    })
+    this.filmService
+      .getFilms({
+        query: this.searchModel(),
+        page: nextPage,
+      })
       // .pipe(delay(1000000))
       .subscribe({
         next: (data) => {
@@ -99,7 +100,7 @@ export class IndexLayout implements OnDestroy {
         },
         complete: () => {
           this.loadingNextPage.set(false);
-        }
+        },
       });
   }
 
@@ -154,7 +155,7 @@ export class IndexLayout implements OnDestroy {
           scale: scale,
           opacity: 1,
           filter: `brightness(${brightness})`,
-          zIndex: idx
+          zIndex: idx,
         });
 
         const like = card.querySelector('.like-badge');
@@ -193,7 +194,7 @@ export class IndexLayout implements OnDestroy {
             scale: 0.84,
             filter: 'brightness(0.4)',
             zIndex: 0,
-            opacity: 0
+            opacity: 0,
           });
           gsap.to(topCard, { opacity: 1, duration: 0.5 });
 
@@ -201,10 +202,16 @@ export class IndexLayout implements OnDestroy {
           if (nopeBadge) gsap.set(nopeBadge, { scale: 0 });
 
           this.swipeTimeoutId = setTimeout(performSwipe, 500);
-        }
+        },
       });
 
-      this.activeTimeline.to(topCard, { x: direction === 'right' ? 40 : -40, rotation: targetRot, duration: 0.6, ease: 'power1.out' })
+      this.activeTimeline
+        .to(topCard, {
+          x: direction === 'right' ? 40 : -40,
+          rotation: targetRot,
+          duration: 0.6,
+          ease: 'power1.out',
+        })
         .to(activeBadge, { scale: 1.2, duration: 0.3 }, '<')
         .to(topCard, { x: targetX, rotation: 0, opacity: 0, duration: 0.5, ease: 'power2.in' })
         .to(activeBadge, { scale: 0, duration: 0.2 }, '<');
@@ -219,13 +226,17 @@ export class IndexLayout implements OnDestroy {
 
         gsap.set(card, { zIndex: newIdx });
 
-        this.activeTimeline.to(card, {
-          x: newX,
-          scale: newScale,
-          filter: `brightness(${newBrightness})`,
-          duration: 0.5,
-          ease: 'power2.out'
-        }, '<');
+        this.activeTimeline.to(
+          card,
+          {
+            x: newX,
+            scale: newScale,
+            filter: `brightness(${newBrightness})`,
+            duration: 0.5,
+            ease: 'power2.out',
+          },
+          '<',
+        );
       }
     };
 
@@ -236,4 +247,3 @@ export class IndexLayout implements OnDestroy {
     this.router.navigate(['/films']);
   }
 }
-

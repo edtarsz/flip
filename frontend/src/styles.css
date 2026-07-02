@@ -1,174 +1,186 @@
 @import 'tailwindcss';
 @import 'tailwind-animations';
 
+/* @theme {
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 0px;
+  --radius: 0px;
+} */
+
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-Thin.woff2') format('woff2');
-    font-weight: 100;
-    font-style: normal;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-ThinItalic.woff2') format('woff2');
-    font-weight: 100;
-    font-style: italic;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-ThinItalic.woff2') format('woff2');
+  font-weight: 100;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-Light.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-LightItalic.woff2') format('woff2');
-    font-weight: 300;
-    font-style: italic;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-LightItalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-Italic.woff2') format('woff2');
-    font-weight: 400;
-    font-style: italic;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-BoldItalic.woff2') format('woff2');
-    font-weight: 700;
-    font-style: italic;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-Black.woff2') format('woff2');
-    font-weight: 900;
-    font-style: normal;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Lato';
-    src: url('/assets/fonts/Lato/Lato-BlackItalic.woff2') format('woff2');
-    font-weight: 900;
-    font-style: italic;
+  font-family: 'Lato';
+  src: url('/assets/fonts/Lato/Lato-BlackItalic.woff2') format('woff2');
+  font-weight: 900;
+  font-style: italic;
 }
 
 @theme {
-    --font-sans: 'Lato', sans-serif;
+  --font-sans: 'Lato', sans-serif;
 }
 
 .film-card {
-    display: block;
-    flex-shrink: 0;
+  display: block;
+  flex-shrink: 0;
 }
 
 @layer components {
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-        /* Safari y Chrome */
-    }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Safari y Chrome */
+  }
 
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        /* IE y Edge */
-        scrollbar-width: none;
-        /* Firefox */
-    }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE y Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
 
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 8px;
-    }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
 
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background-color: var(--color-gray-dark);
-        border-radius: 5px;
-    }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: var(--color-gray-dark);
+    border-radius: 5px;
+  }
 
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background-color: var(--color-wine-red);
-        border-radius: 5px;
-    }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-wine-red);
+    border-radius: 5px;
+  }
 
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background-color: var(--color-wine-dark);
-    }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-wine-dark);
+  }
 
-    @supports not selector(::-webkit-scrollbar) {
-        .custom-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: var(--color-wine-red) var(--color-gray-dark);
-        }
+  @supports not selector(::-webkit-scrollbar) {
+    .custom-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-wine-red) var(--color-gray-dark);
     }
+  }
 }
 
 :root {
-    --color-background: #0e0e0e;
-    --color-background-light: #181818;
-    --color-text: #ffffff;
-    --color-gray: #989595;
-    --color-gray: #989595ba;
-    --color-gray-dark: #222222;
+  --color-background: #0e0e0e;
+  --color-background-light: #181818;
+  --color-text: #ffffff;
+  --color-gray: #989595;
+  --color-gray: #989595ba;
+  --color-gray-dark: #222222;
 
-    --color-wine-light: #bb418c;
-    --color-wine-red: #893168;
-    --color-wine-dark: #581f42;
-    --color-oliva: #435e45;
-    --color-oliva-dark: #212e21;
+  --color-wine-light: #bb418c;
+  --color-wine-red: #893168;
+  --color-wine-dark: #581f42;
+  --color-oliva: #435e45;
+  --color-oliva-dark: #212e21;
 
-    --color-error: #c11f32;
-    --color-success: #2a9d8f;
-    --color-info: #4d8eb8;
+  --color-error: #c11f32;
+  --color-success: #2a9d8f;
+  --color-info: #4d8eb8;
 }
 
-:root[data-theme="light"], :root.light {
-    --color-background: #e0e0e0;
-    --color-background-light: #fcfcfb;
-    --color-text: #111111;
-    --color-gray: #3a3a3a;
-    --color-gray-dark: #e5e5e4;
+:root[data-theme='light'],
+:root.light {
+  --color-background: #e0e0e0;
+  --color-background-light: #fcfcfb;
+  --color-text: #111111;
+  --color-gray: #3a3a3a;
+  --color-gray-dark: #e5e5e4;
 }
 
 body {
-    font-family: var(--font-sans);
-    color: var(--color-text);
+  font-family: var(--font-sans);
+  color: var(--color-text);
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .container-padding {
-    padding: 0 5vw;
+  padding: 0 5vw;
 }
 
-input[type="search"]::-webkit-search-cancel-button {
-    display: none;
+input[type='search']::-webkit-search-cancel-button {
+  display: none;
 }
 
 label {
-    cursor: pointer;
-    user-select: none;
+  cursor: pointer;
+  user-select: none;
 }
 
 .bg-dots {
-    background-image: radial-gradient(circle, #98959543 1px, transparent 1px);
-    background-size: 28px 28px;
+  background-image: radial-gradient(circle, #98959543 1px, transparent 1px);
+  background-size: 28px 28px;
 }

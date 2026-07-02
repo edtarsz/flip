@@ -1,5 +1,22 @@
-import { Component, ElementRef, afterNextRender, input, output, effect, OnDestroy, inject, signal, viewChild } from '@angular/core';
-import { LucideCircle, LucideEye, LucideStar, LucideThumbsDown, LucideThumbsUp } from '@lucide/angular';
+import {
+  Component,
+  ElementRef,
+  afterNextRender,
+  input,
+  output,
+  effect,
+  OnDestroy,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
+import {
+  LucideCircle,
+  LucideEye,
+  LucideStar,
+  LucideThumbsDown,
+  LucideThumbsUp,
+} from '@lucide/angular';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { Separator } from '../separator/separator';
@@ -8,6 +25,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 import { getTmdbImageUrl } from '../../pipes/tmdb-image.pipe';
 import { ButtonFeedback } from '../button-feedback/button-feedback';
+import { RuntimePipe } from '@shared/pipes/runtime.pipe';
 
 const SWIPE_THRESHOLD = 45;
 const SWIPE_DURATION = 0.3;
@@ -17,9 +35,20 @@ const SNAP_EASE = 'elastic.out(1, 0.5)';
 
 @Component({
   selector: 'app-swipe-card',
-  imports: [Separator, LucideStar, LucideEye, DecimalPipe, DatePipe, LucideCircle, LucideThumbsUp, LucideThumbsDown, ButtonFeedback],
+  imports: [
+    Separator,
+    LucideStar,
+    LucideEye,
+    DecimalPipe,
+    DatePipe,
+    LucideCircle,
+    LucideThumbsUp,
+    LucideThumbsDown,
+    ButtonFeedback,
+    RuntimePipe
+  ],
   templateUrl: './swipe-card.html',
-  styleUrl: './swipe-card.css'
+  styleUrl: './swipe-card.css',
 })
 export class SwipeCard implements OnDestroy {
   swipeCard = viewChild<ElementRef<HTMLDivElement>>('swipeCard');
@@ -52,8 +81,12 @@ export class SwipeCard implements OnDestroy {
 
     afterNextRender(() => {
       const inner = this.innerCard()!.nativeElement;
-      const likeBadge = !this.isCover() ? inner.querySelector('.like-badge') as HTMLElement : null;
-      const nopeBadge = !this.isCover() ? inner.querySelector('.nope-badge') as HTMLElement : null;
+      const likeBadge = !this.isCover()
+        ? (inner.querySelector('.like-badge') as HTMLElement)
+        : null;
+      const nopeBadge = !this.isCover()
+        ? (inner.querySelector('.nope-badge') as HTMLElement)
+        : null;
       let savedZIndex = '';
       let dragStarted = false;
 
@@ -101,19 +134,31 @@ export class SwipeCard implements OnDestroy {
           if (Math.abs(d.x) > SWIPE_THRESHOLD) {
             const mult = d.x > 0 ? 1 : -1;
             const swipeDirection = d.x > 0 ? 'right' : 'left';
-            gsap.timeline({ onComplete: () => this.swiped.emit(swipeDirection) })
-              .to(d.target, { x: mult * window.innerWidth, y: d.y * 1.5, opacity: 0, duration: SWIPE_DURATION, ease: SWIPE_EASE })
+            gsap
+              .timeline({ onComplete: () => this.swiped.emit(swipeDirection) })
+              .to(d.target, {
+                x: mult * window.innerWidth,
+                y: d.y * 1.5,
+                opacity: 0,
+                duration: SWIPE_DURATION,
+                ease: SWIPE_EASE,
+              })
               .to(inner, { rotation: mult * 45, duration: SWIPE_DURATION, ease: SWIPE_EASE }, '<');
           } else {
-            gsap.timeline()
+            gsap
+              .timeline()
               .to(d.target, { x: 0, y: 0, duration: SNAP_DURATION, ease: SNAP_EASE })
               .to(inner, { rotation: 0, duration: SNAP_DURATION, ease: SNAP_EASE }, '<');
 
             if (!this.isCover() && likeBadge && nopeBadge) {
-              gsap.to([likeBadge, nopeBadge], { scale: 0, duration: SWIPE_DURATION, overwrite: 'auto' });
+              gsap.to([likeBadge, nopeBadge], {
+                scale: 0,
+                duration: SWIPE_DURATION,
+                overwrite: 'auto',
+              });
             }
           }
-        }
+        },
       });
 
       this.draggableInstance = draggables[0];
@@ -138,14 +183,22 @@ export class SwipeCard implements OnDestroy {
     const innerEl = this.innerCard()!.nativeElement;
 
     if (!this.isCover()) {
-      const badge = direction === 'right'
-        ? innerEl.querySelector('.like-badge') as HTMLElement
-        : innerEl.querySelector('.nope-badge') as HTMLElement;
+      const badge =
+        direction === 'right'
+          ? (innerEl.querySelector('.like-badge') as HTMLElement)
+          : (innerEl.querySelector('.nope-badge') as HTMLElement);
       if (badge) gsap.to(badge, { scale: 1, duration: 0.15 });
     }
 
-    gsap.timeline({ onComplete: () => this.swiped.emit(direction) })
-      .to(cardEl, { x: mult * window.innerWidth, y: 0, opacity: 0, duration: 0.4, ease: SWIPE_EASE })
+    gsap
+      .timeline({ onComplete: () => this.swiped.emit(direction) })
+      .to(cardEl, {
+        x: mult * window.innerWidth,
+        y: 0,
+        opacity: 0,
+        duration: 0.4,
+        ease: SWIPE_EASE,
+      })
       .to(innerEl, { rotation: mult * 20, duration: 0.4, ease: SWIPE_EASE }, '<');
   }
 

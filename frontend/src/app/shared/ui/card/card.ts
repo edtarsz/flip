@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Separator } from "../separator/separator";
+import { Separator } from '../separator/separator';
 @Component({
   selector: 'app-card',
   imports: [Separator],

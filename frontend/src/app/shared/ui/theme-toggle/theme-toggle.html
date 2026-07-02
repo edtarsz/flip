@@ -4,7 +4,7 @@
 >
   <span
     class="absolute top-0.5 bottom-0.5 left-0.5 aspect-square rounded-full bg-(--color-wine-red) pointer-events-none transition-transform duration-200 ease-in-out"
-    [ngClass]="{'translate-x-[calc(100%+0.25rem)]': currentTheme() === 'dark'}"
+    [ngClass]="{ 'translate-x-[calc(100%+0.25rem)]': currentTheme() === 'dark' }"
   ></span>
 
   <button
@@ -15,8 +15,7 @@
       size="16"
       class="transition-colors duration-200"
       [class.text-(--color-background)]="currentTheme() === 'light'"
-    >
-    </svg>
+    ></svg>
   </button>
 
   <button
@@ -27,7 +26,6 @@
       size="16"
       class="transition-colors duration-200"
       [class.text-white]="currentTheme() === 'dark'"
-    >
-    </svg>
+    ></svg>
   </button>
 </div>

@@ -12,7 +12,7 @@ export function getTmdbImageUrl(path: string | null | undefined, size: string = 
 
 @Pipe({
   name: 'tmdbImage',
-  standalone: true
+  standalone: true,
 })
 export class TmdbImagePipe implements PipeTransform {
   transform(path: string | null | undefined, size: string = 'w342'): string {

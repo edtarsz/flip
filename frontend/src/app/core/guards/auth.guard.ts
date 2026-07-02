@@ -13,7 +13,7 @@ export const authGuard: CanActivateFn = async () => {
   }
 
   return true;
-}
+};
 
 export const alreadyAuthGuard: CanActivateFn = async () => {
   const authService = inject(AuthService);
@@ -25,4 +25,4 @@ export const alreadyAuthGuard: CanActivateFn = async () => {
   }
 
   return true;
-}
+};

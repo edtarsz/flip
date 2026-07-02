@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FilmService } from '@core/services/film.service';
-import { Separator } from "@shared/ui/separator/separator";
+import { Separator } from '@shared/ui/separator/separator';
 import { FilmFilters } from './film-filters/film-filters';
 import { FilmSearchBar } from './film-search-bar/film-search-bar';
 import { FilmGrid } from './film-grid/film-grid';
@@ -8,10 +8,7 @@ import { isViewportAtLeast } from '@shared/utils/responsive.util';
 
 @Component({
   selector: 'app-films',
-  imports: [
-    FilmFilters,
-    FilmSearchBar,
-    FilmGrid],
+  imports: [FilmFilters, FilmSearchBar, FilmGrid],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })
@@ -39,12 +36,13 @@ export class Films {
     this.loadingNextPage.set(true);
     const nextPage = this.currentPage() + 1;
 
-    this.filmService.getFilms({
-      genres: this.selectedGenres(),
-      year: this.selectedYear(),
-      query: this.submittedQuery(),
-      page: nextPage
-    })
+    this.filmService
+      .getFilms({
+        genres: this.selectedGenres(),
+        year: this.selectedYear(),
+        query: this.submittedQuery(),
+        page: nextPage,
+      })
       // .pipe(delay(1000000))
       .subscribe({
         next: (data) => {
@@ -58,7 +56,7 @@ export class Films {
         },
         complete: () => {
           this.loadingNextPage.set(false);
-        }
+        },
       });
   }
 
@@ -69,8 +67,8 @@ export class Films {
     const currentGenres = this.selectedGenres();
     const currentYear = this.selectedYear();
 
-    const genresUnchanged = genres.length === currentGenres.length && 
-                            genres.every(g => currentGenres.includes(g));
+    const genresUnchanged =
+      genres.length === currentGenres.length && genres.every((g) => currentGenres.includes(g));
     const yearUnchanged = year === currentYear;
 
     if (genresUnchanged && yearUnchanged) {
@@ -90,14 +88,16 @@ export class Films {
     this.hasMorePages.set(true);
     this.loadingNextPage.set(true);
 
-    this.filmService.getFilms({
-      genres: this.selectedGenres(),
-      year: this.selectedYear(),
-      query: this.submittedQuery()
-    }).subscribe({
-      complete: () => this.loadingNextPage.set(false),
-      error: () => this.loadingNextPage.set(false)
-    });
+    this.filmService
+      .getFilms({
+        genres: this.selectedGenres(),
+        year: this.selectedYear(),
+        query: this.submittedQuery(),
+      })
+      .subscribe({
+        complete: () => this.loadingNextPage.set(false),
+        error: () => this.loadingNextPage.set(false),
+      });
   }
 
   onSearchSubmitted(query: string) {
@@ -116,19 +116,21 @@ export class Films {
     this.hasMorePages.set(true);
     this.loadingNextPage.set(true);
 
-    this.filmService.getFilms({
-      genres: this.selectedGenres(),
-      year: this.selectedYear(),
-      query: this.submittedQuery()
-    }).subscribe({
-      complete: () => this.loadingNextPage.set(false),
-      error: () => this.loadingNextPage.set(false)
-    });
+    this.filmService
+      .getFilms({
+        genres: this.selectedGenres(),
+        year: this.selectedYear(),
+        query: this.submittedQuery(),
+      })
+      .subscribe({
+        complete: () => this.loadingNextPage.set(false),
+        error: () => this.loadingNextPage.set(false),
+      });
   }
 
   onReset() {
     this.searchModel.set('');
-    
+
     if (this.submittedQuery() === '') {
       return;
     }
@@ -139,13 +141,15 @@ export class Films {
     this.hasMorePages.set(true);
     this.loadingNextPage.set(true);
 
-    this.filmService.getFilms({
-      genres: this.selectedGenres(),
-      year: this.selectedYear(),
-      query: this.submittedQuery()
-    }).subscribe({
-      complete: () => this.loadingNextPage.set(false),
-      error: () => this.loadingNextPage.set(false)
-    });
+    this.filmService
+      .getFilms({
+        genres: this.selectedGenres(),
+        year: this.selectedYear(),
+        query: this.submittedQuery(),
+      })
+      .subscribe({
+        complete: () => this.loadingNextPage.set(false),
+        error: () => this.loadingNextPage.set(false),
+      });
   }
 }

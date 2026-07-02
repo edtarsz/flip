@@ -1,13 +1,13 @@
-import { inject, Injectable, signal } from '@angular/core'
-import { SwipeRepository } from '@core/repositories/swipe.repository'
-import { FilmTMDB } from '@core/types/tmdb/film.type'
-import { GenreTMDB } from '@core/types/tmdb/genre.type'
+import { inject, Injectable, signal } from '@angular/core';
+import { SwipeRepository } from '@core/repositories/swipe.repository';
+import { FilmTMDB } from '@core/types/tmdb/film.type';
+import { GenreTMDB } from '@core/types/tmdb/genre.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SwipeService {
-  private swipeRepo = inject(SwipeRepository)
+  private swipeRepo = inject(SwipeRepository);
 
   private recommendationsSignal = signal<FilmTMDB[]>([]);
   readonly recommendations = this.recommendationsSignal.asReadonly();
@@ -19,7 +19,7 @@ export class SwipeService {
   readonly showCover = this.showCoverSignal.asReadonly();
 
   advanceIndex(): void {
-    this.currentIndexSignal.update(idx => idx + 1);
+    this.currentIndexSignal.update((idx) => idx + 1);
   }
 
   setCoverShown(): void {
@@ -32,17 +32,21 @@ export class SwipeService {
     this.showCoverSignal.set(true);
   }
 
-  async recordSwipe(film: FilmTMDB, direction: 'like' | 'dislike', genres: GenreTMDB[]): Promise<void> {
-    return await this.swipeRepo.recordSwipe({ film, direction, genres })
+  async recordSwipe(
+    film: FilmTMDB,
+    direction: 'like' | 'dislike',
+    genres: GenreTMDB[],
+  ): Promise<void> {
+    return await this.swipeRepo.recordSwipe({ film, direction, genres });
   }
 
-  async getRecommendations(): Promise<FilmTMDB[]> {
-    const newFilms = await this.swipeRepo.getRecommendations()
-    this.recommendationsSignal.update(existing => {
-      const existingIds = new Set(existing.map(f => f.id))
-      const unique = newFilms.filter(f => !existingIds.has(f.id))
-      return [...existing, ...unique]
-    })
+  async getRecommendations(limit?: number): Promise<FilmTMDB[]> {
+    const newFilms = await this.swipeRepo.getRecommendations(limit);
+    this.recommendationsSignal.update((existing) => {
+      const existingIds = new Set(existing.map((f) => f.id));
+      const unique = newFilms.filter((f) => !existingIds.has(f.id));
+      return [...existing, ...unique];
+    });
     return newFilms;
   }
 }

@@ -6,8 +6,8 @@ import { Component, input } from '@angular/core';
   templateUrl: './button-desktop-key.html',
   styleUrl: './button-desktop-key.css',
   host: {
-    class: 'aspect-square block'
-  }
+    class: 'aspect-square block',
+  },
 })
 export class ButtonDesktopKey {
   keyLabel = input.required<string>();

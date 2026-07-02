@@ -1,11 +1,11 @@
-import { inject, Injectable } from '@angular/core'
-import { ProfileRepository } from '@core/repositories/profile.repository'
+import { inject, Injectable } from '@angular/core';
+import { ProfileRepository } from '@core/repositories/profile.repository';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProfileService {
-  private profileRepository = inject(ProfileRepository)
+  private profileRepository = inject(ProfileRepository);
 
   async checkUsernameExists(username: string): Promise<boolean> {
     return await this.profileRepository.checkUsernameExists(username);

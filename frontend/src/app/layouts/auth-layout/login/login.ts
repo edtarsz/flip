@@ -14,40 +14,47 @@ import { LoadingService } from '@core/services/loading.service';
   templateUrl: './login.html',
 })
 export class Login {
-  private authService = inject(AuthService)
+  private authService = inject(AuthService);
   private router = inject(Router);
   private toast = inject(ToastService);
   private loadingService = inject(LoadingService);
 
   loginModel = signal<LoginSchema>({
     email: '',
-    password: ''
-  })
+    password: '',
+  });
 
-  loginForm = form(this.loginModel, (schemaPath) => {
-    validateStandardSchema(schemaPath, loginSchema);
-  }, {
-    submission: {
-      action: async (fields) => {
-        this.loadingService.start();
-        try {
-          const { error } = await this.authService.signIn(
-            fields().value().email,
-            fields().value().password
-          );
+  loginForm = form(
+    this.loginModel,
+    (schemaPath) => {
+      validateStandardSchema(schemaPath, loginSchema);
+    },
+    {
+      submission: {
+        action: async (fields) => {
+          this.loadingService.start();
+          try {
+            const { error } = await this.authService.signIn(
+              fields().value().email,
+              fields().value().password,
+            );
 
-          if (error) {
-            this.toast.show(error.message, 'error');
+            if (error) {
+              this.toast.show(error.message, 'error');
+              this.loadingService.stop();
+            } else {
+              this.toast.show(
+                `Bienvenido ${this.authService.user()?.user_metadata['username']}!`,
+                'success',
+              );
+              this.router.navigate(['/swipe']);
+            }
+          } catch (err: any) {
+            this.toast.show(err.message || 'An unexpected error occurred.', 'error');
             this.loadingService.stop();
-          } else {
-            this.toast.show(`Bienvenido ${this.authService.user()?.user_metadata['username']}!`, 'success');
-            this.router.navigate(['/swipe']);
           }
-        } catch (err: any) {
-          this.toast.show(err.message || 'An unexpected error occurred.', 'error');
-          this.loadingService.stop();
-        }
-      }
-    }
-  })
+        },
+      },
+    },
+  );
 }

@@ -11,10 +11,7 @@ export const filmsResolver: ResolveFn<any> = () => {
 
   if (filmService.films().length === 0) {
     loadingService.start();
-    return forkJoin([
-      filmService.getFilms(),
-      filmService.getGenres()
-    ]);
+    return forkJoin([filmService.getFilms(), filmService.getGenres()]);
   }
   return of(true);
 };
@@ -32,7 +29,6 @@ export const watchlistResolver: ResolveFn<any> = async () => {
   if (filmService.genres().length === 0) {
     await firstValueFrom(filmService.getGenres());
   }
-  
+
   return true;
 };
-

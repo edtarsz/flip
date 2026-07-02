@@ -1,52 +1,48 @@
 <div
-    class="grid grid-cols-[auto_1fr] relative z-0 top-12 sm:top-20 h-[calc(100vh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden"
+  class="grid grid-cols-[auto_1fr] relative z-0 top-12 sm:top-20 h-[calc(100vh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden"
 >
-    <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
-        <div
-            class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background)/1 to-transparent"
+  <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
+    <div
+      class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background)/1 to-transparent"
+    ></div>
+    <div
+      class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
+    ></div>
+  </div>
+
+  <app-film-filters
+    #filters
+    [genres]="genres()"
+    [selectedGenres]="selectedGenres()"
+    [selectedYear]="selectedYear()"
+    (apply)="applyFilters($event)"
+    class="h-full"
+  >
+  </app-film-filters>
+
+  <section class="flex flex-col gap-2 sm:gap-5 p-2 sm:p-5 h-full overflow-hidden">
+    <div class="flex justify-between items-center">
+      <div class="flex gap-4 items-center h-full w-full">
+        <app-film-search-bar
+          class="w-full"
+          [searchModel]="searchModel()"
+          (searchModelChange)="searchModel.set($event)"
+          (searchSubmitted)="onSearchSubmitted($event)"
+          (searchReset)="onReset()"
+          (toggleFilters)="filters.onToggleSidebar()"
+          [hasActiveFilters]="selectedGenres().length > 0 || selectedYear() !== null"
         >
-        </div>
-        <div
-            class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
-        >
-        </div>
+        </app-film-search-bar>
+      </div>
     </div>
 
-    <app-film-filters
-        #filters
-        [genres]="genres()"
-        [selectedGenres]="selectedGenres()"
-        [selectedYear]="selectedYear()"
-        (apply)="applyFilters($event)"
-        class="h-full"
+    <app-film-grid
+      [films]="films()"
+      [loading]="loadingNextPage()"
+      [hasMore]="hasMorePages()"
+      (nearEnd)="loadNextPage()"
+      class="flex-1 min-h-0"
     >
-    </app-film-filters>
-
-    <section
-        class="flex flex-col gap-2 sm:gap-5 p-2 sm:p-5 h-full overflow-hidden"
-    >
-        <div class="flex justify-between items-center">
-            <div class="flex gap-4 items-center h-full w-full">
-                <app-film-search-bar
-                    class="w-full"
-                    [searchModel]="searchModel()"
-                    (searchModelChange)="searchModel.set($event)"
-                    (searchSubmitted)="onSearchSubmitted($event)"
-                    (searchReset)="onReset()"
-                    (toggleFilters)="filters.onToggleSidebar()"
-                    [hasActiveFilters]="selectedGenres().length > 0 || selectedYear() !== null"
-                >
-                </app-film-search-bar>
-            </div>
-        </div>
-
-        <app-film-grid
-            [films]="films()"
-            [loading]="loadingNextPage()"
-            [hasMore]="hasMorePages()"
-            (nearEnd)="loadNextPage()"
-            class="flex-1 min-h-0"
-        >
-        </app-film-grid>
-    </section>
+    </app-film-grid>
+  </section>
 </div>
