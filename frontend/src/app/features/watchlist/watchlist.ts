@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, effect } from '@angular/core';
+import { Component, inject, signal, computed, effect, OnDestroy } from '@angular/core';
 import { WatchlistService } from '@core/services/watchlist.service';
 import { FilmService } from '@core/services/film.service';
 import { FilmFilters } from '../films/film-filters/film-filters';
@@ -14,7 +14,7 @@ import { LucideListFilter, LucideX } from '@lucide/angular';
   templateUrl: './watchlist.html',
   styleUrl: './watchlist.css',
 })
-export class Watchlist {
+export class Watchlist implements OnDestroy {
   private watchlistService = inject(WatchlistService);
   private filmService = inject(FilmService);
 
@@ -108,5 +108,11 @@ export class Watchlist {
     this.selectedGenres.set(filters.genres);
     this.selectedYear.set(filters.year);
     this.watchlistService.getWatchlist(1, false, filters);
+  }
+
+  ngOnDestroy() {
+    if (this.selectedGenres().length > 0 || this.selectedYear() !== null) {
+      this.watchlistService.getWatchlist(1, false, { genres: [], year: null });
+    }
   }
 }

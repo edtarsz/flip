@@ -11,10 +11,12 @@
   </div>
 } @else if (film()) {
   <div class="cursor-pointer flex flex-col gap-1 sm:gap-1.5 h-fit">
-    <div class="flex-1 rounded-sm overflow-hidden bg-(--color-gray-dark)">
+    <div
+      class="flex-1 rounded-sm overflow-hidden bg-(--color-gray-dark) border border-(--color-gray)/20"
+    >
       @if (film()!.poster_path) {
         <img
-          [src]="film()!.poster_path | tmdbImage: 'w342'"
+          [src]="film()!.poster_path | tmdbImage: 'w500'"
           [alt]="film()!.title"
           class="w-full h-full object-cover transition-opacity duration-200"
           [class.opacity-0]="!posterLoaded()"

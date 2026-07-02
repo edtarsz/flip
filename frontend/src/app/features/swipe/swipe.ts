@@ -111,7 +111,7 @@ export class Swipe {
       }
       const film = this.activeFilm();
       if (film) {
-        const imageUrl = getTmdbImageUrl(film.poster_path, 'w780');
+        const imageUrl = getTmdbImageUrl(film.poster_path, 'w500');
         untracked(() => {
           if (this.isFirstLoad()) {
             this.bgImageA.set(imageUrl);

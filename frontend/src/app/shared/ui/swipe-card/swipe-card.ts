@@ -23,9 +23,10 @@ import { Separator } from '../separator/separator';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
-import { getTmdbImageUrl } from '../../pipes/tmdb-image.pipe';
+import { TmdbImagePipe, getTmdbImageUrl } from '@shared/pipes/tmdb-image.pipe';
 import { ButtonFeedback } from '../button-feedback/button-feedback';
 import { RuntimePipe } from '@shared/pipes/runtime.pipe';
+import { markImageLoaded } from '@shared/utils/image-cache.util';
 
 const SWIPE_THRESHOLD = 45;
 const SWIPE_DURATION = 0.3;
@@ -45,7 +46,8 @@ const SNAP_EASE = 'elastic.out(1, 0.5)';
     LucideThumbsUp,
     LucideThumbsDown,
     ButtonFeedback,
-    RuntimePipe
+    RuntimePipe,
+    TmdbImagePipe
   ],
   templateUrl: './swipe-card.html',
   styleUrl: './swipe-card.css',
@@ -173,8 +175,12 @@ export class SwipeCard implements OnDestroy {
   getCardImage(): string {
     const film = this.film();
     if (!film) return '';
-    const imageUrl = getTmdbImageUrl(film.poster_path, 'w780');
+    const imageUrl = getTmdbImageUrl(film.poster_path, 'w500');
     return `linear-gradient(to top, var(--color-background) 0px, var(--color-background) 6px, transparent 100%), url('${imageUrl}')`;
+  }
+
+  onPosterLoad() {
+    markImageLoaded(this.film()?.poster_path);
   }
 
   swipe(direction: 'left' | 'right'): void {
