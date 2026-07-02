@@ -1,7 +1,8 @@
 import { Component, input } from '@angular/core';
+import { Separator } from "../separator/separator";
 @Component({
   selector: 'app-card',
-  imports: [],
+  imports: [Separator],
   templateUrl: './card.html',
   styleUrl: './card.css',
 })

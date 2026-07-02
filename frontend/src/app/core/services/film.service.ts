@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
-import { tap, of, catchError } from 'rxjs';
+import { tap, of, catchError, map } from 'rxjs';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 
 const FALLBACK_GENRES: GenreTMDB[] = [
@@ -145,7 +145,23 @@ export class FilmService {
   }
 
   getFilmById(id: number) {
-    return this.http.get<any>(`${this.url}/movie/${id}`, { headers: this.headers }).pipe(
+    return this.http.get<any>(`${this.url}/movie/${id}?append_to_response=watch/providers,credits`, { headers: this.headers }).pipe(
+      map(data => {
+        if (data) {
+          if (data['watch/providers']) {
+            data.watch_providers = data['watch/providers'].results;
+          }
+          if (data.credits && data.credits.crew) {
+            const crew = data.credits.crew;
+            const directorObj = crew.find((member: any) => member.job === 'Director');
+            const writerObj = crew.find((member: any) => member.job === 'Screenplay' || member.job === 'Writer');
+            
+            data.director = directorObj ? directorObj.name : null;
+            data.screenwriter = writerObj ? writerObj.name : null;
+          }
+        }
+        return data;
+      }),
       tap(data => this.filmDetailsSignal.set(data))
     );
   }

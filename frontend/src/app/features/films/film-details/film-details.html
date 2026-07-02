@@ -1,14 +1,163 @@
 <div
-    class="flex flex-col relative top-12 sm:top-20 h-[calc(100dvh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden px-[5vw] py-10"
+    class="flex flex-col z-0 relative top-12 sm:top-20 h-[calc(100dvh-3rem)] sm:h-[calc(100vh-5rem)] overflow-hidden px-[8vw] py-[2vw]"
 >
-    <div class="flex flex-col gap-5">
-        <div>
-            <h3 class="text-5xl font-bold">{{ film()?.title }}</h3>
-        </div>
-        <img
-            [src]="film()?.poster_path | tmdbImage:'w342'"
-            alt="{{ film()?.title }}"
-            class="max-w-80"
+    <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
+        <div
+            class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background)/1 to-transparent"
         >
+        </div>
+        <div
+            class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
+        >
+        </div>
     </div>
+
+    @if (film(); as filmData) {
+    <div class="flex gap-10 w-full items-start">
+        <div class="flex flex-col gap-3 w-[250px] shrink-0">
+            <img
+                [src]="filmData.poster_path | tmdbImage:'w342'"
+                alt="{{ filmData.title }}"
+                class="w-full object-cover object-center rounded-md border border-(--color-gray)/20"
+            >
+            <app-button
+                size="w-full"
+                label="Play"
+            ></app-button>
+        </div>
+
+        <div class="flex flex-col gap-6 flex-1 min-w-0 pt-20">
+            <div class="flex flex-col gap-3">
+                @if (filmData.tagline) {
+                <p class="text-(--color-gray) italic">
+                    {{ filmData.tagline }}
+                </p>
+                }
+
+                <div class="w-full justify-between flex items-center gap-4">
+                    <div class="flex items-end gap-2 flex-wrap min-w-0">
+                        <h3 class="text-5xl font-bold truncate">
+                            {{ filmData.title }}
+                        </h3>
+                        <div class="flex items-center gap-1 shrink-0">
+                            <svg
+                                lucideStar
+                                size="35"
+                                fill="#ffc300"
+                                color="#ffc300"
+                            >
+                            </svg>
+                            <p class="font-bold text-4xl">
+                                {{ filmData.vote_average | number:'1.0-1' }}
+                            </p>
+                        </div>
+                        <div
+                            class="flex items-center gap-1 font-light text-(--color-gray) text-2xl"
+                        >
+                            ({{ filmData.release_date | date:'yyyy' }})
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-1 text-(--color-gray)">
+                    <svg lucideClock size="15"></svg>
+                    {{ filmData.runtime }} min
+                </div>
+
+                <div class="flex flex-col">
+                    <p class="flex items-center gap-1">
+                        <span class="font-semibold">Directed by</span>
+                        <span class="text-(--color-gray) text-lg"
+                        >{{ filmData.director }}</span>
+                    </p>
+                    <p class="flex items-center gap-1">
+                        <span class="font-semibold">Written by</span>
+                        <span class="text-(--color-gray)"
+                        >{{ filmData.screenwriter }}</span>
+                    </p>
+                </div>
+
+                <ul class="flex relative gap-2 shrink-0 flex-wrap">
+                    @for (genre of filmData.genres; track $index) {
+                    <span
+                        class="bg-(--color-wine-red) text-white rounded-full px-3 py-1 text-sm font-semibold"
+                    >
+                        {{ genre.name }}</span>
+                    }
+                </ul>
+            </div>
+
+            <app-separator w="full"></app-separator>
+
+            <div class="flex flex-col gap-2 w-full">
+                <h5 class="font-bold text-2xl">Sinopsis</h5>
+                <p class="text-(--color-gray) text-lg leading-relaxed">
+                    {{ filmData.overview }}
+                </p>
+            </div>
+        </div>
+
+        <app-card
+            title="Where to watch"
+            class="w-[20vw] min-w-[300px] shrink-0 self-start"
+        >
+            <div class="flex flex-col gap-4">
+                <div
+                    [ngClass]="{
+                    'grid-cols-2': watchProviders().length > 0,
+                    'grid-cols-1': watchProviders().length === 0
+                }"
+                    class="grid overflow-y-auto max-h-[300px] no-scrollbar gap-4"
+                >
+                    @for (item of visibleProviders(); track item.provider_id) {
+                    <div
+                        class="flex items-center gap-2 transition-colors"
+                    >
+                        <img
+                            [src]="'https://image.tmdb.org/t/p/w92' + item.logo_path"
+                            [alt]="item.provider_name"
+                            class="w-8 h-8 rounded-md object-cover"
+                        >
+                        <div class="flex flex-col min-w-0">
+                            <span
+                                class="text-sm font-semibold text-(--color-text) truncate"
+                            >{{ item.provider_name }}</span>
+                            <span
+                                class="text-xs text-(--color-gray)"
+                            >{{ item.type }}</span>
+                        </div>
+                    </div>
+                    } @empty {
+                    <div
+                        class="text-sm text-(--color-gray)/60 select-none"
+                    >
+                        Not available in your region.
+                    </div>
+                    }
+                </div>
+
+                @if (watchProviders().length > 8) {
+                <div
+                    (click)="toggleShowAll()"
+                    class="flex items-center gap-3 cursor-pointer group select-none"
+                >
+                    <div
+                        class="w-8 h-8 rounded-md bg-(--color-gray)/20 group-hover:bg-(--color-gray)/30 duration-200 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
+                    >
+                        {{ showAllProviders() ? '-' : '+' }}
+                    </div>
+                    <div class="flex flex-col min-w-0">
+                        <span
+                            class="text-sm font-semibold truncate text-(--color-gray) group-hover:text-white duration-200 transition-colors"
+                        >
+                            {{ showAllProviders() ? 'Ver menos' : 'Ver más (+'
+                            + (watchProviders().length - 8) + ')' }}
+                        </span>
+                    </div>
+                </div>
+                }
+            </div>
+        </app-card>
+    </div>
+    }
 </div>

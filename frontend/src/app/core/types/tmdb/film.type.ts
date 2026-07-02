@@ -43,3 +43,20 @@ export type WatchlistItem = {
     user_id: string
     film: WatchlistFilmTMDB
 }
+
+export type FilmDetailsTMDB = Omit<FilmTMDB, 'genre_ids'> & {
+    belongs_to_collection: any | null;
+    budget: number;
+    genres: Array<{ id: number; name: string }>;
+    homepage: string;
+    imdb_id: string;
+    production_companies: Array<{ id: number; logo_path: string; name: string; origin_country: string }>;
+    production_countries: Array<{ iso_3166_1: string; name: string }>;
+    revenue: number;
+    runtime: number | null;
+    spoken_languages: Array<{ english_name: string; iso_639_1: string; name: string }>;
+    status: string;
+    tagline: string;
+    director?: string | null;
+    screenwriter?: string | null;
+};
