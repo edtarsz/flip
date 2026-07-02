@@ -9,10 +9,11 @@ import { LucideClock, LucideStar } from '@lucide/angular';
 import { FilmDetailsTMDB } from '@core/types/tmdb/film.type';
 import { Card } from "@shared/ui/card/card";
 import { Separator } from "@shared/ui/separator/separator";
+import { RuntimePipe } from "../../../shared/pipes/runtime.pipe";
 
 @Component({
   selector: 'app-film-details',
-  imports: [TmdbImagePipe, Button, DatePipe, LucideClock, LucideStar, DecimalPipe, Card, NgClass, Separator],
+  imports: [TmdbImagePipe, Button, DatePipe, LucideClock, LucideStar, DecimalPipe, Card, Separator, RuntimePipe],
   templateUrl: './film-details.html',
   styleUrl: './film-details.css',
 })
@@ -22,7 +23,7 @@ export class FilmDetails {
   film = toSignal<FilmDetailsTMDB>(
     this.route.data.pipe(map(data => data['film']))
   );
-
+  
   showAllProviders = signal<boolean>(false);
 
   watchProviders = computed(() => {
@@ -61,11 +62,11 @@ export class FilmDetails {
     const list = this.watchProviders();
     const showAll = this.showAllProviders();
 
-    if (list.length <= 8 || showAll) {
+    if (list.length <= 6 || showAll) {
       return list;
     }
 
-    return list.slice(0, 8);
+    return list.slice(0, 6);
   });
 
   toggleShowAll() {
