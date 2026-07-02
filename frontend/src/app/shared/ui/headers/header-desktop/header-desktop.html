@@ -60,13 +60,13 @@
         </li>
         @if (!isAuthenticated()) {
           <li
-            class="flex gap-2 text-sm items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
+            class="flex gap-2 text-sm sm:text-base items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
             routerLinkActive="text-(--color-wine-red)"
           >
             <a routerLink="/auth/login" routerLinkActive="text-(--color-wine-red)">Login</a>
           </li>
           <li
-            class="flex gap-2 text-sm items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
+            class="flex gap-2 text-sm sm:text-base items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
             routerLinkActive="text-(--color-wine-red)"
           >
             <a routerLink="/auth/signup" routerLinkActive="text-(--color-wine-red)">Register</a>
