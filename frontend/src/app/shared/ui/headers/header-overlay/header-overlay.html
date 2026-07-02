@@ -27,10 +27,8 @@
         >
         </svg>
       </li> -->
-        <div class="justify-between items-center flex w-full">
-          <div class="flex justify-end w-fit" (click)="$event.stopPropagation()">
-            <app-theme-toggle (toggleTheme)="onToggleTheme()" class="px-2"></app-theme-toggle>
-          </div>
+
+        <!-- <div class="justify-between items-center flex w-full">
           <li
             class="px-2 py-4 w-1/2 flex justify-end gap-2 items-center cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
             routerLink="/swipe"
@@ -64,14 +62,19 @@
           <span>Trees</span>
           <svg lucideNetwork size="16" class="shrink-0"></svg>
         </li>
-        <app-separator class="w-full my-2 border-(--color-wine-red)/20"></app-separator>
+        <app-separator class="w-full my-2 border-(--color-wine-red)/20"></app-separator> -->
 
-        <li
-          class="px-2 py-4 w-1/2 flex justify-end gap-2 items-center cursor-pointer text-(--color-text) hover:text-(--color-wine-red) transition-colors duration-200"
-          (click)="onSignOut()"
-        >
-          <span>Log out</span>
-        </li>
+        <div class="justify-between items-center flex w-full">
+          <div class="flex justify-end w-fit" (click)="$event.stopPropagation()">
+            <app-theme-toggle (toggleTheme)="onToggleTheme()" class="px-2"></app-theme-toggle>
+          </div>
+          <li
+            class="px-2 py-4 w-1/2 flex justify-end gap-2 items-center cursor-pointer text-(--color-text) hover:text-(--color-wine-red) transition-colors duration-200"
+            (click)="onSignOut()"
+          >
+            <span>Log out</span>
+          </li>
+        </div>
       } @else {
         <li
           class="px-2 py-4 w-full flex justify-end gap-2 items-center cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
