@@ -1,0 +1,13 @@
+<div class="flex items-center gap-2 transition-colors">
+  <img
+    [src]="provider().logo_path | tmdbImage: 'w92'"
+    [alt]="provider().provider_name"
+    class="w-8 h-8 rounded-md object-cover"
+  />
+  <div class="flex-col min-w-0 flex">
+    <span class="text-sm font-semibold text-(--color-text) truncate">{{
+      provider().provider_name
+    }}</span>
+    <span class="text-xs text-(--color-gray)">{{ provider().type }}</span>
+  </div>
+</div>

@@ -29,6 +29,7 @@ export type Database = {
           title: string | null
           vote_average: number | null
           vote_count: number | null
+          watch_providers: Json | null
         }
         Insert: {
           cast_ids?: number[] | null
@@ -44,6 +45,7 @@ export type Database = {
           title?: string | null
           vote_average?: number | null
           vote_count?: number | null
+          watch_providers?: Json | null
         }
         Update: {
           cast_ids?: number[] | null
@@ -59,6 +61,7 @@ export type Database = {
           title?: string | null
           vote_average?: number | null
           vote_count?: number | null
+          watch_providers?: Json | null
         }
         Relationships: []
       }

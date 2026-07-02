@@ -46,6 +46,8 @@ export class FilmService {
   private filmsSignal = signal<FilmTMDB[]>([]);
   readonly films = this.filmsSignal.asReadonly();
 
+  private filmCache = new Map<number, any>();
+
   private genresSignal = signal<GenreTMDB[]>([]);
   readonly genres = this.genresSignal.asReadonly();
 
@@ -145,6 +147,12 @@ export class FilmService {
   }
 
   getFilmById(id: number) {
+    if (this.filmCache.has(id)) {
+      const cached = this.filmCache.get(id);
+      this.filmDetailsSignal.set(cached);
+      return of(cached);
+    }
+    
     return this.http.get<any>(`${this.url}/movie/${id}?append_to_response=watch/providers,credits`, { headers: this.headers }).pipe(
       map(data => {
         if (data) {
@@ -162,7 +170,10 @@ export class FilmService {
         }
         return data;
       }),
-      tap(data => this.filmDetailsSignal.set(data))
+      tap(data => {
+        this.filmCache.set(id, data);
+        this.filmDetailsSignal.set(data);
+      })
     );
   }
 

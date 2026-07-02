@@ -1,61 +1,69 @@
-import { Component, inject, computed, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, inject, computed, signal, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
-import { TmdbImagePipe } from "../../../shared/pipes/tmdb-image.pipe";
+import { FilmService } from '@core/services/film.service';
+import { TmdbImagePipe } from "@shared/pipes/tmdb-image.pipe";
 import { Button } from "@shared/ui/button/button";
-import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { LucideClock, LucideStar } from '@lucide/angular';
 import { FilmDetailsTMDB } from '@core/types/tmdb/film.type';
 import { Card } from "@shared/ui/card/card";
 import { Separator } from "@shared/ui/separator/separator";
-import { RuntimePipe } from "../../../shared/pipes/runtime.pipe";
+import { RuntimePipe } from "@shared/pipes/runtime.pipe";
+import { getWatchProvidersList } from '@shared/utils/watch-providers.util';
+import { ProviderCard } from "@shared/ui/provider-card/provider-card";
+import { Skeleton } from "@shared/ui/skeleton/skeleton";
+import { isImageLoaded, markImageLoaded } from '@shared/utils/image-cache.util';
 
 @Component({
   selector: 'app-film-details',
-  imports: [TmdbImagePipe, Button, DatePipe, LucideClock, LucideStar, DecimalPipe, Card, Separator, RuntimePipe],
+  imports: [TmdbImagePipe, Button, DatePipe, LucideClock, LucideStar, DecimalPipe, Card, Separator, RuntimePipe, ProviderCard, Skeleton],
   templateUrl: './film-details.html',
   styleUrl: './film-details.css',
 })
-export class FilmDetails {
+export class FilmDetails implements OnInit {
   private route = inject(ActivatedRoute);
+  private filmService = inject(FilmService);
 
-  film = toSignal<FilmDetailsTMDB>(
-    this.route.data.pipe(map(data => data['film']))
-  );
+  film = signal<FilmDetailsTMDB | null>(null);
+  isLoading = signal<boolean>(false);
+  posterLoaded = signal<boolean>(false);
+  backdropLoaded = signal<boolean>(false);
+  
+  ngOnInit() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const stateFilm = history.state.film;
+
+    if (stateFilm) {
+      this.film.set(stateFilm as FilmDetailsTMDB);
+    }
+    this.isLoading.set(true);
+
+    this.filmService.getFilmById(id).subscribe(data => {
+      // setTimeout(() => {
+      this.film.set(data);
+      this.isLoading.set(false);
+      
+      if (isImageLoaded(data.poster_path)) {
+        this.posterLoaded.set(true);
+      }
+      if (isImageLoaded(data.backdrop_path)) {
+        this.backdropLoaded.set(true);
+      }
+      // },);
+    });
+  }
   
   showAllProviders = signal<boolean>(false);
 
+  showAllProvidersLabel = computed(() => {
+    return this.showAllProviders() 
+      ? 'Ver menos' 
+      : `Ver más (+${this.watchProviders().length - 6})`;
+  });
+
   watchProviders = computed(() => {
     const film = this.film();
-    if (!film || !film.watch_providers) return [];
-
-    const userRegion = (navigator.language || 'en-US').split('-')[1]?.toUpperCase() || 'US';
-    const providersForRegion = film.watch_providers[userRegion] || film.watch_providers['US'];
-    if (!providersForRegion) return [];
-
-    const flatrate = providersForRegion.flatrate || [];
-    const rent = providersForRegion.rent || [];
-    const buy = providersForRegion.buy || [];
-
-    const seen = new Set<number>();
-    const allProviders: any[] = [];
-
-    for (const p of flatrate) {
-      if (!seen.has(p.provider_id)) {
-        seen.add(p.provider_id);
-        allProviders.push({ ...p, type: 'Stream' });
-      }
-    }
-
-    for (const p of [...rent, ...buy]) {
-      if (!seen.has(p.provider_id)) {
-        seen.add(p.provider_id);
-        allProviders.push({ ...p, type: 'Rent/Buy' });
-      }
-    }
-
-    return allProviders;
+    return getWatchProvidersList(film?.watch_providers);
   });
 
   visibleProviders = computed(() => {
@@ -73,7 +81,13 @@ export class FilmDetails {
     this.showAllProviders.set(!this.showAllProviders());
   }
 
-  constructor() {
-    console.log(this.film());
+  onPosterLoad() {
+    this.posterLoaded.set(true);
+    markImageLoaded(this.film()?.poster_path);
+  }
+
+  onBackdropLoad() {
+    this.backdropLoaded.set(true);
+    markImageLoaded(this.film()?.backdrop_path);
   }
 }

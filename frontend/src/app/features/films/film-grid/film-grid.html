@@ -14,7 +14,7 @@
             [film]="film"
             [isPriority]="idx < 6"
             [hideFilmDetails]="hideFilmDetails()"
-            (click)="onFilmClick(film.id)"
+            (click)="onFilmClick(film)"
             class="film-card grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
         ></app-film>
         } @if (hasMore()) {

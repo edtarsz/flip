@@ -14,6 +14,7 @@ const recordSwipeSchema = z.object({
     genre_names: z.array(z.string()),
     genre_ids: z.array(z.number()).optional(),
     signal_strength: z.number().nullable().optional(),
+    watch_providers: z.any().nullable().optional(),
 })
 
 const DELTAS = {
@@ -62,6 +63,7 @@ export class SwipeController {
             cast_names: topCast.map(a => a.name),
             director_id: director?.id ?? null,
             director_name: director?.name ?? null,
+            watch_providers: payload.watch_providers ?? null,
         })
 
         await this.swipeRepository.recordSwipe(

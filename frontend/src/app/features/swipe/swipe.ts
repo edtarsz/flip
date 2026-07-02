@@ -3,18 +3,20 @@ import { SwipeCard } from "@shared/ui/swipe-card/swipe-card";
 import { FilmService } from '@core/services/film.service';
 import { SwipeService } from '@core/services/swipe.service';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
-import { getTmdbImageUrl } from '../../shared/pipes/tmdb-image.pipe';
+import { getTmdbImageUrl, TmdbImagePipe } from '@shared/pipes/tmdb-image.pipe';
 import { Router } from '@angular/router';
 import { Card } from "@shared/ui/card/card";
 import { WatchlistService } from '@core/services/watchlist.service';
 import { HeaderMobile } from '@shared/ui/headers/header-mobile/header-mobile';
+import { ButtonDesktopKey } from "@shared/ui/button-desktop-key/button-desktop-key";
+import { ProviderCard } from "@shared/ui/provider-card/provider-card";
 import { PersonItem } from "@shared/ui/person-item/person-item";
 import { LucideThumbsDown, LucideThumbsUp, LucideEye } from '@lucide/angular';
-import { NgClass } from '@angular/common';
+import { getWatchProvidersList } from '@shared/utils/watch-providers.util';
 
 @Component({
   selector: 'app-swipe',
-  imports: [SwipeCard, Card, HeaderMobile, PersonItem, LucideThumbsDown, LucideThumbsUp, LucideEye, NgClass],
+  imports: [SwipeCard, Card, HeaderMobile, PersonItem, LucideThumbsDown, LucideThumbsUp, LucideEye, ButtonDesktopKey, ProviderCard],
   templateUrl: './swipe.html',
   styleUrl: './swipe.css',
   host: {
@@ -45,17 +47,29 @@ export class Swipe {
     return films.slice(start, start + 3).reverse();
   });
 
-  activeProviders = computed(() => {
-    const film = this.activeFilm();
-    if (!film || !film.watch_providers) return [];
-    
-    const userRegion = (navigator.language || 'en-US').split('-')[1]?.toUpperCase() || 'US';
-    
-    const providersForRegion = film.watch_providers[userRegion] || film.watch_providers['US'];
-    if (!providersForRegion) return [];
+  showAllProviders = signal<boolean>(false);
 
-    return (providersForRegion.flatrate || []).slice(0, 8);
+  showAllProvidersLabel = computed(() => {
+    return this.showAllProviders() 
+      ? 'Ver menos' 
+      : `Ver más (+${this.watchProviders().length - 6})`;
   });
+
+  watchProviders = computed(() => {
+    const film = this.activeFilm();
+    return getWatchProvidersList(film?.watch_providers);
+  });
+
+  visibleProviders = computed(() => {
+    if (this.showAllProviders()) {
+      return this.watchProviders();
+    }
+    return this.watchProviders().slice(0, 6);
+  });
+
+  toggleShowAll() {
+    this.showAllProviders.update(v => !v);
+  }
 
   bgImageA = signal<string>('');
   bgImageB = signal<string>('');
@@ -72,7 +86,7 @@ export class Swipe {
       }
       const film = this.activeFilm();
       if (film) {
-        const imageUrl = getTmdbImageUrl(film.poster_path, 'w1280');
+        const imageUrl = getTmdbImageUrl(film.poster_path, 'w780');
         untracked(() => {
           if (this.isFirstLoad()) {
             this.bgImageA.set(imageUrl);
@@ -132,8 +146,8 @@ export class Swipe {
     this.swipeService.setCoverShown();
   }
 
-  onFilmClick(id: number) {
-    this.router.navigate(['/films', id]);
+  onFilmClick(film: any) {
+    this.router.navigate(['/films', film.id], { state: { film } });
   }
 
   @HostListener('window:keyup', ['$event'])

@@ -19,6 +19,7 @@ export class SwipeRepository {
                 cast_names: film.cast_names ?? [],
                 director_id: film.director_id ?? null,
                 director_name: film.director_name ?? null,
+                watch_providers: film.watch_providers ?? null,
             }, { onConflict: 'external_film_id' })
             .select('id')
             .single()

@@ -143,6 +143,7 @@ export class RecommendationsController {
                         director_name: dbFilm.director_name,
                         cast_ids: dbFilm.cast_ids ?? [],
                         cast_names: dbFilm.cast_names ?? [],
+                        watch_providers: dbFilm.watch_providers ?? null,
                     }
                 }
 

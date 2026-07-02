@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
-import { ResolveFn, Router } from '@angular/router';
+import { ResolveFn } from '@angular/router';
 import { FilmService } from '@core/services/film.service';
 import { WatchlistService } from '@core/services/watchlist.service';
-import { catchError, EMPTY, forkJoin, finalize, of, firstValueFrom } from 'rxjs';
+import { forkJoin, of, firstValueFrom } from 'rxjs';
 import { LoadingService } from '@core/services/loading.service';
 
 export const filmsResolver: ResolveFn<any> = () => {
@@ -36,15 +36,3 @@ export const watchlistResolver: ResolveFn<any> = async () => {
   return true;
 };
 
-export const filmResolver: ResolveFn<any> = (route) => {
-  const filmService = inject(FilmService);
-  const router = inject(Router);
-  const id = +route.paramMap.get('id')!;
-
-  return filmService.getFilmById(id).pipe(
-    catchError(() => {
-      router.navigate(['/not-found']);
-      return EMPTY;
-    })
-  );
-};

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layouts/main-layout/main-layout';
-import { filmResolver, filmsResolver, watchlistResolver } from './features/films/films.resolver';
+import { filmsResolver, watchlistResolver } from './features/films/films.resolver';
 import { swipeResolver } from './features/swipe/swipe.resolver';
 import { alreadyAuthGuard, authGuard } from '@core/guards/auth.guard';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
@@ -37,7 +37,6 @@ export const ROUTES: Routes = [
           {
             path: ':id',
             loadComponent: () => import('./features/films/film-details/film-details').then(m => m.FilmDetails),
-            resolve: { film: filmResolver }
           }
         ]
       },

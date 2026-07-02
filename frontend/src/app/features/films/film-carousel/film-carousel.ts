@@ -94,8 +94,8 @@ export class FilmCarousel implements OnDestroy {
     this.draggableInstance = draggables[0];
   }
 
-  onFilmClick(id: number) {
-    this.router.navigate(['/films', id]);
+  onFilmClick(film: any) {
+    this.router.navigate(['/films', film.id], { state: { film } });
   }
 
   onScroll(event: Event) {

@@ -10,7 +10,7 @@
         <app-film
             [film]="film"
             class="film-card h-full"
-            (click)="onFilmClick(film.id)"
+            (click)="onFilmClick(film)"
         ></app-film>
         } @if (hasMore() && loading()) {
         <app-film [loading]="true" class="film-card h-full"></app-film>

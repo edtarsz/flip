@@ -90,7 +90,7 @@ export class FilmGrid implements OnDestroy {
     }
   }
 
-  onFilmClick(id: number) {
-    this.router.navigate(['/films', id]);
+  onFilmClick(film: any) {
+    this.router.navigate(['/films', film.id], { state: { film } });
   }
 }
