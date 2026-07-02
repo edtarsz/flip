@@ -2,47 +2,47 @@
   <app-separator></app-separator>
   <ul class="grid grid-cols-4">
     <li
+      routerLink="/films"
+      class="flex justify-center border-r border-(--color-gray)/20 pt-4 pb-6 w-full cursor-pointer"
+    >
+      <div
+        routerLinkActive="text-(--color-wine-red)"
+        class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+      >
+        <svg lucideClapperboard size="20"></svg>
+        <!-- <span>Movies</span> -->
+      </div>
+    </li>
+    <li
       routerLink="/swipe"
-      class="flex justify-center border-r border-(--color-gray)/20 py-4 w-full cursor-pointer"
+      class="flex justify-center border-r border-(--color-gray)/20 pt-4 pb-6 w-full cursor-pointer"
     >
       <div
         routerLinkActive="text-(--color-wine-red)"
         class="flex flex-col justify-center items-center text-xs pointer-events-none"
       >
-        <svg lucideGalleryHorizontalEnd size="16"></svg>
+        <svg lucideGalleryHorizontalEnd size="20"></svg>
         <!-- <span>Swipe</span> -->
       </div>
     </li>
     <li
       routerLink="/watchlist"
-      class="flex justify-center border-r border-(--color-gray)/20 py-4 w-full cursor-pointer"
+      class="flex justify-center border-r border-(--color-gray)/20 pt-4 pb-6 w-full cursor-pointer"
     >
       <div
         routerLinkActive="text-(--color-wine-red)"
         class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
       >
-        <svg lucideThumbsUp size="16"></svg>
+        <svg lucideThumbsUp size="20"></svg>
         <!-- <span>Watchlist</span> -->
       </div>
     </li>
-    <li
-      routerLink="/films"
-      class="flex justify-center border-r border-(--color-gray)/20 py-4 w-full cursor-pointer"
-    >
+    <li routerLink="/trees" class="flex justify-center pt-4 pb-6 w-full cursor-pointer">
       <div
         routerLinkActive="text-(--color-wine-red)"
         class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
       >
-        <svg lucideClapperboard size="16"></svg>
-        <!-- <span>Movies</span> -->
-      </div>
-    </li>
-    <li routerLink="/trees" class="flex justify-center py-4 w-full cursor-pointer">
-      <div
-        routerLinkActive="text-(--color-wine-red)"
-        class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
-      >
-        <svg lucideNetwork size="16"></svg>
+        <svg lucideNetwork size="20"></svg>
         <!-- <span>Trees</span> -->
       </div>
     </li>

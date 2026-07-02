@@ -23,7 +23,7 @@
 
     <button
       (click)="filters.onToggleSidebar()"
-      class="md:hidden fixed z-20 bottom-18 right-4 bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-text) transition-color duration-200 aspect-square rounded-full w-12 shrink-0 font-bold"
+      class="md:hidden fixed z-20 bottom-19 right-4 bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-text) transition-color duration-200 aspect-square rounded-full w-12 shrink-0 font-bold"
     >
       @if (hasActiveFilters()) {
         <span
@@ -40,7 +40,7 @@
 
     <section class="flex flex-col gap-2 sm:gap-5 p-2 sm:p-5 h-full overflow-hidden">
       <ul class="flex overflow-scroll relative gap-1.5 sm:hidden no-scrollbar shrink-0">
-        @for (genre of topGenres(); track genre.id) {
+        @for (genre of sortedGenres(); track genre.id) {
           <li
             (click)="toggleQuickFilterGenre(genre.id)"
             class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 shrink-0"

@@ -2,14 +2,9 @@ import { Component, inject, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { ThemeService } from '@core/services/theme.service';
-import {
-  LucideClapperboard,
-  LucideGalleryHorizontalEnd,
-  LucideNetwork,
-  LucideThumbsUp,
-} from '@lucide/angular';
 import { Separator } from '@shared/ui/separator/separator';
 import { ThemeToggle } from '@shared/ui/theme-toggle/theme-toggle';
+import { LucideSettings } from '@lucide/angular';
 
 @Component({
   selector: 'app-header-overlay',
@@ -17,12 +12,9 @@ import { ThemeToggle } from '@shared/ui/theme-toggle/theme-toggle';
     RouterLink,
     RouterLinkActive,
     Separator,
-    LucideGalleryHorizontalEnd,
-    LucideClapperboard,
-    LucideThumbsUp,
-    LucideNetwork,
-    ThemeToggle,
-  ],
+    LucideSettings,
+    ThemeToggle
+],
   templateUrl: './header-overlay.html',
 })
 export class HeaderOverlay {

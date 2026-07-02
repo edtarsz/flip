@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, effect } from '@angular/core';
 import { WatchlistService } from '@core/services/watchlist.service';
 import { FilmService } from '@core/services/film.service';
 import { FilmFilters } from '../films/film-filters/film-filters';
@@ -27,29 +27,47 @@ export class Watchlist {
   selectedYear = signal<number | null>(null);
   selectedGenres = signal<number[]>([]);
 
-  topGenres = computed<GenreTMDB[]>(() => {
-    const countMap: Record<number, number> = {};
-    for (const item of this.watchlist()) {
-      if (item.film && item.film.genre_ids) {
-        let filmGenresIds = item.film.genre_ids;
+  sortedGenres = signal<GenreTMDB[]>([]);
+  private genresInitialized = false;
 
-        for (const genreId of filmGenresIds) {
-          countMap[genreId] = (countMap[genreId] || 0) + 1;
+  constructor() {
+    effect(() => {
+      const items = this.watchlist();
+      const allGenres = this.genres();
+
+      if (
+        !this.genresInitialized &&
+        items.length > 0 &&
+        this.selectedGenres().length === 0 &&
+        this.selectedYear() === null
+      ) {
+        this.genresInitialized = true;
+        const countMap: Record<number, number> = {};
+        for (const item of items) {
+          if (item.film && item.film.genre_ids) {
+            for (const genreId of item.film.genre_ids) {
+              countMap[genreId] = (countMap[genreId] || 0) + 1;
+            }
+          }
         }
+
+        const sorted = allGenres
+          .filter((g) => (countMap[g.id] || 0) > 0)
+          .sort((a, b) => {
+            const aCount = countMap[a.id] || 0;
+            const bCount = countMap[b.id] || 0;
+
+            if (aCount !== bCount) {
+              return bCount - aCount;
+            }
+
+            return a.name.localeCompare(b.name);
+          });
+
+        this.sortedGenres.set(sorted);
       }
-    }
-
-    const top3Ids = Object.keys(countMap)
-      .map(Number)
-      .sort((a, b) => countMap[b] - countMap[a])
-      .slice(0, 3);
-    const allGenres = this.genres();
-
-    return top3Ids.map((id) => {
-      const found = allGenres.find((g) => g.id === id);
-      return found || { id, name: `` };
     });
-  });
+  }
 
   hasActiveFilters = computed<boolean>(() => {
     return this.selectedGenres().length > 0 || this.selectedYear() !== null;
