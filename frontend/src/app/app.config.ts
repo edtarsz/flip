@@ -9,8 +9,6 @@ import {
   provideRouter,
   withComponentInputBinding,
   withInMemoryScrolling,
-  withPreloading,
-  PreloadAllModules,
 } from '@angular/router';
 
 import { ROUTES } from './app.routes';
@@ -29,8 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       ROUTES,
       withComponentInputBinding(),
-      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
-      withPreloading(PreloadAllModules),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })
     ),
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),

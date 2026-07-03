@@ -78,3 +78,7 @@
     }
   </div>
 </main>
+
+@if (isAuthenticated()) {
+  <app-header-mobile class="fixed bottom-0 left-0 w-full z-50 sm:hidden"></app-header-mobile>
+}
