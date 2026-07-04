@@ -28,7 +28,7 @@ import { ButtonFeedback } from '../button-feedback/button-feedback';
 import { RuntimePipe } from '@shared/pipes/runtime.pipe';
 import { markImageLoaded } from '@shared/utils/image-cache.util';
 
-const SWIPE_THRESHOLD = 45;
+const SWIPE_THRESHOLD = 70;
 const SWIPE_DURATION = 0.3;
 const SNAP_DURATION = 0.5;
 const SWIPE_EASE = 'power2.out';
@@ -117,7 +117,7 @@ export class SwipeCard implements OnDestroy {
 
           if (this.isCover()) return;
 
-          const scale = Math.min(1, Math.abs(d.x) / SWIPE_THRESHOLD);
+          const scale = Math.min(3, Math.abs(d.x) / SWIPE_THRESHOLD);
           if (d.x > 0) {
             gsap.set(likeBadge, { scale });
             gsap.set(nopeBadge, { scale: 0 });

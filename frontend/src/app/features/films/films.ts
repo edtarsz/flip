@@ -88,6 +88,7 @@ export class Films {
     this.currentPage.set(1);
     this.hasMorePages.set(true);
     this.loadingNextPage.set(true);
+    this.filmService.clearFilms();
 
     this.filmService
       .getFilms({
@@ -116,6 +117,7 @@ export class Films {
     this.currentPage.set(1);
     this.hasMorePages.set(true);
     this.loadingNextPage.set(true);
+    this.filmService.clearFilms();
 
     this.filmService
       .getFilms({
@@ -141,6 +143,7 @@ export class Films {
     this.currentPage.set(1);
     this.hasMorePages.set(true);
     this.loadingNextPage.set(true);
+    this.filmService.clearFilms();
 
     this.filmService
       .getFilms({

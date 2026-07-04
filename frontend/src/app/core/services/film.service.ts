@@ -78,6 +78,10 @@ export class FilmService {
     this.hasMorePages.set(true);
   }
 
+  clearFilms(): void {
+    this.filmsSignal.set([]);
+  }
+
   getFilms(options: GetFilmsOptions = {}) {
     const genres = options.genres;
     const year = options.year;
