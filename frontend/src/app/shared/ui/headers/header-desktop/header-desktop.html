@@ -1,4 +1,6 @@
-<div class="fixed top-0 left-0 w-full z-6 flex flex-col bg-(--color-background)">
+<div
+  class="fixed top-0 left-0 w-full z-6 flex flex-col bg-(--color-background) pt-[env(safe-area-inset-top)]"
+>
   <header class="w-full py-2 sm:py-6 px-3 sm:px-8 grid grid-cols-2 sm:grid-cols-3 items-center">
     <a routerLink="/dashboard" class="flex items-center gap-2">
       <span class="font-extrabold text-lg sm:text-xl">flip</span>
@@ -98,7 +100,9 @@
 </div>
 
 @if (isLoading()) {
-  <div class="fixed top-12 sm:top-20 left-0 h-1 w-full bg-(--color-wine-dark) overflow-hidden z-10">
+  <div
+    class="fixed top-[calc(3rem+env(safe-area-inset-top))] sm:top-20 left-0 h-1 w-full bg-(--color-wine-dark) overflow-hidden z-10"
+  >
     <div
       class="absolute top-0 bottom-0 left-0 bg-(--color-wine-light) shadow-[0_0_8px_var(--color-wine-light)] rounded-r-full transition-all duration-200 ease-out"
       [style.width.%]="progress()"

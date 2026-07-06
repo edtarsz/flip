@@ -1,9 +1,9 @@
 <main
-  class="relative z-0 top-12 sm:top-20 h-[calc(100dvh-3rem)] sm:h-[calc(100vh-5rem)] overflow-y-auto w-full flex flex-col items-center no-scrollbar pb-40"
+  class="relative z-0 top-[calc(3rem+env(safe-area-inset-top))] sm:top-20 h-[calc(100dvh-3rem-env(safe-area-inset-top))] sm:h-[calc(100vh-5rem)] overflow-y-auto w-full flex flex-col items-center no-scrollbar pb-40"
   data-lenis-prevent
 >
   <div
-    class="fixed top-12 sm:top-20 bottom-0 left-0 right-0 bg-(--color-background-light) bg-dots -z-10 pointer-events-none"
+    class="fixed top-[calc(3rem+env(safe-area-inset-top))] sm:top-20 bottom-0 left-0 right-0 bg-(--color-background-light) bg-dots -z-10 pointer-events-none"
   >
     <div
       class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background-light)/1 to-transparent"
