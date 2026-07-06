@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
 
 @Component({
   selector: 'app-trees',
-  imports: [RouterLink, HeaderMobile],
+  imports: [RouterLink],
   templateUrl: './trees.html',
   styleUrl: './trees.css',
 })

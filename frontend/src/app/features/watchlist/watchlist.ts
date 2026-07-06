@@ -3,14 +3,13 @@ import { WatchlistService } from '@core/services/watchlist.service';
 import { FilmService } from '@core/services/film.service';
 import { FilmFilters } from '../films/film-filters/film-filters';
 import { FilmGrid } from '../films/film-grid/film-grid';
-import { HeaderMobile } from '@shared/ui/headers/header-mobile/header-mobile';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 import { LucideListFilter, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-watchlist',
-  imports: [HeaderMobile, FilmFilters, FilmGrid, LucideListFilter, LucideX],
+  imports: [FilmFilters, FilmGrid, LucideListFilter, LucideX],
   templateUrl: './watchlist.html',
   styleUrl: './watchlist.css',
 })

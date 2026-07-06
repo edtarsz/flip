@@ -10,11 +10,10 @@ import Lenis from 'lenis';
 import { AuthService } from '@core/services/auth.service';
 import { FilmCarousel } from '@features/films/film-carousel/film-carousel';
 import { FilmService } from '@core/services/film.service';
-import { HeaderMobile } from '@shared/ui/headers/header-mobile/header-mobile';
 
 @Component({
   selector: 'app-index-layout',
-  imports: [CardFeatures, Button, SwipeCard, FilmCarousel, HeaderMobile],
+  imports: [CardFeatures, Button, SwipeCard, FilmCarousel],
   templateUrl: './index-layout.html',
   styleUrl: './index-layout.css',
 })

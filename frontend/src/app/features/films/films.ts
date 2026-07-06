@@ -5,11 +5,10 @@ import { FilmSearchBar } from './film-search-bar/film-search-bar';
 import { FilmGrid } from './film-grid/film-grid';
 import { isViewportAtLeast } from '@shared/utils/responsive.util';
 import { LucideListFilter, LucideX } from '@lucide/angular';
-import { HeaderMobile } from "@shared/ui/headers/header-mobile/header-mobile";
 
 @Component({
   selector: 'app-films',
-  imports: [FilmFilters, FilmSearchBar, FilmGrid, LucideListFilter, LucideX, HeaderMobile],
+  imports: [FilmFilters, FilmSearchBar, FilmGrid, LucideListFilter, LucideX],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })

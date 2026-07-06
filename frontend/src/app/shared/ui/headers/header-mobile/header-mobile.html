@@ -1,50 +1,81 @@
 <header class="bg-(--color-background) relative z-2 pb-safe">
   <app-separator></app-separator>
-  <ul class="grid grid-cols-4">
-    <li
-      routerLink="/films"
-      class="flex justify-center border-r border-(--color-gray)/20 pt-4 pb-4 w-full cursor-pointer"
-    >
-      <div
-        routerLinkActive="text-(--color-wine-red)"
-        class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+  <ul class="grid grid-cols-4 py-2">
+    <li class="flex justify-center w-full">
+      <a
+        routerLink="/films"
+        routerLinkActive="text-(--color-wine-red) bg-(--color-gray)/20"
+        (click)="animateClick($event)"
+        class="relative flex justify-center w-full h-full cursor-pointer mx-3 py-2 rounded-xl"
       >
-        <svg lucideClapperboard size="20"></svg>
-        <span>Movies</span>
-      </div>
+        <div
+          class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 rounded-xl pointer-events-none"
+        ></div>
+        <div
+          routerLinkActive="text-(--color-wine-red)"
+          class="relative z-1 flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+        >
+          <svg lucideClapperboard size="20"></svg>
+          <span>Movies</span>
+        </div>
+      </a>
     </li>
-    <li
-      routerLink="/swipe"
-      class="flex justify-center border-r border-(--color-gray)/20 pt-4 pb-4 w-full cursor-pointer"
-    >
-      <div
-        routerLinkActive="text-(--color-wine-red)"
-        class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+    <li class="flex justify-center w-full">
+      <a
+        routerLink="/swipe"
+        routerLinkActive="text-(--color-wine-red) bg-(--color-gray)/20"
+        (click)="animateClick($event)"
+        class="relative flex justify-center w-full h-full cursor-pointer mx-3 py-2 rounded-xl"
       >
-        <svg lucideGalleryHorizontalEnd size="20"></svg>
-        <span>Swipe</span>
-      </div>
+        <div
+          class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 rounded-xl pointer-events-none"
+        ></div>
+        <div
+          routerLinkActive="text-(--color-wine-red)"
+          class="relative z-1 flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+        >
+          <svg lucideGalleryHorizontalEnd size="20"></svg>
+          <span>Swipe</span>
+        </div>
+      </a>
     </li>
-    <li
-      routerLink="/watchlist"
-      class="flex justify-center border-r border-(--color-gray)/20 pt-4 pb-4 w-full cursor-pointer"
-    >
-      <div
-        routerLinkActive="text-(--color-wine-red)"
-        class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+    <li class="flex justify-center w-full">
+      <a
+        routerLink="/watchlist"
+        routerLinkActive="text-(--color-wine-red) bg-(--color-gray)/20"
+        (click)="animateClick($event)"
+        class="relative flex justify-center w-full h-full cursor-pointer mx-3 py-2 rounded-xl"
       >
-        <svg lucideThumbsUp size="20"></svg>
-        <span>Watchlist</span>
-      </div>
+        <div
+          class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 rounded-xl pointer-events-none"
+        ></div>
+        <div
+          routerLinkActive="text-(--color-wine-red)"
+          class="relative z-1 flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+        >
+          <svg lucideThumbsUp size="20"></svg>
+          <span>Watchlist</span>
+        </div>
+      </a>
     </li>
-    <li routerLink="/trees" class="flex justify-center pt-4 pb-4 w-full cursor-pointer">
-      <div
-        routerLinkActive="text-(--color-wine-red)"
-        class="flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+    <li class="flex justify-center w-full">
+      <a
+        routerLink="/trees"
+        routerLinkActive="text-(--color-wine-red) bg-(--color-gray)/20"
+        (click)="animateClick($event)"
+        class="relative flex justify-center w-full h-full cursor-pointer mx-3 py-2 rounded-xl"
       >
-        <svg lucideNetwork size="20"></svg>
-        <span>Trees</span>
-      </div>
+        <div
+          class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 rounded-xl pointer-events-none"
+        ></div>
+        <div
+          routerLinkActive="text-(--color-wine-red)"
+          class="relative z-1 flex flex-col justify-center items-center gap-1 text-xs w-full pointer-events-none"
+        >
+          <svg lucideNetwork size="20"></svg>
+          <span>Trees</span>
+        </div>
+      </a>
     </li>
   </ul>
 </header>

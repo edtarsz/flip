@@ -16,7 +16,6 @@ import { getTmdbImageUrl, TmdbImagePipe } from '@shared/pipes/tmdb-image.pipe';
 import { Router } from '@angular/router';
 import { Card } from '@shared/ui/card/card';
 import { WatchlistService } from '@core/services/watchlist.service';
-import { HeaderMobile } from '@shared/ui/headers/header-mobile/header-mobile';
 import { ButtonDesktopKey } from '@shared/ui/button-desktop-key/button-desktop-key';
 import { ProviderCard } from '@shared/ui/provider-card/provider-card';
 import { PersonItem } from '@shared/ui/person-item/person-item';
@@ -28,7 +27,6 @@ import { getWatchProvidersList } from '@shared/utils/watch-providers.util';
   imports: [
     SwipeCard,
     Card,
-    HeaderMobile,
     PersonItem,
     LucideThumbsDown,
     LucideThumbsUp,
