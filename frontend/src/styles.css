@@ -159,6 +159,9 @@
   --color-error: #c11f32;
   --color-success: #2a9d8f;
   --color-info: #4d8eb8;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 :root[data-theme='light'],
@@ -195,4 +198,22 @@ label {
 .bg-dots {
   background-image: radial-gradient(circle, #98959543 1px, transparent 1px);
   background-size: 28px 28px;
+}
+
+@layer utilities {
+  .pt-safe {
+    padding-top: var(--safe-top);
+  }
+  .pb-safe {
+    padding-bottom: var(--safe-bottom);
+  }
+  .top-safe-header {
+    top: calc(3rem + var(--safe-top));
+  }
+  .pt-safe-header {
+    padding-top: calc(3rem + var(--safe-top));
+  }
+  .h-safe-screen {
+    height: calc(100dvh - 3rem - var(--safe-top));
+  }
 }

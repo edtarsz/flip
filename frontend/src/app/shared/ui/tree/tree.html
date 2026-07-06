@@ -1,6 +1,6 @@
 <div
   #viewport
-  class="bg-dots z-0 relative top-[calc(3rem+env(safe-area-inset-top))] sm:top-20 h-[calc(100vh-3rem-env(safe-area-inset-top))] sm:h-[calc(100vh-5rem)] bg-(--color-background-light) overflow-hidden select-none"
+  class="bg-dots z-0 relative top-safe-header sm:top-20 h-safe-screen sm:h-[calc(100vh-5rem)] bg-(--color-background-light) overflow-hidden select-none"
   [class.cursor-grab]="!isDragging()"
   [class.cursor-grabbing]="isDragging()"
   (mousedown)="onMouseDown($event)"
