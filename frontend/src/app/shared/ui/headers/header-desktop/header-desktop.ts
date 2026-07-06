@@ -7,6 +7,7 @@ import { LucideUser } from '@lucide/angular';
 import { Separator } from '@shared/ui/separator/separator';
 import { ThemeToggle } from '@shared/ui/theme-toggle/theme-toggle';
 import { HeaderOverlay } from '@shared/ui/headers/header-overlay/header-overlay';
+import { animateRipple } from '@shared/utils/animation.util';
 
 @Component({
   selector: 'app-header',
@@ -42,7 +43,14 @@ export class Header {
     this.toast.show(`Vuelve pronto ${username}!`, 'success');
   }
 
-  toggleOverlay() {
+  animateClick(event: Event) {
+    animateRipple(event);
+  }
+
+  toggleOverlay(event?: Event) {
+    if (event) {
+      animateRipple(event);
+    }
     this.isOverlayVisible.set(!this.isOverlayVisible());
   }
 

@@ -1,8 +1,15 @@
 <div class="fixed top-0 left-0 w-full z-6 flex flex-col bg-(--color-background)">
   <header class="w-full py-2 sm:py-6 px-3 sm:px-8 grid grid-cols-2 sm:grid-cols-3 items-center">
-    <a routerLink="/dashboard" class="flex items-center gap-2">
-      <span class="font-extrabold text-lg sm:text-xl">flip</span>
-      <img src="assets/svgs/logo.svg" alt="" class="w-8 h-8" />
+    <a
+      routerLink="/dashboard"
+      class="relative flex w-fit items-center gap-2 px-2 -ml-2 sm:px-0 sm:py-0 sm:ml-0 rounded-lg overflow-hidden sm:overflow-visible"
+      (click)="animateClick($event)"
+    >
+      <div
+        class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 pointer-events-none rounded-lg sm:hidden"
+      ></div>
+      <span class="relative z-1 font-extrabold text-lg sm:text-xl">flip</span>
+      <img src="assets/svgs/logo.svg" alt="" class="relative z-1 w-8 h-8" />
     </a>
 
     <nav class="hidden sm:block">
@@ -60,25 +67,46 @@
         </li>
         @if (!isAuthenticated()) {
           <li
-            class="flex gap-2 text-sm sm:text-base items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
+            class="relative flex gap-2 text-sm sm:text-base items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200 py-1 px-2 -mx-1 sm:p-0 sm:mx-0 rounded-lg overflow-hidden sm:overflow-visible"
             routerLinkActive="text-(--color-wine-red)"
+            (click)="animateClick($event)"
           >
-            <a routerLink="/auth/login" routerLinkActive="text-(--color-wine-red)">Login</a>
+            <div
+              class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 pointer-events-none rounded-lg sm:hidden"
+            ></div>
+            <a
+              routerLink="/auth/login"
+              routerLinkActive="text-(--color-wine-red)"
+              class="relative z-1"
+              >Login</a
+            >
           </li>
           <li
-            class="flex gap-2 text-sm sm:text-base items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200"
+            class="relative flex gap-2 text-sm sm:text-base items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200 py-1 px-2 -mx-1 sm:p-0 sm:mx-0 rounded-lg overflow-hidden sm:overflow-visible"
             routerLinkActive="text-(--color-wine-red)"
+            (click)="animateClick($event)"
           >
-            <a routerLink="/auth/signup" routerLinkActive="text-(--color-wine-red)">Register</a>
+            <div
+              class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 pointer-events-none rounded-lg sm:hidden"
+            ></div>
+            <a
+              routerLink="/auth/signup"
+              routerLinkActive="text-(--color-wine-red)"
+              class="relative z-1"
+              >Register</a
+            >
           </li>
         } @else {
           <li
-            class="cursor-pointer flex text-sm sm:text-base flex-reverse items-center gap-3 pointer-events-auto sm:pointer-events-none h-full"
-            (click)="toggleOverlay()"
+            class="relative cursor-pointer flex text-sm sm:text-base flex-reverse items-center gap-2 sm:gap-3 pointer-events-auto sm:pointer-events-none h-full py-0.5 px-2 sm:p-0 -mr-2 rounded-lg"
+            (click)="toggleOverlay($event)"
           >
-            {{ username }}
             <div
-              class="aspect-square rounded-full h-full bg-(--color-wine-red) flex justify-center items-center"
+              class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 rounded-lg pointer-events-none"
+            ></div>
+            <span class="relative z-1">{{ username }}</span>
+            <div
+              class="relative z-1 aspect-square rounded-full h-full bg-(--color-wine-red) flex justify-center items-center"
             >
               <svg lucideUser size="15" class="text-white hidden sm:block"></svg>
             </div>

@@ -2,8 +2,12 @@
   <!-- <div #scrollWrapper class="overflow-y-auto h-full no-scrollbar" data-lenis-prevent> -->
   <div class="sm:flex flex-wrap grid grid-cols-3 sm:justify-start justify-center sm:gap-3 gap-2">
     @if (films().length === 0 && loading()) {
-      @for (item of [1, 2, 3, 4]; track $index) {
-        <app-film [loading]="true"></app-film>
+      @for (item of [1, 2, 3]; track $index) {
+        <app-film
+          [loading]="true"
+          [hideFilmDetails]="hideFilmDetails()"
+          class="grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
+        ></app-film>
       }
     }
     @for (film of films(); track film.id; let idx = $index) {
@@ -18,6 +22,7 @@
     @if (hasMore() && loading() && films().length > 0) {
       <app-film
         [loading]="true"
+        [hideFilmDetails]="hideFilmDetails()"
         class="grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
       ></app-film>
     }

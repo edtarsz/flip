@@ -135,8 +135,10 @@ export class WatchlistService {
     if (shouldReset) {
       this.currentPage.set(1);
       this.hasMorePages.set(true);
-      this.isLoadingSignal.set(true);
+      this.watchlistSignal.set([]);
     }
+    
+    this.isLoadingSignal.set(true);
 
     try {
       const limit = 20;

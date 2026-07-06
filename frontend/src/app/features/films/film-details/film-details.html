@@ -1,7 +1,7 @@
-<div class="flex flex-col z-0 pt-12 sm:pt-50 px-[8vw] relative pb-20">
+<div class="flex flex-col z-0 pt-12 sm:pt-50 px-2 sm:px-[5vw] lg:px-[8vw] relative pb-20">
   @if (film(); as filmData) {
     <div
-      class="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-(--color-background-light)"
+      class="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-(--color-background-light) min-w-0"
     >
       <div class="relative w-full h-[60vh] overflow-hidden">
         @if (filmData.backdrop_path) {
@@ -28,8 +28,10 @@
       </div>
     </div>
 
-    <div class="flex gap-10 w-full items-start">
-      <div class="flex flex-col gap-3 w-[300px] shrink-0 sticky top-16 sm:top-24">
+    <div class="flex gap-2 sm:gap-10 w-full items-start">
+      <div
+        class="flex flex-col gap-2 sm:gap-3 w-[35%] lg:w-[300px] shrink-0 sticky top-14 sm:top-24"
+      >
         <div
           class="shadow-lg w-full aspect-2/3 bg-(--color-gray)/20 rounded-md border border-(--color-gray)/20 relative overflow-hidden shrink-0 cursor-pointer hover:scale-102 transition-all duration-200"
         >
@@ -45,7 +47,9 @@
         <app-button size="w-full" label="Play"></app-button>
         <app-card title="Where to watch" class="w-full shrink-0 self-start xl:hidden">
           <div class="flex flex-col gap-4">
-            <div class="grid overflow-y-auto no-scrollbar gap-4 grid-cols-2">
+            <div
+              class="flex flex-wrap sm:grid overflow-y-auto no-scrollbar gap-2 sm:gap-4 grid-cols-2 justify-center"
+            >
               @if (isLoading() && watchProviders().length === 0) {
                 @for (item of [1, 2, 3, 4]; track $index) {
                   <div class="flex items-center gap-2 transition-colors">
@@ -90,12 +94,12 @@
         </app-card>
       </div>
 
-      <div class="flex flex-col gap-6 flex-1 min-w-0 pt-20">
+      <div class="flex flex-col gap-6 flex-1 min-w-0 pt-2 sm:pt-20">
         <div class="flex flex-col gap-3">
           @if (isLoading() && !filmData.tagline) {
             <app-skeleton class="h-5 w-48"></app-skeleton>
           } @else if (filmData.tagline) {
-            <p class="text-(--color-gray) italic">
+            <p class="text-(--color-gray) italic text-sm sm:text-lg">
               {{ filmData.tagline }}
             </p>
           }
@@ -103,17 +107,24 @@
           <div class="w-full justify-between flex items-center gap-4">
             <div class="flex justify-between gap-2 w-full">
               <div class="flex items-end gap-2 flex-wrap min-w-0">
-                <h3 class="text-5xl font-bold">
+                <h3 class="text-2xl sm:text-5xl font-bold">
                   {{ filmData.title }}
                 </h3>
-                <div class="flex items-center gap-1 font-light text-(--color-gray) text-2xl">
+                <div
+                  class="flex items-center gap-1 font-light text-(--color-gray) text-xl sm:text-2xl"
+                >
                   ({{ filmData.release_date | date: 'yyyy' }})
                 </div>
               </div>
               <div class="h-full flex items-start w-fit">
                 <div class="flex items-center gap-1 shrink-0">
-                  <svg lucideStar size="35" fill="#ffc300" color="#ffc300"></svg>
-                  <p class="font-bold text-4xl">
+                  <svg
+                    lucideStar
+                    class="w-6 h-6 sm:w-9 sm:h-9"
+                    fill="#ffc300"
+                    color="#ffc300"
+                  ></svg>
+                  <p class="font-bold text-2xl sm:text-4xl">
                     {{ filmData.vote_average | number: '1.0-1' }}
                   </p>
                 </div>
@@ -121,7 +132,7 @@
             </div>
           </div>
 
-          <div class="flex items-center gap-1 text-(--color-gray)">
+          <div class="flex items-center gap-1 text-(--color-gray) text-xs sm:text-sm">
             <svg lucideClock size="15"></svg>
             @if (isLoading() && !filmData.runtime) {
               <app-skeleton class="h-4 w-12"></app-skeleton>
@@ -131,7 +142,7 @@
           </div>
 
           <div class="flex flex-col gap-1">
-            <p class="flex items-center gap-2">
+            <p class="flex items-center gap-1 sm:gap-2 text-xs sm:text-base">
               <span class="font-semibold">Directed by</span>
               @if (isLoading() && !filmData.director) {
                 <app-skeleton class="h-4 w-32"></app-skeleton>
@@ -139,7 +150,7 @@
                 <span class="text-(--color-gray)">{{ filmData.director }}</span>
               }
             </p>
-            <p class="flex items-center gap-2">
+            <p class="flex items-center gap-1 sm:gap-2 text-xs sm:text-base">
               <span class="font-semibold">Written by</span>
               @if (isLoading() && !filmData.screenwriter) {
                 <app-skeleton class="h-4 w-32"></app-skeleton>
@@ -156,7 +167,9 @@
               <app-skeleton class="h-7 w-20 rounded-full!"></app-skeleton>
             } @else {
               @for (genre of filmData.genres; track $index) {
-                <span class="bg-(--color-wine-red) text-white rounded-full px-3 py-1 text-sm">
+                <span
+                  class="bg-(--color-wine-red) text-white rounded-full px-3 py-1 text-xs sm:text-sm"
+                >
                   {{ genre.name }}</span
                 >
               }
@@ -167,21 +180,21 @@
         <app-separator w="full"></app-separator>
 
         <div class="flex flex-col gap-2 w-full">
-          <h5 class="font-bold text-2xl">Sinopsis</h5>
-          <p class="text-(--color-gray) text-lg leading-relaxed">
+          <h5 class="font-bold text-lg sm:text-2xl">Sinopsis</h5>
+          <p class="text-(--color-gray) text-sm sm:text-lg leading-relaxed">
             {{ filmData.overview }}
           </p>
-          <p class="text-(--color-gray) text-lg leading-relaxed">
+          <p class="text-(--color-gray) text-sm sm:text-lg leading-relaxed">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae at, harum
             voluptatibus excepturi ea obcaecati. Amet iure ratione consectetur architecto adipisci
             debitis, eum mollitia totam cum a, temporibus animi ea.
           </p>
-          <p class="text-(--color-gray) text-lg leading-relaxed">
+          <p class="text-(--color-gray) text-sm sm:text-lg leading-relaxed">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus neque iste, saepe
             distinctio dolor dignissimos. Accusamus voluptate, autem aut velit illum, vel obcaecati
             nobis officiis sunt consectetur dicta, dolores nemo!
           </p>
-          <p class="text-(--color-gray) text-lg leading-relaxed">
+          <p class="text-(--color-gray) text-sm sm:text-lg leading-relaxed">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus neque iste, saepe
             distinctio dolor dignissimos. Accusamus voluptate, autem aut velit illum, vel obcaecati
             nobis officiis sunt consectetur dicta, dolores nemo!

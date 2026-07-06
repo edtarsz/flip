@@ -6,6 +6,7 @@ import { FilmGrid } from '../films/film-grid/film-grid';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 import { LucideListFilter, LucideX } from '@lucide/angular';
+import { animateRipple } from '@shared/utils/animation.util';
 
 @Component({
   selector: 'app-watchlist',
@@ -28,6 +29,10 @@ export class Watchlist implements OnDestroy {
 
   sortedGenres = signal<GenreTMDB[]>([]);
   private genresInitialized = false;
+
+  animateClick(event: Event) {
+    animateRipple(event);
+  }
 
   constructor() {
     effect(() => {

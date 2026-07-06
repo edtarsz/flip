@@ -22,9 +22,12 @@
     </app-film-filters>
 
     <button
-      (click)="filters.onToggleSidebar()"
-      class="md:hidden fixed z-20 bottom-20 right-4 bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-text) transition-color duration-200 aspect-square rounded-full w-12 shrink-0 font-bold"
+      (click)="animateClick($event); filters.onToggleSidebar()"
+      class="md:hidden fixed z-20 bottom-22 right-4 bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-text) transition-color duration-200 aspect-square rounded-full w-12 shrink-0 font-bold overflow-hidden"
     >
+      <div
+        class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 pointer-events-none rounded-full"
+      ></div>
       @if (hasActiveFilters()) {
         <span
           class="absolute top-0 right-0 bg-(--color-wine-red) w-[10px] flex items-center justify-center rounded-full aspect-square text-xs"

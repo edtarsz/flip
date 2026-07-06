@@ -1,14 +1,20 @@
 @if (loading()) {
-  <div class="select-none pointer-events-none flex flex-col gap-2 w-full aspect-2/3 h-full">
-    <app-skeleton class="w-full flex-1 rounded-sm!"></app-skeleton>
-    <div class="flex flex-col gap-1 w-full">
-      <app-skeleton class="w-full h-5 rounded!"></app-skeleton>
-      <div class="flex items-center justify-between w-full">
-        <app-skeleton class="w-[30%] h-5 rounded!"></app-skeleton>
-        <app-skeleton class="w-[15%] h-5 rounded!"></app-skeleton>
+  @if (hideFilmDetails()) {
+    <div class="select-none pointer-events-none flex flex-col gap-2 w-full aspect-2/3 h-full">
+      <app-skeleton class="w-full flex-1 rounded-sm!"></app-skeleton>
+    </div>
+  } @else {
+    <div class="select-none pointer-events-none flex flex-col gap-2 w-full aspect-2/3 h-full">
+      <app-skeleton class="w-full flex-1 rounded-sm!"></app-skeleton>
+      <div class="flex flex-col gap-1 w-full">
+        <app-skeleton class="w-full h-5 rounded!"></app-skeleton>
+        <div class="flex items-center justify-between w-full">
+          <app-skeleton class="w-[30%] h-5 rounded!"></app-skeleton>
+          <app-skeleton class="w-[15%] h-5 rounded!"></app-skeleton>
+        </div>
       </div>
     </div>
-  </div>
+  }
 } @else if (film()) {
   <div class="cursor-pointer flex flex-col gap-1 sm:gap-1.5 h-fit">
     <div

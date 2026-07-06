@@ -7,6 +7,7 @@ import {
   LucideThumbsUp
 } from '@lucide/angular';
 import { Separator } from '@shared/ui/separator/separator';
+import { animateRipple } from '@shared/utils/animation.util';
 
 @Component({
   selector: 'app-header-mobile',
@@ -24,20 +25,6 @@ import { Separator } from '@shared/ui/separator/separator';
 })
 export class HeaderMobile {
   animateClick(event: Event) {
-    const el = event.currentTarget as HTMLElement;
-    const ripple = el.querySelector('.ripple-layer');
-    if (ripple) {
-      ripple.animate(
-        [
-          { opacity: 0 },
-          { opacity: 0.3, offset: 0.1 },
-          { opacity: 0 }
-        ],
-        {
-          duration: 500,
-          easing: 'ease-out'
-        }
-      );
-    }
+    animateRipple(event);
   }
 }

@@ -5,6 +5,7 @@ import { FilmSearchBar } from './film-search-bar/film-search-bar';
 import { FilmGrid } from './film-grid/film-grid';
 import { isViewportAtLeast } from '@shared/utils/responsive.util';
 import { LucideListFilter, LucideX } from '@lucide/angular';
+import { animateRipple } from '@shared/utils/animation.util';
 
 @Component({
   selector: 'app-films',
@@ -29,6 +30,10 @@ export class Films {
   hasMorePages = this.filmService.hasMorePages;
 
   toggledSidebar = signal(isViewportAtLeast('MD', false));
+
+  animateClick(event: Event) {
+    animateRipple(event);
+  }
 
   loadNextPage() {
     if (this.loadingNextPage() || !this.hasMorePages()) return;

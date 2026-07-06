@@ -68,6 +68,7 @@ export class SwipeCard implements OnDestroy {
 
   private draggableInstance?: Draggable;
   private hostEl = inject(ElementRef<HTMLElement>);
+  private isDestroyed = false;
 
   constructor() {
     effect(() => {
@@ -137,7 +138,11 @@ export class SwipeCard implements OnDestroy {
             const mult = d.x > 0 ? 1 : -1;
             const swipeDirection = d.x > 0 ? 'right' : 'left';
             gsap
-              .timeline({ onComplete: () => this.swiped.emit(swipeDirection) })
+              .timeline({
+                onComplete: () => {
+                  if (!this.isDestroyed) this.swiped.emit(swipeDirection);
+                },
+              })
               .to(d.target, {
                 x: mult * window.innerWidth,
                 y: d.y * 1.5,
@@ -197,7 +202,11 @@ export class SwipeCard implements OnDestroy {
     }
 
     gsap
-      .timeline({ onComplete: () => this.swiped.emit(direction) })
+      .timeline({
+        onComplete: () => {
+          if (!this.isDestroyed) this.swiped.emit(direction);
+        },
+      })
       .to(cardEl, {
         x: mult * window.innerWidth,
         y: 0,
@@ -209,7 +218,12 @@ export class SwipeCard implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.isDestroyed = true;
     this.draggableInstance?.kill();
+    const cardEl = this.swipeCard()?.nativeElement;
+    const innerEl = this.innerCard()?.nativeElement;
+    if (cardEl) gsap.killTweensOf(cardEl);
+    if (innerEl) gsap.killTweensOf(innerEl);
   }
 
   toggleSeen() {
