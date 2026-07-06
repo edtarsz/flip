@@ -8,7 +8,7 @@
           <img
             [src]="filmData.backdrop_path | tmdbImage: 'w1280'"
             (load)="onBackdropLoad()"
-            class="absolute inset-0 w-full h-full object-cover object-center scale-110 brightness-50 transition-opacity duration-200"
+            class="absolute inset-0 w-full h-full object-cover object-center scale-110 brightness-20 transition-opacity duration-200"
             [class.opacity-0]="!backdropLoaded()"
             [class.opacity-40]="backdropLoaded()"
           />
@@ -16,7 +16,7 @@
           <img
             [src]="filmData.poster_path | tmdbImage: 'w1280'"
             (load)="onBackdropLoad()"
-            class="absolute inset-0 w-full h-full object-cover object-[center_20%] scale-110 transition-opacity duration-200"
+            class="absolute inset-0 w-full h-full object-cover object-center scale-110 transition-opacity duration-200"
             [class.opacity-0]="!backdropLoaded()"
             [class.opacity-25]="backdropLoaded()"
           />
@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div class="flex gap-2 sm:gap-10 w-full items-start">
+    <div class="flex gap-2 sm:gap-10 w-full items-start py-2">
       <div
         class="flex flex-col gap-2 sm:gap-3 w-[35%] lg:w-[300px] shrink-0 sticky top-14 sm:top-24"
       >
@@ -94,7 +94,7 @@
         </app-card>
       </div>
 
-      <div class="flex flex-col gap-6 flex-1 min-w-0 pt-2 sm:pt-20">
+      <div class="flex flex-col gap-3 sm:gap-6 flex-1 min-w-0 pt-2 sm:pt-20">
         <div class="flex flex-col gap-3">
           @if (isLoading() && !filmData.tagline) {
             <app-skeleton class="h-5 w-48"></app-skeleton>
@@ -142,7 +142,7 @@
           </div>
 
           <div class="flex flex-col gap-1">
-            <p class="flex items-center gap-1 sm:gap-2 text-xs sm:text-base">
+            <p class="flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
               <span class="font-semibold">Directed by</span>
               @if (isLoading() && !filmData.director) {
                 <app-skeleton class="h-4 w-32"></app-skeleton>
@@ -150,7 +150,7 @@
                 <span class="text-(--color-gray)">{{ filmData.director }}</span>
               }
             </p>
-            <p class="flex items-center gap-1 sm:gap-2 text-xs sm:text-base">
+            <p class="flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
               <span class="font-semibold">Written by</span>
               @if (isLoading() && !filmData.screenwriter) {
                 <app-skeleton class="h-4 w-32"></app-skeleton>
@@ -183,21 +183,6 @@
           <h5 class="font-bold text-lg sm:text-2xl">Sinopsis</h5>
           <p class="text-(--color-gray) text-sm sm:text-lg leading-relaxed">
             {{ filmData.overview }}
-          </p>
-          <p class="text-(--color-gray) text-sm sm:text-lg leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae at, harum
-            voluptatibus excepturi ea obcaecati. Amet iure ratione consectetur architecto adipisci
-            debitis, eum mollitia totam cum a, temporibus animi ea.
-          </p>
-          <p class="text-(--color-gray) text-sm sm:text-lg leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus neque iste, saepe
-            distinctio dolor dignissimos. Accusamus voluptate, autem aut velit illum, vel obcaecati
-            nobis officiis sunt consectetur dicta, dolores nemo!
-          </p>
-          <p class="text-(--color-gray) text-sm sm:text-lg leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus neque iste, saepe
-            distinctio dolor dignissimos. Accusamus voluptate, autem aut velit illum, vel obcaecati
-            nobis officiis sunt consectetur dicta, dolores nemo!
           </p>
         </div>
       </div>

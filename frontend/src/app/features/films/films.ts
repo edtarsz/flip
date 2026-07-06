@@ -6,6 +6,7 @@ import { FilmGrid } from './film-grid/film-grid';
 import { isViewportAtLeast } from '@shared/utils/responsive.util';
 import { LucideListFilter, LucideX } from '@lucide/angular';
 import { animateRipple } from '@shared/utils/animation.util';
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'app-films',
@@ -15,7 +16,9 @@ import { animateRipple } from '@shared/utils/animation.util';
 })
 export class Films {
   private filmService = inject(FilmService);
+  private authService = inject(AuthService);
 
+  readonly isAuthenticated = this.authService.isAuthenticated;
   readonly films = this.filmService.films;
   readonly genres = this.filmService.genres;
 

@@ -30,9 +30,11 @@ export class ThemeService {
       if (theme === 'light') {
         root.classList.add('light');
         root.setAttribute('data-theme', 'light');
+        document.getElementById('theme-color-meta')?.setAttribute('content', '#e0e0e0');
       } else {
         root.classList.remove('light');
         root.setAttribute('data-theme', 'dark');
+        document.getElementById('theme-color-meta')?.setAttribute('content', '#0e0e0e');
       }
     }
   }
