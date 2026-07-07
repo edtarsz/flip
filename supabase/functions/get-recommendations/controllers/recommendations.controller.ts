@@ -113,7 +113,7 @@ export class RecommendationsController {
 
         const scored = candidates
             .map(film => {
-                const genreScore = film.genre_ids.reduce((sum, gid) => {
+                const genreScore = (film.genre_ids || []).reduce((sum, gid) => {
                     const name = genreIdToName[gid]
                     return sum + (name && genreWeightMap[name] ? genreWeightMap[name] : 0)
                 }, 0)
@@ -136,12 +136,12 @@ export class RecommendationsController {
         const enriched = await Promise.all(
             topN.map(async (film) => {
                 const dbFilm = existingMap.get(film.id)
-                if (dbFilm) {
+                if (dbFilm && dbFilm.runtime !== null && dbFilm.director_name !== null) {
                     return {
                         ...film,
                         director_id: dbFilm.director_id,
                         director_name: dbFilm.director_name,
-                        runtime: dbFilm.runtime ?? null,
+                        runtime: dbFilm.runtime,
                         cast_ids: dbFilm.cast_ids ?? [],
                         cast_names: dbFilm.cast_names ?? [],
                         watch_providers: dbFilm.watch_providers ?? null,

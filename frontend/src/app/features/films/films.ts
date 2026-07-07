@@ -98,7 +98,7 @@ export class Films {
     this.filmService.clearFilms();
 
     this.filmService
-      .getFilms({
+      .getInitialFilms({
         genres: this.selectedGenres(),
         year: this.selectedYear(),
         query: this.submittedQuery(),
@@ -127,7 +127,7 @@ export class Films {
     this.filmService.clearFilms();
 
     this.filmService
-      .getFilms({
+      .getInitialFilms({
         genres: this.selectedGenres(),
         year: this.selectedYear(),
         query: this.submittedQuery(),
@@ -153,7 +153,7 @@ export class Films {
     this.filmService.clearFilms();
 
     this.filmService
-      .getFilms({
+      .getInitialFilms({
         genres: this.selectedGenres(),
         year: this.selectedYear(),
         query: this.submittedQuery(),

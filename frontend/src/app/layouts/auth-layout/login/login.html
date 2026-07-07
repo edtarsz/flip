@@ -25,12 +25,14 @@
     }
   </div>
 
-  <app-button
-    label="Log In"
-    size="w-full"
-    [disabled]="loginForm().invalid() || !loginModel().email || !loginModel().password"
-  >
-  </app-button>
+  <div class="h-10">
+    <app-button
+      label="Log In"
+      size="w-full"
+      [disabled]="loginForm().invalid() || !loginModel().email || !loginModel().password"
+    >
+    </app-button>
+  </div>
 </form>
 
 <p class="text-sm text-center text-(--color-gray) mt-2">

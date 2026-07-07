@@ -3,7 +3,7 @@
   [disabled]="disabled()"
   [class.transition-colors]="enableTransition() && !disabled()"
   [class.duration-200]="enableTransition() && !disabled()"
-  class="text-white hover:text-white/80 text-sm sm:text-base flex items-center gap-1 justify-center font-bold px-3 h-full min-h-[38px] rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) disabled:opacity-50 disabled:cursor-not-allowed {{
+  class="text-white hover:text-white/80 text-[clamp(0.7rem,0.9vw,1rem)] flex items-center gap-1 justify-center font-bold px-3 h-full rounded bg-(--color-wine-red) hover:bg-(--color-wine-dark) disabled:opacity-50 disabled:cursor-not-allowed {{
     size()
   }}"
 >

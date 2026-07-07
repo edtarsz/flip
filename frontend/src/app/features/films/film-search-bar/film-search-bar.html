@@ -1,4 +1,4 @@
-<form class="flex items-center gap-2 h-full" [formRoot]="searchForm">
+<form class="flex items-stretch gap-2 w-full" [formRoot]="searchForm">
   <div
     class="flex rounded-sm gap-2 w-full min-w-0 lg:max-w-[500px] border border-(--color-gray)/20 bg-(--color-background) items-center px-3 py-2"
   >
@@ -15,12 +15,12 @@
       </button>
     }
   </div>
-  <div class="flex gap-2">
-    <app-button label="Search" icon="corner-down-left" class="h-full"></app-button>
+  <div class="flex items-stretch gap-2">
+    <app-button label="Search" icon="corner-down-left"></app-button>
     <button
       type="button"
       (click)="onReset()"
-      class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-200 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
+      class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-200 font-bold text-[clamp(0.7rem,0.9vw,1rem)] px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
     >
       Clear
     </button>

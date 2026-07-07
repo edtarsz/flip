@@ -38,8 +38,13 @@ export const ROUTES: Routes = [
           {
             path: ':id',
             loadComponent: () =>
-              import('./features/films/film-details/film-details').then((m) => m.FilmDetails),
+              import('./features/films/new-film-details/new-film-details').then((m) => m.NewFilmDetails),
           },
+          // {
+          //   path: ':id',
+          //   loadComponent: () =>
+          //     import('./features/films/film-details/film-details').then((m) => m.FilmDetails),
+          // },
         ],
       },
       {

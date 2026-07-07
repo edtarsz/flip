@@ -6,7 +6,7 @@
         <app-film
           [loading]="true"
           [hideFilmDetails]="hideFilmDetails()"
-          class="grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
+          class="grow basis-[80px] sm:basis-[15vw] md:basis-[15vw] lg:basis-[9vw] max-w-[250px]"
         ></app-film>
       }
     }
@@ -16,14 +16,14 @@
         [isPriority]="idx < 6"
         [hideFilmDetails]="hideFilmDetails()"
         (click)="onFilmClick(film)"
-        class="grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
+        class="grow basis-[80px] sm:basis-[15vw] md:basis-[15vw] lg:basis-[9vw] max-w-[250px]"
       ></app-film>
     }
     @if (hasMore() && loading() && films().length > 0) {
       <app-film
         [loading]="true"
         [hideFilmDetails]="hideFilmDetails()"
-        class="grow basis-[80px] sm:basis-[180px] sm:max-w-[250px]"
+        class="grow basis-[80px] sm:basis-[15vw] md:basis-[15vw] lg:basis-[9vw] max-w-[250px]"
       ></app-film>
     }
     @if (hasMore()) {

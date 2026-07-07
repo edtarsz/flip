@@ -11,7 +11,7 @@ export const filmsResolver: ResolveFn<any> = () => {
 
   if (filmService.films().length === 0) {
     loadingService.start();
-    return forkJoin([filmService.getFilms(), filmService.getGenres()]);
+    return forkJoin([filmService.getInitialFilms(), filmService.getGenres()]);
   }
   return of(true);
 };

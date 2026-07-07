@@ -1,11 +1,26 @@
+:host(.btn-amazing),
 :host(.btn-good),
 :host(.btn-meh),
-:host(.btn-bad) {
+:host(.btn-bad)
+{
   transform: translate(0, 0) scale(0);
   transition:
-    transform 200ms ease-out,
-    background-color 200ms ease-out;
+  transform 200ms ease-out,
+  background-color 200ms ease-out;
   will-change: transform;
+}
+
+:host(.btn-amazing) {
+  width: 5.375rem;
+  height: 5.375rem;
+  background-color: #1e40af;
+}
+:host(.btn-amazing.active) {
+  transform: translate(0px, -90px) scale(1);
+}
+:host(.btn-amazing.active:hover) {
+  background-color: #1e40af;
+  transform: translate(0px, -90px) scale(1.05);
 }
 
 :host(.btn-good) {
@@ -14,11 +29,12 @@
   background-color: #166534;
 }
 :host(.btn-good.active) {
-  transform: translate(0px, -90px) scale(1);
+  transform: translate(-75px, -35px) scale(1);
+   transition-delay: 50ms;
 }
 :host(.btn-good.active:hover) {
   background-color: #14532d;
-  transform: translate(0px, -90px) scale(1.05);
+  transform: translate(-75px, -35px) scale(1.05);
 }
 
 :host(.btn-meh) {
@@ -27,25 +43,26 @@
   background-color: #ca8a04;
 }
 :host(.btn-meh.active) {
-  transform: translate(-76px, -45px) scale(1);
-  transition-delay: 50ms;
+  transform: translate(-70px, 50px) scale(1);
+  transition-delay: 60ms;
 }
 :host(.btn-meh.active:hover) {
   background-color: #a16207;
-  transform: translate(-76px, -45px) scale(1.05);
+  transform: translate(-70px, 50px) scale(1.05);
   transition-delay: 0ms;
-}
+  }
+
 :host(.btn-bad) {
   width: 4rem;
   height: 4rem;
   background-color: #991b1b;
 }
 :host(.btn-bad.active) {
-  transform: translate(-78px, 28px) scale(1);
+  transform: translate(-10px, 90px) scale(1);
   transition-delay: 80ms;
 }
 :host(.btn-bad.active:hover) {
   background-color: #7f1d1d;
-  transform: translate(-78px, 28px) scale(1.05);
+  transform: translate(-10px, 90px) scale(1.05);
   transition-delay: 0ms;
 }

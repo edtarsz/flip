@@ -1,16 +1,16 @@
 <div
-  class="grid grid-cols-[auto_1fr] relative z-0 top-12 sm:top-20 sm:h-[calc(100vh-5rem)] overflow-hidden"
-  [class.h-[calc(100dvh-7.5rem)]]="isAuthenticated()"
-  [class.h-[calc(100dvh-3rem)]]="!isAuthenticated()"
+  class="grid grid-cols-[auto_1fr] relative z-0 top-[calc(32px+2vh)] sm:top-[calc(32px+5vh)] sm:h-[calc(100vh-32px-5vh)] overflow-hidden"
+  [class.h-[calc(100dvh-32px-2vh-4.5rem)]]="isAuthenticated()"
+  [class.h-[calc(100dvh-32px-2vh)]]="!isAuthenticated()"
 >
-  <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
+  <!-- <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
     <div
       class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background)/1 to-transparent"
     ></div>
     <div
       class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
     ></div>
-  </div>
+  </div> -->
 
   <app-film-filters
     #filters
@@ -45,7 +45,7 @@
   </button>
 
   <div class="flex flex-col overflow-hidden">
-    <section class="flex flex-col gap-2 sm:gap-5 p-2 sm:p-5 h-full overflow-hidden">
+    <section class="flex flex-col gap-2 sm:gap-[1.5vh] p-2 sm:p-[1.5vh] h-full overflow-hidden">
       <div class="flex justify-between items-center">
         <div class="flex gap-4 items-center h-full w-full">
           <app-film-search-bar

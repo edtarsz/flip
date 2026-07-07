@@ -2,7 +2,7 @@ import { Component, afterNextRender, OnDestroy, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from '../../shared/ui/headers/header-desktop/header-desktop';
 import { HeaderMobile } from '../../shared/ui/headers/header-mobile/header-mobile';
-import Lenis from 'lenis';
+import { createLenis } from '@shared/utils/lenis.util';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ToastComponent } from '@shared/ui/toast/toast';
@@ -27,7 +27,7 @@ export class MainLayout implements OnDestroy {
 
   constructor() {
     afterNextRender(() => {
-      this.lenis = new Lenis();
+      this.lenis = createLenis();
 
       this.lenis.on('scroll', ScrollTrigger.update);
 

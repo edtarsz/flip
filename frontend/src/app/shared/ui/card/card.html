@@ -2,13 +2,13 @@
   class="flex flex-col border border-(--color-gray)/20 rounded-lg w-full z-1 relative bg-(--color-background) shadow-lg"
 >
   <p
-    class="font-semibold text-(--color-gray) p-2 text-center sm:text-start sm:p-4 text-sm sm:text-base"
+    class="font-semibold text-(--color-gray) p-3 text-center sm:text-start text-[clamp(0.9rem,1vw,1rem)]"
   >
     {{ title() }}
   </p>
   @if (!isEmpty()) {
     <app-separator class="w-full"></app-separator>
-    <div class="p-2 sm:p-4">
+    <div class="p-2">
       <ng-content></ng-content>
     </div>
   }

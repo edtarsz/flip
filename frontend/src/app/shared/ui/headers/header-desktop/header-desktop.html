@@ -1,7 +1,9 @@
 <div class="fixed top-0 left-0 w-full z-6 flex flex-col bg-(--color-background)">
-  <header class="w-full py-2 sm:py-6 px-3 sm:px-8 grid grid-cols-2 sm:grid-cols-3 items-center">
+  <header
+    class="w-full py-[1vh] sm:py-[2.5vh] px-3 sm:px-8 grid grid-cols-2 sm:grid-cols-3 items-center"
+  >
     <a
-      routerLink="/dashboard"
+      routerLink="/index"
       class="relative flex w-fit items-center gap-2 px-2 -ml-2 sm:px-0 sm:py-0 sm:ml-0 rounded-lg overflow-hidden sm:overflow-visible"
       (click)="animateClick($event)"
     >
@@ -13,7 +15,9 @@
     </a>
 
     <nav class="hidden sm:block">
-      <ul class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold items-center">
+      <ul
+        class="flex justify-center gap-[4vw] lg:gap-[3vw] font-bold items-center text-[clamp(0.8rem,1vw,1rem)]"
+      >
         @if (isAuthenticated()) {
           <li>
             <a
@@ -61,13 +65,15 @@
     </nav>
 
     <nav class="h-full">
-      <ul class="flex gap-5 sm:gap-[2vw] justify-end font-bold items-center h-full">
+      <ul
+        class="flex gap-5 sm:gap-[2vw] justify-end font-bold items-center h-full text-[clamp(0.8rem,1vw,1rem)]"
+      >
         <li class="hidden md:flex h-full">
           <app-theme-toggle></app-theme-toggle>
         </li>
         @if (!isAuthenticated()) {
           <li
-            class="relative flex gap-2 text-sm sm:text-base items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200 py-1 px-2 -mx-1 sm:p-0 sm:mx-0 rounded-lg overflow-hidden sm:overflow-visible"
+            class="relative flex gap-2 items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200 py-1 px-2 -mx-1 sm:p-0 sm:mx-0 rounded-lg overflow-hidden sm:overflow-visible"
             routerLinkActive="text-(--color-wine-red)"
             (click)="animateClick($event)"
           >
@@ -82,7 +88,7 @@
             >
           </li>
           <li
-            class="relative flex gap-2 text-sm sm:text-base items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200 py-1 px-2 -mx-1 sm:p-0 sm:mx-0 rounded-lg overflow-hidden sm:overflow-visible"
+            class="relative flex gap-2 items-center hover:text-(--color-wine-red) cursor-pointer group transition-colors duration-200 py-1 px-2 -mx-1 sm:p-0 sm:mx-0 rounded-lg overflow-hidden sm:overflow-visible"
             routerLinkActive="text-(--color-wine-red)"
             (click)="animateClick($event)"
           >
@@ -98,7 +104,7 @@
           </li>
         } @else {
           <li
-            class="relative cursor-pointer flex text-sm sm:text-base flex-reverse items-center gap-2 sm:gap-3 pointer-events-auto sm:pointer-events-none h-full py-0.5 px-2 sm:p-0 -mr-2 rounded-lg"
+            class="relative cursor-pointer flex flex-reverse items-center gap-2 sm:gap-3 pointer-events-auto sm:pointer-events-none h-full py-0.5 px-2 sm:p-0 -mr-2 rounded-lg"
             (click)="toggleOverlay($event)"
           >
             <div
@@ -126,7 +132,9 @@
 </div>
 
 @if (isLoading()) {
-  <div class="fixed top-12 sm:top-20 left-0 h-1 w-full bg-(--color-wine-dark) overflow-hidden z-10">
+  <div
+    class="fixed top-[calc(32px+2vh)] sm:top-[calc(32px+5vh)] left-0 h-1 w-full bg-(--color-wine-dark) overflow-hidden z-10"
+  >
     <div
       class="absolute top-0 bottom-0 left-0 bg-(--color-wine-light) shadow-[0_0_8px_var(--color-wine-light)] rounded-r-full transition-all duration-200 ease-out"
       [style.width.%]="progress()"

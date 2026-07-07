@@ -68,4 +68,11 @@ export type FilmDetailsTMDB = Omit<FilmTMDB, 'genre_ids'> & {
   tagline: string;
   director?: string | null;
   screenwriter?: string | null;
+  videos?: {
+    results: Array<{
+      key: string;
+      site: string;
+      type: string;
+    }>;
+  };
 };

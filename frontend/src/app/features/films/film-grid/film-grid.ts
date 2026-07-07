@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { Film } from '@shared/ui/film/film';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
+import { createLenis } from '@shared/utils/lenis.util';
 import { Router } from '@angular/router';
 import Lenis from 'lenis';
 
@@ -40,14 +41,14 @@ export class FilmGrid implements OnDestroy {
 
   constructor() {
     afterNextRender(() => {
-      const wrapper = this.scrollWrapper()?.nativeElement;
-      if (wrapper) {
+      const scrollableElement = this.scrollWrapper()?.nativeElement;
+      if (scrollableElement) {
         this.ngZone.runOutsideAngular(() => {
-          this.localLenis = new Lenis({
-            wrapper: wrapper,
-            content: wrapper.firstElementChild as HTMLElement,
+          this.localLenis = createLenis({
+            wrapper: scrollableElement,
+            content: (scrollableElement.firstElementChild as HTMLElement) || scrollableElement,
+            autoRaf: false,
           });
-
           const raf = (time: number) => {
             this.localLenis?.raf(time);
             requestAnimationFrame(raf);

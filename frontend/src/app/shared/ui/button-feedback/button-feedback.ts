@@ -8,18 +8,21 @@ import { Component, input, computed } from '@angular/core';
     class:
       'absolute bottom-0 right-0 z-10 flex justify-center items-center rounded-full border border-(--color-gray)/20 cursor-pointer',
     '[class.active]': 'isSeen()',
+    '[class.btn-amazing]': "type() === 'amazing'",
     '[class.btn-good]': "type() === 'good'",
     '[class.btn-meh]': "type() === 'meh'",
     '[class.btn-bad]': "type() === 'bad'",
   },
 })
 export class ButtonFeedback {
-  type = input.required<'good' | 'meh' | 'bad'>();
+  type = input.required<'amazing' | 'good' | 'meh' | 'bad'>();
   isSeen = input<boolean>(false);
-  keyBadge = input.required<string>();
+  keyBadge = input<string>();
 
   label = computed(() => {
     switch (this.type()) {
+      case 'amazing':
+        return 'Amazing!';
       case 'good':
         return 'Good!';
       case 'meh':

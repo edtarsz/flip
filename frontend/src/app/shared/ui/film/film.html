@@ -16,7 +16,7 @@
     </div>
   }
 } @else if (film()) {
-  <div class="cursor-pointer flex flex-col gap-1 sm:gap-1.5 h-fit">
+  <div class="cursor-pointer flex flex-col gap-1 sm:gap-[0.5vh] h-fit">
     <div
       class="w-full aspect-2/3 rounded-sm overflow-hidden bg-(--color-gray-dark) border border-(--color-gray)/20"
     >
@@ -38,22 +38,22 @@
       }
     </div>
     @if (!hideFilmDetails()) {
-      <div class="flex flex-col gap-0 sm:gap-1 text-wrapper">
-        <p class="font-bold truncate text-[clamp(0.7rem,3vw,1.2rem)]">
+      <div class="flex flex-col text-wrapper">
+        <p class="font-semibold truncate text-[clamp(0.7rem,1vw,1.2rem)]">
           {{ film()!.title }}
         </p>
         <div class="flex items-center justify-between">
-          <p class="text-[clamp(0.6rem,2.5vw,1rem)] text-(--color-gray)">
+          <p class="text-[clamp(0.6rem,0.8vw,1rem)] text-(--color-gray)">
             {{ film()!.release_date | date: 'yyyy' }}
           </p>
           <div class="flex gap-0.5 sm:gap-1 items-center">
-            <span class="hidden sm:block">
+            <span class="hidden sm:block shrink-0 min-w-0">
               <svg lucideStar size="16" fill="#ffc300" color="#ffc300"></svg>
             </span>
-            <span class="block sm:hidden">
+            <span class="block sm:hidden shrink-0 min-w-0">
               <svg lucideStar size="13" fill="#ffc300" color="#ffc300"></svg>
             </span>
-            <span class="font-semibold text-[clamp(0.6rem,2.5vw,1rem)]">
+            <span class="text-[clamp(0.7rem,0.85vw,1rem)]">
               {{ film()!.vote_average | number: '1.0-1' }}
             </span>
           </div>

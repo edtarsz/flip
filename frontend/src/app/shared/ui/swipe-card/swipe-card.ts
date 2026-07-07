@@ -54,6 +54,7 @@ const SNAP_EASE = 'elastic.out(1, 0.5)';
 })
 export class SwipeCard implements OnDestroy {
   swipeCard = viewChild<ElementRef<HTMLDivElement>>('swipeCard');
+  rotationWrapper = viewChild<ElementRef<HTMLDivElement>>('rotationWrapper');
   innerCard = viewChild<ElementRef<HTMLDivElement>>('innerCard');
 
   film = input<FilmTMDB | null>(null);
@@ -84,11 +85,13 @@ export class SwipeCard implements OnDestroy {
 
     afterNextRender(() => {
       const inner = this.innerCard()!.nativeElement;
+      const rotWrapper = this.rotationWrapper()!.nativeElement;
+      const root = this.rotationWrapper()!.nativeElement;
       const likeBadge = !this.isCover()
-        ? (inner.querySelector('.like-badge') as HTMLElement)
+        ? (root.querySelector('.like-badge') as HTMLElement)
         : null;
       const nopeBadge = !this.isCover()
-        ? (inner.querySelector('.nope-badge') as HTMLElement)
+        ? (root.querySelector('.nope-badge') as HTMLElement)
         : null;
       let savedZIndex = '';
       let dragStarted = false;
@@ -114,17 +117,17 @@ export class SwipeCard implements OnDestroy {
         onDrag: () => {
           const d = this.draggableInstance!;
           const rotation = Math.max(-20, Math.min(20, d.x * 0.1));
-          gsap.to(inner, { rotation, duration: 0.1, overwrite: 'auto' });
+          gsap.to(rotWrapper, { rotation, duration: 0.1, overwrite: 'auto' });
 
           if (this.isCover()) return;
 
-          const scale = Math.min(3, Math.abs(d.x) / SWIPE_THRESHOLD);
+          const progress = Math.min(3, Math.abs(d.x) / SWIPE_THRESHOLD);
           if (d.x > 0) {
-            gsap.set(likeBadge, { scale });
-            gsap.set(nopeBadge, { scale: 0 });
+            gsap.set(likeBadge, { scale: progress * 1.2, opacity: progress, force3D: false });
+            gsap.set(nopeBadge, { scale: 0, opacity: 0, force3D: false });
           } else {
-            gsap.set(nopeBadge, { scale });
-            gsap.set(likeBadge, { scale: 0 });
+            gsap.set(nopeBadge, { scale: progress * 1.2, opacity: progress, force3D: false });
+            gsap.set(likeBadge, { scale: 0, opacity: 0, force3D: false });
           }
         },
         onRelease: () => {
@@ -150,18 +153,21 @@ export class SwipeCard implements OnDestroy {
                 duration: SWIPE_DURATION,
                 ease: SWIPE_EASE,
               })
-              .to(inner, { rotation: mult * 45, duration: SWIPE_DURATION, ease: SWIPE_EASE }, '<');
+              .to(rotWrapper, { rotation: mult * 45, duration: SWIPE_DURATION, ease: SWIPE_EASE }, '<');
           } else {
             gsap
               .timeline()
               .to(d.target, { x: 0, y: 0, duration: SNAP_DURATION, ease: SNAP_EASE })
-              .to(inner, { rotation: 0, duration: SNAP_DURATION, ease: SNAP_EASE }, '<');
+              .to(rotWrapper, { rotation: 0, duration: SNAP_DURATION, ease: SNAP_EASE }, '<');
 
             if (!this.isCover() && likeBadge && nopeBadge) {
               gsap.to([likeBadge, nopeBadge], {
                 scale: 0,
+                opacity: 0,
+                rotation: 0,
                 duration: SWIPE_DURATION,
                 overwrite: 'auto',
+                force3D: false,
               });
             }
           }
@@ -198,7 +204,7 @@ export class SwipeCard implements OnDestroy {
         direction === 'right'
           ? (innerEl.querySelector('.like-badge') as HTMLElement)
           : (innerEl.querySelector('.nope-badge') as HTMLElement);
-      if (badge) gsap.to(badge, { scale: 1, duration: 0.15 });
+      if (badge) gsap.to(badge, { scale: 1, opacity: 1, duration: 0.15, force3D: false });
     }
 
     gsap
@@ -221,9 +227,9 @@ export class SwipeCard implements OnDestroy {
     this.isDestroyed = true;
     this.draggableInstance?.kill();
     const cardEl = this.swipeCard()?.nativeElement;
-    const innerEl = this.innerCard()?.nativeElement;
+    const rotWrapper = this.rotationWrapper()?.nativeElement;
     if (cardEl) gsap.killTweensOf(cardEl);
-    if (innerEl) gsap.killTweensOf(innerEl);
+    if (rotWrapper) gsap.killTweensOf(rotWrapper);
   }
 
   toggleSeen() {

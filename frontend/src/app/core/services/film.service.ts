@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
-import { tap, of, catchError, map } from 'rxjs';
+import { tap, of, catchError, map, concatMap } from 'rxjs';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 
 const FALLBACK_GENRES: GenreTMDB[] = [
@@ -31,7 +31,7 @@ const VOTE_COUNT_THRESHOLD = 150;
 const GENRES_CACHE_EXPIRY = 7 * 24 * 60 * 60 * 1000;
 const DEFAULT_SORT = 'popularity.desc';
 const DEFAULT_PAGE = 1;
-const DETAILS_APPEND_TO_RESPONSE = 'watch/providers,credits';
+const DETAILS_APPEND_TO_RESPONSE = 'watch/providers,credits,videos';
 
 export interface GetFilmsOptions {
   genres?: number[];
@@ -115,6 +115,20 @@ export class FilmService {
           });
         }
       }),
+    );
+  }
+
+  getInitialFilms(options: GetFilmsOptions = {}) {
+    return this.getFilms({ ...options, page: 1 }).pipe(
+      concatMap((data) => {
+        if (!data.results || data.results.length === 0 || data.total_pages < 2) {
+          this.currentPage.set(1);
+          this.hasMorePages.set(false);
+          return of(data);
+        }
+        this.currentPage.set(2);
+        return this.getFilms({ ...options, page: 2 });
+      })
     );
   }
 

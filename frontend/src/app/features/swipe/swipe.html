@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col pt-12 sm:pt-20 pb-18 sm:pb-0 h-dvh sm:h-screen bg-dots relative overflow-hidden"
+  class="flex flex-col pt-[calc(32px+2vh)] sm:pt-[calc(32px+5vh)] pb-18 sm:pb-0 h-dvh sm:h-screen bg-dots relative overflow-hidden"
 >
   <div class="flex-1 flex flex-col items-center relative p-2 sm:p-4">
     <div
@@ -30,10 +30,8 @@
       class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent pointer-events-none"
     ></div>
 
-    <div
-      class="grid grid-cols-1 lg:grid-cols-3 w-full p-0 sm:px-[5vw] sm:py-4 relative gap-[4vw] md:gap-[3vw] lg:gap-[5vw] h-full"
-    >
-      <div class="flex-col gap-5 hidden lg:flex">
+    <div class="grid grid-cols-1 lg:grid-cols-7 w-full lg:w-[70%] sm:py-4 gap-[2vw] h-full">
+      <div class="flex-col gap-[1vh] hidden lg:flex col-span-2">
         <app-card title="Cast" [isEmpty]="showCover()">
           <ul class="flex flex-col gap-2">
             @if (activeFilm() && activeFilm().cast_names && !showCover()) {
@@ -83,44 +81,45 @@
         </app-card>
       </div>
 
-      <div class="relative w-full flex-1 sm:flex-none max-w-[500px] mx-auto h-full">
-        @for (film of visibleFilms(); track film.id; let idx = $index; let last = $last) {
-          <app-swipe-card
-            [film]="film"
-            [genres]="genres()"
-            [isTop]="last"
-            (clicked)="onFilmClick(film)"
-            [showBg]="last && currentIndex() === allFilms().length - 1"
-            (swiped)="onSwiped($event, film)"
-            class="absolute top-0 w-full h-full transition-all duration-200 ease-out min-h-0 lg:h-[83%]"
-            [class.pointer-events-none]="!last"
-            [class.hidden]="showCover() && !last"
-            [style.z-index]="idx + 1"
-            [style.transform-origin]="'center top'"
-            [style.transform]="getCardTransform(idx, visibleFilms().length)"
-            [style.filter]="getCardFilter(idx, visibleFilms().length)"
-          >
-          </app-swipe-card>
-        }
-        @if (showCover()) {
-          <app-swipe-card
-            [isCover]="true"
-            class="absolute top-0 left-0 w-full h-full z-4 lg:h-[83%]"
-            [style.transform-origin]="'center top'"
-            [style.transform]="'translate(0px, 0px) scale(1)'"
-            (swiped)="onCoverSwiped()"
-          ></app-swipe-card>
-        }
-        <div
-          class="absolute bottom-0 w-full h-[15%] items-center justify-center gap-5 hidden lg:flex"
-        >
-          <app-button-desktop-key keyLabel="A" class="h-[70%]" (click)="swipe('left')">
+      <div class="w-full h-full col-span-3 flex flex-col gap-3">
+        <div class="flex-1 w-full relative">
+          @for (film of visibleFilms(); track film.id; let idx = $index; let last = $last) {
+            <app-swipe-card
+              [film]="film"
+              [genres]="genres()"
+              [isTop]="last"
+              (clicked)="onFilmClick(film)"
+              [showBg]="last && currentIndex() === allFilms().length - 1"
+              (swiped)="onSwiped($event, film)"
+              class="absolute inset-0 w-full h-full transition-all duration-200 ease-out min-h-0"
+              [class.pointer-events-none]="!last"
+              [class.hidden]="showCover() && !last"
+              [style.z-index]="idx + 1"
+              [style.transform-origin]="'center top'"
+              [style.transform]="getCardTransform(idx, visibleFilms().length)"
+              [style.filter]="getCardFilter(idx, visibleFilms().length)"
+            >
+            </app-swipe-card>
+          }
+          @if (showCover()) {
+            <app-swipe-card
+              [isCover]="true"
+              class="absolute inset-0 z-4"
+              [style.transform-origin]="'center top'"
+              [style.transform]="'translate(0px, 0px) scale(1)'"
+              (swiped)="onCoverSwiped()"
+            ></app-swipe-card>
+          }
+        </div>
+
+        <div class="lg:flex items-center justify-center gap-5 h-20 hidden">
+          <app-button-desktop-key class="w-20" keyLabel="A" (click)="swipe('left')">
             <svg lucideThumbsDown size="25"></svg>
           </app-button-desktop-key>
 
           <app-button-desktop-key
+            class="w-20"
             keyLabel="S"
-            class="h-[70%]"
             (click)="!showCover() && activeFilm() && toggleSeenOnActiveCard()"
           >
             <svg
@@ -130,13 +129,13 @@
             ></svg>
           </app-button-desktop-key>
 
-          <app-button-desktop-key keyLabel="D" class="h-[70%]" (click)="swipe('right')">
+          <app-button-desktop-key class="w-20" keyLabel="D" (click)="swipe('right')">
             <svg lucideThumbsUp size="25"></svg>
           </app-button-desktop-key>
         </div>
       </div>
 
-      <div class="flex-col gap-5 hidden lg:flex">
+      <div class="flex-col gap-5 hidden lg:flex col-span-2">
         <app-card title="Recent Swipes"></app-card>
       </div>
     </div>

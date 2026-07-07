@@ -4,7 +4,7 @@ import { FilmService } from '@core/services/film.service';
 import { TmdbImagePipe } from '@shared/pipes/tmdb-image.pipe';
 import { Button } from '@shared/ui/button/button';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { LucideClock, LucideStar } from '@lucide/angular';
+import { LucideClock, LucideEye, LucideStar } from '@lucide/angular';
 import { FilmDetailsTMDB } from '@core/types/tmdb/film.type';
 import { Card } from '@shared/ui/card/card';
 import { Separator } from '@shared/ui/separator/separator';
@@ -13,6 +13,8 @@ import { getWatchProvidersList } from '@shared/utils/watch-providers.util';
 import { ProviderCard } from '@shared/ui/provider-card/provider-card';
 import { Skeleton } from '@shared/ui/skeleton/skeleton';
 import { isImageLoaded, markImageLoaded } from '@shared/utils/image-cache.util';
+import { isViewportAtLeast } from '@shared/utils/responsive.util';
+import { ButtonFeedback } from "@shared/ui/button-feedback/button-feedback";
 
 @Component({
   selector: 'app-film-details',
@@ -28,7 +30,9 @@ import { isImageLoaded, markImageLoaded } from '@shared/utils/image-cache.util';
     RuntimePipe,
     ProviderCard,
     Skeleton,
-  ],
+    LucideEye,
+    ButtonFeedback
+],
   templateUrl: './film-details.html',
   styleUrl: './film-details.css',
 })
@@ -40,6 +44,10 @@ export class FilmDetails implements OnInit {
   isLoading = signal<boolean>(false);
   posterLoaded = signal<boolean>(false);
   backdropLoaded = signal<boolean>(false);
+
+  isSeen = signal<boolean>(false);
+
+  isViewportAtLeast = isViewportAtLeast
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -99,5 +107,9 @@ export class FilmDetails implements OnInit {
   onBackdropLoad() {
     this.backdropLoaded.set(true);
     markImageLoaded(this.film()?.backdrop_path);
+  }
+
+  toggleSeen() {
+    this.isSeen.set(!this.isSeen());
   }
 }

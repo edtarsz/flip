@@ -6,6 +6,7 @@ import { Separator } from '@shared/ui/separator/separator';
 import { gsap } from 'gsap';
 import { MOCK_GENRES, MOCK_LANDING_FILMS } from '@core/mocks/films.mock';
 import { Router } from '@angular/router';
+import { createLenis } from '@shared/utils/lenis.util';
 import Lenis from 'lenis';
 import { AuthService } from '@core/services/auth.service';
 import { FilmCarousel } from '@features/films/film-carousel/film-carousel';
@@ -50,7 +51,7 @@ export class IndexLayout implements OnDestroy {
     afterNextRender(() => {
       const scrollableMain = document.querySelector('main[data-lenis-prevent]') as HTMLElement;
       if (scrollableMain) {
-        this.localLenis = new Lenis({
+        this.localLenis = createLenis({
           wrapper: scrollableMain,
           content: (scrollableMain.firstElementChild as HTMLElement) || scrollableMain,
           autoRaf: false,

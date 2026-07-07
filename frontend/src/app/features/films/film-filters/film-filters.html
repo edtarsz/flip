@@ -24,7 +24,7 @@
     [ngClass]="isVisibleSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'"
   >
     <div class="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-2">
-      <p class="font-bold text-[clamp(1.1rem,2vw,1.2rem)]">Filters</p>
+      <p class="font-bold text-[clamp(1rem,1.2vw,1.2rem)]">Filters</p>
       <div
         (click)="onToggleSidebar()"
         class="p-1 sm:p-2 hover:bg-(--color-gray)/20 rounded-full cursor-pointer transition-colors duration-200"
@@ -34,18 +34,18 @@
     </div>
     <app-separator></app-separator>
 
-    <div class="flex flex-col gap-3 sm:gap-5 p-3 sm:p-4">
+    <div class="flex flex-col gap-3 sm:gap-[1.5vh] p-3 sm:p-[1.5vh]">
       @if (genres().length > 0) {
-        <div class="flex flex-col gap-2 sm:gap-4">
+        <div class="flex flex-col gap-2 sm:gap-[1.5vh]">
           <p class="font-semibold">Genres</p>
-          <ul class="flex flex-wrap relative gap-1.5 sm:gap-2">
+          <ul class="flex flex-wrap relative gap-1.5 sm:gap-2 text-[clamp(0.8rem,0.8vw,1.2rem)]">
             @for (genre of genres(); track $index) {
               <li
                 class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80"
               >
                 <span
                   (click)="toggleGenre(genre.id)"
-                  class="text-sm sm:text-base px-3 py-1 rounded-full border transition-color duration-200 bg-(--color-background)"
+                  class="px-3 py-1 rounded-full border transition-color duration-200 bg-(--color-background)"
                   [ngClass]="
                     localGenres.includes(genre.id)
                       ? 'bg-(--color-wine-red) text-white border-(--color-wine-red)'
@@ -60,7 +60,7 @@
         </div>
       }
 
-      <div class="rounded-sm flex flex-col gap-2 sm:gap-4">
+      <div class="rounded-sm flex flex-col gap-2 sm:gap-[1.5vh]">
         <p class="font-semibold">Release Date</p>
         <app-year-picker
           [selectedYear]="localYear"
@@ -69,7 +69,7 @@
         ></app-year-picker>
       </div>
 
-      <div class="flex w-full gap-2">
+      <div class="flex w-full gap-2 items-stretch h-10">
         <app-button
           label="Apply Filters"
           size="w-full"
@@ -79,7 +79,7 @@
         <button
           type="button"
           (click)="onClear()"
-          class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-200 font-bold text-sm px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
+          class="bg-(--color-background) border border-(--color-gray)/20 rounded-sm text-(--color-gray) cursor-pointer transition-colors duration-200 font-bold text-[clamp(0.7rem,0.9vw,1rem)] px-3 hover:text-(--color-text)/80 hover:border-(--color-gray)/50"
         >
           Clear
         </button>

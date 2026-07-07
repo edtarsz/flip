@@ -1,13 +1,13 @@
 import { Component, input, signal } from '@angular/core';
 import { LucideCornerDownLeft, LucideSearch, LucideEye } from '@lucide/angular';
 
-export type ButtonIcon = 'corner-down-left' | 'search' | 'eye' | 'none';
+export type ButtonIcon = 'corner-down-left' | 'search' | 'eye' | 'play' | 'none';
 
 @Component({
   selector: 'app-button',
   imports: [LucideCornerDownLeft, LucideSearch, LucideEye],
   templateUrl: './button.html',
-  styleUrl: './button.css',
+  styleUrl: './button.css'
 })
 export class Button {
   label = input.required<string>();
