@@ -98,7 +98,7 @@ export class Tree implements OnInit {
         let totalPages = 1;
 
         do {
-          const res = await lastValueFrom(this.filmService.getListById(listId, page));
+          const res = (await lastValueFrom(this.filmService.getListById(listId, page))) as any;
           allFilms = [...allFilms, ...(res.items || [])];
           totalPages = res.total_pages || 1;
           page++;

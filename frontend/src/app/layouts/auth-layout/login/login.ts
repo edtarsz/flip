@@ -34,21 +34,16 @@ export class Login {
         action: async (fields) => {
           this.loadingService.start();
           try {
-            const { error } = await this.authService.signIn(
+            await this.authService.signIn(
               fields().value().email,
               fields().value().password,
             );
 
-            if (error) {
-              this.toast.show(error.message, 'error');
-              this.loadingService.stop();
-            } else {
-              this.toast.show(
-                `Bienvenido ${this.authService.user()?.user_metadata['username']}!`,
-                'success',
-              );
-              this.router.navigate(['/swipe']);
-            }
+            this.toast.show(
+              `Bienvenido ${this.authService.user()?.user_metadata['username']}!`,
+              'success',
+            );
+            this.router.navigate(['/swipe']);
           } catch (err: any) {
             this.toast.show(err.message || 'An unexpected error occurred.', 'error');
             this.loadingService.stop();

@@ -2,6 +2,17 @@
   class="relative z-0 top-[calc(32px+2vh)] sm:top-[calc(32px+5vh)] h-[calc(100dvh-32px-2vh)] sm:h-[calc(100vh-32px-5vh)] overflow-y-auto w-full flex flex-col items-center no-scrollbar pb-40"
   data-lenis-prevent
 >
+  @if (!isAuthenticated()) {
+    <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
+      <div
+        class="absolute inset-0 bg-linear-to-t from-(--color-background-light) via-(--color-background)/1 to-transparent"
+      ></div>
+      <div
+        class="absolute inset-0 bg-linear-to-b from-(--color-background-light) via-(--color-background)/10 to-transparent"
+      ></div>
+    </div>
+  }
+
   <div class="w-full flex flex-col items-center gap-16">
     @if (!isAuthenticated()) {
       <div

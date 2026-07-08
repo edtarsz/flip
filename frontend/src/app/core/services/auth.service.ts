@@ -59,13 +59,16 @@ export class AuthService {
   }
 
   async signIn(email: string, password: string) {
-    return await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    return { data, error };
   }
 
   async signOut() {
     this.loadingService.start();
     try {
-      await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
       this.filmService.resetState();
       this.swipeService.clearRecommendations();
       this.watchlistService.resetState();

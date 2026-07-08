@@ -40,27 +40,44 @@
             class="hidden"
           />
           <div class="flex flex-col bg-(--color-background) rounded-lg">
-            <div class="flex p-5 justify-between items-center gap-5">
-              <div class="flex flex-col gap-3 flex-1 min-w-0">
-                <div class="flex flex-col">
-                  <div class="flex gap-2">
-                    <h4 class="text-lg font-bold select-none truncate">
+            <div class="flex p-3 sm:p-5 justify-between items-center">
+              <div class="flex flex-col gap-4 flex-1 min-w-0">
+                <div class="flex flex-col gap-1">
+                  <div class="flex gap-2 leading-none">
+                    <h4 class="text-[clamp(1.1rem,2vw,1.8rem)] font-bold select-none truncate">
                       {{ film()?.title }}
                     </h4>
-                    <span class="flex items-center gap-1 text-md select-none">
-                      <svg lucideStar size="20" fill="#ffc300" color="#ffc300"></svg>
+                    <span
+                      class="flex items-center gap-1 text-[clamp(0.9rem,1.3vw,1.4rem)] select-none"
+                    >
+                      <svg
+                        lucideStar
+                        size="18"
+                        fill="#ffc300"
+                        color="#ffc300"
+                        class="sm:hidden"
+                      ></svg>
+                      <svg
+                        lucideStar
+                        size="24"
+                        fill="#ffc300"
+                        color="#ffc300"
+                        class="hidden sm:block"
+                      ></svg>
                       <span class="font-bold">
                         {{ film()?.vote_average | number: '1.0-1' }}
                       </span>
                     </span>
                   </div>
-                  <div class="flex items-center text-sm text-(--color-gray) gap-2">
+                  <div
+                    class="leading-none flex items-center text-[clamp(0.8rem,0.85vw,1.2rem)] text-(--color-gray) gap-2"
+                  >
                     <span>{{ film()?.release_date | date: 'yyyy' }}</span>
-                    <svg lucideCircle size="5" fill="#e2e8f0"></svg>
+                    <svg lucideCircle size="5" fill="var(--color-gray)"></svg>
                     <p>{{ film()?.runtime | runtime }}</p>
                   </div>
                 </div>
-                <div class="flex text-sm gap-2 select-none">
+                <div class="flex text-[clamp(0.9rem,0.8vw,1.2rem)] gap-2">
                   @for (genre of film()?.genre_ids?.slice(0, 2); track $index) {
                     <span class="bg-(--color-wine-red) text-white rounded-md px-2 py-1">{{
                       genres().find((g) => g.id === genre)?.name
@@ -98,12 +115,18 @@
                   type="button"
                   (click)="$event.stopPropagation(); toggleSeen()"
                   (touchend)="$event.preventDefault(); $event.stopPropagation(); toggleSeen()"
-                  class="group cursor-pointer w-15 aspect-square rounded-full flex justify-center items-center bg-(--color-wine-red) self-center shrink-0 transition-colors duration-200 hover:bg-(--color-wine-dark) border-0 outline-none"
+                  class="group cursor-pointer w-15 sm:w-18 aspect-square rounded-full flex justify-center items-center bg-(--color-background-light) border border-(--color-gray)/20 transition-colors duration-200 hover:bg-(--color-gray)/20"
                 >
                   <svg
                     lucideEye
-                    size="24"
-                    class="text-white transition-colors duration-200 group-hover:text-white/80"
+                    size="20"
+                    class="text-white transition-colors duration-200 group-hover:text-white/80 sm:hidden"
+                  ></svg>
+
+                  <svg
+                    lucideEye
+                    size="25"
+                    class="text-white transition-colors duration-200 group-hover:text-white/80 hidden sm:block"
                   ></svg>
                 </button>
               </div>
@@ -111,9 +134,9 @@
 
             <app-separator></app-separator>
 
-            <div class="overflow-hidden px-5 py-3">
+            <div class="overflow-hidden py-2 px-3 sm:py-4 sm:px-5">
               <p
-                class="line-clamp-3 select-none text-md sm:text-lg text-(--color-text)/50 leading-6.5 sm:leading-7"
+                class="line-clamp-3 select-none text-[clamp(0.95rem,1vw,1.5rem)] text-(--color-text)/70 leading-6.5 sm:leading-7"
               >
                 {{ film()?.overview }}
               </p>

@@ -31,7 +31,7 @@ export class RecommendationsController {
         this.tmdbUrl = tmdbUrl
     }
 
-    async getRecommendations(userId: string, limit = 20): Promise<Response> {
+    async getRecommendations(userId: string, limit = 20, clientExcludedIds: number[] = []): Promise<Response> {
         const [genreProfile, peopleProfile, swipedIds, genreListData, recentLikes] = await Promise.all([
             this.swipeRepository.getUserGenreWeights(userId),
             this.swipeRepository.getUserPeopleWeights(userId),
@@ -81,14 +81,14 @@ export class RecommendationsController {
         const fromPeoplePhase = new Set<number>()
 
         for (const film of genreCandidates) {
-            if (!candidateIds.has(film.id)) {
+            if (!candidateIds.has(film.id) && !clientExcludedIds.includes(film.id)) {
                 candidateIds.add(film.id)
                 candidates.push(film)
             }
         }
 
         for (const film of peopleCandidates) {
-            if (!candidateIds.has(film.id)) {
+            if (!candidateIds.has(film.id) && !clientExcludedIds.includes(film.id)) {
                 candidateIds.add(film.id)
                 candidates.push(film)
                 fromPeoplePhase.add(film.id)
@@ -96,7 +96,7 @@ export class RecommendationsController {
         }
 
         if (candidates.length < TARGET_TOTAL_CANDIDATES) {
-            const allExcluded = new Set([...swipedIds, ...candidateIds])
+            const allExcluded = new Set([...swipedIds, ...candidateIds, ...clientExcludedIds])
             const backfill = await this.fetchCandidates(
                 '/discover/movie',
                 QUALITY_PARAMS,

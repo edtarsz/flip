@@ -34,7 +34,9 @@ Deno.serve(async (req: Request) => {
     router.get('/', async () => {
       logger.info('Route', `Matched: ${method} /`);
       const limit = Number(url.searchParams.get('limit')) || 20;
-      const response = await recommendationsController.getRecommendations(user.id, limit);
+      const excludeParam = url.searchParams.get('exclude');
+      const excludeIds = excludeParam ? excludeParam.split(',').map(Number).filter(n => !isNaN(n)) : [];
+      const response = await recommendationsController.getRecommendations(user.id, limit, excludeIds);
       logger.success('Request', `${method} ${pathname}`);
       return response;
     });

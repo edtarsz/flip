@@ -28,7 +28,6 @@ export class SwipeRepository {
         direction,
         genre_names: genreNames,
         genre_ids: film.genre_ids || [],
-        signal_strength: null,
         watch_providers: film.watch_providers || null,
       },
       method: 'POST',
@@ -37,8 +36,13 @@ export class SwipeRepository {
     if (error) throw error;
   }
 
-  async getRecommendations(limit?: number): Promise<FilmTMDB[]> {
-    const query = limit ? `?limit=${limit}` : '';
+  async getRecommendations(limit?: number, excludeIds: number[] = []): Promise<FilmTMDB[]> {
+    const params = new URLSearchParams();
+    if (limit) params.append('limit', limit.toString());
+    if (excludeIds.length > 0) params.append('exclude', excludeIds.join(','));
+    
+    const query = params.toString() ? `?${params.toString()}` : '';
+
     const { data, error } = await supabase.functions.invoke(`get-recommendations${query}`, {
       method: 'GET',
     });

@@ -13,7 +13,6 @@ const recordSwipeSchema = z.object({
     direction: z.enum(['like', 'dislike']),
     genre_names: z.array(z.string()),
     genre_ids: z.array(z.number()).optional(),
-    signal_strength: z.number().nullable().optional(),
     watch_providers: z.any().nullable().optional(),
 })
 
@@ -69,8 +68,7 @@ export class SwipeController {
         await this.swipeRepository.recordSwipe(
             userId,
             filmId,
-            payload.direction,
-            payload.signal_strength ?? null,
+            payload.direction
         )
 
         const direction = payload.direction

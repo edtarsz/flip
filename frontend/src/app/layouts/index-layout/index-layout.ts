@@ -2,7 +2,6 @@ import { Component, afterNextRender, inject, OnDestroy, signal, effect } from '@
 import { CardFeatures } from '@shared/ui/card-features/card-features';
 import { Button } from '@shared/ui/button/button';
 import { SwipeCard } from '@shared/ui/swipe-card/swipe-card';
-import { Separator } from '@shared/ui/separator/separator';
 import { gsap } from 'gsap';
 import { MOCK_GENRES, MOCK_LANDING_FILMS } from '@core/mocks/films.mock';
 import { Router } from '@angular/router';

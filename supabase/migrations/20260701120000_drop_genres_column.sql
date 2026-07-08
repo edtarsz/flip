@@ -1,1 +1,0 @@
-ALTER TABLE public.films DROP COLUMN IF EXISTS genres;

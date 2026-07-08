@@ -40,14 +40,13 @@ export class SwipeRepository {
         return data ?? []
     }
 
-    async recordSwipe(userId: string, filmId: string, direction: 'like' | 'dislike', signalStrength: number | null): Promise<void> {
+    async recordSwipe(userId: string, filmId: string, direction: 'like' | 'dislike'): Promise<void> {
         const { error } = await this.supabase
             .from('swipes')
             .upsert({
                 user_id: userId,
                 film_id: filmId,
                 direction,
-                signal_strength: signalStrength,
             }, { onConflict: 'user_id,film_id', ignoreDuplicates: true })
 
         if (error) throw error

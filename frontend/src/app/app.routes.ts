@@ -35,7 +35,7 @@ export const ROUTES: Routes = [
             loadComponent: () => import('./features/films/films').then((m) => m.Films),
             resolve: { films: filmsResolver },
           },
-          {
+          { 
             path: ':id',
             loadComponent: () =>
               import('./features/films/new-film-details/new-film-details').then((m) => m.NewFilmDetails),

@@ -7,6 +7,7 @@ import { isViewportAtLeast } from '@shared/utils/responsive.util';
 import { LucideListFilter, LucideX } from '@lucide/angular';
 import { animateRipple } from '@shared/utils/animation.util';
 import { AuthService } from '@core/services/auth.service';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-films',
@@ -51,7 +52,6 @@ export class Films {
         query: this.submittedQuery(),
         page: nextPage,
       })
-      // .pipe(delay(1000000))
       .subscribe({
         next: (data) => {
           this.currentPage.set(nextPage);

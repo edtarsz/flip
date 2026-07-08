@@ -41,10 +41,11 @@ export class SwipeService {
   }
 
   async getRecommendations(limit?: number): Promise<FilmTMDB[]> {
-    const newFilms = await this.swipeRepo.getRecommendations(limit);
+    const existingIds = this.recommendationsSignal().map(f => f.id);
+    const newFilms = await this.swipeRepo.getRecommendations(limit, existingIds);
     this.recommendationsSignal.update((existing) => {
-      const existingIds = new Set(existing.map((f) => f.id));
-      const unique = newFilms.filter((f) => !existingIds.has(f.id));
+      const currentIds = new Set(existing.map((f) => f.id));
+      const unique = newFilms.filter((f) => !currentIds.has(f.id));
       return [...existing, ...unique];
     });
     return newFilms;
