@@ -92,8 +92,9 @@ export class Swipe {
 
   bgImageA = signal<string>('');
   bgImageB = signal<string>('');
-  isLayerAActive = signal<boolean>(true);
+  isLayerAActive = signal<boolean>(false);
   isFirstLoad = signal<boolean>(true);
+  isBgReady = signal<boolean>(false);
 
   showCover = this.swipeService.showCover;
   shouldAnimateBackdrop = signal(false);
@@ -115,13 +116,25 @@ export class Swipe {
       if (film) {
         const imageUrl = getTmdbImageUrl(film.poster_path, 'w500');
         untracked(() => {
-          if (this.isFirstLoad()) {
-            this.bgImageA.set(imageUrl);
-            this.isLayerAActive.set(true);
-            setTimeout(() => this.isFirstLoad.set(false), 0);
-          } else {
-            this.updateBackground(imageUrl);
-          }
+          const isFirst = this.isFirstLoad();
+
+          const applyImage = () => {
+            if (isFirst) {
+              this.bgImageA.set(imageUrl);
+              setTimeout(() => {
+                this.isLayerAActive.set(true);
+                this.isBgReady.set(true);
+                this.isFirstLoad.set(false);
+              }, 50);
+            } else {
+              this.updateBackground(imageUrl);
+            }
+          };
+
+          const img = new Image();
+          img.onload = applyImage;
+          img.onerror = applyImage;
+          img.src = imageUrl;
         });
       }
     });

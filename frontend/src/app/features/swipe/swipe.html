@@ -3,23 +3,17 @@
 >
   <div class="flex-1 flex flex-col items-center relative p-2 sm:p-4">
     <div
-      class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105"
-      [class.transition-opacity]="shouldAnimateBackdrop() || !isFirstLoad()"
-      [class.duration-1000]="shouldAnimateBackdrop() || !isFirstLoad()"
-      [class.ease-in-out]="shouldAnimateBackdrop() || !isFirstLoad()"
+      class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105 transition-opacity duration-1000 ease-in-out"
       [style.backgroundImage]="'url(' + bgImageA() + ')'"
-      [class.opacity-80]="!showCover() && isLayerAActive()"
-      [class.opacity-0]="showCover() || !isLayerAActive()"
+      [class.opacity-80]="isBgReady() && !showCover() && isLayerAActive()"
+      [class.opacity-0]="!isBgReady() || showCover() || !isLayerAActive()"
     ></div>
 
     <div
-      class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105"
-      [class.transition-opacity]="shouldAnimateBackdrop() || !isFirstLoad()"
-      [class.duration-1000]="shouldAnimateBackdrop() || !isFirstLoad()"
-      [class.ease-in-out]="shouldAnimateBackdrop() || !isFirstLoad()"
+      class="absolute inset-0 bg-cover bg-center pointer-events-none blur-md scale-105 transition-opacity duration-1000 ease-in-out"
       [style.backgroundImage]="'url(' + bgImageB() + ')'"
-      [class.opacity-80]="!showCover() && !isLayerAActive()"
-      [class.opacity-0]="showCover() || isLayerAActive()"
+      [class.opacity-80]="isBgReady() && !showCover() && !isLayerAActive()"
+      [class.opacity-0]="!isBgReady() || showCover() || isLayerAActive()"
     ></div>
 
     <div
