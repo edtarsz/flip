@@ -4,7 +4,9 @@
   (click)="onClose()"
 >
   <div class="flex flex-col items-end w-full" (click)="$event.stopPropagation()">
-    <ul class="flex flex-col justify-center font-bold items-end w-full">
+    <ul
+      class="flex flex-col justify-center font-bold items-end w-full text-[clamp(0.8rem,1vw,1rem)]"
+    >
       @if (isAuthenticated()) {
         <div class="justify-between items-center flex w-full">
           <div class="flex justify-end w-fit" (click)="$event.stopPropagation()">
@@ -20,52 +22,6 @@
             <svg lucideSettings size="16" class="shrink-0"></svg>
           </li>
         </div>
-        <!-- <li
-        class="p-2 w-full flex justify-end gap-2 items-center text-sm cursor-pointer"
-        routerLink="/index"
-        routerLinkActive
-        #indexActive="routerLinkActive"
-      >
-        <hr
-          class="h-px border-0 bg-(--color-wine-red)/40"
-          [class.w-full]="indexActive.isActive"
-        >
-        <span [class.text-(--color-wine-red)]="indexActive.isActive">
-          Home
-        </span>
-        <svg
-          lucideHouse
-          size="16"
-          class="shrink-0"
-          [ngClass]="{'text-(--color-wine-red)': indexActive.isActive}"
-        >
-        </svg>
-      </li> 
-        <li
-          class="px-2 py-4 w-1/2 flex justify-end gap-2 items-center cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
-          routerLink="/films"
-          routerLinkActive="text-(--color-wine-red)"
-        >
-          <span>Films</span>
-          <svg lucideClapperboard size="16" class="shrink-0"></svg>
-        </li>
-        <li
-          class="px-2 py-4 w-1/2 flex justify-end gap-2 items-center cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
-          routerLink="/watchlist"
-          routerLinkActive="text-(--color-wine-red)"
-        >
-          <span>Watchlist</span>
-          <svg lucideThumbsUp size="16" class="shrink-0"></svg>
-        </li>
-        <li
-          class="px-2 py-4 w-1/2 flex justify-end gap-2 items-center cursor-pointer hover:text-(--color-wine-red) transition-colors duration-200"
-          routerLink="/trees"
-          routerLinkActive="text-(--color-wine-red)"
-        >
-          <span>Trees</span>
-          <svg lucideNetwork size="16" class="shrink-0"></svg>
-        </li>
-        -->
 
         <app-separator class="w-full border-(--color-wine-red)/20"></app-separator>
 
