@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FilmService } from '@core/services/film.service';
 import { FilmFilters } from './film-filters/film-filters';
 import { FilmSearchBar } from './film-search-bar/film-search-bar';
@@ -34,6 +34,8 @@ export class Films {
   hasMorePages = this.filmService.hasMorePages;
 
   toggledSidebar = signal(isViewportAtLeast('MD', false));
+
+  hasActiveFilters = computed(() => this.selectedGenres().length > 0 || this.selectedYear() !== null);
 
   animateClick(event: Event) {
     animateRipple(event);

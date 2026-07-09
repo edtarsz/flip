@@ -52,7 +52,9 @@
         </div>
       </div>
 
-      <p class="text-(--color-gray) text-sm sm:text-lg leading-relaxed">
+      <p
+        class="line-clamp-3 select-none text-[clamp(0.95rem,1vw,1.5rem)] text-(--color-text)/70 leading-6.5 sm:leading-7"
+      >
         {{ filmData.overview }}
       </p>
 
@@ -103,7 +105,7 @@
           <button
             (click)="toggleSeen()"
             type="button"
-            class="group cursor-pointer w-12 sm:w-15 aspect-square rounded-full flex justify-center items-center bg-(--color-wine-red) self-center shrink-0 transition-colors duration-200 hover:bg-(--color-wine-dark) border-0 outline-none"
+            class="group cursor-pointer w-15 aspect-square rounded-full flex justify-center items-center bg-(--color-wine-red) self-center shrink-0 transition-colors duration-200 hover:bg-(--color-wine-dark) border-0 outline-none"
           >
             <svg
               lucideEye
@@ -112,28 +114,28 @@
             ></svg>
             <svg
               lucideEye
-              size="16"
+              size="22"
               class="block sm:hidden text-white transition-colors duration-200 group-hover:text-white/80"
             ></svg>
           </button>
         </div>
       </div>
 
-      <!-- <ul class="flex relative gap-2 shrink-0 flex-wrap">
-          @if (isLoading() && !filmData.genres) {
-            <app-skeleton class="h-7 w-20 rounded-full!"></app-skeleton>
-            <app-skeleton class="h-7 w-20 rounded-full!"></app-skeleton>
-            <app-skeleton class="h-7 w-20 rounded-full!"></app-skeleton>
-          } @else {
-            @for (genre of filmData.genres; track $index) {
-              <span
-                class="bg-(--color-wine-red) text-white rounded-full px-3 py-1 text-xs sm:text-sm"
-              >
-                {{ genre.name }}</span
-              >
-            }
+      <ul class="flex relative gap-2 shrink-0 flex-wrap">
+        @if (isLoading() && !filmData.genres) {
+          <app-skeleton class="h-7 w-20 rounded-full!"></app-skeleton>
+          <app-skeleton class="h-7 w-20 rounded-full!"></app-skeleton>
+          <app-skeleton class="h-7 w-20 rounded-full!"></app-skeleton>
+        } @else {
+          @for (genre of filmData.genres; track $index) {
+            <span
+              class="bg-(--color-wine-red) text-white rounded-full px-3 py-1 text-xs sm:text-sm"
+            >
+              {{ genre.name }}</span
+            >
           }
-        </ul> -->
+        }
+      </ul>
     </div>
   }
 </div>

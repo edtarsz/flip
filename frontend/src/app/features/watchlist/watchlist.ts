@@ -73,9 +73,7 @@ export class Watchlist implements OnDestroy {
     });
   }
 
-  hasActiveFilters = computed<boolean>(() => {
-    return this.selectedGenres().length > 0 || this.selectedYear() !== null;
-  });
+  hasActiveFilters = computed(() => this.selectedGenres().length > 0 || this.selectedYear() !== null);
 
   toggleQuickFilterGenre(genreId: number) {
     const current = this.selectedGenres();
