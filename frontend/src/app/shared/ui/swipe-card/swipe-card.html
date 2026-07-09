@@ -1,6 +1,5 @@
 <div class="relative w-full h-full min-w-0 shrink-0">
   <div #swipeCard class="relative w-full h-full rounded-lg">
-    <!-- rotationWrapper groups badges + card so they rotate together from the same origin -->
     <div #rotationWrapper class="swipe-rotation relative w-full h-full">
       @if (!isCover()) {
         <div
@@ -84,50 +83,10 @@
                 </div>
               </div>
 
-              <div class="relative font-bold">
-                <app-button-feedback
-                  type="amazing"
-                  [isSeen]="isSeen()"
-                  (click)="$event.stopPropagation()"
-                ></app-button-feedback>
-
-                <app-button-feedback
-                  type="good"
-                  [isSeen]="isSeen()"
-                  (click)="$event.stopPropagation()"
-                ></app-button-feedback>
-
-                <app-button-feedback
-                  type="meh"
-                  [isSeen]="isSeen()"
-                  (click)="$event.stopPropagation()"
-                ></app-button-feedback>
-
-                <app-button-feedback
-                  type="bad"
-                  [isSeen]="isSeen()"
-                  (click)="$event.stopPropagation()"
-                ></app-button-feedback>
-
-                <button
-                  type="button"
-                  (click)="$event.stopPropagation(); toggleSeen()"
-                  (touchend)="$event.preventDefault(); $event.stopPropagation(); toggleSeen()"
-                  class="group cursor-pointer w-15 sm:w-18 aspect-square rounded-full flex justify-center items-center bg-(--color-background-light) border border-(--color-gray)/20 transition-colors duration-200 hover:bg-(--color-gray)/20"
-                >
-                  <svg
-                    lucideEye
-                    size="20"
-                    class="text-(--color-text) transition-colors duration-200 group-hover:text-white/80 sm:hidden"
-                  ></svg>
-
-                  <svg
-                    lucideEye
-                    size="25"
-                    class="text-(--color-text) transition-colors duration-200 group-hover:text-white/80 hidden sm:block"
-                  ></svg>
-                </button>
-              </div>
+              <app-watched-button
+                [isSeen]="isSeen()"
+                (watched)="onWatched($event)"
+              ></app-watched-button>
             </div>
 
             <app-separator></app-separator>

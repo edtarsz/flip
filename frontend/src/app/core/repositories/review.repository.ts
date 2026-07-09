@@ -36,10 +36,31 @@ export class ReviewRepository {
 
     const { data, error } = await supabase
       .from('reviews')
-      .select('film_id, tier, rating, review')
+      .select('tier, rating, review, films!inner(external_film_id)')
       .eq('user_id', session.user.id);
 
     if (error) throw error;
-    return data || [];
+    return data?.map((d: any) => ({
+      external_film_id: d.films.external_film_id,
+      tier: d.tier,
+      rating: d.rating,
+      review: d.review
+    })) || [];
+  }
+
+  async getReviewByFilmId(externalFilmId: number) {
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('tier, rating, review, films!inner(external_film_id)')
+      .eq('films.external_film_id', externalFilmId)
+      .single();
+
+    if (error && error.code !== 'PGRST116') throw error;
+    return data ? {
+      external_film_id: data.films.external_film_id,
+      tier: data.tier,
+      rating: data.rating,
+      review: data.review
+    } : null;
   }
 }

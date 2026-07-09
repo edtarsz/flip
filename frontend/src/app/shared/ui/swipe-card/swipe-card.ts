@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import {
   LucideCircle,
-  LucideEye,
   LucideStar,
   LucideThumbsDown,
   LucideThumbsUp,
@@ -24,9 +23,10 @@ import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
 import { TmdbImagePipe, getTmdbImageUrl } from '@shared/pipes/tmdb-image.pipe';
-import { ButtonFeedback } from '../button-feedback/button-feedback';
 import { RuntimePipe } from '@shared/pipes/runtime.pipe';
 import { markImageLoaded } from '@shared/utils/image-cache.util';
+import { FilmTier } from '@core/repositories/review.repository';
+import { WatchedButton } from "../watched-button/watched-button";
 
 const SWIPE_THRESHOLD = 70;
 const SWIPE_DURATION = 0.3;
@@ -39,16 +39,15 @@ const SNAP_EASE = 'elastic.out(1, 0.5)';
   imports: [
     Separator,
     LucideStar,
-    LucideEye,
     DecimalPipe,
     DatePipe,
     LucideCircle,
     LucideThumbsUp,
     LucideThumbsDown,
-    ButtonFeedback,
     RuntimePipe,
-    TmdbImagePipe
-  ],
+    TmdbImagePipe,
+    WatchedButton
+],
   templateUrl: './swipe-card.html',
   styleUrl: './swipe-card.css',
 })
@@ -62,10 +61,12 @@ export class SwipeCard implements OnDestroy {
   showBg = input<boolean>(true);
   isTop = input<boolean>(true);
   isCover = input<boolean>(false);
+  isTierOpen = signal<boolean>(false);
   isSeen = signal<boolean>(false);
 
   swiped = output<'left' | 'right'>();
   clicked = output<void>();
+  watched = output<FilmTier>();
 
   private draggableInstance?: Draggable;
   private hostEl = inject(ElementRef<HTMLElement>);
@@ -100,6 +101,13 @@ export class SwipeCard implements OnDestroy {
         type: 'x,y',
         zIndexBoost: false,
         minimumMovement: 6,
+        dragClickables: false,
+        clickableTest: (target: HTMLElement | SVGElement | EventTarget | null) => {
+          if (target instanceof Element) {
+            return !!(target.closest('button') || target.closest('app-button-feedback'));
+          }
+          return false;
+        },
         onClick: (e) => {
           const target = e.target as HTMLElement;
           if (target && (target.closest('button') || target.closest('app-button-feedback'))) {
@@ -235,7 +243,15 @@ export class SwipeCard implements OnDestroy {
     if (rotWrapper) gsap.killTweensOf(rotWrapper);
   }
 
+  toggleTier() {
+    this.isTierOpen.set(!this.isTierOpen());
+  }
+
   toggleSeen() {
     this.isSeen.set(!this.isSeen());
+  }
+
+  onWatched(tier :FilmTier){
+    this.watched.emit(tier)
   }
 }

@@ -1,0 +1,75 @@
+<div class="relative font-bold">
+  <app-button-feedback
+    type="amazing"
+    [isTierOpen]="isTierOpen()"
+    (click)="$event.stopPropagation(); onWatched('AMAZING')"
+  ></app-button-feedback>
+
+  <app-button-feedback
+    type="good"
+    [isTierOpen]="isTierOpen()"
+    (click)="$event.stopPropagation(); onWatched('GOOD')"
+  ></app-button-feedback>
+
+  <app-button-feedback
+    type="meh"
+    [isTierOpen]="isTierOpen()"
+    (click)="$event.stopPropagation(); onWatched('MEH')"
+  ></app-button-feedback>
+
+  <app-button-feedback
+    type="bad"
+    [isTierOpen]="isTierOpen()"
+    (click)="$event.stopPropagation(); onWatched('BAD')"
+  ></app-button-feedback>
+
+  <button
+    type="button"
+    [class.bg-(--color-wine-red)]="isSeen()"
+    [class.bg-(--color-background-light)]="!isSeen()"
+    [class.hover:bg-(--color-wine-dark)]="isSeen()"
+    [class.hover:bg-(--color-background-light)]="!isSeen()"
+    (click)="$event.stopPropagation(); toggleTier()"
+    (touchend)="$event.preventDefault(); $event.stopPropagation(); toggleTier()"
+    class="group cursor-pointer w-15 sm:w-18 aspect-square rounded-full flex justify-center items-center bg-(--color-background-light) border border-(--color-gray)/20 transition-colors duration-200 hover:bg-(--color-gray)/20 shadow-md"
+  >
+    <svg
+      lucideEye
+      [class.opacity-0]="isSeen()"
+      [class.opacity-100]="!isSeen()"
+      [class.rotate-90]="isSeen()"
+      size="22"
+      class="absolute text-(--color-text) transition-all duration-500 group-hover:text-white/80 sm:hidden"
+    ></svg>
+
+    <svg
+      lucideCheck
+      [class.opacity-0]="!isSeen()"
+      [class.opacity-100]="isSeen()"
+      [class.rotate-90]="!isSeen()"
+      [class.rotate-0]="isSeen()"
+      size="22"
+      class="absolute text-(--color-text) transition-all duration-500 group-hover:text-white/80 sm:hidden"
+    ></svg>
+
+    <svg
+      lucideEye
+      [class.opacity-0]="isSeen()"
+      [class.opacity-100]="!isSeen()"
+      [class.rotate-90]="isSeen()"
+      size="25"
+      class="absolute text-(--color-text) transition-all duration-500 group-hover:text-white/80 hidden sm:block"
+    ></svg>
+
+    <svg
+      lucideCheck
+      [class.opacity-0]="!isSeen()"
+      [class.opacity-100]="isSeen()"
+      [class.rotate-90]="!isSeen()"
+      [class.rotate-0]="isSeen()"
+      size="25"
+      stroke-width="2"
+      class="absolute text-(--color-text) transition-all duration-500 group-hover:text-white/80 hidden sm:block"
+    ></svg>
+  </button>
+</div>

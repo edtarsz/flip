@@ -4,14 +4,14 @@ import { FilmFilters } from './film-filters/film-filters';
 import { FilmSearchBar } from './film-search-bar/film-search-bar';
 import { FilmGrid } from './film-grid/film-grid';
 import { isViewportAtLeast } from '@shared/utils/responsive.util';
-import { LucideListFilter, LucideX } from '@lucide/angular';
 import { animateRipple } from '@shared/utils/animation.util';
 import { AuthService } from '@core/services/auth.service';
 import { NgClass } from '@angular/common';
+import { FloatingFilterButton } from "@shared/ui/floating-filter-button/floating-filter-button";
 
 @Component({
   selector: 'app-films',
-  imports: [FilmFilters, FilmSearchBar, FilmGrid, LucideListFilter, LucideX, NgClass],
+  imports: [FilmFilters, FilmSearchBar, FilmGrid, NgClass, FloatingFilterButton],
   templateUrl: './films.html',
   styleUrl: './films.css',
 })

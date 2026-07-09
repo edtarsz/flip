@@ -21,6 +21,9 @@ import { ProviderCard } from '@shared/ui/provider-card/provider-card';
 import { PersonItem } from '@shared/ui/person-item/person-item';
 import { LucideThumbsDown, LucideThumbsUp, LucideEye } from '@lucide/angular';
 import { getWatchProvidersList } from '@shared/utils/watch-providers.util';
+import { FilmTier } from '@core/repositories/review.repository';
+import { ReviewService } from '@core/services/review.service';
+import { delay, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-swipe',
@@ -44,6 +47,7 @@ export class Swipe {
   private filmService = inject(FilmService);
   private swipeService = inject(SwipeService);
   private watchlistService = inject(WatchlistService);
+  private reviewService = inject(ReviewService);
   private router = inject(Router);
 
   swipeCards = viewChildren(SwipeCard);
@@ -171,6 +175,17 @@ export class Swipe {
 
   onFilmClick(film: any) {
     this.router.navigate(['/films', film.id], { state: { film } });
+  }
+
+  onFilmWatched(tier: FilmTier) {
+    const film = this.activeFilm();
+    if (!film) return;
+    this.reviewService.upsertReview({ film, tier });
+    this.getTopCard()?.toggleSeen();
+    this.getTopCard()?.toggleTier();
+    setTimeout(() => {
+      this.swipeService.advanceIndex();
+    }, 500);
   }
 
   @HostListener('window:keyup', ['$event'])

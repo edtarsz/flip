@@ -21,32 +21,21 @@
     >
     </app-film-filters>
 
-    <button
-      (click)="animateClick($event); filters.onToggleSidebar()"
-      class="md:hidden fixed z-3 bottom-22 right-4 bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-text) transition-color duration-200 aspect-square rounded-full w-15 shrink-0 font-bold"
-    >
-      <div
-        class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 pointer-events-none rounded-full"
-      ></div>
-      @if (hasActiveFilters()) {
-        <span
-          class="absolute top-0 right-0 bg-(--color-wine-red) w-3 flex items-center justify-center rounded-full aspect-square"
-        ></span>
-      }
-
-      @if (filters.isVisibleSidebar) {
-        <svg lucideX size="25"></svg>
-      } @else {
-        <svg lucideListFilter size="25"></svg>
-      }
-    </button>
+    <app-floating-filter-button
+      [hasActiveFilters]="hasActiveFilters()"
+      [isVisibleSidebar]="filters.isVisibleSidebar"
+      (toggleSidebar)="filters.onToggleSidebar()"
+    ></app-floating-filter-button>
 
     <section class="flex flex-col gap-2 sm:gap-5 p-2 sm:p-5 h-full overflow-hidden">
-      <ul class="flex overflow-x-auto touch-pan-x relative gap-1.5 sm:hidden no-scrollbar shrink-0">
+      <ul
+        data-lenis-prevent
+        class="flex overflow-x-auto overflow-y-hidden overscroll-x-contain snap-x snap-mandatory relative gap-1.5 sm:hidden no-scrollbar shrink-0 py-3 -my-3 px-1 -mx-1"
+      >
         @for (genre of sortedGenres(); track genre.id) {
           <li
             (click)="toggleQuickFilterGenre(genre.id)"
-            class="flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 shrink-0"
+            class="snap-start flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 shrink-0"
           >
             <span
               class="text-sm px-3 py-1 rounded-full border transition-color duration-200"

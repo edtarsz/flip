@@ -162,30 +162,30 @@
             <div class="relative font-bold">
               <app-button-feedback
                 type="amazing"
-                [isSeen]="isSeen()"
+                [isTierOpen]="isTierOpen()"
                 (click)="$event.stopPropagation()"
               ></app-button-feedback>
 
               <app-button-feedback
                 type="good"
-                [isSeen]="isSeen()"
+                [isTierOpen]="isTierOpen()"
                 (click)="$event.stopPropagation()"
               ></app-button-feedback>
 
               <app-button-feedback
                 type="meh"
-                [isSeen]="isSeen()"
+                [isTierOpen]="isTierOpen()"
                 (click)="$event.stopPropagation()"
               ></app-button-feedback>
 
               <app-button-feedback
                 type="bad"
-                [isSeen]="isSeen()"
+                [isTierOpen]="isTierOpen()"
                 (click)="$event.stopPropagation()"
               ></app-button-feedback>
 
               <button
-                (click)="toggleSeen()"
+                (click)="toggleTierOpen()"
                 type="button"
                 class="group cursor-pointer w-12 sm:w-15 aspect-square rounded-full flex justify-center items-center bg-(--color-wine-red) self-center shrink-0 transition-colors duration-200 hover:bg-(--color-wine-dark) border-0 outline-none"
               >

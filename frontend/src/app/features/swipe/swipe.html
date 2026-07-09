@@ -91,6 +91,7 @@
               (clicked)="onFilmClick(film)"
               [showBg]="last && currentIndex() === allFilms().length - 1"
               (swiped)="onSwiped($event, film)"
+              (watched)="onFilmWatched($event)"
               class="absolute inset-0 w-full h-full transition-all duration-200 ease-out min-h-0"
               [class.pointer-events-none]="!last"
               [class.hidden]="showCover() && !last"

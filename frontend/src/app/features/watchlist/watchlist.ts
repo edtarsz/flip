@@ -5,12 +5,12 @@ import { FilmFilters } from '../films/film-filters/film-filters';
 import { FilmGrid } from '../films/film-grid/film-grid';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
-import { LucideListFilter, LucideX } from '@lucide/angular';
+import { FloatingFilterButton } from '@shared/ui/floating-filter-button/floating-filter-button';
 import { animateRipple } from '@shared/utils/animation.util';
 
 @Component({
   selector: 'app-watchlist',
-  imports: [FilmFilters, FilmGrid, LucideListFilter, LucideX],
+  imports: [FilmFilters, FilmGrid, FloatingFilterButton],
   templateUrl: './watchlist.html',
   styleUrl: './watchlist.css',
 })

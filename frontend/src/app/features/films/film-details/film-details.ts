@@ -45,7 +45,7 @@ export class FilmDetails implements OnInit {
   posterLoaded = signal<boolean>(false);
   backdropLoaded = signal<boolean>(false);
 
-  isSeen = signal<boolean>(false);
+  isTierOpen = signal<boolean>(false);
 
   isViewportAtLeast = isViewportAtLeast
 
@@ -111,7 +111,7 @@ export class FilmDetails implements OnInit {
     if (path) markImageLoaded(getTmdbImageUrl(path, 'original'));
   }
 
-  toggleSeen() {
-    this.isSeen.set(!this.isSeen());
+  toggleTierOpen() {
+    this.isTierOpen.set(!this.isTierOpen());
   }
 }
