@@ -61,7 +61,7 @@ export class SwipeCard implements OnDestroy {
   showBg = input<boolean>(true);
   isTop = input<boolean>(true);
   isCover = input<boolean>(false);
-  isTierOpen = signal<boolean>(false);
+
   isSeen = signal<boolean>(false);
 
   swiped = output<'left' | 'right'>();
@@ -243,15 +243,14 @@ export class SwipeCard implements OnDestroy {
     if (rotWrapper) gsap.killTweensOf(rotWrapper);
   }
 
-  toggleTier() {
-    this.isTierOpen.set(!this.isTierOpen());
+  watchedButton = viewChild(WatchedButton);
+
+  onWatched(tier: FilmTier) {
+    this.isSeen.set(true);
+    this.watched.emit(tier);
   }
 
-  toggleSeen() {
-    this.isSeen.set(!this.isSeen());
-  }
-
-  onWatched(tier :FilmTier){
-    this.watched.emit(tier)
+  openTier() {
+    this.watchedButton()?.toggleTier();
   }
 }

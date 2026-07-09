@@ -2,20 +2,27 @@ import { Component, input, output, signal } from '@angular/core';
 import { LucideCheck, LucideEye } from '@lucide/angular';
 import { ButtonFeedback } from '../button-feedback/button-feedback';
 import { FilmTier } from '@core/repositories/review.repository';
+import { animateRipple } from '@shared/utils/animation.util';
 
 @Component({
   selector: 'app-watched-button',
   imports: [LucideEye, LucideCheck, ButtonFeedback],
-  templateUrl: './watched-button.html'
+  templateUrl: './watched-button.html',
 })
 export class WatchedButton {
   isSeen = input<boolean>(false);
   watched = output<FilmTier>();
-  
+  unwatched = output<void>();
+
   isTierOpen = signal<boolean>(false);
 
-  toggleTier() {
-    this.isTierOpen.set(!this.isTierOpen());
+  toggleTier(event?: Event) {
+    if (event) animateRipple(event);
+    if (this.isSeen()) {
+      this.unwatched.emit();
+    } else {
+      this.isTierOpen.set(!this.isTierOpen());
+    }
   }
 
   onWatched(tier: FilmTier) {

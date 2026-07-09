@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed, effect, OnDestroy } from '@angular/core';
 import { WatchlistService } from '@core/services/watchlist.service';
 import { FilmService } from '@core/services/film.service';
+import { ReviewService } from '@core/services/review.service';
 import { FilmFilters } from '../films/film-filters/film-filters';
 import { FilmGrid } from '../films/film-grid/film-grid';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
@@ -17,6 +18,7 @@ import { animateRipple } from '@shared/utils/animation.util';
 export class Watchlist implements OnDestroy {
   private watchlistService = inject(WatchlistService);
   private filmService = inject(FilmService);
+  private reviewService = inject(ReviewService);
 
   readonly genres = this.filmService.genres;
 
@@ -73,7 +75,9 @@ export class Watchlist implements OnDestroy {
     });
   }
 
-  hasActiveFilters = computed(() => this.selectedGenres().length > 0 || this.selectedYear() !== null);
+  hasActiveFilters = computed(
+    () => this.selectedGenres().length > 0 || this.selectedYear() !== null,
+  );
 
   toggleQuickFilterGenre(genreId: number) {
     const current = this.selectedGenres();
@@ -92,7 +96,13 @@ export class Watchlist implements OnDestroy {
   }
 
   filteredWatchlistAsFilms = computed<FilmTMDB[]>(() => {
-    let items = this.watchlist();
+    const reviews = this.reviewService.userReviews();
+    const seenFilmIds = new Set(reviews.map((r) => r.external_film_id));
+
+    let items = this.watchlist().filter(
+      (item) => item.film && !seenFilmIds.has(item.film.external_film_id),
+    );
+
     return items.map((item) => ({
       ...item.film,
       id: item.film.external_film_id,

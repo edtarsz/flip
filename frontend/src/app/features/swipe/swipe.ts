@@ -98,11 +98,11 @@ export class Swipe {
   showCover = this.swipeService.showCover;
   shouldAnimateBackdrop = signal(false);
 
-  toggleSeenOnActiveCard() {
+  openTierOnActiveCard() {
     const cards = this.swipeCards();
     if (cards.length > 0 && !this.showCover()) {
       const topCard = cards[cards.length - 1];
-      topCard.toggleSeen();
+      topCard.openTier();
     }
   }
 
@@ -181,10 +181,16 @@ export class Swipe {
     const film = this.activeFilm();
     if (!film) return;
     this.reviewService.upsertReview({ film, tier });
-    this.getTopCard()?.toggleSeen();
-    this.getTopCard()?.toggleTier();
+
+    const swipeDirection = tier === 'AMAZING' || tier === 'GOOD' ? 'like' : 'dislike';
+    this.swipeService.recordSwipe(film, swipeDirection, this.genres()).catch(console.error);
+
     setTimeout(() => {
       this.swipeService.advanceIndex();
+      const remaining = this.allFilms().length - this.currentIndex();
+      if (remaining < 10) {
+        this.swipeService.getRecommendations(20).catch(console.error);
+      }
     }, 500);
   }
 
@@ -197,7 +203,7 @@ export class Swipe {
       this.swipe('left');
     } else if (key === 's') {
       if (!this.showCover()) {
-        this.getTopCard()?.toggleSeen();
+        this.getTopCard()?.openTier();
       }
     }
   }

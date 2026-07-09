@@ -29,10 +29,13 @@
     [class.bg-(--color-background-light)]="!isSeen()"
     [class.hover:bg-(--color-wine-dark)]="isSeen()"
     [class.hover:bg-(--color-background-light)]="!isSeen()"
-    (click)="$event.stopPropagation(); toggleTier()"
-    (touchend)="$event.preventDefault(); $event.stopPropagation(); toggleTier()"
-    class="group cursor-pointer w-15 sm:w-18 aspect-square rounded-full flex justify-center items-center bg-(--color-background-light) border border-(--color-gray)/20 transition-colors duration-200 hover:bg-(--color-gray)/20 shadow-md"
+    (click)="$event.stopPropagation(); toggleTier($event)"
+    (touchend)="$event.preventDefault(); $event.stopPropagation(); toggleTier($event)"
+    class="relative overflow-hidden group cursor-pointer w-15 sm:w-18 aspect-square rounded-full flex justify-center items-center bg-(--color-background-light) border border-(--color-gray)/20 transition-colors duration-200 hover:bg-(--color-gray)/20 shadow-md"
   >
+    <div
+      class="ripple-layer absolute inset-0 bg-white/30 rounded-full opacity-0 pointer-events-none z-10"
+    ></div>
     <svg
       lucideEye
       [class.opacity-0]="isSeen()"

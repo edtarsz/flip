@@ -31,7 +31,10 @@ export class ReviewRepository {
   }
 
   async getUserReviews() {
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession();
     if (sessionError || !session) return [];
 
     const { data, error } = await supabase
@@ -40,12 +43,14 @@ export class ReviewRepository {
       .eq('user_id', session.user.id);
 
     if (error) throw error;
-    return data?.map((d: any) => ({
-      external_film_id: d.films.external_film_id,
-      tier: d.tier,
-      rating: d.rating,
-      review: d.review
-    })) || [];
+    return (
+      data?.map((d: any) => ({
+        external_film_id: d.films.external_film_id,
+        tier: d.tier,
+        rating: d.rating,
+        review: d.review,
+      })) || []
+    );
   }
 
   async getReviewByFilmId(externalFilmId: number) {
@@ -53,14 +58,39 @@ export class ReviewRepository {
       .from('reviews')
       .select('tier, rating, review, films!inner(external_film_id)')
       .eq('films.external_film_id', externalFilmId)
+      .maybeSingle();
+
+    if (error) throw error;
+    return data
+      ? {
+          external_film_id: data.films.external_film_id,
+          tier: data.tier,
+          rating: data.rating,
+          review: data.review,
+        }
+      : null;
+  }
+
+  async deleteReview(externalFilmId: number) {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (!session) return;
+
+    const { data: film } = await supabase
+      .from('films')
+      .select('id')
+      .eq('external_film_id', externalFilmId)
       .single();
 
-    if (error && error.code !== 'PGRST116') throw error;
-    return data ? {
-      external_film_id: data.films.external_film_id,
-      tier: data.tier,
-      rating: data.rating,
-      review: data.review
-    } : null;
+    if (!film) return;
+
+    const { error } = await supabase
+      .from('reviews')
+      .delete()
+      .eq('user_id', session.user.id)
+      .eq('film_id', film.id);
+
+    if (error) throw error;
   }
 }

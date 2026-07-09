@@ -80,6 +80,7 @@
         <app-watched-button
           [isSeen]="isSeen()"
           (watched)="onFilmWatched($event)"
+          (unwatched)="onFilmUnwatched()"
         ></app-watched-button>
       </div>
 
