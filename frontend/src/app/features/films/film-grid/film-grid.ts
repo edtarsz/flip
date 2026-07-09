@@ -8,6 +8,7 @@ import {
   output,
   afterNextRender,
   viewChild,
+  effect,
 } from '@angular/core';
 import { Film } from '@shared/ui/film/film';
 import { FilmTMDB } from '@core/types/tmdb/film.type';
@@ -32,9 +33,11 @@ export class FilmGrid implements OnDestroy {
 
   nearEnd = output<void>();
 
+  private observer: IntersectionObserver | null = null;
   private localLenis?: Lenis;
 
   scrollWrapper = viewChild<ElementRef<HTMLElement>>('scrollWrapper');
+  sentinel = viewChild<ElementRef<HTMLElement>>('sentinel');
 
   constructor() {
     afterNextRender(() => {
@@ -51,23 +54,52 @@ export class FilmGrid implements OnDestroy {
             requestAnimationFrame(raf);
           };
           requestAnimationFrame(raf);
-
-          this.localLenis.on('scroll', () => {
-            if (!this.hasMore() || this.loading()) return;
-            const { scrollTop, clientHeight, scrollHeight } = scrollableElement;
-            const isNearBottom =
-              scrollHeight > clientHeight &&
-              scrollTop + clientHeight >= scrollHeight - 200;
-            if (isNearBottom) {
-              this.ngZone.run(() => this.nearEnd.emit());
-            }
-          });
         });
+      }
+    });
+
+    effect(() => {
+      const el = this.sentinel();
+      const isLoading = this.loading();
+
+      if (el && !isLoading) {
+        this.initObserver(el.nativeElement);
+      } else {
+        this.disconnectObserver();
       }
     });
   }
 
+  private initObserver(element: HTMLElement) {
+    this.disconnectObserver();
+    this.ngZone.runOutsideAngular(() => {
+      this.observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !this.loading()) {
+            this.ngZone.run(() => {
+              this.nearEnd.emit();
+            });
+          }
+        },
+        {
+          root: this.scrollWrapper()?.nativeElement || null,
+          rootMargin: '150px',
+          threshold: 0.1,
+        },
+      );
+      this.observer.observe(element);
+    });
+  }
+
+  private disconnectObserver() {
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
+    }
+  }
+
   ngOnDestroy() {
+    this.disconnectObserver();
     if (this.localLenis) {
       this.localLenis.destroy();
     }

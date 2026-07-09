@@ -1,7 +1,6 @@
 <div
-  class="grid grid-cols-[auto_1fr] relative z-0 top-[calc(32px+2vh)] sm:top-[calc(32px+5vh)] sm:h-[calc(100vh-32px-5vh)] overflow-hidden"
-  [class.h-[calc(100dvh-32px-2vh-4.5rem)]]="isAuthenticated()"
-  [class.h-[calc(100dvh-32px-2vh)]]="!isAuthenticated()"
+  class="flex flex-col relative z-0 top-[calc(32px+2vh)] sm:top-[calc(32px+5vh)] sm:h-[calc(100vh-32px-5vh)] overflow-hidden"
+  [ngClass]="isAuthenticated() ? 'h-[calc(100dvh-32px-2vh-4.5rem)]' : 'h-[calc(100dvh-32px-2vh)]'"
 >
   <!-- <div class="absolute inset-0 bg-dots -z-10 pointer-events-none">
     <div
@@ -12,63 +11,65 @@
     ></div>
   </div> -->
 
-  <app-film-filters
-    #filters
-    [genres]="genres()"
-    [selectedGenres]="selectedGenres()"
-    [selectedYear]="selectedYear()"
-    (apply)="applyFilters($event)"
-    class="h-full"
-  >
-  </app-film-filters>
+  <div class="grid grid-cols-[auto_1fr] flex-1 min-h-0 overflow-hidden">
+    <app-film-filters
+      #filters
+      [genres]="genres()"
+      [selectedGenres]="selectedGenres()"
+      [selectedYear]="selectedYear()"
+      (apply)="applyFilters($event)"
+      class="h-full"
+    >
+    </app-film-filters>
 
-  <button
-    (click)="animateClick($event); filters.onToggleSidebar()"
-    class="md:hidden fixed z-20 right-4 bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-text) transition-all duration-200 aspect-square rounded-full w-12 shrink-0 font-bold"
-    [class.bottom-22]="isAuthenticated()"
-    [class.bottom-4]="!isAuthenticated()"
-  >
-    <div
-      class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 pointer-events-none rounded-full"
-    ></div>
-    @if (selectedGenres().length > 0 || selectedYear() !== null) {
-      <span
-        class="absolute top-0 right-0 bg-(--color-wine-red) w-[10px] flex items-center justify-center rounded-full aspect-square text-xs"
-      ></span>
-    }
+    <button
+      (click)="animateClick($event); filters.onToggleSidebar()"
+      class="md:hidden fixed z-20 right-4 bg-(--color-background) border border-(--color-gray)/20 flex justify-center items-center cursor-pointer text-(--color-text) transition-all duration-200 aspect-square rounded-full w-12 shrink-0 font-bold"
+      [class.bottom-22]="isAuthenticated()"
+      [class.bottom-4]="!isAuthenticated()"
+    >
+      <div
+        class="ripple-layer absolute inset-0 bg-(--color-gray) opacity-0 pointer-events-none rounded-full"
+      ></div>
+      @if (selectedGenres().length > 0 || selectedYear() !== null) {
+        <span
+          class="absolute top-0 right-0 bg-(--color-wine-red) w-[10px] flex items-center justify-center rounded-full aspect-square text-xs"
+        ></span>
+      }
 
-    @if (filters.isVisibleSidebar) {
-      <svg lucideX size="20"></svg>
-    } @else {
-      <svg lucideListFilter size="20"></svg>
-    }
-  </button>
+      @if (filters.isVisibleSidebar) {
+        <svg lucideX size="20"></svg>
+      } @else {
+        <svg lucideListFilter size="20"></svg>
+      }
+    </button>
 
-  <div class="flex flex-col overflow-hidden">
-    <section class="flex flex-col gap-2 sm:gap-[1.5vh] p-2 sm:p-[1.5vh] h-full overflow-hidden">
-      <div class="flex justify-between items-center">
-        <div class="flex gap-4 items-center h-full w-full">
-          <app-film-search-bar
-            class="w-full"
-            [searchModel]="searchModel()"
-            (searchModelChange)="searchModel.set($event)"
-            (searchSubmitted)="onSearchSubmitted($event)"
-            (searchReset)="onReset()"
-            (toggleFilters)="filters.onToggleSidebar()"
-            [hasActiveFilters]="selectedGenres().length > 0 || selectedYear() !== null"
-          >
-          </app-film-search-bar>
+    <div class="flex flex-col overflow-hidden min-h-0">
+      <section class="flex flex-col gap-2 sm:gap-[1.5vh] p-2 sm:p-[1.5vh] h-full overflow-hidden">
+        <div class="flex justify-between items-center">
+          <div class="flex gap-4 items-center h-full w-full">
+            <app-film-search-bar
+              class="w-full"
+              [searchModel]="searchModel()"
+              (searchModelChange)="searchModel.set($event)"
+              (searchSubmitted)="onSearchSubmitted($event)"
+              (searchReset)="onReset()"
+              (toggleFilters)="filters.onToggleSidebar()"
+              [hasActiveFilters]="selectedGenres().length > 0 || selectedYear() !== null"
+            >
+            </app-film-search-bar>
+          </div>
         </div>
-      </div>
 
-      <app-film-grid
-        [films]="films()"
-        [loading]="loadingNextPage()"
-        [hasMore]="hasMorePages()"
-        (nearEnd)="loadNextPage()"
-        class="flex-1 min-h-0"
-      >
-      </app-film-grid>
-    </section>
+        <app-film-grid
+          [films]="films()"
+          [loading]="loadingNextPage()"
+          [hasMore]="hasMorePages()"
+          (nearEnd)="loadNextPage()"
+          class="flex-1 min-h-0"
+        >
+        </app-film-grid>
+      </section>
+    </div>
   </div>
 </div>
