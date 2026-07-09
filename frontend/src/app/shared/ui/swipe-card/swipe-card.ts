@@ -186,12 +186,15 @@ export class SwipeCard implements OnDestroy {
   getCardImage(): string {
     const film = this.film();
     if (!film) return '';
-    const imageUrl = getTmdbImageUrl(film.poster_path, 'w500');
+    const imageUrl = getTmdbImageUrl(film.poster_path, 'original');
     return `linear-gradient(to top, var(--color-background) 0px, var(--color-background) 6px, transparent 100%), url('${imageUrl}')`;
   }
 
   onPosterLoad() {
-    markImageLoaded(this.film()?.poster_path);
+    const posterPath = this.film()?.poster_path;
+    if (posterPath) {
+      markImageLoaded(getTmdbImageUrl(posterPath, 'original'));
+    }
   }
 
   swipe(direction: 'left' | 'right'): void {

@@ -1,5 +1,4 @@
 <div #scrollWrapper class="overflow-y-auto h-full pr-0 sm:pr-2 custom-scrollbar" data-lenis-prevent>
-  <!-- <div #scrollWrapper class="overflow-y-auto h-full no-scrollbar" data-lenis-prevent> -->
   <div class="sm:flex flex-wrap grid grid-cols-3 sm:justify-start justify-center sm:gap-3 gap-2">
     @if (films().length === 0 && loading()) {
       @for (item of [1, 2, 3]; track $index) {

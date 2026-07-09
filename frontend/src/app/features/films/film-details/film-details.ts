@@ -1,7 +1,7 @@
 import { Component, inject, computed, signal, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FilmService } from '@core/services/film.service';
-import { TmdbImagePipe } from '@shared/pipes/tmdb-image.pipe';
+import { TmdbImagePipe, getTmdbImageUrl } from '@shared/pipes/tmdb-image.pipe';
 import { Button } from '@shared/ui/button/button';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { LucideClock, LucideEye, LucideStar } from '@lucide/angular';
@@ -63,10 +63,10 @@ export class FilmDetails implements OnInit {
       this.film.set(data);
       this.isLoading.set(false);
 
-      if (isImageLoaded(data.poster_path)) {
+      if (isImageLoaded(getTmdbImageUrl(data.poster_path, 'original'))) {
         this.posterLoaded.set(true);
       }
-      if (isImageLoaded(data.backdrop_path)) {
+      if (isImageLoaded(getTmdbImageUrl(data.backdrop_path, 'original'))) {
         this.backdropLoaded.set(true);
       }
       // },);
@@ -101,12 +101,14 @@ export class FilmDetails implements OnInit {
 
   onPosterLoad() {
     this.posterLoaded.set(true);
-    markImageLoaded(this.film()?.poster_path);
+    const path = this.film()?.poster_path;
+    if (path) markImageLoaded(getTmdbImageUrl(path, 'original'));
   }
 
   onBackdropLoad() {
     this.backdropLoaded.set(true);
-    markImageLoaded(this.film()?.backdrop_path);
+    const path = this.film()?.backdrop_path;
+    if (path) markImageLoaded(getTmdbImageUrl(path, 'original'));
   }
 
   toggleSeen() {

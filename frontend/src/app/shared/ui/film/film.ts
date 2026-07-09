@@ -2,13 +2,13 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, input, signal, OnInit } from '@angular/core';
 import { FilmTMDB, WatchlistFilmTMDB } from '@core/types/tmdb/film.type';
 import { LucideImage, LucideStar } from '@lucide/angular';
-import { TmdbImagePipe } from '../../pipes/tmdb-image.pipe';
+import { getTmdbImageUrl } from '../../pipes/tmdb-image.pipe';
 import { Skeleton } from '@shared/ui/skeleton/skeleton';
 import { isImageLoaded, markImageLoaded } from '@shared/utils/image-cache.util';
 
 @Component({
   selector: 'app-film',
-  imports: [LucideStar, DecimalPipe, DatePipe, TmdbImagePipe, LucideImage, Skeleton],
+  imports: [LucideStar, DecimalPipe, DatePipe, LucideImage, Skeleton],
   templateUrl: './film.html',
   styleUrl: './film.css',
   host: {
@@ -22,15 +22,22 @@ export class Film implements OnInit {
   hideFilmDetails = input<boolean>(false);
 
   posterLoaded = signal<boolean>(false);
+  imageUrl = signal<string>('');
 
   ngOnInit() {
-    if (isImageLoaded(this.film()?.poster_path)) {
+    const posterPath = this.film()?.poster_path;
+    if (!posterPath) return;
+
+    const w500Url = getTmdbImageUrl(posterPath, 'w500');
+    this.imageUrl.set(w500Url);
+
+    if (isImageLoaded(w500Url)) {
       this.posterLoaded.set(true);
     }
   }
 
   onImageLoad() {
     this.posterLoaded.set(true);
-    markImageLoaded(this.film()?.poster_path);
+    markImageLoaded(this.imageUrl());
   }
 }

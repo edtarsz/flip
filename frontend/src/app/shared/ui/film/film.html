@@ -22,7 +22,7 @@
     >
       @if (film()!.poster_path) {
         <img
-          [src]="film()!.poster_path | tmdbImage: 'w500'"
+          [src]="imageUrl()"
           [alt]="film()!.title"
           class="w-full h-full object-cover transition-opacity duration-200"
           [class.opacity-0]="!posterLoaded()"

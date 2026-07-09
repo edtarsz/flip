@@ -70,8 +70,8 @@ export class NewFilmDetails implements OnInit {
         this.film.set(data);
         this.isLoading.set(false);
 
-        if (isImageLoaded(data.poster_path)) this.posterLoaded.set(true);
-        if (isImageLoaded(data.backdrop_path)) this.backdropLoaded.set(true);
+        if (isImageLoaded(getTmdbImageUrl(data.poster_path, 'w500'))) this.posterLoaded.set(true);
+        if (isImageLoaded(getTmdbImageUrl(data.backdrop_path, 'original'))) this.backdropLoaded.set(true);
 
         if (!this.trailerKey()) {
           this.loadingService.stop();
@@ -116,12 +116,14 @@ export class NewFilmDetails implements OnInit {
 
   onPosterLoad() {
     this.posterLoaded.set(true);
-    markImageLoaded(this.film()?.poster_path);
+    const path = this.film()?.poster_path;
+    if (path) markImageLoaded(getTmdbImageUrl(path, 'original'));
   }
 
   onBackdropLoad() {
     this.backdropLoaded.set(true);
-    markImageLoaded(this.film()?.backdrop_path);
+    const path = this.film()?.backdrop_path;
+    if (path) markImageLoaded(getTmdbImageUrl(path, 'original'));
   }
 
   toggleSeen() {
