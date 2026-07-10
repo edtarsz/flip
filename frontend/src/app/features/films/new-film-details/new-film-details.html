@@ -91,9 +91,7 @@
           <app-skeleton class="h-7 w-20 rounded-full!"></app-skeleton>
         } @else {
           @for (genre of filmData.genres; track $index) {
-            <span
-              class="bg-(--color-wine-red) text-white rounded-full px-3 py-1 text-xs sm:text-sm"
-            >
+            <span class="bg-(--color-wine-red) text-white rounded-md px-2 py-1 text-xs sm:text-sm">
               {{ genre.name }}</span
             >
           }

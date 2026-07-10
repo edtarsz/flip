@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, untracked } from '@angular/core';
+import { Component, effect, inject, signal, untracked, HostListener } from '@angular/core';
 import {
   form,
   FormField,
@@ -10,14 +10,14 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { ProfileService } from '@core/services/profile.service';
 import { RegisterSchema, registerSchema } from '@core/types/user.type';
-import { LucideArrowBigLeft } from '@lucide/angular';
+import { LucideChevronLeft, LucideLock } from '@lucide/angular';
 import { Button } from '@shared/ui/button/button';
 import { LoadingService } from '@core/services/loading.service';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormField, FormRoot, LucideArrowBigLeft, RouterModule, Button],
+  imports: [FormField, FormRoot, RouterModule, Button, LucideChevronLeft, LucideLock],
   templateUrl: './signup.html',
 })
 export class SignUp {
@@ -33,6 +33,9 @@ export class SignUp {
 
   lastCheckedEmail = signal<string | null>(null);
   lastCheckedUsername = signal<string | null>(null);
+  hideStep2Errors = signal<boolean>(false);
+
+  capsLockOn = signal<boolean>(false);
 
   registerModel = signal<RegisterSchema>({
     email: '',
@@ -138,6 +141,28 @@ export class SignUp {
 
     if (this.registerForm.email().valid() && this.registerForm.username().valid()) {
       this.step.set(2);
+    }
+  }
+
+  goToStep1() {
+    this.step.set(1);
+    this.hideStep2Errors.set(true);
+    this.registerError.set(null);
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  @HostListener('window:keyup', ['$event'])
+  @HostListener('window:mousedown', ['$event'])
+  checkCapsLock(event: KeyboardEvent | MouseEvent) {
+    if (event instanceof KeyboardEvent && event.key === 'CapsLock') {
+      if (event.type === 'keydown') {
+        this.capsLockOn.update((v) => !v);
+      }
+      return;
+    }
+
+    if ((event as KeyboardEvent).getModifierState) {
+      this.capsLockOn.set((event as KeyboardEvent).getModifierState('CapsLock'));
     }
   }
 }
