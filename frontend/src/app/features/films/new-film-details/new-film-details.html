@@ -1,42 +1,101 @@
 <div
-  class="flex flex-col z-0 pt-[calc(32px+2vh)] sm:pt-50 px-0 sm:px-[5vw] lg:px-[8vw] relative pb-20"
+  class="flex flex-col sm:flex-row z-0 pt-[calc(32px+2vh)] sm:pt-50 relative pb-20 px-0 sm:px-[4vw] lg:px-[8vw] gap-0 sm:gap-[1vw]"
 >
   @if (film(); as filmData) {
-    <div class="w-full aspect-video relative overflow-hidden bg-(--color-background-light)">
+    <div class="flex flex-col sm:w-[clamp(180px,25vw,300px)] gap-2">
       <div
-        class="absolute inset-0 bg-cover bg-center scale-110"
-        style="filter: opacity(40%)"
-        [style.backgroundImage]="'url(' + getTmdbImageUrl(filmData?.poster_path, 'w500') + ')'"
-      ></div>
-      @if (trailerKey()) {
-        <iframe
-          [src]="'https://www.youtube.com/embed/' + trailerKey() | safe"
-          (load)="onTrailerLoad()"
-          class="w-full h-full absolute inset-0 transition-opacity duration-700"
-          [class.opacity-0]="!trailerLoaded()"
-          [class.opacity-100]="trailerLoaded()"
-          allow="autoplay; encrypted-media"
-          allowfullscreen
-        ></iframe>
-      }
+        class="w-full h-fit aspect-video sm:aspect-2/3 border border-(--color-gray)/20 relative overflow-hidden bg-(--color-background-light) sm:rounded-lg"
+      >
+        <div
+          class="absolute inset-0 bg-cover bg-center scale-110"
+          style="filter: opacity(40%)"
+          [style.backgroundImage]="'url(' + getTmdbImageUrl(filmData?.poster_path, 'w500') + ')'"
+        ></div>
+        @if (trailerKey()) {
+          <iframe
+            [src]="'https://www.youtube.com/embed/' + trailerKey() | safe"
+            (load)="onTrailerLoad()"
+            class="w-full h-full absolute inset-0 transition-opacity duration-700"
+            [class.opacity-0]="!trailerLoaded()"
+            [class.opacity-100]="trailerLoaded()"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+        }
+      </div>
+
+      <app-card title="Where to watch" class="w-full shrink-0 self-start hidden sm:block lg:hidden">
+        <div class="flex flex-col gap-4">
+          <div
+            class="flex flex-wrap sm:grid overflow-y-auto no-scrollbar gap-2 sm:gap-4 grid-cols-2 justify-center"
+          >
+            @if (isLoading() && watchProviders().length === 0) {
+              @for (item of [1, 2, 3, 4]; track $index) {
+                <div class="flex items-center gap-2 transition-colors">
+                  <app-skeleton class="w-8 h-8"></app-skeleton>
+                  <div class="flex-col min-w-0 flex gap-1">
+                    <app-skeleton class="h-3 w-16"></app-skeleton>
+                    <app-skeleton class="h-2 w-10"></app-skeleton>
+                  </div>
+                </div>
+              }
+            } @else {
+              @for (item of visibleProviders(); track item.provider_id) {
+                <app-provider-card [provider]="item"></app-provider-card>
+              } @empty {
+                <div class="text-sm text-(--color-gray)/60 select-none col-span-2">
+                  Not available in your region.
+                </div>
+              }
+            }
+          </div>
+
+          @if (watchProviders().length > 6) {
+            <div
+              (click)="toggleShowAll()"
+              class="flex items-center gap-3 cursor-pointer group select-none"
+            >
+              <div
+                class="w-8 h-8 rounded-md bg-(--color-gray)/20 group-hover:bg-(--color-gray)/30 duration-200 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
+              >
+                {{ showAllProviders() ? '-' : '+' }}
+              </div>
+              <div class="flex flex-col min-w-0">
+                <span
+                  class="text-sm font-semibold truncate text-(--color-gray) group-hover:text-white duration-200 transition-colors"
+                >
+                  {{ showAllProvidersLabel() }}
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+      </app-card>
     </div>
 
-    <app-separator class="w-full"></app-separator>
+    <app-separator class="w-full relative sm:hidden"></app-separator>
 
-    <div class="flex flex-col gap-3 sm:gap-6 flex-1 min-w-0 pt-2 sm:pt-[calc(32px+5vh)] px-2">
+    <div class="flex flex-col gap-3 sm:gap-4 flex-1 min-w-0 p-2 sm:pt-20">
       <div class="flex flex-col gap-1">
-        <div class="w-full justify-between flex items-center gap-2">
+        @if (filmData.tagline && filmData.tagline !== '') {
+          <p class="text-(--color-gray) text-[clamp(0.85rem,0.85vw,1.05rem)] italic">
+            ~ {{ filmData.tagline }}
+          </p>
+        } @else if (isLoading()) {
+          <app-skeleton class="h-4 w-[80%]"></app-skeleton>
+        }
+        <div class="w-full justify-between flex items-top gap-2">
           <div class="min-w-0">
-            <h3 class="text-2xl sm:text-5xl font-bold inline">
+            <h3 class="text-[clamp(1.3rem,4vw,2.3rem)] font-bold inline">
               {{ filmData.title }}
             </h3>
             <span class="font-light text-(--color-gray) text-xl sm:text-2xl">
               ({{ filmData.release_date | date: 'yyyy' }})
             </span>
           </div>
-          <div class="flex items-center gap-1 shrink-0">
-            <svg lucideStar class="w-6 h-6 sm:w-9 sm:h-9" fill="#ffc300" color="#ffc300"></svg>
-            <p class="font-bold text-2xl sm:text-4xl">
+          <div class="flex items-center gap-1 shrink-0 h-fit">
+            <svg lucideStar class="w-6 h-6 lg:w-7 lg:h-7" fill="#ffc300" color="#ffc300"></svg>
+            <p class="font-bold text-[clamp(1.25rem,1.5vw,1.75rem)]">
               {{ filmData.vote_average | number: '1.0-1' }}
             </p>
           </div>
@@ -53,7 +112,7 @@
       </div>
 
       <p
-        class="select-none text-[clamp(0.95rem,1vw,1.5rem)] text-(--color-text)/70 leading-6.5 sm:leading-7"
+        class="select-none text-[clamp(0.95rem,0.9vw,1.2rem)] text-(--color-text)/70 leading-6.5 sm:leading-7"
       >
         {{ filmData.overview }}
       </p>
@@ -98,5 +157,51 @@
         }
       </ul>
     </div>
+
+    <app-card title="Where to watch" class="w-[20vw] shrink-0 self-start hidden lg:block sticky">
+      <div class="flex flex-col gap-4">
+        <div class="grid overflow-y-auto no-scrollbar gap-4 grid-cols-2">
+          @if (isLoading() && watchProviders().length === 0) {
+            @for (item of [1, 2, 3, 4]; track $index) {
+              <div class="flex items-center gap-2 transition-colors">
+                <app-skeleton class="w-8 h-8"></app-skeleton>
+                <div class="flex-col min-w-0 flex gap-1">
+                  <app-skeleton class="h-3 w-16"></app-skeleton>
+                  <app-skeleton class="h-2 w-10"></app-skeleton>
+                </div>
+              </div>
+            }
+          } @else {
+            @for (item of visibleProviders(); track item.provider_id) {
+              <app-provider-card [provider]="item"></app-provider-card>
+            } @empty {
+              <div class="text-sm text-(--color-gray)/60 select-none col-span-2">
+                Not available in your region.
+              </div>
+            }
+          }
+        </div>
+
+        @if (watchProviders().length > 6) {
+          <div
+            (click)="toggleShowAll()"
+            class="flex items-center gap-3 cursor-pointer group select-none"
+          >
+            <div
+              class="w-8 h-8 rounded-md bg-(--color-gray)/20 group-hover:bg-(--color-gray)/30 duration-200 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
+            >
+              {{ showAllProviders() ? '-' : '+' }}
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span
+                class="text-sm font-semibold truncate text-(--color-gray) group-hover:text-white duration-200 transition-colors"
+              >
+                {{ showAllProvidersLabel() }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    </app-card>
   }
 </div>

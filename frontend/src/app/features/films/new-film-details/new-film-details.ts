@@ -17,6 +17,8 @@ import { FilmTier } from '@core/repositories/review.repository';
 import { ReviewService } from '@core/services/review.service';
 import { SwipeService } from '@core/services/swipe.service';
 import { WatchedButton } from '@shared/ui/watched-button/watched-button';
+import { ProviderCard } from '@shared/ui/provider-card/provider-card';
+import { Card } from '@shared/ui/card/card';
 
 @Component({
   selector: 'app-new-film-details',
@@ -30,6 +32,8 @@ import { WatchedButton } from '@shared/ui/watched-button/watched-button';
     Skeleton,
     SafePipe,
     WatchedButton,
+    ProviderCard,
+    Card,
   ],
   templateUrl: './new-film-details.html',
   styleUrl: './new-film-details.css',
