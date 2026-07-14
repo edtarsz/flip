@@ -1,7 +1,8 @@
 <div
-  class="fixed bg-(--color-background)/50 backdrop-blur-sm transition-opacity duration-200"
+  class="fixed bg-(--color-background)/50 backdrop-blur-sm transition-opacity duration-200 opacity-0 pointer-events-none"
+  [class.opacity-100]="isOpen()"
+  [class.pointer-events-none]="!isOpen()"
   [ngClass]="[
-    isOpen() ? 'opacity-100' : 'opacity-0 pointer-events-none',
     variant() === 'responsive'
       ? 'inset-0 z-1 md:hidden'
       : 'top-[calc(32px+2vh)] left-0 w-screen h-[calc(100dvh-32px-2vh)] z-5',
@@ -10,7 +11,7 @@
 ></div>
 
 <aside
-  class="bg-(--color-background) flex flex-col h-full transition-[width] duration-200 overflow-hidden border-(--color-gray)/20"
+  class="bg-(--color-background) flex flex-col h-full transition-[width] duration-200 overflow-hidden border-(--color-gray)/20 w-0"
   [ngClass]="[
     variant() === 'responsive'
       ? 'fixed md:relative md:top-0 z-2'
@@ -45,11 +46,10 @@
   }
 
   <div
-    class="flex flex-col h-full min-w-0 transition-opacity duration-200"
-    [ngClass]="[
-      isOpen() ? 'opacity-100' : 'opacity-0 pointer-events-none',
-      variant() === 'responsive' ? 'md:w-100 w-70' : 'w-70',
-    ]"
+    class="flex flex-col h-full min-w-0 transition-opacity duration-200 opacity-0 pointer-events-none"
+    [class.opacity-100]="isOpen()"
+    [class.pointer-events-none]="!isOpen()"
+    [ngClass]="[variant() === 'responsive' ? 'md:w-100 w-70' : 'w-70']"
   >
     <div class="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-2">
       <p class="font-bold text-[clamp(1rem,1.2vw,1.2rem)]">{{ title() }}</p>
