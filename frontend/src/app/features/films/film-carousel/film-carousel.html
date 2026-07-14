@@ -24,7 +24,7 @@
 
   <button
     (click)="onScrollBack()"
-    class="transition-all duration-200 group hover:border-(--color-gray)/50 absolute left-[-10px] top-[45%] border border-(--color-gray)/40 -translate-y-1/2 h-[20%] w-10 rounded-md flex justify-center items-center cursor-pointer z-4 backdrop-blur-xs"
+    class="transition-all duration-200 group hover:border-(--color-border-hover) absolute left-[-10px] top-[45%] border border-(--color-border-hover) -translate-y-1/2 h-[20%] w-10 rounded-md flex justify-center items-center cursor-pointer z-4 backdrop-blur-xs"
     aria-label="Retroceder"
     [ngClass]="{
       'opacity-100 pointer-events-auto': canScrollLeft(),
@@ -44,7 +44,7 @@
 
   <button
     (click)="onLoadMore()"
-    class="transition-all group hover:border-(--color-gray)/50 absolute right-[-10px] top-[45%] border border-(--color-gray)/40 -translate-y-1/2 h-[20%] w-10 rounded-md flex justify-center items-center cursor-pointer z-4 backdrop-blur-xs"
+    class="transition-all group hover:border-(--color-border-hover) absolute right-[-10px] top-[45%] border border-(--color-border-hover) -translate-y-1/2 h-[20%] w-10 rounded-md flex justify-center items-center cursor-pointer z-4 backdrop-blur-xs"
     aria-label="Cargar más"
   >
     <svg

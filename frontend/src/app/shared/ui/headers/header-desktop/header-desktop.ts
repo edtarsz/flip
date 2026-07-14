@@ -6,18 +6,17 @@ import { LoadingService } from '@core/services/loading.service';
 import { LucideUser } from '@lucide/angular';
 import { Separator } from '@shared/ui/separator/separator';
 import { ThemeToggle } from '@shared/ui/theme-toggle/theme-toggle';
-import { HeaderOverlay } from '@shared/ui/headers/header-overlay/header-overlay';
 import { animateRipple } from '@shared/utils/animation.util';
+import { NewHeaderOverlay } from '../new-header-overlay/new-header-overlay';
 
 @Component({
   selector: 'app-header',
-  imports: [ThemeToggle, HeaderOverlay, LucideUser, RouterLink, RouterLinkActive, Separator],
+  imports: [ThemeToggle, LucideUser, RouterLink, RouterLinkActive, Separator, NewHeaderOverlay],
   templateUrl: './header-desktop.html',
   styleUrl: './header-desktop.css',
 })
 export class Header {
   private authService = inject(AuthService);
-  private router = inject(Router);
   private toast = inject(ToastService);
   private loadingService = inject(LoadingService);
 

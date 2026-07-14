@@ -161,8 +161,8 @@
   --color-background-light: #181818;
   --color-text: #ffffff;
   --color-gray: #989595;
-  --color-gray: #989595ba;
-  --color-gray-dark: #222222;
+  --color-gray-dark: color-mix(in srgb, var(--color-gray) 20%, transparent);
+  --color-border-hover: color-mix(in srgb, var(--color-gray) 50%, transparent);
 
   --color-wine-light: #bb418c;
   --color-wine-red: #893168;
@@ -181,7 +181,8 @@
   --color-background-light: #fcfcfb;
   --color-text: #111111;
   --color-gray: #3a3a3a;
-  --color-gray-dark: #e5e5e4;
+  --color-gray-dark: color-mix(in srgb, var(--color-gray) 20%, transparent);
+  --color-border-hover: color-mix(in srgb, var(--color-gray) 50%, transparent);
 }
 
 html, body {

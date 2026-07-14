@@ -1,0 +1,73 @@
+<div
+  class="fixed bg-(--color-background)/50 backdrop-blur-sm transition-opacity duration-200"
+  [ngClass]="[
+    isOpen() ? 'opacity-100' : 'opacity-0 pointer-events-none',
+    variant() === 'responsive'
+      ? 'inset-0 z-1 md:hidden'
+      : 'top-[calc(32px+2vh)] left-0 w-screen h-[calc(100dvh-32px-2vh)] z-5',
+  ]"
+  (click)="onClose()"
+></div>
+
+<aside
+  class="bg-(--color-background) flex flex-col h-full transition-[width] duration-200 overflow-hidden border-(--color-gray)/20"
+  [ngClass]="[
+    variant() === 'responsive'
+      ? 'fixed md:relative md:top-0 z-2'
+      : 'absolute top-[calc(32px+2vh)] z-6',
+    position() === 'left' ? 'left-0 border-r' : 'right-0 border-l',
+    isOpen()
+      ? variant() === 'responsive'
+        ? 'md:w-100 w-70'
+        : 'w-70'
+      : variant() === 'responsive'
+        ? 'md:w-[70px] w-0 border-r-0 md:border-r'
+        : 'w-0 border-l-0',
+  ]"
+>
+  @if (variant() === 'responsive') {
+    <div
+      class="absolute top-0 left-0 opacity-0 md:w-[74px] w-0 flex justify-start items-center transition-opacity duration-200 p-2"
+      [ngClass]="isOpen() ? 'pointer-events-none' : 'opacity-100'"
+    >
+      <div
+        (click)="onToggle()"
+        class="cursor-pointer p-2 hover:bg-(--color-gray)/20 rounded-full transition-colors duration-200 relative"
+      >
+        <svg lucideChevronsUpDown size="32" class="rotate-90 hidden md:block"></svg>
+        @if (hasNotification()) {
+          <span
+            class="absolute top-3 right-4 bg-(--color-wine-red) w-3 flex items-center justify-center rounded-full aspect-square text-xs"
+          ></span>
+        }
+      </div>
+    </div>
+  }
+
+  <div
+    class="flex flex-col h-full min-w-0 transition-opacity duration-200"
+    [ngClass]="[
+      isOpen() ? 'opacity-100' : 'opacity-0 pointer-events-none',
+      variant() === 'responsive' ? 'md:w-100 w-70' : 'w-70',
+    ]"
+  >
+    <div class="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-2">
+      <p class="font-bold text-[clamp(1rem,1.2vw,1.2rem)]">{{ title() }}</p>
+      <div
+        (click)="onClose()"
+        class="p-1 sm:p-2 hover:bg-(--color-gray)/20 rounded-full cursor-pointer transition-colors duration-200"
+      >
+        @if (variant() === 'responsive') {
+          <svg lucideChevronsDownUp size="30" class="rotate-90"></svg>
+        } @else {
+          <svg lucideX size="30" class="rotate-90"></svg>
+        }
+      </div>
+    </div>
+    <app-separator></app-separator>
+
+    <div class="flex flex-col flex-1 overflow-hidden w-full">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</aside>

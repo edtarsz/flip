@@ -1,4 +1,4 @@
-<div class="fixed top-0 left-0 w-full z-6 flex flex-col bg-(--color-background)">
+<div class="fixed top-0 left-0 w-full z-7 flex flex-col bg-(--color-background)">
   <header
     class="w-full py-[1vh] sm:py-[2.5vh] px-3 sm:px-8 grid grid-cols-2 sm:grid-cols-3 items-center"
   >
@@ -142,6 +142,9 @@
   </div>
 }
 
-@if (isOverlayVisible()) {
-  <app-header-overlay (close)="hideOverlay()" (signedOut)="signOut()"></app-header-overlay>
-}
+<app-new-header-overlay
+  [isOpen]="isOverlayVisible()"
+  (close)="hideOverlay()"
+  (signedOut)="signOut()"
+>
+</app-new-header-overlay>

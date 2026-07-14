@@ -3,7 +3,7 @@
     [class.opacity-100]="step() === 2"
     type="button"
     (click)="goToStep1()"
-    class="opacity-0 transition-opacity duration-600 absolute top-10 left-8 text-white flex items-center cursor-pointer rounded-full p-1.5 hover:bg-(--color-gray)/20"
+    class="opacity-0 transition-opacity duration-600 absolute top-10 left-8 text-white flex items-center cursor-pointer rounded-full p-1.5 hover:bg-(--color-gray-dark)"
   >
     <svg lucideChevronLeft size="32"></svg>
   </button>
@@ -18,7 +18,7 @@
           type="email"
           [formField]="registerForm.email"
           (keydown.enter)="$event.preventDefault(); goToStep2()"
-          class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+          class="bg-(--color-background-light) border border-(--color-gray-dark) py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
         />
         @if (registerForm.email().touched() && registerForm.email().invalid()) {
           <span class="text-xs text-(--color-error)">{{
@@ -33,7 +33,7 @@
           type="username"
           [formField]="registerForm.username"
           (keydown.enter)="$event.preventDefault(); goToStep2()"
-          class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+          class="bg-(--color-background-light) border border-(--color-gray-dark) py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
         />
         @if (registerForm.username().touched() && registerForm.username().invalid()) {
           <span class="text-xs text-(--color-error)">{{
@@ -64,7 +64,7 @@
           [formField]="registerForm.password"
           autocomplete="new-password"
           (input)="hideStep2Errors.set(false)"
-          class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+          class="bg-(--color-background-light) border border-(--color-gray-dark) py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
         />
         @if (
           !hideStep2Errors() &&
@@ -84,7 +84,7 @@
           [formField]="registerForm.confirmPassword"
           autocomplete="new-password"
           (input)="hideStep2Errors.set(false)"
-          class="bg-(--color-background-light) border border-(--color-gray)/20 py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
+          class="bg-(--color-background-light) border border-(--color-gray-dark) py-2 rounded-sm px-3 focus:border-(--color-wine-red) focus:outline-none transition-colors duration-200"
         />
         @if (
           !hideStep2Errors() &&
@@ -129,12 +129,12 @@
     (click)="goToStep1()"
     [class.bg-(--color-wine-red)]="step() === 1"
     [class.bg-(--color-background-light)]="step() !== 1"
-    class="w-3 rounded-full aspect-square flex border border-(--color-gray)/20 transition-all duration-200 cursor-pointer"
+    class="w-3 rounded-full aspect-square flex border border-(--color-gray-dark) transition-all duration-200 cursor-pointer"
   ></div>
   <div
     (click)="goToStep2()"
     [class.bg-(--color-wine-red)]="step() === 2"
     [class.bg-(--color-background-light)]="step() !== 2"
-    class="w-3 rounded-full aspect-square flex border border-(--color-gray)/20 transition-all duration-200 cursor-pointer"
+    class="w-3 rounded-full aspect-square flex border border-(--color-gray-dark) transition-all duration-200 cursor-pointer"
   ></div>
 </div>

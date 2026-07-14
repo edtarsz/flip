@@ -6,7 +6,7 @@ import { Component, input, computed } from '@angular/core';
   styleUrl: './button-feedback.css',
   host: {
     class:
-      'absolute bottom-0 right-0 z-10 flex justify-center items-center rounded-full border border-(--color-gray)/20 cursor-pointer',
+      'absolute bottom-0 right-0 z-10 flex justify-center items-center rounded-full border border-(--color-gray-dark) cursor-pointer',
     '[class.active]': 'isTierOpen()',
     '[class.btn-amazing]': "type() === 'amazing'",
     '[class.btn-good]': "type() === 'good'",

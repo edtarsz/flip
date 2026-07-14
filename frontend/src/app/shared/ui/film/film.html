@@ -16,10 +16,10 @@
     </div>
   }
 } @else if (film()) {
-  <div class="cursor-pointer flex flex-col gap-1 sm:gap-[0.5vh] h-fit">
-    <div
-      class="w-full aspect-2/3 rounded-sm overflow-hidden bg-(--color-gray-dark) border border-(--color-gray)/20"
-    >
+  <div
+    class="cursor-pointer flex flex-col h-fit bg-(--color-background) rounded-sm border border-(--color-gray-dark) hover:border-(--color-border-hover) overflow-hidden"
+  >
+    <div class="w-full aspect-2/3 bg-(--color-gray-dark) relative">
       @if (film()!.poster_path) {
         <img
           [src]="imageUrl()"
@@ -36,24 +36,29 @@
           <svg lucideImage size="32" class="text-(--color-gray) brightness-60"></svg>
         </div>
       }
+
+      <!-- still testing -->
+      <div
+        class="absolute inset-0 bg-linear-to-t from-(--color-background) from-0% via-transparent via-80% to-transparent pointer-events-none"
+      ></div>
     </div>
     @if (!hideFilmDetails()) {
-      <div class="flex flex-col text-wrapper">
-        <p class="font-semibold truncate text-[clamp(0.7rem,1vw,1.2rem)]">
+      <div class="flex flex-col text-wrapper gap-0 sm:gap-0.5 p-1 sm:p-2">
+        <p class="truncate font-bold text-[clamp(0.7rem,1vw,1.2rem)] select-none">
           {{ film()!.title }}
         </p>
         <div class="flex items-center justify-between">
-          <p class="text-[clamp(0.6rem,0.8vw,1rem)] text-(--color-gray)">
+          <p class="text-[clamp(0.6rem,0.8vw,1rem)] text-(--color-gray) select-none font-light">
             {{ film()!.release_date | date: 'yyyy' }}
           </p>
           <div class="flex gap-0.5 sm:gap-1 items-center">
-            <span class="hidden sm:block shrink-0 min-w-0">
-              <svg lucideStar size="16" fill="#ffc300" color="#ffc300"></svg>
-            </span>
-            <span class="block sm:hidden shrink-0 min-w-0">
-              <svg lucideStar size="13" fill="#ffc300" color="#ffc300"></svg>
-            </span>
-            <span class="text-[clamp(0.7rem,0.85vw,1rem)]">
+            <div class="hidden sm:flex items-center shrink-0">
+              <svg lucideStar size="15" fill="#ffc300" color="#ffc300"></svg>
+            </div>
+            <div class="flex sm:hidden items-center shrink-0">
+              <svg lucideStar size="12" fill="#ffc300" color="#ffc300"></svg>
+            </div>
+            <span class="text-[clamp(0.7rem,0.85vw,1rem)] font-semibold leading-none select-none">
               {{ film()!.vote_average | number: '1.0-1' }}
             </span>
           </div>

@@ -1,15 +1,14 @@
 import { Component, signal, effect, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { GenreTMDB } from '@core/types/tmdb/genre.type';
-import { Separator } from '@shared/ui/separator/separator';
 import { YearPicker } from '@shared/ui/year-picker/year-picker';
 import { Button } from '@shared/ui/button/button';
-import { LucideChevronsDownUp, LucideChevronsUpDown } from '@lucide/angular';
+import { Sidebar } from '@shared/ui/sidebar/sidebar';
 import { isViewportAtLeast } from '@shared/utils/responsive.util';
 
 @Component({
   selector: 'app-film-filters',
-  imports: [NgClass, Separator, YearPicker, Button, LucideChevronsDownUp, LucideChevronsUpDown],
+  imports: [NgClass, YearPicker, Button, Sidebar],
   templateUrl: './film-filters.html',
 })
 export class FilmFilters {

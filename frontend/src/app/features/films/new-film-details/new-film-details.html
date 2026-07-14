@@ -4,7 +4,7 @@
   @if (film(); as filmData) {
     <div class="flex flex-col sm:w-[clamp(180px,25vw,300px)] gap-2">
       <div
-        class="w-full h-fit aspect-video sm:aspect-2/3 border border-(--color-gray)/20 relative overflow-hidden bg-(--color-background-light) sm:rounded-lg"
+        class="w-full h-fit aspect-video sm:aspect-2/3 sm:border sm:border-(--color-gray-dark) relative overflow-hidden bg-(--color-background-light) sm:rounded-lg"
       >
         <div
           class="absolute inset-0 bg-cover bg-center scale-110"
@@ -43,7 +43,7 @@
               @for (item of visibleProviders(); track item.provider_id) {
                 <app-provider-card [provider]="item"></app-provider-card>
               } @empty {
-                <div class="text-sm text-(--color-gray)/60 select-none col-span-2">
+                <div class="text-sm text-(--color-gray) select-none col-span-2">
                   Not available in your region.
                 </div>
               }
@@ -56,7 +56,7 @@
               class="flex items-center gap-3 cursor-pointer group select-none"
             >
               <div
-                class="w-8 h-8 rounded-md bg-(--color-gray)/20 group-hover:bg-(--color-gray)/30 duration-200 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
+                class="w-8 h-8 rounded-md bg-(--color-gray-dark) group-hover:bg-(--color-gray-dark) duration-200 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
               >
                 {{ showAllProviders() ? '-' : '+' }}
               </div>
@@ -175,7 +175,7 @@
             @for (item of visibleProviders(); track item.provider_id) {
               <app-provider-card [provider]="item"></app-provider-card>
             } @empty {
-              <div class="text-sm text-(--color-gray)/60 select-none col-span-2">
+              <div class="text-sm text-(--color-gray) select-none col-span-2">
                 Not available in your region.
               </div>
             }
@@ -188,7 +188,7 @@
             class="flex items-center gap-3 cursor-pointer group select-none"
           >
             <div
-              class="w-8 h-8 rounded-md bg-(--color-gray)/20 group-hover:bg-(--color-gray)/30 duration-200 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
+              class="w-8 h-8 rounded-md bg-(--color-gray-dark) group-hover:bg-(--color-gray-dark) duration-200 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
             >
               {{ showAllProviders() ? '-' : '+' }}
             </div>

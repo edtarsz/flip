@@ -35,14 +35,14 @@
         @for (genre of sortedGenres(); track genre.id) {
           <li
             (click)="toggleQuickFilterGenre(genre.id)"
-            class="snap-start flex justify-center items-center cursor-pointer text-(--color-gray)/80 transition-color duration-200 group hover:text-(--color-text)/80 shrink-0"
+            class="snap-start flex justify-center items-center cursor-pointer text-(--color-gray) transition-color duration-200 group hover:text-(--color-text)/80 shrink-0"
           >
             <span
               class="text-sm px-3 py-1 rounded-full border transition-color duration-200"
               [class]="
                 selectedGenres().includes(genre.id)
                   ? 'bg-(--color-wine-red) text-white border-(--color-wine-red)'
-                  : 'bg-(--color-background) border-(--color-gray)/20 group-hover:border-(--color-gray)/50'
+                  : 'bg-(--color-background) border-(--color-gray-dark) group-hover:border-(--color-border-hover)'
               "
             >
               {{ genre.name }}
@@ -57,7 +57,7 @@
           <p class="text-(--color-gray) text-lg font-bold">
             Tu watchlist está vacía o no hay coincidencias
           </p>
-          <p class="text-(--color-gray)/60 text-sm mt-1">
+          <p class="text-(--color-gray) text-sm mt-1">
             Desliza a la derecha (like) en las películas para guardarlas aquí, o ajusta tus
             filtros/búsqueda.
           </p>

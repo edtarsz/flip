@@ -1,5 +1,5 @@
 <div #scrollWrapper class="overflow-y-auto h-full pr-0 sm:pr-2 custom-scrollbar" data-lenis-prevent>
-  <div class="sm:flex flex-wrap grid grid-cols-3 sm:justify-start justify-center sm:gap-3 gap-2">
+  <div class="sm:flex flex-wrap grid grid-cols-3 sm:justify-start justify-center sm:gap-4 gap-2">
     @if (films().length === 0 && loading()) {
       @for (item of [1, 2, 3]; track $index) {
         <app-film
@@ -15,7 +15,7 @@
         [isPriority]="idx < 6"
         [hideFilmDetails]="hideFilmDetails()"
         (click)="onFilmClick(film)"
-        class="grow basis-[80px] sm:basis-[15vw] md:basis-[15vw] lg:basis-[9vw] max-w-[250px]"
+        class="grow basis-[80px] sm:basis-[15vw] md:basis-[15vw] lg:basis-[10vw] max-w-[250px]"
       ></app-film>
     }
     @if (hasMore() && loading() && films().length > 0) {
