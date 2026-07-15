@@ -13,7 +13,7 @@ import { isImageLoaded, markImageLoaded } from '@shared/utils/image-cache.util';
   styleUrl: './film.css',
   host: {
     '[class.hide-details]': 'hideFilmDetails()',
-  }
+  },
 })
 export class Film implements OnInit {
   film = input<FilmTMDB | WatchlistFilmTMDB>();

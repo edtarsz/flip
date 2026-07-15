@@ -4,7 +4,7 @@
   content-visibility: auto;
   contain-intrinsic-size: 180px 270px;
   min-width: 0;
-  aspect-ratio: var(--film-aspect-ratio, 2/3.7);
+  aspect-ratio: 2/3.4;
 }
 
 :host(.hide-details) {

@@ -1,5 +1,6 @@
 <div
-  class="fixed bg-(--color-background)/50 backdrop-blur-sm transition-opacity duration-200 opacity-0 pointer-events-none"
+  class="fixed bg-(--color-background)/50 backdrop-blur-sm transition-opacity duration-200 pointer-events-none"
+  [class.opacity-0]="!isOpen()"
   [class.opacity-100]="isOpen()"
   [class.pointer-events-none]="!isOpen()"
   [ngClass]="[
@@ -11,7 +12,7 @@
 ></div>
 
 <aside
-  class="bg-(--color-background) flex flex-col h-full transition-[width] duration-200 overflow-hidden border-(--color-gray)/20 w-0"
+  class="bg-(--color-background) flex flex-col h-full transition-[width] duration-200 overflow-hidden border-(--color-gray)/20"
   [ngClass]="[
     variant() === 'responsive'
       ? 'fixed md:relative md:top-0 z-2'
@@ -28,8 +29,8 @@
 >
   @if (variant() === 'responsive') {
     <div
-      class="absolute top-0 left-0 opacity-0 md:w-[74px] w-0 flex justify-start items-center transition-opacity duration-200 p-2"
-      [ngClass]="isOpen() ? 'pointer-events-none' : 'opacity-100'"
+      class="absolute top-0 left-0 md:w-[74px] flex justify-start items-center transition-opacity duration-200 p-2 z-10"
+      [ngClass]="isOpen() ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'"
     >
       <div
         (click)="onToggle()"
@@ -46,10 +47,9 @@
   }
 
   <div
-    class="flex flex-col h-full min-w-0 transition-opacity duration-200 opacity-0 pointer-events-none"
-    [class.opacity-100]="isOpen()"
-    [class.pointer-events-none]="!isOpen()"
-    [ngClass]="[variant() === 'responsive' ? 'md:w-100 w-70' : 'w-70']"
+    class="flex flex-col h-full min-w-0 transition-opacity duration-200"
+    [ngClass]="isOpen() ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'"
+    [class]="variant() === 'responsive' ? 'md:w-100 w-70' : 'w-70'"
   >
     <div class="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-2">
       <p class="font-bold text-[clamp(1rem,1.2vw,1.2rem)]">{{ title() }}</p>

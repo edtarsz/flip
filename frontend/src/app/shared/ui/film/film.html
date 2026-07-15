@@ -17,14 +17,14 @@
   }
 } @else if (film()) {
   <div
-    class="cursor-pointer flex flex-col h-fit bg-(--color-background) rounded-sm border border-(--color-gray-dark) hover:border-(--color-border-hover) overflow-hidden"
+    class="cursor-pointer flex flex-col h-full bg-(--color-background) rounded-sm border border-(--color-gray-dark) hover:border-(--color-border-hover) overflow-hidden"
   >
-    <div class="w-full aspect-2/3 bg-(--color-gray-dark) relative">
+    <div class="w-full flex-1 min-h-0 bg-(--color-gray-dark) relative">
       @if (film()!.poster_path) {
         <img
           [src]="imageUrl()"
           [alt]="film()!.title"
-          class="w-full h-full object-cover transition-opacity duration-200"
+          class="w-full h-full object-cover object- transition-opacity duration-200"
           [class.opacity-0]="!posterLoaded()"
           [class.opacity-100]="posterLoaded()"
           (load)="onImageLoad()"
@@ -39,11 +39,12 @@
 
       <!-- still testing -->
       <div
-        class="absolute inset-0 bg-linear-to-t from-(--color-background) from-0% via-transparent via-80% to-transparent pointer-events-none"
+        class="absolute inset-0 bg-linear-to-t from-(--color-background) from-0% via-transparent via-40% to-transparent pointer-events-none"
+        [class.hidden]="hideFilmDetails()"
       ></div>
     </div>
     @if (!hideFilmDetails()) {
-      <div class="flex flex-col text-wrapper gap-0 sm:gap-0.5 p-1 sm:p-2">
+      <div class="flex flex-col text-wrapper gap-0 sm:gap-0.5 px-2 sm:px-3 pb-2 sm:pb-3">
         <p class="truncate font-bold text-[clamp(0.7rem,1vw,1.2rem)] select-none">
           {{ film()!.title }}
         </p>
