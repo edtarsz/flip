@@ -1,10 +1,12 @@
 <div
-  class="flex flex-col sm:flex-row z-0 pt-[calc(32px+2vh)] sm:pt-50 relative pb-20 px-0 sm:px-[4vw] lg:px-[8vw] gap-0 sm:gap-[1vw]"
+  class="flex flex-col sm:flex-row flex-1 z-0 pt-[calc(32px+2vh)] sm:pt-50 relative px-0 sm:px-[4vw] lg:px-[8vw] gap-0 sm:gap-[1vw] bg-(--color-background-light)"
 >
   @if (film(); as filmData) {
-    <div class="flex flex-col sm:w-[clamp(180px,25vw,300px)] gap-2">
+    <div
+      class="flex flex-col sm:w-[clamp(180px,25vw,300px)] gap-2 sm:sticky sm:top-32 sm:self-start"
+    >
       <div
-        class="w-full h-fit aspect-video sm:aspect-2/3 sm:border sm:border-(--color-gray-dark) relative overflow-hidden bg-(--color-background-light) sm:rounded-lg"
+        class="w-full h-fit aspect-video sm:aspect-2/3 sm:border sm:border-(--color-gray-dark) relative overflow-hidden sm:rounded-lg"
       >
         <div
           class="absolute inset-0 bg-cover bg-center scale-110"
@@ -51,10 +53,7 @@
           </div>
 
           @if (watchProviders().length > 6) {
-            <div
-              (click)="toggleShowAll()"
-              class="flex items-center gap-3 cursor-pointer group select-none"
-            >
+            <div (click)="toggleShowAll()" class="flex items-center gap-3 cursor-pointer group">
               <div
                 class="w-8 h-8 rounded-md bg-(--color-gray-dark) group-hover:bg-(--color-gray-dark) duration-200 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
               >
@@ -156,9 +155,82 @@
           }
         }
       </ul>
+
+      <div class="flex items-center gap-5 mt-2">
+        <p class="font-bold text-2xl">Cast</p>
+        <app-separator class="flex-1"></app-separator>
+      </div>
+
+      <div class="relative w-full group h-fit">
+        <button
+          (click)="scrollCast('left')"
+          class="hidden sm:flex absolute left-0 top-[35%] z-1 -translate-y-1/2 -translate-x-8 w-14 aspect-square bg-(--color-background-light)/90 backdrop-blur-md border border-(--color-gray-dark) rounded-full items-center justify-center group-hover:opacity-100 transition-opacity hover:bg-(--color-gray-dark) cursor-pointer"
+        >
+          <svg lucideChevronLeft class="w-8 h-8 text-(--color-text)"></svg>
+        </button>
+        <button
+          (click)="scrollCast('right')"
+          class="hidden sm:flex absolute right-0 top-[35%] z-1 -translate-y-1/2 translate-x-8 w-14 aspect-square bg-(--color-background-light)/90 backdrop-blur-md border border-(--color-gray-dark) rounded-full items-center justify-center group-hover:opacity-100 transition-opacity hover:bg-(--color-gray-dark) cursor-pointer"
+        >
+          <svg lucideChevronRight class="w-8 h-8 text-(--color-text)"></svg>
+        </button>
+
+        <div
+          #castContainer
+          class="flex gap-5 overflow-x-scroll no-scrollbar w-full cursor-grab active:cursor-grabbing select-none touch-pan-x"
+          (mousedown)="onMouseDown($event)"
+        >
+          @if (isLoading() && !filmData.credits?.cast?.length) {
+            @for (i of [1, 2, 3, 4, 5]; track $index) {
+              <div class="flex flex-col gap-2 w-full">
+                <app-skeleton
+                  class="w-[20%] min-w-40 aspect-square rounded-full! shrink-0"
+                ></app-skeleton>
+                <div class="flex flex-col items-center gap-1 mt-1">
+                  <app-skeleton class="w-24 h-4 rounded!"></app-skeleton>
+                  <app-skeleton class="w-20 h-3 rounded!"></app-skeleton>
+                </div>
+              </div>
+            }
+          } @else {
+            @for (castMember of filmData.credits?.cast; track $index) {
+              <div class="flex flex-col gap-2 w-full">
+                <div
+                  class="w-[20%] min-w-40 aspect-square rounded-full overflow-hidden shrink-0 bg-(--color-gray-dark)"
+                >
+                  @if (castMember.profile_path) {
+                    <img
+                      [src]="'https://image.tmdb.org/t/p/w500' + castMember.profile_path"
+                      alt=""
+                      class="w-full h-full object-cover object-center transition-opacity duration-700"
+                      [class.opacity-0]="!loadedCastImages().has(castMember.name)"
+                      [class.opacity-100]="loadedCastImages().has(castMember.name)"
+                      draggable="false"
+                      (load)="onCastImageLoad(castMember.name)"
+                    />
+                  } @else {
+                    <div
+                      class="w-full h-full bg-(--color-gray-dark) flex items-center justify-center"
+                    >
+                      <svg lucideImage size="32" class="text-(--color-gray) brightness-100"></svg>
+                    </div>
+                  }
+                </div>
+                <div class="flex flex-col">
+                  <p class="text-center font-bold">{{ castMember.name }}</p>
+                  <p class="text-center text-(--color-gray)">as {{ castMember.character }}</p>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </div>
     </div>
 
-    <app-card title="Where to watch" class="w-[20vw] shrink-0 self-start hidden lg:block sticky">
+    <app-card
+      title="Where to watch"
+      class="w-[20vw] shrink-0 self-start hidden lg:block sticky top-32"
+    >
       <div class="flex flex-col gap-4">
         <div class="grid overflow-y-auto no-scrollbar gap-4 grid-cols-2">
           @if (isLoading() && watchProviders().length === 0) {
@@ -183,10 +255,7 @@
         </div>
 
         @if (watchProviders().length > 6) {
-          <div
-            (click)="toggleShowAll()"
-            class="flex items-center gap-3 cursor-pointer group select-none"
-          >
+          <div (click)="toggleShowAll()" class="flex items-center gap-3 cursor-pointer group">
             <div
               class="w-8 h-8 rounded-md bg-(--color-gray-dark) group-hover:bg-(--color-gray-dark) duration-200 transition-colors flex items-center justify-center font-bold text-sm shrink-0"
             >

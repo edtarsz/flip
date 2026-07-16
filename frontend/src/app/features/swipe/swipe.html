@@ -28,9 +28,9 @@
       <div class="flex-col gap-[1vh] hidden lg:flex col-span-2">
         <app-card title="Cast" [isEmpty]="showCover()">
           <ul class="flex flex-col gap-2">
-            @if (activeFilm() && activeFilm().cast_names && !showCover()) {
-              @for (castMember of activeFilm()!.cast_names!; track $index) {
-                <app-person-item [name]="castMember"></app-person-item>
+            @if (activeFilm() && activeFilm()!.credits?.cast?.length && !showCover()) {
+              @for (castMember of activeFilm()!.credits!.cast.slice(0, 3); track castMember.name) {
+                <app-person-item [name]="castMember.name"></app-person-item>
               }
             }
           </ul>

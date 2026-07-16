@@ -17,8 +17,18 @@ export type FilmTMDB = {
   director_id?: number | null;
   director_name?: string | null;
   runtime?: number | null;
-  cast_ids?: number[];
-  cast_names?: string[];
+  credits?: {
+    cast: Array<{
+      name: string;
+      profile_path: string;
+      character: string;
+    }>;
+    crew: Array<{
+      name: string;
+      profile_path: string;
+      job: string;
+    }>;
+  };
   watch_providers?: Record<
     string,
     {

@@ -1,8 +1,25 @@
-import { Component, inject, computed, signal, OnInit, DestroyRef, input } from '@angular/core';
+import {
+  Component,
+  inject,
+  computed,
+  signal,
+  OnInit,
+  DestroyRef,
+  input,
+  effect,
+  viewChild,
+  ElementRef,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FilmService } from '@core/services/film.service';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { LucideClock, LucideEye, LucideStar } from '@lucide/angular';
+import {
+  LucideChevronLeft,
+  LucideChevronRight,
+  LucideClock,
+  LucideImage,
+  LucideStar,
+} from '@lucide/angular';
 import { FilmDetailsTMDB } from '@core/types/tmdb/film.type';
 import { Separator } from '@shared/ui/separator/separator';
 import { RuntimePipe } from '@shared/pipes/runtime.pipe';
@@ -34,6 +51,9 @@ import { Card } from '@shared/ui/card/card';
     WatchedButton,
     ProviderCard,
     Card,
+    LucideChevronLeft,
+    LucideChevronRight,
+    LucideImage,
   ],
   templateUrl: './new-film-details.html',
   styleUrl: './new-film-details.css',
@@ -51,6 +71,9 @@ export class NewFilmDetails implements OnInit {
   isLoading = signal<boolean>(false);
   posterLoaded = signal<boolean>(false);
   backdropLoaded = signal<boolean>(false);
+  loadedCastImages = signal<Set<string>>(new Set());
+
+  castContainer = viewChild<ElementRef<HTMLDivElement>>('castContainer');
 
   trailerLoaded = signal<boolean>(false);
   isSeen = computed(() => {
@@ -59,12 +82,20 @@ export class NewFilmDetails implements OnInit {
     return this.reviewService.hasReviewed(film.id);
   });
 
+  private isDragging = false;
+  private startX = 0;
+  private scrollLeft = 0;
+
   isViewportAtLeast = isViewportAtLeast;
   getTmdbImageUrl = getTmdbImageUrl;
 
   private fallbackTimeout?: ReturnType<typeof setTimeout>;
 
-  constructor() {}
+  constructor() {
+    effect(() => {
+      console.log(this.film());
+    });
+  }
 
   ngOnInit() {
     const numericId = Number(this.id());
@@ -157,11 +188,66 @@ export class NewFilmDetails implements OnInit {
     if (path) markImageLoaded(getTmdbImageUrl(path, 'original'));
   }
 
+  onCastImageLoad(name: string) {
+    this.loadedCastImages.update((set) => {
+      const newSet = new Set(set);
+      newSet.add(name);
+      return newSet;
+    });
+  }
+
   openTrailer() {
     const key = this.trailerKey();
     if (key) {
       window.open(`https://www.youtube.com/watch?v=${key}`, '_blank');
     }
+  }
+
+  scrollCast(direction: 'left' | 'right') {
+    const container = this.castContainer()?.nativeElement;
+    if (container) {
+      const scrollAmount = 300;
+      container.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  }
+
+  private boundMouseMove = this.onMouseMove.bind(this);
+  private boundMouseUp = this.onMouseUp.bind(this);
+
+  onMouseDown(e: MouseEvent) {
+    const container = this.castContainer()?.nativeElement;
+    if (!container) return;
+    this.isDragging = true;
+    this.startX = e.pageX - container.offsetLeft;
+    this.scrollLeft = container.scrollLeft;
+
+    window.addEventListener('mousemove', this.boundMouseMove);
+    window.addEventListener('mouseup', this.boundMouseUp);
+  }
+
+  onMouseUp() {
+    this.isDragging = false;
+    window.removeEventListener('mousemove', this.boundMouseMove);
+    window.removeEventListener('mouseup', this.boundMouseUp);
+  }
+
+  onMouseMove(e: MouseEvent) {
+    if (!this.isDragging) return;
+
+    if ((e.buttons & 1) === 0) {
+      this.onMouseUp();
+      return;
+    }
+
+    e.preventDefault();
+    const container = this.castContainer()?.nativeElement;
+    if (!container) return;
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - this.startX) * 1.5;
+    container.scrollLeft = this.scrollLeft - walk;
   }
 
   onFilmWatched(tier: FilmTier) {
